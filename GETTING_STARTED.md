@@ -1,19 +1,22 @@
 # Getting started
 
-## Additional configs
-This template has most config set up already to work with our servers. There are however a few additional tweaks you need to make specific to your project.
+## Additional configuration
+This template has most configuration set up already to work with our servers. There are however a few additional tweaks you need to make specific to your project.
 
 ### Sentry config
-Before you start your group project, you will get an invitation to set up an account on Sentry (https://sentry.shefcompsci.org.uk/). Sentry is a tool we use to report errors on server, if any errors occurred on your site, you will get an email notification about it.
+Before you start your group project, you will get an invitation to set up an account on Sentry ([https://sentry.shefcompsci.org.uk/](https://sentry.shefcompsci.org.uk/)). Sentry is a tool we use to report errors on server when you application is deployed to a non-development environment - if any errors occur on your site, you will get an email notification about it.
 
-Once you have set up the account, you can create a project. By the end of the process you should get a `DSN` code. You will need to replace the `REPLACE_WITH_YOUR_DSN` part in `config/initializers/sentry.rb` with this code.
+Once you have set up the account, you will have access to a pre-created team project. Within your project settings, you will be given a `DSN` (very similar to a website URL). You will need to replace the `REPLACE_WITH_YOUR_DSN` part in `config/initializers/sentry.rb` with this code.
 
 ### Deployment config
-When the QA and demo server for your group project is ready, you can find the details on https://info.shefcompsci.org.uk/genesys/
-Once these details are available, you need to include them in your deployment config file. I.e. you need to replace `QA_SERVER` and `QA_USER` in `config/deploy/qa.rb` to the ones provided on the info page, and also replace `PUT_APP_URL_HERE` in `config/environments/qa.rb` to the URL of your QA site. Same needs to be done to `config/deploy/demo.rb` and `config/environments/demo.rb`.
+When you are ready to deploy your application to QA or demo, you need to update some deployment configuration for your team. This can be found on the info site: [https://info.shefcompsci.org.uk/genesys/](https://info.shefcompsci.org.uk/genesys/).
+
+For deployment to the QA environment, you will need to replace `QA_SERVER` and `QA_USER` in `config/deploy/qa.rb` with the ones provided on the info page, and also replace `PUT_APP_URL_HERE` in `config/environments/qa.rb` with the URL of your QA site. 
+
+You will need to do the same to `config/deploy/demo.rb` and `config/environments/demo.rb` before deploying to the demo environment.
 
 ### Email config
-If you need to send out emails from your application, you will need to add the following config to your `config/application.rb`, inside the `class Application < Rails::Application ... end` block:
+Before you can send out emails from your application, you will need to add the following config to your `config/application.rb`, inside the `class Application < Rails::Application ... end` block:
 ```
 config.action_mailer.smtp_settings = {
   address:              'mailhost.shef.ac.uk',
@@ -25,16 +28,16 @@ config.action_mailer.smtp_settings = {
 }
 ```
 
-You will also need to config the `from` address of your mailers to `no-reply@sheffield.ac.uk`.
+You will also need to configure the `from:` setting in your mailers to `no-reply@sheffield.ac.uk`.
 
 On your local machine, we use a gem called `letter_opener`, which is already installed an configured in this template, and instead of sending out an email, the application will open up a tab in your browser, allowing you to view the content of the email.
 
-On QA and demo server, if you do not wish the emails to be sent to the actual recipients, you can use the gem `sanitize_email` to redirect these emails to yourself. The gem is already included in the template, and you can find out more about how to configure it on their GitHub page: https://github.com/pboling/sanitize_email.
+On QA and demo server, if you do not wish the emails to be sent to the actual recipients, you can use the gem `sanitize_email` to redirect these emails to your team. The gem is already included in the template, and you can find out more about how to configure it on their GitHub page: [https://github.com/pboling/sanitize_email](https://github.com/pboling/sanitize_email)
 
 ## Styling your application
 We use `shakapacker` gem to manage static assets in this template, which is a Rails wrapper for the Javascript library `webpack`.
 
-You can find out more about `shakapacker` on their GitHub page: https://github.com/shakacode/shakapacker.
+You can find out more about `shakapacker` on their GitHub page: [https://github.com/shakacode/shakapacker](https://github.com/shakacode/shakapacker).
 
 ### Add custom JS
 Additional Javascript files should be added to the `app/packs/scripts` directory, e.g. `app/packs/scripts/landing_page.js`. Then the file must be added to the entrypoint file `app/packs/entrypoints/application.js`, e.g.:
@@ -53,7 +56,7 @@ Then in the file you would like to use jQuery (e.g. `app/packs/scripts/landing_p
 import 'jquery';
 ```
 
-Alternatively, if you wish to make jQuery globally available through your project, add the following to `app/packs/entrypoints/application.js`:
+Alternatively, if you wish to make jQuery globally available throughout your project, add the following to `app/packs/entrypoints/application.js`:
 ```
 import $ from 'jquery';
 window.$ = $;
