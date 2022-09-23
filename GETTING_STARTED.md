@@ -4,9 +4,9 @@
 This template has most configuration set up already to work with our servers. There are however a few additional tweaks you need to make specific to your project.
 
 ### Sentry config
-Before you start your group project, you will get an invitation to set up an account on Sentry ([https://sentry.shefcompsci.org.uk/](https://sentry.shefcompsci.org.uk/)). Sentry is a tool we use to report errors on server when you application is deployed to a non-development environment - if any errors occur on your site, you will get an email notification about it.
+Before you start your group project, you will get an invitation to set up an account on Sentry ([https://sentry.shefcompsci.org.uk/](https://sentry.shefcompsci.org.uk/)). Sentry is a tool we use to collect errors from your application when it is is deployed to a non-development environment - if any errors occur on your site, you will get an email notification about it.
 
-Once you have set up the account, you will have access to a pre-created team project. Within your project settings, you will be given a `DSN` (very similar to a website URL). You will need to replace the `REPLACE_WITH_YOUR_DSN` part in `config/initializers/sentry.rb` with this code.
+Once you have set up the account, you will have access to a pre-created team project. Within your project settings, you will be given a `DSN` (very similar to a website URL). You will need to replace the `REPLACE_WITH_YOUR_DSN` part in `config/initializers/sentry.rb` with this URL.
 
 ### Deployment config
 When you are ready to deploy your application to QA or demo, you need to update some deployment configuration for your team. This can be found on the info site: [https://info.shefcompsci.org.uk/genesys/](https://info.shefcompsci.org.uk/genesys/).
