@@ -53,6 +53,8 @@ gem 'activerecord-session_store'
 gem 'hamlit'
 gem 'simple_form'
 
+gem 'draper'
+
 gem 'shakapacker'
 
 gem 'devise'
