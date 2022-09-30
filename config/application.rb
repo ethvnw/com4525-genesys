@@ -31,18 +31,21 @@ module Project
     config.time_zone = 'London'
 
     config.generators do |g|
-      # Don't want to include haml-rails or hamlit-rails gems as they aren't
-      # actively maintained therefore scaffold in erb and make changes/conversions
-      # as appropriate.
-      g.template_engine      :erb
+      g.template_engine      :haml
       g.assets               false
       g.helper               false
+      g.jbuilder             false
       g.javascripts          false
       g.stylesheets          false
       g.scaffold_stylesheets false
       g.system_tests         :rspec
       g.integration_tool     :rspec
-      g.test_framework       :rspec
+      g.test_framework       :rspec,
+                             request_specs:   false,
+                             view_specs:       false,
+                             routing_specs:    false,
+                             helper_specs:     false,
+                             controller_specs: false
     end
   end
 end
