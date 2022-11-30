@@ -83,6 +83,7 @@ rspec:
   extends: .except
   needs:
     - bundler
+    - yarn
   script:
     - RAILS_ENV=test bundle exec rake
 
@@ -118,7 +119,7 @@ yarn-audit:
   timeout: 20m
   services: []
   needs:
-    - yarn 
+    - yarn
   allow_failure: false
   script:
     - yarn check --integrity
