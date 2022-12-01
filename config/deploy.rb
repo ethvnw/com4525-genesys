@@ -120,6 +120,8 @@ namespace :deploy do
   end
 end
 
+Rake::Task["deploy:assets:backup_manifest"].clear_actions
+
 ## Restart delayed_job during the deployment process
 after  'deploy:updated',  'delayed_job:stop'
 before 'deploy:finished', 'delayed_job:start'
