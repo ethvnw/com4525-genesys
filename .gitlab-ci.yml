@@ -1,4 +1,4 @@
-image: epigenesys/rails:ruby3.1.1
+image: epigenesys/rails:ruby3.1.2
 services:
   - "postgres:14"
   - name: selenium/standalone-chrome
@@ -48,6 +48,7 @@ bundler:
     paths:
       - vendor/gems
       - vendor/webdrivers
+    expire_in: 1 day
   timeout: 20m
 
 yarn:
@@ -68,6 +69,7 @@ yarn:
   artifacts:
     paths:
       - node_modules
+    expire_in: 1 day
   timeout: 20m
 
 rspec:
@@ -96,10 +98,17 @@ rspec:
 #     - yarn check --integrity
 #     - yarn test
 
+.security-stage-rules:
+  rules:
+    - if: $SKIP_CI_SECURITY_STAGE != null
+      when: manual
+    - if:  $CI_COMMIT_TAG != null || $CI_COMMIT_BRANCH =~ /^qa|demo|training$/
+      when: never
+    - when: always
+
 bundler-audit:
   stage: security
-  when: always
-  extends: .except
+  extends: .security-stage-rules
   interruptible: true
   timeout: 20m
   services: []
@@ -113,8 +122,7 @@ bundler-audit:
 
 yarn-audit:
   stage: security
-  when: always
-  extends: .except
+  extends: .security-stage-rules
   interruptible: true
   timeout: 20m
   services: []
@@ -131,7 +139,7 @@ brakeman:
   interruptible: true
   timeout: 20m
   services: []
-  extends: .except
+  extends: .security-stage-rules
   needs:
     - bundler
   artifacts:
