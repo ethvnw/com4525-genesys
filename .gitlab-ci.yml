@@ -27,6 +27,12 @@ stages:
 bundler:
   stage: setup
   interruptible: true
+  before_script:
+    # Allow access to epiGenesys Gitlab (to retrieve any gems that live there)
+    # Make sure you add the variable in your project settings in Gitlab
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - ssh-keyscan -H git.shefcompsci.org.uk >> $HOME/.ssh/known_hosts
   cache:
     key:
       files:
