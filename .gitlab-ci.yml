@@ -19,8 +19,6 @@ stages:
 
 .except:
   rules:
-    - if: $CI_PIPELINE_SOURCE != 'merge_request_event'
-      when: never
     - if:  $CI_COMMIT_TAG != null || $CI_COMMIT_BRANCH =~ /^qa|demo|training$/
       when: never
     - when: always
@@ -107,8 +105,6 @@ rspec:
 
 .security-stage-rules:
   rules:
-    - if: $CI_PIPELINE_SOURCE != 'merge_request_event'
-      when: never
     - if: $SKIP_CI_SECURITY_STAGE == "1"
       when: manual
       allow_failure: true
