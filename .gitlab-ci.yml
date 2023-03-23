@@ -18,11 +18,12 @@ stages:
   - security
 
 .except:
-  except:
-    - qa
-    - demo
-    - training
-    - tags
+  rules:
+    - if: $CI_PIPELINE_SOURCE != 'merge_request_event'
+      when: never
+    - if:  $CI_COMMIT_TAG != null || $CI_COMMIT_BRANCH =~ /^qa|demo|training$/
+      when: never
+    - when: always
 
 bundler:
   stage: setup
@@ -31,8 +32,8 @@ bundler:
     # Allow access to epiGenesys Gitlab (to retrieve any gems that live there)
     # Make sure you add the variable in your project settings in Gitlab
     - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - ssh-keyscan -H git.shefcompsci.org.uk >> $HOME/.ssh/known_hosts
+    - if ! [[ -z "${SSH_PRIVATE_KEY}" ]]; then ssh-add <(echo "$SSH_PRIVATE_KEY"); else echo 'SSH_PRIVATE_KEY not set'; fi
+    - if ! [[ -z "${SSH_PRIVATE_KEY}" ]]; then ssh-keyscan -H git.shefcompsci.org.uk >> $HOME/.ssh/known_hosts; fi
   cache:
     key:
       files:
@@ -106,11 +107,15 @@ rspec:
 
 .security-stage-rules:
   rules:
-    - if: $SKIP_CI_SECURITY_STAGE != null
+    - if: $CI_PIPELINE_SOURCE != 'merge_request_event'
+      when: never
+    - if: $SKIP_CI_SECURITY_STAGE == "1"
       when: manual
+      allow_failure: true
     - if:  $CI_COMMIT_TAG != null || $CI_COMMIT_BRANCH =~ /^qa|demo|training$/
       when: never
     - when: always
+      allow_failure: false
 
 bundler-audit:
   stage: security
@@ -120,7 +125,6 @@ bundler-audit:
   services: []
   needs:
     - bundler
-  allow_failure: false
   script:
     - bundle config --local path 'vendor/gems'
     - bundle check
@@ -134,7 +138,6 @@ yarn-audit:
   services: []
   needs:
     - yarn
-  allow_failure: false
   script:
     - yarn check --integrity
     - yarn run improved-yarn-audit --fail-on-missing-exclusions
@@ -155,7 +158,6 @@ brakeman:
   # Run `brakeman -I` on your machine to generate an ignore file.
   # For any false positives choose the 'n' option and explain why it's a false positive.
   # Once you commit the updated ingnore files they will no longer brake the build
-  allow_failure: false
   script:
     - bundle config --local path 'vendor/gems'
     - bundle check --path vendor/gems
