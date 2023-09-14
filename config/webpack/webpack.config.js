@@ -1,4 +1,4 @@
-const { webpackConfig: baseWebpackConfig, merge } = require('shakapacker')
+const { generateWebpackConfig, merge } = require('shakapacker')
 
 const options = {
   resolve: {
@@ -6,4 +6,4 @@ const options = {
   }
 }
 
-module.exports = merge({}, baseWebpackConfig, options)
+module.exports = merge({}, generateWebpackConfig(), options)
