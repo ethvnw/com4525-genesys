@@ -1,8 +1,3 @@
-require 'webdrivers'
-
-Webdrivers.install_dir = Rails.root.join('vendor', 'webdrivers')
-Webdrivers.cache_time = 86_400
-
 Capybara.register_driver :headless_chrome do |app|
   chrome_options = Selenium::WebDriver::Chrome::Options.new
   chrome_options.add_argument('--headless') unless ENV['SHOW_CHROME']
