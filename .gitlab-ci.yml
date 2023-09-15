@@ -1,4 +1,5 @@
-image: epigenesys/rails:ruby3.1.2
+image: epigenesys/rails:ruby3.1.2-teaching
+
 services:
   - "postgres:14"
   - name: selenium/standalone-chrome
