@@ -11,7 +11,7 @@ Once you have set up the account, you will have access to a pre-created team pro
 ### Deployment config
 When you are ready to deploy your application to QA or demo, you need to update some deployment configuration for your team. This can be found on the info site: [https://info.shefcompsci.org.uk/genesys/](https://info.shefcompsci.org.uk/genesys/).
 
-For deployment to the QA environment, you will need to replace `QA_SERVER` and `QA_USER` in `config/deploy/qa.rb` with the ones provided on the info page, and also replace `PUT_APP_URL_HERE` in `config/environments/qa.rb` with the URL of your QA site. 
+For deployment to the QA environment, you will need to replace `QA_SERVER` and `QA_USER` in `config/deploy/qa.rb` with the ones provided on the info page, and also replace `PUT_APP_URL_HERE` in `config/environments/qa.rb` with the URL of your QA site.
 
 You will need to do the same to `config/deploy/demo.rb` and `config/environments/demo.rb` before deploying to the demo environment.
 
@@ -71,9 +71,8 @@ import '../styles/landing_page';
 ### Add images
 Images should be added to `app/packs/images`, e.g. `app/packs/images/logo.png`. Then to include the image in your view, use the `image_pack_tag` helper, e.g.:
 ```
-= image_pack_tag 'logo.png', height: 40
+= image_pack_tag 'images/logo.png', height: 40
 ```
-Please note that you **do not need to** include the `images/` path when using this helper.
 
 Alternatively, to use an image in your CSS, use the `url` function, e.g. in your `app/packs/styles/layout.scss`, add:
 ```
@@ -81,4 +80,3 @@ body {
   background-image: url(images/logo.png);
 }
 ```
-Please note that you **need to** include the `images/` path when referring an image in CSS.
