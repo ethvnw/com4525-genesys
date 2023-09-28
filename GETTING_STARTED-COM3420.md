@@ -69,9 +69,8 @@ import '../styles/landing_page';
 ### Add images
 Images should be added to `app/packs/images`, e.g. `app/packs/images/logo.png`. Then to include the image in your view, use the `image_pack_tag` helper, e.g.:
 ```
-= image_pack_tag 'logo.png', height: 40
+= image_pack_tag 'images/logo.png', height: 40
 ```
-Please note that you **do not need to** include the `images/` path when using this helper.
 
 Alternatively, to use an image in your CSS, use the `url` function, e.g. in your `app/packs/styles/layout.scss`, add:
 ```
@@ -79,5 +78,3 @@ body {
   background-image: url(images/logo.png);
 }
 ```
-Please note that you **need to** include the `images/` path when referring an image in CSS.
-
