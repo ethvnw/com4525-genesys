@@ -20,7 +20,7 @@ Capybara.register_driver :headless_chrome do |app|
       capabilities: chrome_options
     )
   else
-    Capybara::Selenium::Driver.new app, browser: :chrome, capabilities: chrome_options
+    Capybara::Selenium::Driver.new app, browser: :chrome, options: chrome_options
   end
 end
 Capybara.javascript_driver = :headless_chrome
