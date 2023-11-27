@@ -3,7 +3,7 @@ set :application,             'Project'
 set :branch,                  -> { fetch(:stage) }
 set :repo_url,                ''
 set :linked_files,            fetch(:linked_files,  fetch(:env_links, [])).push('config/database.yml', 'config/secrets.yml')
-set :linked_dirs,             fetch(:linked_dirs, []).push('log', 'tmp/pids', 'public/packs', 'node_modules', 'storage', 'vendor/puppeteer')
+set :linked_dirs,             fetch(:linked_dirs, []).push('log', 'tmp/pids', 'public/packs', 'node_modules', 'storage')
 
 ## Ruby configuration
 set :rvm_type,                    :system
