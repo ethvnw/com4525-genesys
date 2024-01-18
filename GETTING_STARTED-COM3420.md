@@ -9,7 +9,7 @@ Before you start your group project, you will get an invitation to set up an acc
 Once you have set up the account, you will have access to a pre-created team project. Within your project settings, you will be given a `DSN` (very similar to a website URL). You will need to replace the `REPLACE_WITH_YOUR_DSN` part in `config/initializers/sentry.rb` with this URL.
 
 ### Deployment config
-When you are ready to deploy your application to demo, you need to update some deployment configuration for your team. This can be found on the info site: [https://info.shefcompsci.org.uk/](https://info.shefcompsci.org.uk/).
+When you are ready to deploy your application to demo, you need to update some deployment configuration for your team. This can be found on the info site: [https://info.shefcompsci.org.uk/hut/](https://info.shefcompsci.org.uk/hut/).
 
 For deployment to the demo environment, you will need to replace `DEMO_SERVER` and `DEMO_USER` in `config/deploy/demo.rb` with the ones provided on the info page, and also replace `PUT_APP_URL_HERE` in `config/environments/demo.rb` with the URL of your demo site.
 
@@ -30,7 +30,7 @@ You will also need to configure the `from:` setting in your mailers to `no-reply
 
 On your local machine, we use a gem called `letter_opener`, which is already installed an configured in this template, and instead of sending out an email, the application will open up a tab in your browser, allowing you to view the content of the email.
 
-On the demo server, if you do not wish the emails to be sent to the actual recipients, you can use the gem `sanitize_email` to redirect these emails to your team. The gem is already included in the template, and you can find out more about how to configure it on their GitHub page: [https://github.com/pboling/sanitize_email](https://github.com/pboling/sanitize_email)
+On the demo server, if you do not want the emails to be sent to the actual recipients, you can use the gem `sanitize_email` to redirect these emails to your team. The gem is already included in the template, and you can find out more about how to configure it on their GitHub page: [https://github.com/pboling/sanitize_email](https://github.com/pboling/sanitize_email)
 
 ## Styling your application
 We use `shakapacker` gem to manage static assets in this template, which is a Rails wrapper for the Javascript library `webpack`.

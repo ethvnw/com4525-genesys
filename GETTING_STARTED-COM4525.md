@@ -32,7 +32,7 @@ You will also need to configure the `from:` setting in your mailers to `no-reply
 
 On your local machine, we use a gem called `letter_opener`, which is already installed an configured in this template, and instead of sending out an email, the application will open up a tab in your browser, allowing you to view the content of the email.
 
-On QA and demo server, if you do not wish the emails to be sent to the actual recipients, you can use the gem `sanitize_email` to redirect these emails to your team. The gem is already included in the template, and you can find out more about how to configure it on their GitHub page: [https://github.com/pboling/sanitize_email](https://github.com/pboling/sanitize_email)
+On QA and demo server, if you do not want the emails to be sent to the actual recipients, you can use the gem `sanitize_email` to redirect these emails to your team. The gem is already included in the template, and you can find out more about how to configure it on their GitHub page: [https://github.com/pboling/sanitize_email](https://github.com/pboling/sanitize_email)
 
 ## Styling your application
 We use `shakapacker` gem to manage static assets in this template, which is a Rails wrapper for the Javascript library `webpack`.
