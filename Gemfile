@@ -2,7 +2,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.8", '< 7.1'
+gem "rails", ">= 7.0.8", "< 7.1"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
