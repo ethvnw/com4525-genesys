@@ -359,6 +359,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  arm64-darwin-23
 
 DEPENDENCIES
   activerecord-session_store
@@ -390,7 +391,7 @@ DEPENDENCIES
   letter_opener
   pg (~> 1.1)
   puma (~> 6.0)
-  rails (~> 7.0.8, < 7.1)
+  rails (>= 7.0.8, < 7.1)
   rspec-rails
   sanitize_email
   selenium-webdriver

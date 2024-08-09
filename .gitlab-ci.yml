@@ -1,4 +1,4 @@
-image: epigenesys/rails:ruby3.1.2-teaching
+image: epigenesys/rails:ruby3.3.1
 
 services:
   - "postgres:14"
