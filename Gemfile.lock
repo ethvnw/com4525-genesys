@@ -209,6 +209,7 @@ GEM
     minitest (5.24.1)
     msgpack (1.7.2)
     multi_json (1.15.0)
+    mutex_m (0.2.0)
     net-imap (0.4.14)
       date
       net-protocol
@@ -389,6 +390,7 @@ DEPENDENCIES
   hamlit-rails
   launchy
   letter_opener
+  mutex_m
   pg (~> 1.1)
   puma (~> 6.0)
   rails (>= 7.0.8, < 7.1)
@@ -405,4 +407,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   2.5.4
+   2.5.17
