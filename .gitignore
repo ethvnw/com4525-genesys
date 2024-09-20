@@ -53,5 +53,6 @@ yarn-debug.log*
 .vscode
 .idea
 .rspec-examples
+.byebug_history
 
 /vendor/webdrivers
