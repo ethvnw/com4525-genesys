@@ -74,7 +74,7 @@ RSpec.configure do |config|
 
   # Help debug tests
   config.after(:each, :screenshot_on_failure) do |example|
-    save_and_open_screenshot if example.exception # rubocop:disable Lint/Debugger
+    save_and_open_screenshot if example.exception
   end
 
   # Use this to test real error pages (e.g. epiSupport)
