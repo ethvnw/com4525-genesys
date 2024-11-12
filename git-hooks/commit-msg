@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+commitlint --edit $1
