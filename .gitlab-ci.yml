@@ -81,11 +81,10 @@ yarn:
 rubocop:
   stage: test
   before_script:
-    - bundle config --global jobs "$(nproc)"
-    - bundle config --local path 'vendor/gems'
-
     - bundle check
     - RAILS_ENV=test bundle exec rubocop
+  needs:
+    - bundler
   script:
     - bundle exec rubocop
 
