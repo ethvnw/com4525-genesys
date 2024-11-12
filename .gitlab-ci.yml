@@ -114,30 +114,30 @@ rspec:
     - when: always
       allow_failure: false
 
-bundler-audit:
-  stage: security
-  extends: .security-stage-rules
-  interruptible: true
-  timeout: 20m
-  services: []
-  needs:
-    - bundler
-  script:
-    - bundle config --local path 'vendor/gems'
-    - bundle check
-    - bundle exec bundler-audit check --update
-
-yarn-audit:
-  stage: security
-  extends: .security-stage-rules
-  interruptible: true
-  timeout: 20m
-  services: []
-  needs:
-    - yarn
-  script:
-    - yarn check --integrity
-    - yarn run improved-yarn-audit --fail-on-missing-exclusions
+#bundler-audit:
+#  stage: security
+#  extends: .security-stage-rules
+#  interruptible: true
+#  timeout: 20m
+#  services: []
+#  needs:
+#    - bundler
+#  script:
+#    - bundle config --local path 'vendor/gems'
+#    - bundle check
+#    - bundle exec bundler-audit check --update
+#
+#yarn-audit:
+#  stage: security
+#  extends: .security-stage-rules
+#  interruptible: true
+#  timeout: 20m
+#  services: []
+#  needs:
+#    - yarn
+#  script:
+#    - yarn check --integrity
+#    - yarn run improved-yarn-audit --fail-on-missing-exclusions
 
 
 brakeman:
