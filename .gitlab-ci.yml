@@ -78,6 +78,17 @@ yarn:
     expire_in: 1 day
   timeout: 20m
 
+rubocop:
+  stage: test
+  before_script:
+    - bundle config --global jobs "$(nproc)"
+    - bundle config --local path 'vendor/gems'
+
+    - bundle check
+    - RAILS_ENV=test bundle exec rubocop
+  script:
+    - bundle exec rubocop
+
 rspec:
   stage: test
   interruptible: true
