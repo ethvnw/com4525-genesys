@@ -1,10 +1,10 @@
 <!-- Provide a short (one or two line) description of changes made in this PR -->
 
-## Description
-<!-- Provide a detailed description of changes - include screenshots of new UI components (if any) -->
-
 ## Motivation and Context
 <!-- Why was this change made? -->
+
+## Description
+<!-- Provide a detailed description of changes - include screenshots of new UI components (if any) -->
 
 ## How Has This Been Tested?
 
