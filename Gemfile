@@ -105,3 +105,10 @@ group :test do
   gem 'launchy'
   gem 'simplecov'
 end
+
+gem "rubocop-capybara", "~> 2.21"
+gem "rubocop-factory_bot", "~> 2.26"
+gem "rubocop-rails", "~> 2.27"
+gem "rubocop-rspec", "~> 3.2"
+gem "rubocop-rspec_rails", "~> 2.30"
+gem "rubocop", "~> 1.68"
