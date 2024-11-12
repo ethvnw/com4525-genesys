@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+# Exit on error
+set -e
+
+protected_branch='main'
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+push_command=$(ps -ocommand= -p $PPID)
+
+if [[ $push_command =~ $protected_branch ]] || [[ $current_branch = $protected_branch ]]; then
+  echo "No pushing directly to main >:("
+  exit 1
+fi
+
+# CD to parent directory (root of project)
+cd $(dirname $(dirname $(realpath $0)))
+echo "Running rubocop..."
+bundle exec rubocop
