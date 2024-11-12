@@ -5,8 +5,8 @@ default: &default
 
 development:
   <<: *default
-  database: project_development
+  database: com4525_team02_development
 
 test:
   <<: *default
-  database: project_test
+  database: com4525_team02_test
