@@ -24,15 +24,11 @@ inherit_mode:
 AllCops:
   NewCops: enable
   Exclude:
-    - 'app/models/application_record.rb'
+    # Exclude files that we don't want to modify
     - 'bin/bundle'
-    - 'bin/delayed_job'
-    - 'bin/rails'
-    - 'bin/rake'
     - 'bin/shakapacker'
     - 'bin/shakapacker-dev-server'
     - 'bin/yarn'
-    - 'config/application.rb'
     - 'config/deploy.rb'
     - 'config/schedule.rb'
     - 'config/environments/**/*'
