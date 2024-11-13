@@ -333,6 +333,8 @@ GEM
     rubocop-rspec_rails (2.30.0)
       rubocop (~> 1.61)
       rubocop-rspec (~> 3, >= 3.0.1)
+    rubocop-shopify (2.15.1)
+      rubocop (~> 1.51)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
@@ -445,6 +447,7 @@ DEPENDENCIES
   rubocop-rails (~> 2.27)
   rubocop-rspec (~> 3.2)
   rubocop-rspec_rails (~> 2.30)
+  rubocop-shopify
   sanitize_email
   selenium-webdriver
   sentry-rails

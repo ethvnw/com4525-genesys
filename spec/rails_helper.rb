@@ -1,13 +1,15 @@
-# This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'simplecov'
-SimpleCov.start 'rails'
+# frozen_string_literal: true
 
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
-require_relative '../config/environment'
+# This file is copied to spec/ when you run 'rails generate rspec:install'
+require "simplecov"
+SimpleCov.start("rails")
+
+require "spec_helper"
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
-require 'rspec/rails'
+require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -23,7 +25,7 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -31,17 +33,17 @@ begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
-  exit 1
+  exit(1)
 end
 RSpec.configure do |config|
-# Allows us to call FactoryBot methods without doing FactoryBot._
-  config.include FactoryBot::Syntax::Methods
+  # Allows us to call FactoryBot methods without doing FactoryBot._
+  config.include(FactoryBot::Syntax::Methods)
   # Let's us use the capybara stuf in our specs
-  config.include Capybara::DSL
+  config.include(Capybara::DSL)
   # Let's us do login_as(user)
-  config.include Warden::Test::Helpers
-  config.include Rails.application.routes.url_helpers
-  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include(Warden::Test::Helpers)
+  config.include(Rails.application.routes.url_helpers)
+  config.include(Devise::Test::ControllerHelpers, type: :controller)
 
   # Ensure our database is definitely empty before running the suite
   # (e.g. if a process got killed and things weren't cleaned up)
@@ -50,41 +52,45 @@ RSpec.configure do |config|
   end
 
   # Use transactions for non-javascript tests as it is much faster than truncation
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.strategy = :transaction
     ActionMailer::Base.deliveries.clear
   end
 
   # Can't use transaction strategy with Javascript tests because they are run in
   # a separate thread which does not have access to data in an uncommitted transaction.
-  config.before(:each, js: true) do
+  config.before(:each, :js) do
     DatabaseCleaner.strategy = :truncation
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     Warden.test_reset!
     DatabaseCleaner.clean
   end
 
   # Help debug tests
   config.after(:each, :screenshot_on_failure) do |example|
-    save_and_open_screenshot if example.exception
+    save_and_open_screenshot if example.exception # rubocop:disable Lint/Debugger -- this is purely here for tests
   end
 
   # Use this to test real error pages (e.g. epiSupport)
-  config.around(:each, error_page: true) do |example|
+  config.around(:each, :error_page) do |example|
     # Rails caches the action_dispatch setting. Need to remove it for the new setting to apply.
-    Rails.application.remove_instance_variable(:@app_env_config) if Rails.application.instance_variable_defined?(:@app_env_config)
+    if Rails.application.instance_variable_defined?(:@app_env_config)
+      Rails.application.remove_instance_variable(:@app_env_config)
+    end
     Rails.application.config.action_dispatch.show_exceptions = true
     Rails.application.config.consider_all_requests_local = false
 
     example.run
 
-    Rails.application.remove_instance_variable(:@app_env_config) if Rails.application.instance_variable_defined?(:@app_env_config)
+    if Rails.application.instance_variable_defined?(:@app_env_config)
+      Rails.application.remove_instance_variable(:@app_env_config)
+    end
     Rails.application.config.action_dispatch.show_exceptions = false
     Rails.application.config.consider_all_requests_local = true
   end
@@ -109,7 +115,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  config.file_fixture_path = Rails.root.join('spec', 'factories', 'files')
+  config.file_fixture_path = Rails.root.join("spec/factories/files")
 end
 
 Capybara.configure do |config|
@@ -120,5 +126,5 @@ end
 Capybara.automatic_label_click = true
 
 def sleep_for_js(sleep_time: 0.5)
-  sleep sleep_time
+  sleep(sleep_time)
 end
