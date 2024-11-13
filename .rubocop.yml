@@ -24,15 +24,6 @@ inherit_mode:
 AllCops:
   NewCops: enable
   Exclude:
-    # Exclude files that we don't want to modify
-    - 'bin/bundle'
-    - 'bin/shakapacker'
-    - 'bin/shakapacker-dev-server'
-    - 'bin/yarn'
-    - 'config/deploy.rb'
-    - 'config/schedule.rb'
-    - 'config/environments/**/*'
-    - 'config/initializers/**/*'
+    # Exclude files that we don't want to modify (auto-generated DB files)
     - 'db/migrate/**/*'
     - 'db/schema.rb'
-    - 'lib/tasks/auto_annotate_models.rake'
