@@ -9,21 +9,23 @@
 #
 # See https://docs.rubocop.org/rubocop/configuration
 
-require:
-  - rubocop-capybara
-  - rubocop-factory_bot
-  - rubocop-rails
-  - rubocop-rspec
-  - rubocop-rspec_rails
+# Use shopify's rubocop.yml
+inherit_gem:
+  rubocop-shopify: rubocop.yml
 
-# Don't use .rubocop.yml from gems
+# Don't use .rubocop.yml from other gems (otherwise gitlab pipeline breaks due to a gem using an incompatible ruby version)
 inherit_mode:
   merge:
     - Exclude
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
-    # Exclude files that we don't want to modify (auto-generated DB files)
+    # Exclude files that we don't want to modify (auto-generated files)
+    - 'bin/bundle'
     - 'db/migrate/**/*'
     - 'db/schema.rb'
+
+Style/Documentation:
+  Enabled: true

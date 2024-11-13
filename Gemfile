@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -23,13 +25,13 @@ gem "puma", "~> 6.0"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
-gem 'mutex_m', require: false
-gem 'drb', require: false
-gem 'base64'
+gem "mutex_m", require: false
+gem "drb", require: false
+gem "base64"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -37,9 +39,28 @@ gem 'base64'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-end
+gem "activerecord-session_store"
+gem "hamlit"
+gem "hamlit-rails"
+
+gem "simple_form"
+
+gem "draper"
+
+gem "shakapacker"
+
+gem "devise"
+gem "cancancan"
+
+gem "whenever"
+gem "delayed_job"
+gem "delayed_job_active_record"
+gem "daemons"
+
+gem "sanitize_email"
+
+gem "sentry-ruby"
+gem "sentry-rails"
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
@@ -50,65 +71,37 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-end
 
-gem 'activerecord-session_store'
-gem 'hamlit'
-gem 'hamlit-rails'
+  gem "letter_opener"
+  gem "annotate"
+  gem "brakeman"
+  gem "bundler-audit"
 
-gem 'simple_form'
+  gem "capistrano"
+  gem "capistrano-rails", require: false
+  gem "capistrano-bundler", require: false
+  gem "capistrano-rvm", require: false
+  gem "capistrano-passenger", require: false
+  gem "capistrano-yarn", require: false
 
-gem 'draper'
-
-gem 'shakapacker'
-
-gem 'devise'
-gem 'cancancan'
-
-gem 'whenever'
-gem 'delayed_job'
-gem 'delayed_job_active_record'
-gem 'daemons'
-
-gem 'sanitize_email'
-
-gem 'sentry-ruby'
-gem 'sentry-rails'
-
-group :development do
-  gem 'letter_opener'
-  gem 'annotate'
-  gem 'brakeman'
-  gem 'bundler-audit'
-
-  gem 'capistrano'
-  gem 'capistrano-rails', require: false
-  gem 'capistrano-bundler', require: false
-  gem 'capistrano-rvm', require: false
-  gem 'capistrano-passenger', require: false
-  gem 'capistrano-yarn', require: false
-
-  gem 'epi_deploy', git: 'https://github.com/epigenesys/epi_deploy.git'
-  gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
-  gem 'ed25519', '>= 1.2', '< 2.0'
-end
-
-group :development, :test do
-  gem 'rspec-rails'
-  gem 'factory_bot_rails'
+  gem "epi_deploy", git: "https://github.com/epigenesys/epi_deploy.git"
+  gem "bcrypt_pbkdf", ">= 1.0", "< 2.0"
+  gem "ed25519", ">= 1.2", "< 2.0"
 end
 
 group :test do
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  gem 'database_cleaner'
-  gem 'launchy'
-  gem 'simplecov'
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem "database_cleaner"
+  gem "launchy"
+  gem "simplecov"
 end
 
-gem "rubocop-capybara", "~> 2.21"
-gem "rubocop-factory_bot", "~> 2.26"
-gem "rubocop-rails", "~> 2.27"
-gem "rubocop-rspec", "~> 3.2"
-gem "rubocop-rspec_rails", "~> 2.30"
+group :development, :test do
+  gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+end
+
+gem "rubocop-shopify", require: false
 gem "rubocop", "~> 1.68"
