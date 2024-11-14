@@ -16,5 +16,8 @@ cd $(dirname $(dirname $(realpath $0)))
 echo "Running rubocop..."
 bundle exec rubocop
 
-echo "Running HAML-Lint...."
+echo "Running HAML-Lint..."
 bundle exec haml-lint
+
+echo "Running ESLint..."
+eslint .
