@@ -85,7 +85,6 @@ rubocop:
     - bundle config --local path 'vendor/gems'
 
     - bundle check
-    - RAILS_ENV=test
   needs:
     - bundler
   script:
@@ -103,6 +102,13 @@ haml-lint:
     - bundler
   script:
     - bundle exec haml-lint
+
+eslint:
+  stage: test
+  needs:
+    - yarn
+  script:
+    - yarn run eslint .
 
 rspec:
   stage: test
