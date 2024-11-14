@@ -14,4 +14,7 @@ fi
 # CD to parent directory (root of project)
 cd $(dirname $(dirname $(realpath $0)))
 echo "Running rubocop..."
-bundle exec rubocop
+bundle exec rubocop -a
+
+echo "Running HAML-Lint...."
+bundle exec haml-lint -a
