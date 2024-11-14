@@ -1,0 +1,8 @@
+exclude:
+  - lib/templates/**/*
+
+linters:
+  LineLength:
+    max: 120
+  ClassesBeforeIds:
+    EnforcedStyle: 'id'

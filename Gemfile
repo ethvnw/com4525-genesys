@@ -103,5 +103,6 @@ group :development, :test do
   gem "factory_bot_rails"
 end
 
+gem "haml_lint", require: false
 gem "rubocop-shopify", require: false
 gem "rubocop", "~> 1.68"
