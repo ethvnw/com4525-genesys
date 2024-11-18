@@ -52,21 +52,16 @@
     Trusted by travellers
   .swiper.reviews-carousel
     .swiper-wrapper
-      - 10.times do
+      - @reviews.each do |review|
         .swiper-slide.d-flex.justify-content-center
           = render("partials/carousel_review_slide",
-                   review: "This app has been a lifesaver! I no longer have to dig through my emails for tickets.",
-                   author: "Jack B.",
-                   like_count: "10")
+                   review: review.content,
+                   author: review.name,
+                   like_count: review.engagement_counter)
     .swiper-button-prev
     .swiper-button-next
     .swiper-scrollbar
   %h3.text-center.text-lg-start.fw-bold
     Enjoy using Roamio? Leave a review
-  %form.d-flex.flex-column.gap-2{ action: "/", method: "POST" }
-    %input#user-review-name-input.form-control.fw-semibold{ placeholder: "Enter your name...", type: "text" }
-    %textarea#user-review-content-input.form-control.fw-semibold{ placeholder: "Enter your review...", rows: "3" }
-    .d-flex.justify-content-end
-      %button.btn.btn-secondary.fw-bold{ type: "submit" }
-        %i.bi.bi-send-fill &nbsp;
-        Submit Review
+  
+  = render("reviews/form", review: @review, errors: @errors)
