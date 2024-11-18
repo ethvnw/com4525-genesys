@@ -1,7 +1,12 @@
+# frozen_string_literal: true
+
+# Contains global decorators used throughout the app
 class ApplicationDecorator < Draper::Decorator
   delegate_all
 
-  def self.collection_decorator_class
-    PaginatingDecorator
+  class << self
+    def collection_decorator_class
+      PaginatingDecorator
+    end
   end
 end
