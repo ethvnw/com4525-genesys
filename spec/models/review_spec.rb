@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reviews
@@ -11,7 +13,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Review, type: :model do
   describe '#default_values' do

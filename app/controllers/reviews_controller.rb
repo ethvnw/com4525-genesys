@@ -1,5 +1,8 @@
-class ReviewsController < ApplicationController
+# frozen_string_literal: true
 
+##
+# Handles the creation of new reviews
+class ReviewsController < ApplicationController
   def new
     @review = Review.new
   end
@@ -7,14 +10,15 @@ class ReviewsController < ApplicationController
   def create
     @review = Review.new(review_params)
     if @review.save
-      redirect_to root_path
+      redirect_to(root_path)
     else
-      render :new
+      render(:new)
     end
   end
 
   private
-    def review_params
-      params.require(:review).permit(:content, :name)
-    end
+
+  def review_params
+    params.require(:review).permit(:content, :name)
+  end
 end
