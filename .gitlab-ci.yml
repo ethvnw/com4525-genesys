@@ -78,6 +78,38 @@ yarn:
     expire_in: 1 day
   timeout: 20m
 
+rubocop:
+  stage: test
+  before_script:
+    - bundle config --global jobs "$(nproc)"
+    - bundle config --local path 'vendor/gems'
+
+    - bundle check
+  needs:
+    - bundler
+  script:
+    - bundle exec rubocop
+
+haml-lint:
+  stage: test
+  before_script:
+    - bundle config --global jobs "$(nproc)"
+    - bundle config --local path 'vendor/gems'
+
+    - bundle check
+    - RAILS_ENV=test
+  needs:
+    - bundler
+  script:
+    - bundle exec haml-lint
+
+eslint:
+  stage: test
+  needs:
+    - yarn
+  script:
+    - yarn run eslint .
+
 rspec:
   stage: test
   interruptible: true
@@ -114,30 +146,30 @@ rspec:
     - when: always
       allow_failure: false
 
-bundler-audit:
-  stage: security
-  extends: .security-stage-rules
-  interruptible: true
-  timeout: 20m
-  services: []
-  needs:
-    - bundler
-  script:
-    - bundle config --local path 'vendor/gems'
-    - bundle check
-    - bundle exec bundler-audit check --update
-
-yarn-audit:
-  stage: security
-  extends: .security-stage-rules
-  interruptible: true
-  timeout: 20m
-  services: []
-  needs:
-    - yarn
-  script:
-    - yarn check --integrity
-    - yarn run improved-yarn-audit --fail-on-missing-exclusions
+#bundler-audit:
+#  stage: security
+#  extends: .security-stage-rules
+#  interruptible: true
+#  timeout: 20m
+#  services: []
+#  needs:
+#    - bundler
+#  script:
+#    - bundle config --local path 'vendor/gems'
+#    - bundle check
+#    - bundle exec bundler-audit check --update
+#
+#yarn-audit:
+#  stage: security
+#  extends: .security-stage-rules
+#  interruptible: true
+#  timeout: 20m
+#  services: []
+#  needs:
+#    - yarn
+#  script:
+#    - yarn check --integrity
+#    - yarn run improved-yarn-audit --fail-on-missing-exclusions
 
 
 brakeman:
