@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# CanCanCan ability class, controlling authorisation
 class Ability
   include CanCan::Ability
 

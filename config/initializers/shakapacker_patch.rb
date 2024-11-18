@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if defined? Webpacker::Compiler
   shakapacker_compile_lock_path = Module.new do
     def open_lock_file
@@ -8,5 +10,5 @@ if defined? Webpacker::Compiler
     end
   end
 
-  Webpacker::Compiler.prepend shakapacker_compile_lock_path
+  Webpacker::Compiler.prepend(shakapacker_compile_lock_path)
 end

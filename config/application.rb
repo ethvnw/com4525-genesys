@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "boot"
 
 require "rails"
@@ -18,34 +20,37 @@ require "action_view/railtie"
 Bundler.require(*Rails.groups)
 
 module Project
+  # Contains global application config
   class Application < Rails::Application
-    config.load_defaults 7.0
+    config.load_defaults(7.0)
 
     config.active_job.queue_adapter = :delayed_job
 
     # Handle invalid MIME types and URIs
-    config.action_dispatch.rescue_responses['ActionDispatch::Http::MimeNegotiation::InvalidType'] = :bad_request
-    config.action_dispatch.rescue_responses['Mime::Type::InvalidMimeType'] = :bad_request
-    config.action_dispatch.rescue_responses['URI::InvalidURIError'] = :bad_request
+    config.action_dispatch.rescue_responses["ActionDispatch::Http::MimeNegotiation::InvalidType"] = :bad_request
+    config.action_dispatch.rescue_responses["Mime::Type::InvalidMimeType"] = :bad_request
+    config.action_dispatch.rescue_responses["URI::InvalidURIError"] = :bad_request
 
-    config.time_zone = 'London'
+    config.time_zone = "London"
 
     config.generators do |g|
-      g.template_engine      :haml
-      g.assets               false
-      g.helper               false
-      g.jbuilder             false
-      g.javascripts          false
-      g.stylesheets          false
-      g.scaffold_stylesheets false
-      g.system_tests         :rspec
-      g.integration_tool     :rspec
-      g.test_framework       :rspec,
-                             request_specs:   false,
-                             view_specs:       false,
-                             routing_specs:    false,
-                             helper_specs:     false,
-                             controller_specs: false
+      g.template_engine(:haml)
+      g.assets(false)
+      g.helper(false)
+      g.jbuilder(false)
+      g.javascripts(false)
+      g.stylesheets(false)
+      g.scaffold_stylesheets(false)
+      g.system_tests(:rspec)
+      g.integration_tool(:rspec)
+      g.test_framework(
+        :rspec,
+        request_specs: false,
+        view_specs: false,
+        routing_specs: false,
+        helper_specs: false,
+        controller_specs: false,
+      )
     end
   end
 end
