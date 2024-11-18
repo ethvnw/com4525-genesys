@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
@@ -50,7 +52,7 @@ Rails.application.configure do
   config.log_level = :info
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -73,14 +75,14 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
@@ -94,8 +96,8 @@ Rails.application.configure do
   # Intentionally kept format to make it more obvious / easier to upgrade. #
   ##########################################################################
 
-  app_url = 'PUT_APP_URL_HERE' # TODO: replace this with your application's URL (e.g. 'myapp.demo.epigenesys.org.uk')
-  config.action_mailer.default_url_options    = { host: app_url, protocol: 'https' }
+  app_url = "PUT_APP_URL_HERE" # TODO: replace this with your application's URL (e.g. 'myapp.demo.epigenesys.org.uk')
+  config.action_mailer.default_url_options    = { host: app_url, protocol: "https" }
   config.action_mailer.asset_host             = "https://#{app_url}"
   config.action_mailer.smtp_settings[:domain] = app_url
 end
