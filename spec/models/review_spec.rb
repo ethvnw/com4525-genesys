@@ -14,5 +14,13 @@
 require 'rails_helper'
 
 RSpec.describe Review, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#default_values' do
+    it 'sets the default values for the attributes of the review' do
+      review = Review.new(name: 'Test Name', content: 'Content for the review')
+      review.save
+      expect(review.is_hidden).to eq false
+      expect(review.engagement_counter).to eq 0
+      expect(review.order).to eq 0
+    end
+  end
 end
