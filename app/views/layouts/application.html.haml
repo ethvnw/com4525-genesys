@@ -46,7 +46,10 @@
             %nav.navbar-nav.ms-auto
               = link_to(destroy_user_session_path, class: "nav-link", method: :delete) do
                 %i.bi-box-arrow-right
-                Sign out
+                #{current_user.email} (Sign out)
+          - else
+            = link_to(new_user_session_path, class: "nav-link", method: :get) do
+              Login
 
     - if flash.present?
       .container-fluid.flash-messages

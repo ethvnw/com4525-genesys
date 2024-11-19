@@ -27,7 +27,11 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
+
 FactoryBot.define do
   factory :user do
+    email { "test@epigenesys.org.uk" }
+    password { "123456" }
+    password_confirmation { "123456" }
   end
 end
