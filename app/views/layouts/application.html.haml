@@ -42,12 +42,20 @@
               %i.bi-house-fill
               Home
 
+          - if user_signed_in?
+            %nav.navbar-nav.ms-auto
+              = link_to(destroy_user_session_path, class: "nav-link", method: :delete) do
+                %i.bi-box-arrow-right
+                Sign out
+
     - if flash.present?
       .container-fluid.flash-messages
         - flash.each do |message_type, message|
           - next unless message_type == "alert" || message_type == "notice"
 
           .alert{ class: "alert-#{message_type == "notice" ? "success" : "danger"}" }= message
+
+
 
     %main
       .container-fluid
