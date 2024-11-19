@@ -4,12 +4,12 @@
   = f.error_notification
 
   .form-inputs
-    = f.input :email,
-               required: true,
-               autofocus: true,
-               input_html: { autocomplete: "email" }
+    = f.input(:email,
+              required: true,
+              autofocus: true,
+              input_html: { autocomplete: "email" })
 
   .form-actions
-    = f.button :submit, "Send me reset password instructions"
+    = f.button(:submit, "Send me reset password instructions")
 
-= render "devise/shared/links"
+= render("devise/shared/links")

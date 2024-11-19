@@ -1,18 +1,19 @@
-- content_for :title, "Log In"
+- content_for(:title, "Log In")
 
 %h2 Log in
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .form-inputs
-    = f.input :email,
+    = f.input(:email,
               required: false,
               autofocus: true,
-              input_html: { autocomplete: "email" }
-    = f.input :password,
+              input_html: { autocomplete: "email" })
+
+    = f.input(:password,
               required: false,
-              input_html: { autocomplete: "new-password" }
+              input_html: { autocomplete: "new-password" })
 
   .form-actions
-    = f.button :submit, "Log in"
+    = f.button(:submit, "Log in")
 
-= render "devise/shared/links"
+= render("devise/shared/links")
