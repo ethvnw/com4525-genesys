@@ -36,7 +36,8 @@ class User < ApplicationRecord
     :rememberable,
     :validatable,
     :lockable,
-    :trackable
+    :trackable,
+    :timeoutable
 
   enum user_role: { reporter: "Reporter", admin: "Admin" }
 end
