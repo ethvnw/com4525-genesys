@@ -18,6 +18,7 @@
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
 #  unlock_token           :string
+#  user_role              :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -36,4 +37,6 @@ class User < ApplicationRecord
     :validatable,
     :lockable,
     :trackable
+
+  enum user_role: { reporter: "Reporter", admin: "Admin" }
 end
