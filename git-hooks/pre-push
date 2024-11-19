@@ -11,8 +11,8 @@ if [[ $push_command =~ $protected_branch ]] || [[ $current_branch = $protected_b
   exit 1
 fi
 
-# CD to parent directory (root of project)
-cd $(dirname $(dirname $(realpath $0)))
+# CD to root of project
+cd $(git rev-parse --show-toplevel)
 echo "Running rubocop..."
 bundle exec rubocop
 
@@ -20,4 +20,4 @@ echo "Running HAML-Lint..."
 bundle exec haml-lint
 
 echo "Running ESLint..."
-eslint .
+yarn run eslint .
