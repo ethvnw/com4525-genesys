@@ -32,7 +32,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
-    :registerable,
+    # :registerable,
     :recoverable,
     :rememberable,
     :validatable,
@@ -43,8 +43,9 @@ class User < ApplicationRecord
 
   enum user_role: { reporter: "Reporter", admin: "Admin" }
 
+  # Validates the complexity of a password
   def password_complexity
-    if encrypted_password_changed? && password !~ /(?=.*\d.)(?=.*[a-z])(?=.*[A-Z])/
+    if encrypted_password_changed? && password !~ /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/
       errors.add(:password, "must contain upper and lower-case letters and numbers")
     end
   end
