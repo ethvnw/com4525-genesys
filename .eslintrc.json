@@ -1,4 +1,7 @@
 {
   "extends": ["airbnb-base"],
+  "env": {
+    "browser": true
+  },
   "ignorePatterns": ["node_modules/", "public/packs/"]
 }
