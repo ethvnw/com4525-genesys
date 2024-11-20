@@ -16,8 +16,8 @@
     = csp_meta_tag
 
     -# Allows us to separate scripts/styles out into multiple packs, and only load them when required.
-    = stylesheet_pack_tag("stylepacks/global", *get_style_paths(@style_packs), media: "all")
-    = javascript_pack_tag("scriptpacks/global", *get_script_paths(@script_packs))
+    = stylesheet_pack_tag("stylepacks/application", *get_style_paths(@style_packs), media: "all")
+    = javascript_pack_tag("scriptpacks/application", *get_script_paths(@script_packs))
 
   %body
     %header.navbar.navbar-expand-lg.bg-light.mb-3
