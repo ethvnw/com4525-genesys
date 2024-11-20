@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Reporter controller
 class ReporterController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_reporter
