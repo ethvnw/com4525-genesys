@@ -46,7 +46,9 @@
             %nav.navbar-nav.ms-auto
               = link_to(destroy_user_session_path, class: "nav-link", method: :delete) do
                 %i.bi-box-arrow-right
-                #{current_user.email} (Sign out)
+                [User: #{current_user.email}]
+                [Role: #{current_user.display_role}]
+                (Sign out)
           - else
             = link_to(new_user_session_path, class: "nav-link", method: :get) do
               Login
