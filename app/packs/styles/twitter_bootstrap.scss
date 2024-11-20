@@ -1,2 +1,7 @@
 @import "variables";
 @import "~bootstrap/scss/bootstrap";
+
+/* Overwrite bg elements with light text */
+.bg-success, .bg-dark, .bg-primary, .btn-primary {
+    @extend .text-light
+}
