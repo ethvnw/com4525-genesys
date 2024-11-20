@@ -3,5 +3,11 @@
 
 /* Overwrite bg elements with light text */
 .bg-success, .bg-dark, .bg-primary, .btn-primary {
-    @extend .text-light
+    @extend .text-light;
+}
+
+/* Overwrite button secondary */
+.btn-secondary {
+    @include button-variant(darken($light, 10%), darken($light, 10%));
+    color: var(--bs-navbar-color);
 }

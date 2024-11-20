@@ -39,16 +39,18 @@
         }
           %span.navbar-toggler-icon
         #navbar-content.navbar-collapse.collapse
-          %nav.navbar-nav
-            = link_to("#", class: "nav-link text-secondary fw-semibold") do
+          %nav.navbar-nav.fw-semibold
+            = link_to("#", class: "nav-link") do
               FAQ
-            = link_to("#", class: "nav-link text-secondary fw-semibold") do
+            = link_to("#", class: "nav-link") do
               Reviews
-            = link_to("#", class: "nav-link text-secondary fw-semibold") do
+            = link_to("#", class: "nav-link") do
               Pricing
-          .ms-auto
+          .d-flex.gap-2.ms-auto
+            = link_to("#", class: "btn btn-secondary bg-gray-200 fw-semibold") do
+              Log in
             = link_to("#", class: "btn btn-primary fw-semibold") do
-              %i.bi.bi-compass
+              %i.bi.bi-compass &nbsp;
               Join the travel revolution
 
     - if flash.present?
