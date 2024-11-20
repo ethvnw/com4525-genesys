@@ -42,6 +42,7 @@ class User < ApplicationRecord
     :pwned_password
 
   enum user_role: { reporter: "Reporter", admin: "Admin" }
+  validates :user_role, presence: true, inclusion: { in: user_roles.keys }
 
   def password_complexity
     if encrypted_password_changed? && password !~ /(?=.*\d.)(?=.*[a-z])(?=.*[A-Z])/
