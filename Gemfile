@@ -51,6 +51,7 @@ gem "shakapacker"
 
 gem "devise"
 gem "cancancan"
+gem "devise-pwned_password"
 
 gem "whenever"
 gem "delayed_job"
