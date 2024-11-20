@@ -49,4 +49,8 @@ class User < ApplicationRecord
       errors.add(:password, "must contain upper and lower-case letters and numbers")
     end
   end
+
+  def display_role
+    user_role.titleize
+  end
 end
