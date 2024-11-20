@@ -1,15 +1,19 @@
-- content_for :title, "Log In"
+- content_for(:title, "Log In")
 
-.row.justify-content-center
-  .col-sm-6.col-lg-4
-    .card.card-light
-      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .card-header
-          Log In
-        .card-body
-          = f.input(:email, autofocus: true, required: true)
-          = f.input(:password, required: true)
-        .card-footer
-          %button.btn.btn-primary{ type: :submit }
-            Log in
-          .mt-3= render("devise/shared/links")
+%h2 Log in
+
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  .form-inputs
+    = f.input(:email,
+              required: false,
+              autofocus: true,
+              input_html: { autocomplete: "email" })
+
+    = f.input(:password,
+              required: false,
+              input_html: { autocomplete: "new-password" })
+
+  .form-actions
+    = f.button(:submit, "Log in")
+
+= render("devise/shared/links")

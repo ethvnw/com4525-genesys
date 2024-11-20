@@ -29,3 +29,7 @@ AllCops:
 
 Style/Documentation:
   Enabled: true
+
+Layout/FirstMethodArgumentLineBreak:
+  Exclude:
+    - 'app/views/**/*'
