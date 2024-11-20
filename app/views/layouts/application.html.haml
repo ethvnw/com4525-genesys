@@ -16,7 +16,6 @@
     = csp_meta_tag
 
     -# Allows us to separate scripts/styles out into multiple packs, and only load them when required.
-    -# map here automatically prepends all packs with their respective subdir, so only the name needs to be specified in the controller.
     = stylesheet_pack_tag("stylepacks/global", *get_style_paths(@style_packs), media: "all")
     = javascript_pack_tag("scriptpacks/global", *get_script_paths(@script_packs))
 
