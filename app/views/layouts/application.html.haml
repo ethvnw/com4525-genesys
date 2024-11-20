@@ -25,7 +25,7 @@
       .container
         = link_to("/", class: "navbar-brand") do
           = image_pack_tag("images/roamio_brand_logo.png", height: 40)
-        %button.navbar-toggler{
+        %button.navbar-toggler.collapsed{
           type: :button,
           data: {
             bs_toggle: :collapse,
@@ -37,19 +37,22 @@
             label: "Toggle navigation",
           },
         }
-          %span.navbar-toggler-icon
+          %span.toggler-icon.top-bar
+          %span.toggler-icon.middle-bar
+          %span.toggler-icon.bottom-bar
         #navbar-content.navbar-collapse.collapse
-          %nav.navbar-nav.fw-semibold
+          %nav.navbar-nav.fw-semibold.text-center
             = link_to("#", class: "nav-link") do
               FAQ
             = link_to("#", class: "nav-link") do
               Reviews
             = link_to("#", class: "nav-link") do
               Pricing
-          .d-flex.gap-2.ms-auto
-            = link_to("#", class: "btn btn-secondary bg-gray-200 fw-semibold") do
+          .d-flex.ms-auto.gap-2.flex-column.flex-lg-row
+            %hr.d-flex.d-lg-none.my-1
+            = link_to("#", class: "btn btn-secondary fw-semibold d-flex justify-content-center") do
               Log in
-            = link_to("#", class: "btn btn-primary fw-semibold") do
+            = link_to("#", class: "btn btn-primary fw-semibold d-flex justify-content-center gap-1") do
               %i.bi.bi-compass &nbsp;
               Join the travel revolution
 
