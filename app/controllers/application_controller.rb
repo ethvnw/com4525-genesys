@@ -10,10 +10,18 @@ class ApplicationController < ActionController::Base
   # browser cache. If your app does not deal with sensitive information then it
   # may be worth enabling caching for performance.
   before_action :update_headers_to_disable_caching
+  # Temporarily added for creating user roles during sign up
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   def after_sign_in_path_for(resource)
     set_flash_message!(:alert, :warn_pwned) if resource.respond_to?(:pwned?) && resource.pwned?
     super
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:user_role])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:user_role])
   end
 
   private

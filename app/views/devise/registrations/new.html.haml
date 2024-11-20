@@ -18,6 +18,11 @@
               required: true,
               input_html: { autocomplete: "new-password" })
 
+    = f.input(:user_role,
+              required: true,
+              collection: User.user_roles.values,
+              prompt: "Role")
+
   .form-actions
     = f.button(:submit, "Sign up")
 
