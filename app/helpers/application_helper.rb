@@ -8,9 +8,7 @@ module ApplicationHelper
   # @param script_packs [Array<String>] an array of script pack names
   # @return [Array<String>] an array of script pack paths
   def get_script_paths(script_packs)
-    puts script_packs
     if script_packs.present?
-      puts script_packs.map { |script_pack| "scriptpacks/#{script_pack}" }
       script_packs.map { |script_pack| "scriptpacks/#{script_pack}" }
     else
       []
