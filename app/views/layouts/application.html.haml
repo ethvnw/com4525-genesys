@@ -1,4 +1,3 @@
-!!!
 %html{ lang: "en-GB" }
   %head
     %title Project
@@ -22,7 +21,7 @@
     %link{ rel: "stylesheet", href: "https://rsms.me/inter/inter.css" }
 
   %body
-    %header.navbar.navbar-expand-lg.bg-light.mb-3
+    %header.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
       .container
         = link_to("/", class: "navbar-brand") do
           = image_pack_tag("images/roamio_brand_logo.png", height: 40)
@@ -40,6 +39,17 @@
         }
           %span.navbar-toggler-icon
         #navbar-content.navbar-collapse.collapse
+          %nav.navbar-nav
+            = link_to("#", class: "nav-link text-secondary fw-semibold") do
+              FAQ
+            = link_to("#", class: "nav-link text-secondary fw-semibold") do
+              Reviews
+            = link_to("#", class: "nav-link text-secondary fw-semibold") do
+              Pricing
+          .ms-auto
+            = link_to("#", class: "btn btn-primary fw-semibold") do
+              %i.bi.bi-compass
+              Join the travel revolution
 
     - if flash.present?
       .container-fluid.flash-messages
@@ -49,7 +59,7 @@
           .alert{ class: "alert-#{message_type == "notice" ? "success" : "danger"}" }= message
 
     %main
-      .container-fluid
+      .container
         = yield
 
     %footer
