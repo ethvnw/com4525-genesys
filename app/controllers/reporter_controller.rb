@@ -5,6 +5,7 @@ class ReporterController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_reporter
 
+  # GET: Reporter dashboard route ("/reporter/dashboard")
   def dashboard
   end
 
