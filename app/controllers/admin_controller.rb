@@ -5,6 +5,7 @@ class AdminController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_admin
 
+  # GET: Admin dashboard route ("/admin/dashboard")
   def dashboard
   end
 
