@@ -14,8 +14,9 @@
     = csrf_meta_tags
     = csp_meta_tag
 
-    = stylesheet_pack_tag("styles", media: "all")
-    = javascript_pack_tag("application")
+    -# Allows us to separate scripts/styles out into multiple packs, and only load them when required.
+    = stylesheet_pack_tag("stylepacks/application", *get_style_paths(@style_packs), media: "all")
+    = javascript_pack_tag("scriptpacks/application", *get_script_paths(@script_packs))
 
     %link{ rel: "preconnect", href: "https://rsms.me/" }
     %link{ rel: "stylesheet", href: "https://rsms.me/inter/inter.css" }
@@ -56,6 +57,15 @@
               %i.bi.bi-compass &nbsp;
               Join the travel revolution
 
+          - if user_signed_in?
+            %nav.navbar-nav.ms-auto
+              = link_to(destroy_user_session_path, class: "nav-link", method: :delete) do
+                %i.bi-box-arrow-right
+                #{current_user.email} (Sign out)
+          - else
+            = link_to(new_user_session_path, class: "nav-link", method: :get) do
+              Login
+
     - if flash.present?
       .container-fluid.flash-messages
         - flash.each do |message_type, message|
@@ -63,10 +73,13 @@
 
           .alert{ class: "alert-#{message_type == "notice" ? "success" : "danger"}" }= message
 
+
+
     %main
       .container
         = yield
 
+<<<<<<< HEAD
     %footer.bg-primary
       .container
         .d-flex.flex-column
@@ -75,3 +88,11 @@
           %p.text-secondary.mt-2
             &copy; 2024 Roamio & Genesys Team 02. All rights reserved
           %hr
+=======
+    %footer
+      .container-fluid
+        .d-flex.p-3
+          Footer text
+
+    #js-variables{ data: @js_data ? @js_data : {} }
+>>>>>>> main

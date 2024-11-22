@@ -160,6 +160,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-pwned_password (0.1.12)
+      devise (~> 4)
+      pwned (~> 2.4)
     diff-lcs (1.5.1)
     docile (1.4.1)
     draper (4.0.2)
@@ -260,6 +263,7 @@ GEM
     public_suffix (6.0.1)
     puma (6.4.3)
       nio4r (~> 2.0)
+    pwned (2.4.1)
     racc (1.8.1)
     rack (2.2.9)
     rack-proxy (0.7.7)
@@ -437,6 +441,7 @@ DEPENDENCIES
   delayed_job
   delayed_job_active_record
   devise
+  devise-pwned_password
   draper
   drb
   ed25519 (>= 1.2, < 2.0)
