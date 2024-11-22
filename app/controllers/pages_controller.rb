@@ -7,10 +7,10 @@ class PagesController < ApplicationController
     @style_packs = ["application"]
 
     @review = if flash[:review_data]
-                Review.new(flash[:review_data])
-              else
-                Review.new
-              end
+      Review.new(flash[:review_data])
+    else
+      Review.new
+    end
     @errors = flash[:errors]
     @reviews = Review.where.not(is_hidden: true).order(order: :asc)
   end
