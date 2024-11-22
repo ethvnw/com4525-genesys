@@ -1,28 +1,71 @@
 -# Hero section
-%section.row.align-items-center.py-5.g-4
+%section.row.align-items-center.py-5
   .col-lg-6.text-center.text-lg-start
     %h1.display-5.fw-bold.lh-1.mb-3
       All your trip
       %br
       One simple space
-    %p.fw-semibold Roamio is a collaborative way to manage tickets, bookings and activities
-    = link_to("#", class: "btn btn-primary btn-lg d-lg-none fw-semibold") do
+    %p.fw-semibold
+      Roamio is a collaborative way to manage tickets, bookings, and activities
+    = link_to("#", class: "btn btn-primary btn-lg d-lg-none fw-semibold mb-3") do
       %i.bi.bi-compass &nbsp;
       Join the travel revolution
-  .col-lg-6.px-0
-    %img.d-flex.img-fluid{ alt: "", height: "500", loading: "lazy", width: "700" }
+  .col-lg-6.d-flex.justify-content-center.my-0
+    %img.img-fluid{ alt: "", loading: "lazy", height: "500", width: "500" }
 
 -# About section
 %section.row.align-items-center.py-5.px-4.bg-primary
   .col-lg-6.text-center.text-lg-start
     %h2.display-6.fw-bold.lh-1.mb-3
-      No more searching through files, emails and group chats
+      No more searching through files, emails, and group chats
     %p.fw-semibold
       All your travel plans, instantly accessible
   .col-lg-6
 
 -# Features carousel section
-%section.row.align-items-center.py-5.g-4
+%section.row.align-items-center.py-5.gap-4
+  %h2.text-center.text-lg-start.fw-bold.lh-1
+    Seamless travel, organised
+  .swiper.features-carousel
+    .swiper-wrapper
+      - 10.times do
+        .swiper-slide.d-flex.justify-content-center
+          = render("partials/carousel_feature_slide",
+                   feature: "View Trip Timeline",
+                   description: "Access the timeline of your trip, this is quite an important feature")
+    .swiper-button-prev
+    .swiper-button-next
+    .swiper-scrollbar
+
+-# About section
+%section.row.align-items-center.py-5.px-4.bg-light
   .col-lg-6.text-center.text-lg-start
-    %h3.display-7.fw-bold.lh-1.mb-3
-      Seamless travel, organised
+    %h2.display-6.fw-bold.lh-1.mb-3
+      Built for You, Shaped by Your Feedback
+    %p.fw-semibold.text-secondary
+      Your feedback drives our design
+  .col-lg-6
+
+-# Reviews carousel section
+%section.row.align-items-center.py-5.gap-4
+  %h2.text-center.text-lg-start.fw-bold
+    Trusted by travellers
+  .swiper.reviews-carousel
+    .swiper-wrapper
+      - 10.times do
+        .swiper-slide.d-flex.justify-content-center
+          = render("partials/carousel_review_slide",
+                   review: "This app has been a lifesaver! I no longer have to dig through my emails for tickets.",
+                   author: "Jack B.",
+                   like_count: "10")
+    .swiper-button-prev
+    .swiper-button-next
+    .swiper-scrollbar
+  %h3.text-center.text-lg-start.fw-bold
+    Enjoy using Roamio? Leave a review
+  %form.d-flex.flex-column.gap-2{ action: "/", method: "POST" }
+    %textarea#user-review-input.form-control.fw-semibold{ placeholder: "Enter your review...", rows: "3" }
+    .d-flex.justify-content-end
+      %button.btn.btn-secondary.fw-bold{ type: "submit" }
+        %i.bi.bi-send-fill &nbsp;
+        Submit Review
