@@ -51,20 +51,16 @@
               Pricing
           .d-flex.ms-auto.gap-2.flex-column.flex-lg-row
             %hr.d-flex.d-lg-none.my-1
-            = link_to("#", class: "btn btn-secondary fw-semibold d-flex justify-content-center") do
-              Log in
-            = link_to("#", class: "btn btn-primary fw-semibold d-flex justify-content-center gap-1") do
-              %i.bi.bi-compass &nbsp;
-              Join the travel revolution
+            - if user_signed_in?
+              = link_to(destroy_user_session_path, class: "btn btn-secondary fw-semibold d-flex justify-content-center", method: :delete) do
+                Sign out
+            - else
+              = link_to(new_user_session_path, class: "btn btn-secondary fw-semibold d-flex justify-content-center", method: :get) do
+                Log in
+              = link_to("#", class: "btn btn-primary fw-semibold d-flex justify-content-center gap-1") do
+                %i.bi.bi-compass &nbsp;
+                Join the travel revolution
 
-          - if user_signed_in?
-            %nav.navbar-nav.ms-auto
-              = link_to(destroy_user_session_path, class: "nav-link", method: :delete) do
-                %i.bi-box-arrow-right
-                #{current_user.email} (Sign out)
-          - else
-            = link_to(new_user_session_path, class: "nav-link", method: :get) do
-              Login
 
     - if flash.present?
       .container-fluid.flash-messages
@@ -79,7 +75,6 @@
       .container
         = yield
 
-<<<<<<< HEAD
     %footer.bg-primary
       .container
         .d-flex.flex-column
@@ -88,11 +83,5 @@
           %p.text-secondary.mt-2
             &copy; 2024 Roamio & Genesys Team 02. All rights reserved
           %hr
-=======
-    %footer
-      .container-fluid
-        .d-flex.p-3
-          Footer text
 
     #js-variables{ data: @js_data ? @js_data : {} }
->>>>>>> main
