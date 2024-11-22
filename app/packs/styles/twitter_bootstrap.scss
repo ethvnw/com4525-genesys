@@ -17,10 +17,9 @@
     border: 0 !important;
 }
 
-
-/* Animated navbar hamburger derived from [https://www.youtube.com/watch?v=vJ85fm4m7lw] 
-*
-*
+/* Animated navbar hamburger derived from: [https://www.youtube.com/watch?v=vJ85fm4m7lw] 
+* Credit: Clueless Expert
+* Date published: 11 Apr 2021 [Accessed: 22 Nov 2024]
 */
 .navbar-toggler:focus,
 .navbar-toggler:active,
@@ -31,7 +30,7 @@
 }
 
 /* Lines of the Toggler */
-.toggler-icon{
+.toggler-icon {
     width: 30px;
     height: 3px;
     background-color: var(--bs-navbar-color);
