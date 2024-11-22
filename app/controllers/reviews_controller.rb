@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-##
-# Handles the creation of new reviews
+# Handles the creation of reviews
 class ReviewsController < ApplicationController
   def new
-    @review = Review.new
+    redirect_to(root_path)
   end
 
   def create
     @review = Review.new(review_params)
     if @review.save
-      redirect_to(root_path)
     else
-      render(:new)
+      flash[:errors] = @review.errors.full_messages
+      flash[:review_data] = @review.attributes.slice("name", "content")
     end
+    redirect_to(root_path)
   end
 
   private
