@@ -24,7 +24,7 @@
     %header.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
       .container
         = link_to("/", class: "navbar-brand") do
-          = image_pack_tag("images/roamio_brand_logo.png", height: 40)
+          = image_pack_tag("images/roamio_brand_logo_d_grey.png", height: 40)
         %button.navbar-toggler.collapsed{
           type: :button,
           data: {
@@ -67,7 +67,11 @@
       .container
         = yield
 
-    %footer
-      .container-fluid
-        .d-flex.p-3
-          Footer text
+    %footer.bg-primary
+      .container
+        .d-flex.flex-column
+          = link_to("/", class: "mt-4") do
+            = image_pack_tag("images/roamio_brand_icon_l_grey.png", height: 40)
+          %p.text-secondary.mt-2
+            &copy; 2024 Roamio & Genesys Team 02. All rights reserved
+          %hr
