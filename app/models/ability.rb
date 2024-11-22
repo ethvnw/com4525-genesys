@@ -29,5 +29,19 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
+
+    # Guest user (not logged in)
+    user ||= User.new
+
+    # User access
+    if user.admin?
+      can(:manage, :all)
+      can(:access, :admin_dashboard)
+    elsif user.reporter?
+      can(:read, :all)
+      can(:access, :reporter_dashboard)
+    else
+      can(:read, :public_content)
+    end
   end
 end
