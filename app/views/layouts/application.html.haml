@@ -52,10 +52,14 @@
           .d-flex.ms-auto.gap-2.flex-column.flex-lg-row
             %hr.d-flex.d-lg-none.my-1
             - if user_signed_in?
-              = link_to(destroy_user_session_path, class: "btn btn-secondary fw-semibold d-flex justify-content-center", method: :delete) do
+              = link_to(destroy_user_session_path,
+                        class: "btn btn-secondary fw-semibold d-flex justify-content-center",
+                        method: :delete) do
                 Sign out
             - else
-              = link_to(new_user_session_path, class: "btn btn-secondary fw-semibold d-flex justify-content-center", method: :get) do
+              = link_to(new_user_session_path,
+                        class: "btn btn-secondary fw-semibold d-flex justify-content-center",
+                        method: :get) do
                 Log in
               = link_to("#", class: "btn btn-primary fw-semibold d-flex justify-content-center gap-1") do
                 %i.bi.bi-compass &nbsp;
