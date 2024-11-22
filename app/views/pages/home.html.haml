@@ -64,6 +64,7 @@
   %h3.text-center.text-lg-start.fw-bold
     Enjoy using Roamio? Leave a review
   %form.d-flex.flex-column.gap-2{ action: "/", method: "POST" }
+    %input#user-review-name-input.form-control.fw-semibold{ placeholder: "Enter your name...", type: "text" }
     %textarea#user-review-input.form-control.fw-semibold{ placeholder: "Enter your review...", rows: "3" }
     .d-flex.justify-content-end
       %button.btn.btn-secondary.fw-bold{ type: "submit" }
