@@ -14,7 +14,7 @@
     "babel-loader": "8",
     "babel-plugin-macros": "^3.1.0",
     "bootstrap": "5.3.3",
-    "bootstrap-icons": "^1.9.1",
+    "bootstrap-icons": "^1.11.3",
     "compression-webpack-plugin": "9",
     "css-loader": "^6.7.1",
     "eslint": "^8.2.0",
