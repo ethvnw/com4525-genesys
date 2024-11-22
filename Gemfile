@@ -73,6 +73,9 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
+  # Live reload when developing [https://github.com/railsjazz/rails_live_reload]
+  gem "rails_live_reload"
+
   gem "letter_opener"
   gem "annotate"
   gem "brakeman"
