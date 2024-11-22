@@ -1,0 +1,62 @@
+/* Override swiper */
+.swiper-wrapper {
+    padding-bottom: 30px;
+}
+
+/* Feature carousel slide */
+.feature-slide {
+    display: flex;
+    flex-direction: column;
+    width: 227px;
+
+    .card {
+        height: 491px;
+    }
+
+    h3, p {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    h3 {
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        min-height: 60px;
+    }
+
+    p {
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        min-height: 75px;
+    }
+}
+
+/* Review carousel slide */
+.review-slide {
+    display: flex;
+    flex-direction: column;
+    width: 227px;
+
+    .card {
+        height: 280px;
+    }
+
+    p, p.text-secondary {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    p {
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        min-height: 48px;
+    }
+
+    p.text-secondary {
+        -webkit-line-clamp: 5;
+        line-clamp: 5;
+        min-height: 120px;
+    }
+}
