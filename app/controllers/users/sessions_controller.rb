@@ -5,7 +5,7 @@ module Users
   class SessionsController < Devise::SessionsController
     def send_magic_link
       # Find the user by email to see if they already exist
-      user = User.find_by(email: params[:email], user_role: params[:user_role])
+      user = User.find_by(email: params[:email])
 
       if user
         flash[:notice] = "Account #{user.email} is already registered."
