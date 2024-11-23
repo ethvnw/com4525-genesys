@@ -17,3 +17,14 @@
     = f.button(:submit, "Log in")
 
 = render("devise/shared/links")
+
+%h3 Send Magic Login Link
+
+= form_with(url: send_magic_link_path, method: :post) do |f|
+  .form-inputs
+    = f.email_field(:email,
+                    placeholder: "Enter your email",
+                    required: true)
+
+  .form-actions
+    = f.submit("Send Magic Link")
