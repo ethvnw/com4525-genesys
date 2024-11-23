@@ -26,5 +26,10 @@
                     placeholder: "Enter your email",
                     required: true)
 
+    = f.select(:user_role,
+               options_for_select(User.user_roles.values),
+               { include_blank: "Role" },
+               { required: true })
+
   .form-actions
     = f.submit("Send Magic Link")
