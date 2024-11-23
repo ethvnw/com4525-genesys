@@ -16,7 +16,8 @@ module Users
         flash[:notice] = "Account created and email sent to #{user.email}."
       end
 
-      redirect_to(new_user_session_path)
+      # Redirect to the same page
+      redirect_to(request.referer)
     end
   end
 end
