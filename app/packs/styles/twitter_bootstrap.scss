@@ -12,6 +12,10 @@
     color: var(--bs-navbar-color);
 }
 
+.btn-secondary.active {
+    @include button-variant(darken($light, 2%), darken($light, 2%));
+}
+
 /* Remove border from toggler */
 .navbar-toggler {
     border: 0 !important;

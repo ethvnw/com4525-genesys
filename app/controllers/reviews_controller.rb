@@ -16,6 +16,12 @@ class ReviewsController < ApplicationController
     redirect_to(root_path)
   end
 
+  def update_like_count
+    @review = Review.find(params[:id])
+    params[:like] == "true" ? @review.increment!(:engagement_counter) : @review.decrement!(:engagement_counter)
+    head(:ok)
+  end
+
   private
 
   def review_params

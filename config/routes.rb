@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :reviews
+  # POST: Update the like count for a review
+  post "reviews/:id/update_like_count", to: "reviews#update_like_count", as: :update_like_count
+
   # Defines the root path route ("/")
   root "pages#home"
 
