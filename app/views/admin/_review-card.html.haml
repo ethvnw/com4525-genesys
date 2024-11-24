@@ -1,12 +1,12 @@
 .d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-reviews" : "visible-reviews") }
   - reviews.each do |review|
-    .card.position-relative.review{ id: "review_#{review.id}" }
+    .card.position-relative.review{ id: "review_#{review.id}", data: { order: review.order } }
       .d-flex.flex-column.gap-2.position-absolute.top-50.start-0.translate-middle.order-arrows{
         class: ("d-none" if review.is_hidden),
       }
-        %button.btn.btn-secondary.rounded-circle.p-2
+        %button.btn.btn-secondary.rounded-circle.p-2.order-up-arrow
           %i.bi.bi-caret-up-fill
-        %button.btn.btn-secondary.rounded-circle.p-2
+        %button.btn.btn-secondary.rounded-circle.p-2.order-down-arrow
           %i.bi.bi-caret-down-fill
 
       .card-body.px-4

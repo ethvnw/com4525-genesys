@@ -29,6 +29,10 @@ class ReviewsController < ApplicationController
   end
 
   def update_orders
+    json = JSON.parse(params[:reviews])
+    json.each do |id, order|
+      Review.find(id).update(order: order)
+    end
     head(:ok)
   end
 
