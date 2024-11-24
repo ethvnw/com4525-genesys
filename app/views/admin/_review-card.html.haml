@@ -1,0 +1,27 @@
+.d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-reviews" : "visible-reviews") }
+  - reviews.each do |review|
+    .card.position-relative[review]
+      .d-flex.flex-column.gap-2.position-absolute.top-50.start-0.translate-middle.order-arrows{ class: ("d-none" if review.is_hidden) }
+        %button.btn.btn-secondary.rounded-circle.p-2
+          %i.bi.bi-caret-up-fill
+        %button.btn.btn-secondary.rounded-circle.p-2
+          %i.bi.bi-caret-down-fill
+
+      .card-body.px-4
+        .d-flex.justify-content-between.gap-2
+          %p.mb-0.card-text= review.content
+
+          .d-flex.gap-3.align-items-center.align-self-start.flex-shrink-0
+            %p.mb-0
+              = review.engagement_counter
+              %i.bi.bi-hand-thumbs-up
+            %form.update-visibility.mb-0{ "action": update_visibility_path(review), method: "post" }
+              %button.btn.btn-secondary.fw-bold
+                - if review.is_hidden
+                  %i.bi.bi-eye-fill
+                - else
+                  %i.bi.bi-eye-slash-fill
+        
+        .d-flex.mt-4.justify-content-between.align-items-center
+          %p.mb-0.card-text.fw-bold.text-secondary= review.name
+          %p.mb-0.card-text.fw-semibold.text-secondary= review.created_at.to_formatted_s(:long_ordinal)

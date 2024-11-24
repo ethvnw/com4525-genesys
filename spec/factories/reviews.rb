@@ -6,10 +6,10 @@
 #
 #  id                 :bigint           not null, primary key
 #  content            :text
-#  engagement_counter :integer
-#  is_hidden          :boolean
+#  engagement_counter :integer          default(0)
+#  is_hidden          :boolean          default(TRUE)
 #  name               :string
-#  order              :integer
+#  order              :integer          default(0)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #

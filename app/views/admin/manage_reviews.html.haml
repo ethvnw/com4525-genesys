@@ -1,21 +1,26 @@
-- table_column_order = ["order", "name", "content", "is_hidden", "engagement_counter", "created_at", "id"]
-%table.table.table-striped
-  %thead
-    - table_column_order.each do |column_name|
-      %th= column_name.humanize
-  %tbody
-    - @reviews.each do |review|
-      %tr
-        - table_column_order.each do |column_name|
-          - if column_name == "is_hidden"
-            - if review[column_name] == true
-              %td.bi.bi-check-lg
-            - else
-              %td.bi.bi-x-lg
-          - elsif column_name == "created_at"
-            %td= review[column_name].to_formatted_s(:long_ordinal)
-          - else
-            %td= review[column_name]
+.mb-4
+  %h1 Manage Reviews
+  = link_to("dashboard") do
+    Back to admin dashboard
 
-= link_to("dashboard") do
-  Back to admin dashboard
+
+
+.d-flex.gap-2.justify-content-between
+  %h2
+    Visible Reviews (
+    %span#visible-count= @visible_reviews.count
+    )
+
+  = form_tag update_orders_path, method: :post do
+    = button_tag(type: "submit", class: "btn btn-primary fw-bold") do
+      %i.bi.bi-floppy
+      &nbsp;
+      Save Changes
+
+= render("review-card", reviews: @visible_reviews, hidden: false)
+
+%h2
+  Hidden Reviews (
+  %span#hidden-count= @hidden_reviews.count 
+  )
+= render("review-card", reviews: @hidden_reviews, hidden: true)

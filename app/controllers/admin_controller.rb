@@ -10,7 +10,8 @@ class AdminController < ApplicationController
   end
 
   def manage_reviews
-    @reviews = Review.all.order(order: :asc)
+    @visible_reviews = Review.where(is_hidden: false).order(order: :asc)
+    @hidden_reviews = Review.where(is_hidden: true).order(order: :asc)
   end
 
   private
