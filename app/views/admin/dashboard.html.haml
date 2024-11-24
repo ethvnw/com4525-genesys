@@ -3,6 +3,9 @@
 %p User: #{current_user.email}
 %p Role: #{current_user.show_role}
 
+= link_to("manage_reviews") do
+  Manage Reviews
+
 %h3 Send Magic Login Link
 
 = form_with(url: send_magic_link_path, method: :post) do |f|

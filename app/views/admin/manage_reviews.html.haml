@@ -1,0 +1,21 @@
+- table_column_order = ["order", "name", "content", "is_hidden", "engagement_counter", "created_at", "id"]
+%table.table.table-striped
+  %thead
+    - table_column_order.each do |column_name|
+      %th= column_name.humanize
+  %tbody
+    - @reviews.each do |review|
+      %tr
+        - table_column_order.each do |column_name|
+          - if column_name == "is_hidden"
+            - if review[column_name] == true
+              %td.bi.bi-check-lg
+            - else
+              %td.bi.bi-x-lg
+          - elsif column_name == "created_at"
+            %td= review[column_name].to_formatted_s(:long_ordinal)
+          - else
+            %td= review[column_name]
+
+= link_to("dashboard") do
+  Back to admin dashboard

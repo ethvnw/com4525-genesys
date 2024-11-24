@@ -19,8 +19,8 @@ class Review < ApplicationRecord
   before_save :default_values
 
   def default_values
-    self.is_hidden = false
+    self.is_hidden = true
     self.engagement_counter = 0
-    self.order = 0
+    self.order = Review.count + 1
   end
 end
