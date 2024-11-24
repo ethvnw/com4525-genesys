@@ -11,6 +11,9 @@ class ApplicationController < ActionController::Base
   # may be worth enabling caching for performance.
   before_action :update_headers_to_disable_caching
 
+  # Checks whether the user is on the login page
+  helper_method :sign_in_page?
+
   def after_sign_in_path_for(resource)
     set_flash_message!(:alert, :warn_pwned) if resource.respond_to?(:pwned?) && resource.pwned?
     super
@@ -22,5 +25,9 @@ class ApplicationController < ActionController::Base
     response.headers["Cache-Control"] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "-1"
+  end
+
+  def sign_in_page?
+    request.path == user_session_path
   end
 end
