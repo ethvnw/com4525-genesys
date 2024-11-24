@@ -5,13 +5,12 @@
 
 
 
-.d-flex.gap-2.justify-content-between
+.d-flex.gap-2.justify-content-between.align-items-center
   %h2
-    Visible Reviews (
-    %span#visible-count= @visible_reviews.count
-    )
+    Visible Reviews
+    %span#visible-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= @visible_reviews.count
 
-  = form_tag update_orders_path, method: :post do
+  = form_tag(update_orders_path, method: :post) do
     = button_tag(type: "submit", class: "btn btn-primary fw-bold") do
       %i.bi.bi-floppy
       &nbsp;
@@ -20,7 +19,6 @@
 = render("review-card", reviews: @visible_reviews, hidden: false)
 
 %h2
-  Hidden Reviews (
-  %span#hidden-count= @hidden_reviews.count 
-  )
+  Hidden Reviews
+  %span#hidden-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= @hidden_reviews.count
 = render("review-card", reviews: @hidden_reviews, hidden: true)
