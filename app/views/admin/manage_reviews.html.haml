@@ -3,15 +3,13 @@
   = link_to("dashboard") do
     Back to admin dashboard
 
-
-
 .d-flex.gap-2.justify-content-between.align-items-center
   %h2
     Visible Reviews
     %span#visible-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= @visible_reviews.count
 
-  = form_tag(update_orders_path, method: :post) do
-    = button_tag(type: "submit", class: "btn btn-primary fw-bold") do
+  = form_tag(update_orders_path, method: :post, id: "save-form", class: "mb-0") do
+    = button_tag(type: "submit", class: "btn btn-primary fw-bold d-none save-button") do
       %i.bi.bi-floppy
       &nbsp;
       Save Changes
