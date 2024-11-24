@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   # GET: Admin dashboard route
   get "admin/dashboard", to: "admin#dashboard", as: :admin_dashboard
+  get "admin/manage_reviews", to: "admin#manage_reviews", as: :admin_manage_reviews
 
   # GET: Reporter dashboard route
   get "reporter/dashboard", to: "reporter#dashboard", as: :reporter_dashboard

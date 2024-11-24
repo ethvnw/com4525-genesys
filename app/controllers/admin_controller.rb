@@ -9,6 +9,10 @@ class AdminController < ApplicationController
   def dashboard
   end
 
+  def manage_reviews
+    @reviews = Review.all.order(order: :asc)
+  end
+
   private
 
   def authorize_admin
