@@ -22,6 +22,16 @@ class ReviewsController < ApplicationController
     head(:ok)
   end
 
+  def update_visibility
+    @review = Review.find(params[:id])
+    @review.toggle!(:is_hidden)
+    head(:ok)
+  end
+
+  def update_orders
+    head(:ok)
+  end
+
   private
 
   def review_params

@@ -8,11 +8,19 @@ Rails.application.routes.draw do
   # POST: Update the like count for a review
   post "reviews/:id/update_like_count", to: "reviews#update_like_count", as: :update_like_count
 
+  # POST: Update the visibility of a review
+  post "reviews/:id/update_visibility", to: "reviews#update_visibility", as: :update_visibility
+
+  # POST: Update review order
+  post "reviews/update_orders", to: "reviews#update_orders", as: :update_orders
+
   # Defines the root path route ("/")
   root "pages#home"
 
   # GET: Admin dashboard route
   get "admin/dashboard", to: "admin#dashboard", as: :admin_dashboard
+
+  # GET: Admin review management route
   get "admin/manage_reviews", to: "admin#manage_reviews", as: :admin_manage_reviews
 
   # GET: Reporter dashboard route
