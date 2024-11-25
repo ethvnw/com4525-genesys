@@ -1,35 +1,37 @@
 %h1
   Admin Dashboard
-
 %hr
 
 = link_to("manage_reviews") do
   Manage Reviews
 
 %p
-  %span{class: "fw-bold"} User:
-  #{current_user.email}
+  %span.fw-bold User:
+  = current_user.email
+
 %p
-  %span{class: "fw-bold"} Role:
-  #{current_user.show_role}
+  %span.fw-bold Role:
+  = current_user.show_role
 
 %hr
 
 %h3 Create a Staff Account
 
-= form_with(url: send_magic_link_path, method: :post) do |f|
-  .form-inputs
+= form_with(url: send_magic_link_path, method: :post, class: "d-flex align-items-center gap-3") do |f|
+  .form-group.mb-0
     = f.email_field(:email,
                     placeholder: "Enter your email",
-                    required: true)
+                    required: true,
+                    class: "form-control")
 
+  .form-group.mb-0
     = f.select(:user_role,
-               options_for_select(User.user_roles.values),
+               options_for_select(User.user_roles.keys.map { |r| [r.humanize, r] }),
                { include_blank: "Role" },
-               { required: true })
+               { class: "form-select form-control w-auto", required: true })
 
   .form-actions
-    = f.submit("Send Magic Link")
+    = f.submit("Send Magic Link", class: "btn btn-primary")
 
 %hr
 
@@ -38,15 +40,15 @@
 %table.table
   %thead
     %tr
-      %th{scope: "col"}
-      %th{scope: "col"} Email Address
-      %th{scope: "col"} User Role
-      %th{scope: "col"} Account Activated
-      %th{scope: "col"}
+      %th{ scope: "col" }
+      %th{ scope: "col" } Email Address
+      %th{ scope: "col" } User Role
+      %th{ scope: "col" } Account Activated
+      %th{ scope: "col" }
   %tbody
     - @users.each do |user|
       %tr
-        %th{scope: "row"}
+        %th{ scope: "row" }
         %td= user.email
         %td= user.show_role
         %td
@@ -55,4 +57,4 @@
           - else
             &#10008;
         %td
-          = link_to "View Account", edit_staff_path(user)
+          = link_to("View Account", edit_staff_path(user))
