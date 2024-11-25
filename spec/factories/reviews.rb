@@ -8,7 +8,7 @@
 #  content            :text
 #  engagement_counter :integer          default(0)
 #  is_hidden          :boolean          default(TRUE)
-#  name               :string
+#  name               :string(50)
 #  order              :integer          default(0)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null

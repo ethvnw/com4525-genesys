@@ -8,12 +8,12 @@
 #  content            :text
 #  engagement_counter :integer          default(0)
 #  is_hidden          :boolean          default(TRUE)
-#  name               :string
+#  name               :string(50)
 #  order              :integer          default(0)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #
 class Review < ApplicationRecord
-  validates :content, presence: true
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 50 }
+  validates :content, presence: true, length: { maximum: 400 }
 end
