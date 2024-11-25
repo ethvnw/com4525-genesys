@@ -17,10 +17,10 @@
 
 %h3 Create a Staff Account
 
-= form_with(url: send_magic_link_path, method: :post, class: "d-flex align-items-center gap-3") do |f|
+= form_with(url: send_magic_link_path, method: :post, class: "d-flex gap-3") do |f|
   .form-group.mb-0
     = f.email_field(:email,
-                    placeholder: "Enter your email",
+                    placeholder: "Email address",
                     required: true,
                     class: "form-control")
 
