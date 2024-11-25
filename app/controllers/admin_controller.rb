@@ -41,6 +41,12 @@ class AdminController < ApplicationController
     @hidden_reviews = Review.where(is_hidden: true).order(order: :asc)
   end
 
+  def manage_reviews
+    @script_packs = ["admin_manage_reviews"]
+    @visible_reviews = Review.where(is_hidden: false).order(order: :asc)
+    @hidden_reviews = Review.where(is_hidden: true).order(order: :asc)
+  end
+
   private
 
   def authorize_admin
