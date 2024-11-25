@@ -1,1 +1,2 @@
-import '../../scripts/admin_manage_reviews';
+import '../../scripts/admin_reviews_order';
+import '../../scripts/admin_reviews_visibility';
