@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   # POST: Update review order
   post "api/reviews/orders", to: "reviews#update_orders", as: :update_orders
 
+  resources :questions
+
   # Defines the root path route ("/")
   root "pages#home"
 

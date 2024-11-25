@@ -29,6 +29,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_24_225133) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.string "question"
+    t.text "answer"
+    t.boolean "is_hidden"
+    t.integer "engagement_counter"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.text "content"
     t.integer "order", default: 0
