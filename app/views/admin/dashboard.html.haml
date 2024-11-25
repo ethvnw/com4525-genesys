@@ -1,9 +1,12 @@
-%h1
+%h1.d-flex.justify-content-center
   Admin Dashboard
-%hr
 
-= link_to("manage_reviews") do
-  Manage Reviews
+.d-flex.justify-content-end
+  = link_to("manage_reviews") do
+    Manage Reviews
+
+%hr
+%h4 My Account
 
 %p
   %span.fw-bold User:
@@ -14,8 +17,7 @@
   = current_user.show_role
 
 %hr
-
-%h3 Create a Staff Account
+%h4 Create a Staff Account
 
 = form_with(url: send_magic_link_path, method: :post, class: "d-flex gap-3") do |f|
   .form-group.mb-0
@@ -34,8 +36,7 @@
     = f.submit("Send Magic Link", class: "btn btn-primary")
 
 %hr
-
-%h3 Staff Accounts
+%h4 Staff Accounts
 
 %table.table
   %thead
