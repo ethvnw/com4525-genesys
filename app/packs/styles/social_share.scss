@@ -27,7 +27,12 @@
     bottom: -25px;
 }
 
-.social-share-btn#social-share-link {
+.social-share-btn#social-share-clipboard small {
+    position: absolute;
+    bottom: -46px;
+}
+
+.social-share-btn#social-share-clipboard {
     @extend .btn-secondary;
 }
 
