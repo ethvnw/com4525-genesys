@@ -15,7 +15,7 @@ const updateVisibleReviewOrders = (hiddenReviewOrder) => {
       review.setAttribute('data-order', review.getAttribute('data-order') - 1);
     }
   });
-  document.getElementById('save-form').dispatchEvent(new Event('submit'));
+  document.getElementById('save-form').dispatchEvent(new Event('submit'), { cancelable: true });
 };
 
 visibilityUpdateForms.forEach((form) => {
