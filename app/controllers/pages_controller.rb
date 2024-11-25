@@ -18,5 +18,6 @@ class PagesController < ApplicationController
     else
       Question.new
     end
+    @questions = Question.where.not(is_hidden: true)
   end
 end
