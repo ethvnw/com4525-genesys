@@ -4,5 +4,6 @@ import '../../styles/twitter_bootstrap.scss';
 import '../../styles/layout.scss';
 import 'swiper/swiper-bundle.css';
 import '../../styles/home_carousels.scss';
+import '../../styles/social_share.scss';
 
 require.context('../../images', true);

@@ -1,0 +1,27 @@
+#social-share-offcanvas.offcanvas.offcanvas-bottom{ "aria-labelledby": "Social Share Menu", tabindex: "-1" }
+  .offcanvas-header.border-bottom
+    .container.d-flex.flex-row.justify-content-center.align-items-center
+      .social-share-web-icon
+        = image_pack_tag("images/roamio_brand_icon_white.png", height: 32)
+      .d-flex.flex-column.ms-3
+        %h5#social-share-title.fw-bold.m-0
+        %p#social-share-url.text-secondary.fw-semibold.m-0
+      %button.btn-close.text-reset{ "aria-label": "Close", "data-bs-dismiss": "offcanvas", type: "button" }
+  .offcanvas-body
+    .container
+      .d-flex.gap-3
+        %a#social-share-link.btn.social-share-btn
+          %i.bi.bi-link-45deg.display-2
+          %small.text-secondary.fw-semibold Copy Link
+        %a#social-share-email.btn.social-share-btn
+          %i.bi.bi-envelope.display-2
+          %small.text-secondary.fw-semibold Email
+        %a#social-share-facebook.btn.social-share-btn
+          %i.bi.bi-facebook.display-2
+          %small.text-secondary.fw-semibold Facebook
+        %a#social-share-twitter.btn.social-share-btn
+          %i.bi.bi-twitter-x.display-2
+          %small.text-secondary.fw-semibold Twitter
+        %a#social-share-whatsapp.btn.social-share-btn
+          %i.bi.bi-whatsapp.display-2
+          %small.text-secondary.fw-semibold WhatsApp
