@@ -48,6 +48,8 @@
       %th{ scope: "col" }
   %tbody
     - @users.each do |user|
+      - next if current_user.email == user.email
+
       %tr
         %th{ scope: "row" }
         %td= user.email
