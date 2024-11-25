@@ -28,11 +28,11 @@ Rails.application.routes.draw do
 
   # POST: Sending a magic link route
   devise_scope :user do
-    post "users/magic_link", to: "sessions#send_magic_link", as: :send_magic_link
+    post "users/magic_link", to: "magic#send_magic_link", as: :send_magic_link
   end
 
   # GET / PATCH / DELETE: Admin routes for handling staff accounts
   get "admin/staff/:id/edit", to: "admin#edit_staff", as: :edit_staff
   patch "admin/staff/:id", to: "admin#update_staff", as: :update_staff
-  delete "admin/staff/:id", to: "admin#delete_staff", as: :destroy_staff
+  delete "admin/staff/:id", to: "admin#destroy_staff", as: :destroy_staff
 end
