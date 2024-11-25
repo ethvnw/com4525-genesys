@@ -6,13 +6,13 @@ Rails.application.routes.draw do
 
   resources :reviews
   # POST: Update the like count for a review
-  post "reviews/:id/update_like_count", to: "reviews#update_like_count", as: :update_like_count
+  post "api/reviews/:id/likes", to: "reviews#update_like_count", as: :update_like_count
 
   # POST: Update the visibility of a review
-  post "reviews/:id/update_visibility", to: "reviews#update_visibility", as: :update_visibility
+  post "api/reviews/:id/visibility", to: "reviews#update_visibility", as: :update_visibility
 
   # POST: Update review order
-  post "reviews/update_orders", to: "reviews#update_orders", as: :update_orders
+  post "api/reviews/orders", to: "reviews#update_orders", as: :update_orders
 
   # Defines the root path route ("/")
   root "pages#home"
