@@ -1,9 +1,10 @@
 .review-slide
   .card
     .card-body
-      %p.card-text.fw-semibold.text-secondary= review
-      %p.card-text.fw-bold= author
+      %p.card-text.fw-semibold.text-secondary= review_obj.content
+      %p.card-text.fw-bold= review_obj.name
     .card-body.pt-0
-      %button.btn.btn-secondary.fw-bold
-        = like_count
-        %i.bi.bi-hand-thumbs-up
+      %form{ "action": update_like_count_path(review_obj), method: "post" }
+        %button.btn.btn-secondary.fw-bold.review{ id: "review_#{review_obj.id}", "data-bs-toggle": "button" }
+          %span.like-count= review_obj.engagement_counter
+          %i.bi.bi-hand-thumbs-up
