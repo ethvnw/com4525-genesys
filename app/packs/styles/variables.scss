@@ -4,6 +4,9 @@
 /* Overwrite primary color */
 $primary: $body-color;
 
+/* Overwrite offcanvas height */
+$offcanvas-vertical-height: 300px;
+
 $theme-colors: map-merge($theme-colors, (
   "primary": $primary
 ));

@@ -1,0 +1,56 @@
+@import "twitter_bootstrap";
+
+.social-share-web-icon {
+    min-width: 64px; 
+    min-height: 64px; 
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @extend .bg-primary
+}
+
+.social-share-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 98px;
+    height: 98px;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+}
+
+.social-share-btn small {
+    position: absolute;
+    bottom: -25px;
+}
+
+.social-share-btn#social-share-clipboard small {
+    position: absolute;
+    bottom: -46px;
+}
+
+.social-share-btn#social-share-clipboard {
+    @extend .btn-secondary;
+}
+
+.social-share-btn#social-share-email {
+    @extend .btn-secondary;
+}
+
+.social-share-btn#social-share-facebook {
+    @include button-variant(#3B5998, #3B5998);
+    color: $light;
+}
+
+.social-share-btn#social-share-twitter {
+    @include button-variant(#000000, #000000);
+    color: $light;
+}
+
+.social-share-btn#social-share-whatsapp {
+    @include button-variant(#25D366, #25D366);
+    color: $light;   
+}
