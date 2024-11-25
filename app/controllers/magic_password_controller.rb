@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Handles the usage of magic password links
-class MagicController < Devise::SessionsController
+class MagicPasswordController < Devise::SessionsController
   def send_magic_link
     email = params[:email]
     role = params[:user_role]
