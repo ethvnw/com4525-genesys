@@ -22,6 +22,27 @@ class QuestionsController < ApplicationController
     redirect_to(root_path)
   end
 
+  def update_like_count
+    @question = Question.find(params[:id])
+    params[:like] == "true" ? @question.increment!(:engagement_counter) : @question.decrement!(:engagement_counter)
+    head(:ok)
+  end
+
+  def update_visibility
+    @question = Question.find(params[:id])
+    @question.toggle!(:is_hidden)
+    @question.update(order: params[:order])
+    head(:ok)
+  end
+
+  def update_orders
+    json = JSON.parse(params[:questions])
+    json.each do |id, order|
+      Question.find(id).update(order: order)
+    end
+    head(:ok)
+  end
+
   private
 
   def question_params

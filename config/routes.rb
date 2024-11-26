@@ -16,6 +16,15 @@ Rails.application.routes.draw do
 
   resources :questions
 
+  # POST: Update the like count for a question
+  post "api/questions/:id/likes", to: "questions#update_like_count", as: :update_question_like_count
+
+  # POST: Update the visibility of a question
+  post "api/questions/:id/visibility", to: "questions#update_visibility", as: :update_question_visibility
+
+  # POST: Update question order
+  post "api/questions/orders", to: "questions#update_orders", as: :update_question_orders
+
   # Defines the root path route ("/")
   root "pages#home"
 

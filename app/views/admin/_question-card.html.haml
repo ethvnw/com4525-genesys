@@ -1,6 +1,6 @@
-.d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-reviews" : "visible-reviews") }
+.d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-questions" : "visible-questions") }
   - questions.each do |question|
-    .card.position-relative.text-break.question{ id: "review_#{question.id}", data: { order: question.order } }
+    .card.position-relative.text-break.question{ id: "question_#{question.id}", data: { order: question.order } }
       .d-flex.flex-column.gap-2.position-absolute.top-50.start-0.translate-middle.order-arrows{
         class: ("d-none" if question.is_hidden),
       }
@@ -17,7 +17,7 @@
             %p.mb-0
               = question.engagement_counter
               %i.bi.bi-hand-thumbs-up
-            %form.update-visibility.mb-0{ "action": update_visibility_path(question), method: "post" }
+            %form.update-visibility.mb-0{ "action": update_question_visibility_path(question), method: "post" }
               %button.btn.btn-secondary.fw-bold
                 - if question.is_hidden
                   %i.bi.bi-eye-fill
