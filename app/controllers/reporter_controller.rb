@@ -7,6 +7,7 @@ class ReporterController < ApplicationController
 
   # GET: Reporter dashboard route ("/reporter/dashboard")
   def dashboard
+    @script_packs = ["dashboard"]
   end
 
   private
