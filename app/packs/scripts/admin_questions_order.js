@@ -2,6 +2,7 @@
  * Handles the reordering of questions in the admin panel.
  */
 
+// TODO: Figure out why it sometimes takes two clicks to reorder questions
 const questions = document.querySelectorAll('.question');
 const saveButton = document.querySelector('.save-button');
 let unsaved = false;

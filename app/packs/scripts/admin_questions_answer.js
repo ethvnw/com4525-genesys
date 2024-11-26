@@ -2,17 +2,16 @@
  * Handles the submission of answers for questions in the admin panel.
  */
 
-// using the bootstrap modal for submitting an answer
+// Using the bootstrap modal for submitting an answer
 import { Modal } from 'bootstrap';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const answerForms = document.querySelectorAll('form.answer-form');
+const answerForms = document.querySelectorAll('form.answer-form');
 
-  answerForms.forEach((form) => {
+answerForms.forEach((form) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
 
-      // get the question ID from the form's data attribute
+      // Get the question ID from the form's data attribute
       const questionId = form.getAttribute('data-question-id');
       if (!questionId) {
         // eslint-disable-next-line no-console
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Close the modal by getting the Bootstrap modal instance
           const modal = document.getElementById(`answerModal_${questionId}`);
-          // if the modal cant be found, create a new instance of the modal and close it
+          // If the modal cant be found, create a new instance of the modal and close it
           const modalInstance = Modal.getInstance(modal) || new Modal(modal);
           modalInstance.hide();
         })
@@ -54,5 +53,4 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('An error occurred while submitting the answer.');
         });
     });
-  });
 });

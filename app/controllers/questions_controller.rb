@@ -9,12 +9,11 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
 
-    # if u want to quickly test adding a question, set is_hidden to false so it automatically shows up on the Q&A
+    # If you want to quickly test adding a question, set is_hidden to false so it automatically shows up on the FAQ
     @question.is_hidden = true
     @question.engagement_counter = 0
 
-    if @question.save
-    else
+    unless @question.save
       flash[:errors] = @question.errors.full_messages
       flash[:question_data] = @question.attributes.slice("question", "answer")
     end
@@ -44,15 +43,15 @@ class QuestionsController < ApplicationController
 
   def answer
     @question = Question.find(params[:id])
-    # update the answer for the question and respond depending on if an error occurred
+    # Update the answer for the question and respond depending on if an error occurred
     if @question.update(answer: params[:answer])
-      # if the update is successful, respond with the answer
+      # If the update is successful, respond with the answer
       respond_to do |format|
         format.json { render(json: { answer: @question.answer }, status: :ok) }
         format.html { redirect_to(admin_manage_questions_path, notice: "Answer saved successfully.") }
       end
     else
-      # if the update fails, respond with the full error messages
+      # If the update fails, respond with the full error messages
       respond_to do |format|
         format.json { render(json: { error: @question.errors.full_messages }, status: :unprocessable_entity) }
         format.html { redirect_to(admin_manage_questions_path, alert: "Failed to save answer.") }
