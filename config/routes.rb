@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   # GET: Admin review management route
   get "admin/manage_reviews", to: "admin#manage_reviews", as: :admin_manage_reviews
 
+  # GET: Admin question management route
+  get "admin/manage_questions", to: "admin#manage_questions", as: :admin_manage_questions
+
   # GET: Reporter dashboard route
   get "reporter/dashboard", to: "reporter#dashboard", as: :reporter_dashboard
 
