@@ -23,3 +23,17 @@ User.create!(
   password_confirmation: "ReporterGenesys#1",
   user_role: :reporter,
 ) unless User.exists?(email: "reporter@genesys.com")
+
+Question.create!(
+  question: "How do I upload tickets and bookings to the app?",
+  answer: "You can upload tickets and booking through either barcode scanning or manual entry.",
+  is_hidden: false,
+  engagement_counter: 0,
+) unless Question.exists?(question: "How do I upload tickets and bookings to the app?")
+
+Question.create!(
+  question: "Can I organise group trips with friends or family?",
+  answer: "Yes! Roamio supports both solo and group trips.",
+  is_hidden: false,
+  engagement_counter: 0,
+) unless Question.exists?(question: "Can I organise group trips with friends or family?")

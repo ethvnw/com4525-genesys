@@ -13,4 +13,13 @@ class PagesController < ApplicationController
     @errors = flash[:errors]
     @reviews = Review.where.not(is_hidden: true).order(order: :asc)
   end
+
+  def faq
+    @question = if flash[:question_data]
+      Question.new(flash[:question_data])
+    else
+      Question.new
+    end
+    @questions = Question.where.not(is_hidden: true).order(order: :asc)
+  end
 end

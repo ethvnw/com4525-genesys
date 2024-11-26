@@ -1,0 +1,17 @@
+- unless errors.nil?
+  .alert.alert-danger
+    %ul.mb-0
+      - errors.each do |error|
+        %li= error
+
+= simple_form_for(question, html: { class: "d-flex flex-column gap-2" }) do |f|
+  = f.input(:question,
+            input_html: { class: "fw-semibold" },
+            label: false,
+            placeholder: "Any questions? Feel free to ask here...")
+
+  .d-flex.justify-content-end
+    = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
+      %i.bi.bi-send-fill
+      &nbsp;
+      Submit Question
