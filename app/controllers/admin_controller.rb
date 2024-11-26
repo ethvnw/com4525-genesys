@@ -8,6 +8,32 @@ class AdminController < ApplicationController
   # GET: Admin dashboard route ("/admin/dashboard")
   def dashboard
     @script_packs = ["dashboard"]
+    @users = User.all
+  end
+
+  # GET: Edit staff account route ("/admin/staff/:id/edit")
+  def edit_staff
+    @user = User.find(params[:id])
+  end
+
+  # PATCH: Update staff account route ("/admin/staff/:id")
+  def update_staff
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to(admin_dashboard_path, notice: "#{@user.email} updated successfully.")
+    else
+      redirect_to(admin_dashboard_path, notice: "Error updating #{@user.email}.")
+    end
+  end
+
+  # DELETE: Delete staff account route ("/admin/staff/:id")
+  def destroy_staff
+    @user = User.find(params[:id])
+    if @user.destroy
+      redirect_to(admin_dashboard_path, notice: "Access removed for #{@user.email}")
+    else
+      redirect_to(admin_dashboard_path, notice: "Failed to remove access for #{@user.email}.")
+    end
   end
 
   def manage_reviews
@@ -23,5 +49,9 @@ class AdminController < ApplicationController
       flash[:alert] = "Unauthorised Access."
       redirect_to(root_path)
     end
+  end
+
+  def user_params
+    params.require(:user).permit(:user_role)
   end
 end
