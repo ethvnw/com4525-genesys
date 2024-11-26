@@ -7,7 +7,6 @@ class AdminController < ApplicationController
 
   # GET: Admin dashboard route ("/admin/dashboard")
   def dashboard
-    @script_packs = ["dashboard"]
     @users = User.all
   end
 

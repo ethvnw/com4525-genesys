@@ -3,8 +3,7 @@
 # A basic controller from the template app
 class PagesController < ApplicationController
   def home
-    @script_packs = ["application"]
-    @style_packs = ["application"]
+    @script_packs = ["home"]
 
     @review = if flash[:review_data]
       Review.new(flash[:review_data])
