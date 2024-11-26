@@ -5,6 +5,10 @@
   = link_to("manage_reviews") do
     Manage Reviews
 
+.d-flex.justify-content-end
+  = link_to("manage_questions") do
+    Manage Questions
+
 %hr
 %h4 My Account
 
@@ -15,12 +19,6 @@
 %p
   %span.fw-bold Role:
   = current_user.show_role
-
-= link_to("manage_reviews") do
-  Manage Reviews
-
-= link_to("manage_questions") do
-  Manage Questions
 
 %h3 Send Magic Login Link
 %hr
