@@ -27,6 +27,7 @@ stages:
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_PIPELINE == 'push'
 
 bundler:
   stage: setup
