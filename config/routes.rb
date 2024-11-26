@@ -32,8 +32,8 @@ Rails.application.routes.draw do
   end
 
   # GET: User avatar route
-  get 'users/avatar', to: 'users/avatar#show', as: :user_avatar
-  
+  get "users/avatar", to: "avatar#show", as: :user_avatar
+
   # GET / PATCH / DELETE: Admin routes for handling staff accounts
   get "staff/:id/edit", to: "admin#edit_staff", as: :edit_staff
   patch "api/staff/:id", to: "admin#update_staff", as: :update_staff
