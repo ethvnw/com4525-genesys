@@ -21,13 +21,15 @@ class MagicPasswordController < Devise::SessionsController
 
   private
 
+  # Create a staff account with an email and role
   def create_staff_account(email, role)
-    # Create a random password (#X) is to ensure it contains a capital and symbol to pass validations
+    # Create a complex password ("#X" is to ensure it contains a capital and symbol to pass validations)
     # Param 48 encodes 64 characters + 2 -> 66 passing validation
     secure_random = SecureRandom.urlsafe_base64(48) + "#X"
     User.create(email: email, password: secure_random, user_role: role)
   end
 
+  # Sends a magic link to a user via the custom mailer
   def send_magic_link_email(user)
     # Create a token (like reset password) so the user can change their password
     raw, hashed = Devise.token_generator.generate(User, :reset_password_token)
