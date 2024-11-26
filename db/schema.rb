@@ -36,6 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_24_225133) do
     t.integer "engagement_counter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "order", default: 0
   end
 
   create_table "reviews", force: :cascade do |t|

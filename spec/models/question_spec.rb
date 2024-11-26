@@ -8,6 +8,7 @@
 #  answer             :text
 #  engagement_counter :integer
 #  is_hidden          :boolean
+#  order              :integer          default(0)
 #  question           :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
