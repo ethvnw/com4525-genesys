@@ -50,6 +50,13 @@
               "data-question-id": question.id,
             }
               %mb-3
-                %label.form-label{ for: "answer_#{question.id}" } Provide Your Answer
-                %textarea.form-control{ id: "answer_#{question.id}", name: "answer", rows: 3 }
-              %button.btn.btn-primary{ type: "submit" } Submit Answer
+                %label.form-label{ for: "answer_#{question.id}" }
+                  = question.question
+                %textarea.form-control{ 
+                  id: "answer_#{question.id}", 
+                  placeholder: "Answer the question here",
+                  name: "answer", 
+                  rows: 3 
+                }
+                  = question.answer
+              %button.btn.btn-primary.mt-2{ type: "submit" } Submit Answer

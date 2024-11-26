@@ -2,10 +2,6 @@
 
 # Handles the creation of questions
 class QuestionsController < ApplicationController
-  def new
-    redirect_to(root_path)
-  end
-
   def create
     @question = Question.new(question_params)
 
@@ -17,7 +13,7 @@ class QuestionsController < ApplicationController
       flash[:errors] = @question.errors.full_messages
       flash[:question_data] = @question.attributes.slice("question", "answer")
     end
-    redirect_to(root_path)
+    redirect_to(faq_path)
   end
 
   def update_like_count
