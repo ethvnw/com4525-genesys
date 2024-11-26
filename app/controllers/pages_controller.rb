@@ -3,8 +3,7 @@
 # A basic controller from the template app
 class PagesController < ApplicationController
   def home
-    @script_packs = ["application"]
-    @style_packs = ["application"]
+    @script_packs = ["home"]
 
     @review = if flash[:review_data]
       Review.new(flash[:review_data])
@@ -16,8 +15,15 @@ class PagesController < ApplicationController
   end
 
   def pricing
-    @script_packs = ["application"]
-    @style_packs = ["application"]
     @errors = flash[:errors]
+  end
+
+  def faq
+    @question = if flash[:question_data]
+      Question.new(flash[:question_data])
+    else
+      Question.new
+    end
+    @questions = Question.where.not(is_hidden: true).order(order: :asc)
   end
 end
