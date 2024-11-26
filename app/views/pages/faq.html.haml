@@ -1,0 +1,27 @@
+-# Questions dropdown section
+%section.row.align-items-center.py-5
+  %h2.text-center.text-lg-start.fw-bold
+    Frequently Asked Questions
+  - @questions.each_with_index do |question, index|
+    .accordion.mb-2{ id: "accordion-#{index}" }
+      .accordion-item
+        .accordion-header{ id: "heading-#{index}" }
+          %button.accordion-button.collapsed{
+            type: "button",
+            "data-bs-toggle": "collapse",
+            "data-bs-target": "#collapse-#{index}",
+            "aria-expanded": "false",
+            "aria-controls": "collapse-#{index}",
+          }
+            = question.question
+        .accordion-collapse.collapse{
+          id: "collapse-#{index}",
+          "aria-labelledby": "heading-#{index}",
+          "data-bs-parent": "#accordion-#{index}",
+        }
+          .accordion-body
+            %p
+              %strong Answer:
+              = question.answer || "No answer yet"
+
+  = render("questions/form", question: @question, errors: @errors)
