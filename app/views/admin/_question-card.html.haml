@@ -24,6 +24,32 @@
                 - else
                   %i.bi.bi-eye-slash-fill
 
+            %button.btn.btn-success{ "data-bs-toggle": "modal", "data-bs-target": "#answerModal_#{question.id}" }
+              Answer
+
         .d-flex.mt-4.justify-content-between.align-items-center
           %p.mb-0.card-text.fw-bold.text-secondary= question.answer || "No answer yet"
           %p.mb-0.card-text.fw-semibold.text-secondary= question.created_at.to_formatted_s(:long_ordinal)
+
+    / Modal for Answer
+    .modal.fade{
+      id: "answerModal_#{question.id}",
+      tabindex: "-1",
+      "aria-labelledby": "answerModalLabel_#{question.id}",
+      "aria-hidden": "true",
+    }
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %h5.modal-title{ id: "answerModalLabel_#{question.id}" } Answer Question
+            %button.btn-close{ type: "button", "data-bs-dismiss": "modal", "aria-label": "Close" }
+          .modal-body
+            %form.answer-form.mb-0{
+              "action": answer_question_path(question),
+              method: "post",
+              "data-question-id": question.id,
+            }
+              %mb-3
+                %label.form-label{ for: "answer_#{question.id}" } Provide Your Answer
+                %textarea.form-control{ id: "answer_#{question.id}", name: "answer", rows: 3 }
+              %button.btn.btn-primary{ type: "submit" } Submit Answer

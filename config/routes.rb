@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   # POST: Update question order
   post "api/questions/orders", to: "questions#update_orders", as: :update_question_orders
 
+  # POST: Answer a question
+  post "questions/:id/answer", to: "questions#answer", as: :answer_question
+
   # Defines the root path route ("/")
   root "pages#home"
 
