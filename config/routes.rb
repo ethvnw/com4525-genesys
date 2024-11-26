@@ -31,6 +31,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
+  # GET: FAQ route
+  get "faq", to: "pages#faq", as: :faq
+
   # GET: Admin dashboard route
   get "admin/dashboard", to: "admin#dashboard", as: :admin_dashboard
 

@@ -24,6 +24,49 @@
   %body
     -# Don't show navigation bar on sign in page
     - unless sign_in_page?
+      %header.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
+        .container
+          = link_to("/", class: "navbar-brand") do
+            = image_pack_tag("images/roamio_brand_logo_d_grey.png", height: 40)
+          %button.navbar-toggler.collapsed{
+            type: :button,
+            data: {
+              bs_toggle: :collapse,
+              bs_target: "#navbar-content",
+            },
+            aria: {
+              controls: "navbar-content",
+              expanded: "false",
+              label: "Toggle navigation",
+            },
+          }
+            %span.toggler-icon.top-bar
+            %span.toggler-icon.middle-bar
+            %span.toggler-icon.bottom-bar
+          #navbar-content.navbar-collapse.collapse
+            %nav.navbar-nav.fw-semibold.text-center
+              = link_to(faq_path, class: "nav-link") do
+                FAQ
+              = link_to("#", class: "nav-link") do
+                Reviews
+              = link_to("#", class: "nav-link") do
+                Pricing
+            .d-flex.ms-auto.gap-2.flex-column.flex-lg-row
+              %hr.d-flex.d-lg-none.my-1
+              - if user_signed_in?
+                = link_to(destroy_user_session_path,
+                          class: "btn btn-secondary fw-semibold d-flex justify-content-center",
+                          method: :delete) do
+                  Sign out
+              - else
+                = link_to(new_user_session_path,
+                          class: "btn btn-secondary fw-semibold d-flex justify-content-center",
+                          method: :get) do
+                  Log in
+                = link_to("#", class: "btn btn-primary fw-semibold d-flex justify-content-center gap-1") do
+                  %i.bi.bi-compass &nbsp;
+                  Join the travel revolution
+
       = render("partials/navbar")
 
     - if flash.present?
