@@ -31,6 +31,9 @@ Rails.application.routes.draw do
     post "api/users/magic_link", to: "magic_password#send_magic_link", as: :send_magic_link
   end
 
+  # GET: User avatar route
+  get "api/users/avatar", to: "avatar#show", as: :user_avatar
+
   # GET / PATCH / DELETE: Admin routes for handling staff accounts
   get "staff/:id/edit", to: "admin#edit_staff", as: :edit_staff
   patch "api/staff/:id", to: "admin#update_staff", as: :update_staff
