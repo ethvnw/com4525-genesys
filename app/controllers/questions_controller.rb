@@ -13,7 +13,6 @@ class QuestionsController < ApplicationController
     # for testing, you can change is_hidden to false so the questions immediately appear on the landing page
     @question.is_hidden = true
     @question.engagement_counter = 0
-    @question.answer = "" # questions only have an answer after they are reviewed by an admin/reporter
 
     if @question.save
     else

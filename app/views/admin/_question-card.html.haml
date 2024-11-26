@@ -1,0 +1,29 @@
+.d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-reviews" : "visible-reviews") }
+  - questions.each do |question|
+    .card.position-relative.text-break.question{ id: "review_#{question.id}", data: { order: question.order } }
+      .d-flex.flex-column.gap-2.position-absolute.top-50.start-0.translate-middle.order-arrows{
+        class: ("d-none" if question.is_hidden),
+      }
+        %button.btn.btn-secondary.rounded-circle.p-2.order-up-arrow
+          %i.bi.bi-caret-up-fill
+        %button.btn.btn-secondary.rounded-circle.p-2.order-down-arrow
+          %i.bi.bi-caret-down-fill
+
+      .card-body.px-4
+        .d-flex.justify-content-between.gap-2
+          %p.mb-0.card-text= question.question
+
+          .d-flex.gap-3.align-items-center.align-self-start.flex-shrink-0
+            %p.mb-0
+              = question.engagement_counter
+              %i.bi.bi-hand-thumbs-up
+            %form.update-visibility.mb-0{ "action": update_visibility_path(question), method: "post" }
+              %button.btn.btn-secondary.fw-bold
+                - if question.is_hidden
+                  %i.bi.bi-eye-fill
+                - else
+                  %i.bi.bi-eye-slash-fill
+
+        .d-flex.mt-4.justify-content-between.align-items-center
+          %p.mb-0.card-text.fw-bold.text-secondary= question.answer || "No answer yet"
+          %p.mb-0.card-text.fw-semibold.text-secondary= question.created_at.to_formatted_s(:long_ordinal)

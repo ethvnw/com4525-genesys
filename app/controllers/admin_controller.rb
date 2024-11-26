@@ -45,6 +45,14 @@ class AdminController < ApplicationController
     @script_packs = ["admin_manage_reviews"]
     @visible_reviews = Review.where(is_hidden: false).order(order: :asc)
     @hidden_reviews = Review.where(is_hidden: true).order(order: :asc)
+    puts "Visible Reviews"
+    puts @visible_reviews
+  end
+
+  def manage_questions
+    @script_packs = ["admin_manage_questions"]
+    @visible_questions = Question.where(is_hidden: false).order(order: :asc)
+    @hidden_questions = Question.where(is_hidden: true).order(order: :asc)
   end
 
   private
