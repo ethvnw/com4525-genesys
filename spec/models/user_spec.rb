@@ -58,16 +58,14 @@ RSpec.describe(User, type: :model) do
 
       it "correctly formats the role name" do
         expect(user.show_role).to(eq("Admin"))
-        expect(user.show_role).not_to(eq("admin"))
       end
     end
 
-    context "when the user is an reporter" do
+    context "when the user is a reporter" do
       let(:role) { :reporter }
 
       it "correctly formats the role name" do
         expect(user.show_role).to(eq("Reporter"))
-        expect(user.show_role).not_to(eq("reporter"))
       end
     end
   end
@@ -80,6 +78,9 @@ RSpec.describe(User, type: :model) do
 
       it "returns true that the user is an admin" do
         expect(user.admin?).to(be_truthy)
+      end
+
+      it "returns false that the user is a reporter" do
         expect(user.reporter?).to(be_falsey)
       end
     end
@@ -89,6 +90,9 @@ RSpec.describe(User, type: :model) do
 
       it "returns true that the user is a reporter" do
         expect(user.reporter?).to(be_truthy)
+      end
+
+      it "returns false that the user is an admin" do
         expect(user.admin?).to(be_falsey)
       end
     end
