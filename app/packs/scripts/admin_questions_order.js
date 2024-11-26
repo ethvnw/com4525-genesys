@@ -1,43 +1,43 @@
 /**
- * Handles the reordering of reviews in the admin panel.
+ * Handles the reordering of questions in the admin panel.
  */
 
-const reviews = document.querySelectorAll('.review');
+const questions = document.querySelectorAll('.question');
 const saveButton = document.querySelector('.save-button');
 let unsaved = false;
 
-reviews.forEach((review) => {
-  const upArrow = review.querySelector('.order-up-arrow');
-  const downArrow = review.querySelector('.order-down-arrow');
+questions.forEach((question) => {
+  const upArrow = question.querySelector('.order-up-arrow');
+  const downArrow = question.querySelector('.order-down-arrow');
 
-  const moveReview = (currentReview, targetReview, direction) => {
+  const moveQuestion = (currentQuestion, targetQuestion, direction) => {
     saveButton.classList.remove('d-none');
     unsaved = true;
 
-    const currentOrder = currentReview.getAttribute('data-order');
-    const targetOrder = targetReview.getAttribute('data-order');
+    const currentOrder = currentQuestion.getAttribute('data-order');
+    const targetOrder = targetQuestion.getAttribute('data-order');
 
-    currentReview.setAttribute('data-order', targetOrder);
-    targetReview.setAttribute('data-order', currentOrder);
+    currentQuestion.setAttribute('data-order', targetOrder);
+    targetQuestion.setAttribute('data-order', currentOrder);
 
     if (direction === 'up') {
-      currentReview.parentNode.insertBefore(currentReview, targetReview);
+      currentQuestion.parentNode.insertBefore(currentQuestion, targetQuestion);
     } else {
-      currentReview.parentNode.insertBefore(targetReview, currentReview);
+      currentQuestion.parentNode.insertBefore(targetQuestion, currentQuestion);
     }
   };
 
   upArrow.addEventListener('click', () => {
-    const previousReview = review.previousElementSibling;
-    if (previousReview) {
-      moveReview(review, previousReview, 'up');
+    const previousQuestion = question.previousElementSibling;
+    if (previousQuestion) {
+      moveQuestion(question, previousQuestion, 'up');
     }
   });
 
   downArrow.addEventListener('click', () => {
-    const nextReview = review.nextElementSibling;
-    if (nextReview) {
-      moveReview(review, nextReview, 'down');
+    const nextQuestion = question.nextElementSibling;
+    if (nextQuestion) {
+      moveQuestion(question, nextQuestion, 'down');
     }
   });
 });
@@ -46,13 +46,13 @@ const saveForm = document.getElementById('save-form');
 const saveFunction = (event) => {
   event.preventDefault();
 
-  const reviewData = {};
-  reviews.forEach((review) => {
-    reviewData[review.id.split('_')[1]] = parseInt(review.getAttribute('data-order'), 10);
+  const questionData = {};
+  questions.forEach((question) => {
+    questionData[question.id.split('_')[1]] = parseInt(question.getAttribute('data-order'), 10);
   });
 
   const formData = new FormData(saveForm);
-  formData.append('reviews', JSON.stringify(reviewData));
+  formData.append('questions', JSON.stringify(questionData));
 
   fetch(saveForm.action, {
     method: 'POST',

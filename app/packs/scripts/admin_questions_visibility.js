@@ -1,18 +1,18 @@
 /**
- * Handles the visibility of reviews in the admin panel.
+ * Handles the visibility of questions in the admin panel.
  */
 
 const visibilityUpdateForms = document.querySelectorAll('form.update-visibility');
-const visibleContainer = document.getElementById('visible-reviews');
-const hiddenContainer = document.getElementById('hidden-reviews');
+const visibleContainer = document.getElementById('visible-questions');
+const hiddenContainer = document.getElementById('hidden-questions');
 const visibleCount = document.getElementById('visible-count');
 const hiddenCount = document.getElementById('hidden-count');
 
-const updateVisibleReviewOrders = (hiddenReviewOrder) => {
-  const reviews = visibleContainer.querySelectorAll('.review');
-  reviews.forEach((review) => {
-    if (review.getAttribute('data-order') > hiddenReviewOrder) {
-      review.setAttribute('data-order', review.getAttribute('data-order') - 1);
+const updateVisibleQuestionOrders = (hiddenQuestionOrder) => {
+  const questions = visibleContainer.querySelectorAll('.question');
+  questions.forEach((question) => {
+    if (question.getAttribute('data-order') > hiddenQuestionOrder) {
+      question.setAttribute('data-order', question.getAttribute('data-order') - 1);
     }
   });
   document.getElementById('save-form').dispatchEvent(new Event('submit'), { cancelable: true });
@@ -21,17 +21,17 @@ const updateVisibleReviewOrders = (hiddenReviewOrder) => {
 visibilityUpdateForms.forEach((form) => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const review = form.closest('.review');
-    const isVisible = review.parentElement === visibleContainer;
+    const question = form.closest('.question');
+    const isVisible = question.parentElement === visibleContainer;
 
     if (isVisible) {
-      updateVisibleReviewOrders(review.getAttribute('data-order'));
+      updateVisibleQuestionOrders(question.getAttribute('data-order'));
     }
 
-    review.setAttribute('data-order', isVisible ? 0 : visibleContainer.children.length);
+    question.setAttribute('data-order', isVisible ? 0 : visibleContainer.children.length);
 
     const formData = new FormData(form);
-    formData.append('order', review.getAttribute('data-order'));
+    formData.append('order', question.getAttribute('data-order'));
 
     fetch(form.action, {
       method: 'POST',
@@ -41,14 +41,14 @@ visibilityUpdateForms.forEach((form) => {
       body: formData,
     }).then(() => {
       const targetContainer = isVisible ? hiddenContainer : visibleContainer;
-      const eyeIcon = review.querySelector(isVisible ? '.bi-eye-slash-fill' : '.bi-eye-fill');
+      const eyeIcon = question.querySelector(isVisible ? '.bi-eye-slash-fill' : '.bi-eye-fill');
 
       visibleCount.innerText = parseInt(visibleCount.innerText, 10) + (isVisible ? -1 : 1);
       hiddenCount.innerText = parseInt(hiddenCount.innerText, 10) + (isVisible ? 1 : -1);
 
-      review.remove();
-      review.querySelector('.order-arrows').classList.toggle('d-none', isVisible);
-      targetContainer.appendChild(review);
+      question.remove();
+      question.querySelector('.order-arrows').classList.toggle('d-none', isVisible);
+      targetContainer.appendChild(question);
       eyeIcon.classList.toggle('bi-eye-fill', isVisible);
       eyeIcon.classList.toggle('bi-eye-slash-fill', !isVisible);
     });
