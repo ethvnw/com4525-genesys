@@ -1,5 +1,5 @@
 # README
-
+.
 ## How to start the application
 1) cd into project
 2) run `cp config/database-sample.yml config/database.yml` to specify the db template
