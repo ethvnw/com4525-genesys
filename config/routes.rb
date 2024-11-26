@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
+  get "/pricing", to: "pages#pricing", as: :pricing
+
   # GET: Admin dashboard route
   get "admin/dashboard", to: "admin#dashboard", as: :admin_dashboard
 
