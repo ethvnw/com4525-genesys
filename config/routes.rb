@@ -30,4 +30,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     post "users/magic_link", to: "users/sessions#send_magic_link", as: :send_magic_link
   end
+
+  # GET: User avatar route
+  get 'users/avatar', to: 'users/avatar#show', as: :user_avatar
 end
