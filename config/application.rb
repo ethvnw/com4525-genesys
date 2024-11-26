@@ -15,6 +15,9 @@ require "action_text/engine"
 require "action_view/railtie"
 # require "action_cable/engine"
 
+# Require custom middleware
+require_relative "../lib/middleware/landing_page_journey.rb"
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -60,5 +63,7 @@ module Project
       openssl_verify_depth: 3,
       ca_file: "/etc/ssl/certs/ca-certificates.crt",
     }
+
+    config.middleware.use(LandingPageJourneyMiddleware)
   end
 end
