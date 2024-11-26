@@ -1,0 +1,37 @@
+%p
+  = link_to("Dashboard", admin_dashboard_path)
+
+%h1 Edit User
+%hr
+
+%p
+  - unless @user.account_activated?
+    - flash.now["alert"] = "Account has not been activated by #{@user.email}."
+
+%p
+  %span.fw-bold Account Email:
+  #{@user.email}
+
+= simple_form_for(@user, url: update_staff_path(@user)) do |f|
+  = f.error_notification
+
+  .form-inputs
+    .row.align-items-center
+      .col-auto
+        %span.fw-bold Privileges:
+      .col
+        = f.input(:user_role,
+                  collection: User.user_roles.keys.map { |r| [r.humanize, r] },
+                  label: false,
+                  input_html: { class: "form-select form-control w-auto" })
+
+  .form-actions.mt-3
+    = button_tag(type: "submit", class: "btn btn-primary d-flex justify-content-end") do
+      Save Changes
+
+%hr
+.d-flex.justify-content-end
+  = button_to("Remove Access",
+              destroy_staff_path(@user),
+              method: :delete,
+              class: "btn btn-danger d-flex justify-content-end")

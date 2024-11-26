@@ -3,5 +3,5 @@
   "env": {
     "browser": true
   },
-  "ignorePatterns": ["node_modules/", "public/packs/", "coverage/assets"]
+  "ignorePatterns": ["node_modules/", "public/packs/", "coverage/**/*", "public/packs-test/"]
 }

@@ -55,9 +55,7 @@
       - @reviews.each do |review|
         .swiper-slide.d-flex.justify-content-center
           = render("partials/carousel_review_slide",
-                   review: review.content,
-                   author: review.name,
-                   like_count: review.engagement_counter)
+                   review_obj: review)
     .swiper-button-prev
     .swiper-button-next
     .swiper-scrollbar
