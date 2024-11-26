@@ -25,16 +25,4 @@ class PagesController < ApplicationController
     end
     @questions = Question.where.not(is_hidden: true).order(order: :asc)
   end
-
-  def faq
-    @script_packs = ["application"]
-    @style_packs = ["application"]
-
-    @question = if flash[:question_data]
-      Question.new(flash[:question_data])
-    else
-      Question.new
-    end
-    @questions = Question.where.not(is_hidden: true).order(order: :asc)
-  end
 end
