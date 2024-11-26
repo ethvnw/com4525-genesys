@@ -9,8 +9,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
 
-    # default values for the question
-    # for testing, you can change is_hidden to false so the questions immediately appear on the landing page
+    # if u want to quickly test adding a question, set is_hidden to false so it automatically shows up on the Q&A
     @question.is_hidden = true
     @question.engagement_counter = 0
 
@@ -41,6 +40,24 @@ class QuestionsController < ApplicationController
       Question.find(id).update(order: order)
     end
     head(:ok)
+  end
+
+  def answer
+    @question = Question.find(params[:id])
+    # update the answer for the question and respond depending on if an error occurred
+    if @question.update(answer: params[:answer])
+      # if the update is successful, respond with the answer
+      respond_to do |format|
+        format.json { render(json: { answer: @question.answer }, status: :ok) }
+        format.html { redirect_to(admin_manage_questions_path, notice: "Answer saved successfully.") }
+      end
+    else
+      # if the update fails, respond with the full error messages
+      respond_to do |format|
+        format.json { render(json: { error: @question.errors.full_messages }, status: :unprocessable_entity) }
+        format.html { redirect_to(admin_manage_questions_path, alert: "Failed to save answer.") }
+      end
+    end
   end
 
   private
