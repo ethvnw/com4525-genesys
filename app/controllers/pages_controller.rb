@@ -14,4 +14,10 @@ class PagesController < ApplicationController
     @errors = flash[:errors]
     @reviews = Review.where.not(is_hidden: true).order(order: :asc)
   end
+
+  def pricing
+    @script_packs = ["application"]
+    @style_packs = ["application"]
+    @errors = flash[:errors]
+  end
 end

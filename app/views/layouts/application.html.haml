@@ -24,7 +24,7 @@
   %body
     -# Don't show navigation bar on sign in page
     - unless sign_in_page?
-      %header.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
+      %nav.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
         .container
           = link_to("/", class: "navbar-brand") do
             = image_pack_tag("images/roamio_brand_logo_d_grey.png", height: 40)
@@ -69,7 +69,7 @@
 
 
     - if flash.present?
-      .container-fluid.flash-messages
+      .container.flash-messages
         - flash.each do |message_type, message|
           - next unless message_type == "alert" || message_type == "notice"
 
