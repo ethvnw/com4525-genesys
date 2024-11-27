@@ -30,7 +30,7 @@ class QuestionsController < ApplicationController
   end
 
   def update_orders
-    json = JSON.parse(params[:questions])
+    json = JSON.parse(params[:items])
     json.each do |id, order|
       Question.find(id).update(order: order)
     end
