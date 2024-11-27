@@ -25,7 +25,7 @@ RSpec.describe(ApplicationHelper, type: :helper) do
     context "when nil is passed" do
       it "returns an empty list" do
         script_paths = get_script_paths(nil)
-        expect(script_paths).to(eq([]))
+        expect(script_paths).to(be_empty)
       end
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe(ApplicationHelper, type: :helper) do
     context "when nil is passed" do
       it "returns an empty list" do
         style_paths = get_style_paths(nil)
-        expect(style_paths).to(eq([]))
+        expect(style_paths).to(be_empty)
       end
     end
   end
