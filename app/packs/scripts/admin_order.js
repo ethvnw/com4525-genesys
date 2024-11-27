@@ -1,16 +1,20 @@
 /**
- * Handles the reordering of questions in the admin panel.
+ * Handles the reordering of items (reviews/questions) in the admin panel.
  */
 
-// TODO: Figure out why it sometimes takes two clicks to reorder questions
+// TODO: Figure out why it sometimes takes two clicks to reorder for faq only
+
+// Get all items and the save button assigned to variables
 const items = document.querySelectorAll('.item');
 const saveButton = document.querySelector('.save-button');
 let unsaved = false;
 
 items.forEach((item) => {
+  // Get the up and down arrows for each item
   const upArrow = item.querySelector('.order-up-arrow');
   const downArrow = item.querySelector('.order-down-arrow');
 
+  // When an arrow is clicked, move the item up or down
   const moveItem = (currentItem, targetItem, direction) => {
     saveButton.classList.remove('d-none');
     unsaved = true;
@@ -28,6 +32,7 @@ items.forEach((item) => {
     }
   };
 
+  // Assign the moveItem function to the up and down arrows
   upArrow.addEventListener('click', () => {
     const previousItem = item.previousElementSibling;
     if (previousItem) {
@@ -43,6 +48,7 @@ items.forEach((item) => {
   });
 });
 
+// When the save button is clicked, save the new order of the items
 const saveForm = document.getElementById('save-form');
 const saveFunction = (event) => {
   event.preventDefault();
@@ -53,8 +59,9 @@ const saveFunction = (event) => {
   });
 
   const formData = new FormData(saveForm);
-  formData.append('questions', JSON.stringify(itemData));
+  formData.append('items', JSON.stringify(itemData));
 
+  // save-form.action gives the route to the correct controller action depending on the item type
   fetch(saveForm.action, {
     method: 'POST',
     body: formData,
@@ -63,6 +70,8 @@ const saveFunction = (event) => {
     saveButton.classList.add('d-none');
   });
 };
+
+// When the save button is clicked, save the new order of the items server-side
 saveForm.addEventListener('submit', saveFunction);
 
 // eslint-disable-next-line consistent-return
