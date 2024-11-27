@@ -1,6 +1,6 @@
 .d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-questions" : "visible-questions") }
   - questions.each do |question|
-    .card.position-relative.text-break.question{ id: "question_#{question.id}", data: { order: question.order } }
+    .card.position-relative.text-break.item{ id: "item_#{question.id}", data: { order: question.order } }
       .d-flex.flex-column.gap-2.position-absolute.top-50.start-0.translate-middle.order-arrows{
         class: ("d-none" if question.is_hidden),
       }
