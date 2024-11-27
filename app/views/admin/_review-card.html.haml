@@ -1,6 +1,6 @@
-.d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-reviews" : "visible-reviews") }
+.d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-items" : "visible-items") }
   - reviews.each do |review|
-    .card.position-relative.text-break.review{ id: "review_#{review.id}", data: { order: review.order } }
+    .card.position-relative.text-break.item{ id: "item_#{review.id}", data: { order: review.order } }
       .d-flex.flex-column.gap-2.position-absolute.top-50.start-0.translate-middle.order-arrows{
         class: ("d-none" if review.is_hidden),
       }
