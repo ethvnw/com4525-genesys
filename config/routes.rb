@@ -41,6 +41,12 @@ Rails.application.routes.draw do
         post :orders
       end
     end
+
+    resources :features, only: [] do
+      member do
+        post :share
+      end
+    end
   end
 
   namespace :admin do
