@@ -15,9 +15,6 @@ class PagesController < ApplicationController
   end
 
   def faq
-    # Use the same packs as home so the bootstrap accordian and navbar user dropdown work
-    @script_packs = ["home"]
-
     @question = if flash[:question_data]
       Question.new(flash[:question_data])
     else
