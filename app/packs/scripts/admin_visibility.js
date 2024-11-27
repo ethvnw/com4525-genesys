@@ -3,13 +3,13 @@
  */
 
 const visibilityUpdateForms = document.querySelectorAll('form.update-visibility');
-// We get the containers and counts for visible and hidden items to update later
+// Get the containers and counts for visible and hidden items to update later
 const visibleContainer = document.getElementById('visible-items');
 const hiddenContainer = document.getElementById('hidden-items');
 const visibleCount = document.getElementById('visible-count');
 const hiddenCount = document.getElementById('hidden-count');
 
-// When an item is given visibility, we need to update the pre-existing order of the visible items
+// When an item is given visibility, update the pre-existing order of the visible items
 const updateVisibleItemOrders = (hiddenItemOrder) => {
   const items = visibleContainer.querySelectorAll('.item');
   items.forEach((item) => {
@@ -26,7 +26,7 @@ visibilityUpdateForms.forEach((form) => {
     const item = form.closest('.item');
     const isVisible = item.parentElement === visibleContainer;
 
-    // If the item is visible, we need to update the order of the visible items
+    // If the item is visible, update the order of the visible items
     if (isVisible) {
       updateVisibleItemOrders(item.getAttribute('data-order'));
     }
@@ -36,7 +36,7 @@ visibilityUpdateForms.forEach((form) => {
     const formData = new FormData(form);
     formData.append('order', item.getAttribute('data-order'));
 
-    // When we submit the form, we need to update the visibility of the item and its eye-icon
+    // When submitting the form, update the visibility of the item and its eye-icon
     fetch(form.action, {
       method: 'POST',
       headers: {
