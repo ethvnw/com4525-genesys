@@ -37,3 +37,35 @@ Question.create!(
   is_hidden: false,
   engagement_counter: 0,
 ) unless Question.exists?(question: "Can I organise group trips with friends or family?")
+
+free_tier = SubscriptionTier.find_or_create_by!(
+  name: "Free",
+  price_gbp: 0.0,
+  discount_description: nil,
+  terms_description: nil,
+)
+
+SubscriptionTier.find_or_create_by!(
+  name: "Individual",
+  price_gbp: 2.99,
+  discount_description: "Free for 1 month",
+  terms_description: "1 user only",
+)
+
+SubscriptionTier.find_or_create_by!(
+  name: "Group",
+  price_gbp: 5.99,
+  discount_description: nil,
+  terms_description: "Groups of up to 6 people",
+)
+
+trip_timeline = AppFeature.find_or_create_by!(
+  name: "Trip Timeline",
+  description: "Create and share a timeline of your trip, featuring key events, activities, 
+   and bookings, all in one place with your friends.",
+)
+
+AppFeaturesSubscriptionTier.find_or_create_by!(
+  app_feature: trip_timeline,
+  subscription_tier: free_tier,
+)
