@@ -5,4 +5,7 @@ class SubscriptionTiersController < ApplicationController
   def pricing
     @subscription_tiers = SubscriptionTier.all
   end
+
+  def register
+  end
 end

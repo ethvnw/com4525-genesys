@@ -66,4 +66,7 @@ Rails.application.routes.draw do
 
   # GET: Subscription tiers pricing route
   get "subscriptions/pricing", to: "subscription_tiers#pricing", as: :subscription_tiers_pricing
+  
+  # GET: Subscription tiers register route
+  get "subscriptions/register", to: "subscription_tiers#register", as: :subscription_tiers_register
 end
