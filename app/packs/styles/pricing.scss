@@ -1,0 +1,13 @@
+/* Max width of vendor thumbnail images for consistent sizing */
+.payment-vendor-thumbnail {
+    max-width: 90px;
+}
+
+/* Fixed height for subscription card elements so that they remain a consistent
+size when stacked horizontally */
+.subscription-tier-price-option, .subscription-tier-footer {
+    height: 42px;
+}
+.subscription-tier-features {
+    height: 150px;
+}
