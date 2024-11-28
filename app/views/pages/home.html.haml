@@ -28,11 +28,10 @@
     Seamless travel, organised
   .swiper.features-carousel
     .swiper-wrapper
-      - 10.times do
+      - @app_features.each do |app_feature|
         .swiper-slide.d-flex.justify-content-center
-          = render("partials/carousel_feature_slide",
-                   feature: "View Trip Timeline",
-                   description: "Access the timeline of your trip, this is quite an important feature")
+          = render("partials/carousel_app_feature_slide",
+                   app_feature_obj: app_feature)
     .swiper-button-prev
     .swiper-button-next
     .swiper-scrollbar
