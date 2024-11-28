@@ -61,7 +61,7 @@ SubscriptionTier.find_or_create_by!(
 
 trip_timeline = AppFeature.find_or_create_by!(
   name: "Trip Timeline",
-  description: "Create and share a timeline of your trip, featuring key events, activities, 
+  description: "Create and share a timeline of your trip, featuring key events, activities,
    and bookings, all in one place with your friends.",
 )
 
