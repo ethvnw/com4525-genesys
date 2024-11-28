@@ -12,6 +12,7 @@ class PagesController < ApplicationController
     end
     @errors = flash[:errors]
     @reviews = Review.where.not(is_hidden: true).order(order: :asc)
+    @app_features = AppFeature.all
   end
 
   def pricing

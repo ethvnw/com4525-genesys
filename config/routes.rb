@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
   # GET: pricing route
   get "pricing", to: "pages#pricing", as: :pricing
-  
+
   # GET: FAQ route
   get "faq", to: "pages#faq", as: :faq
 
@@ -61,4 +61,9 @@ Rails.application.routes.draw do
   get "staff/:id/edit", to: "admin#edit_staff", as: :edit_staff
   patch "api/staff/:id", to: "admin#update_staff", as: :update_staff
   delete "api/staff/:id", to: "admin#destroy_staff", as: :destroy_staff
+
+  resources :subscription_tiers
+
+  # GET: Subscription tiers pricing route
+  get "subscriptions/pricing", to: "subscription_tiers#pricing", as: :subscription_tiers_pricing
 end
