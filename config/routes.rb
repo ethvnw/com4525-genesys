@@ -44,7 +44,7 @@ Rails.application.routes.draw do
 
     resources :features, only: [] do
       member do
-        post :share
+        get :share
       end
     end
   end

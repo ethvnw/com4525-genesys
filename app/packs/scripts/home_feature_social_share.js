@@ -1,8 +1,15 @@
 import { Offcanvas } from 'bootstrap';
+import { getFeatureShareRoute } from './constants/api_routes';
 
 const pageUrl = 'roamio.com';
 const socialShareCanvas = document.getElementById('social-share-offcanvas');
 const bsSocialShareCanvas = new Offcanvas(socialShareCanvas);
+
+const shareClipboard = socialShareCanvas.querySelector('#social-share-clipboard');
+const shareEmail = socialShareCanvas.querySelector('#social-share-email');
+const shareFacebook = socialShareCanvas.querySelector('#social-share-facebook');
+const shareTwitter = socialShareCanvas.querySelector('#social-share-twitter');
+const shareWhatsapp = socialShareCanvas.querySelector('#social-share-whatsapp');
 
 /**
  * Updates the icon in the "Copy Description" button.
@@ -36,17 +43,19 @@ const writeClipboardText = async (text) => {
  */
 const updateSocialShareLinks = (featureName, featureDescription) => {
   const featureBody = `With ${featureName} you can ${featureDescription.toLowerCase()}\n\nCheck it out on ${pageUrl}`;
-  const featureSubject = `Check out ${featureName} on Roamio!`;
-  const encodedFeatureBody = encodeURIComponent(featureBody);
 
   // Update all the links
-  socialShareCanvas.querySelector('#social-share-clipboard').onclick = () => writeClipboardText(featureBody);
   socialShareCanvas.querySelector('#social-share-title').textContent = featureName;
   socialShareCanvas.querySelector('#social-share-url').textContent = pageUrl;
-  socialShareCanvas.querySelector('#social-share-email').href = `mailto:?body=${encodedFeatureBody}&subject=${featureSubject}`;
-  socialShareCanvas.querySelector('#social-share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
-  socialShareCanvas.querySelector('#social-share-twitter').href = `https://twitter.com/intent/tweet?text=${encodedFeatureBody}&url=${pageUrl}`;
-  socialShareCanvas.querySelector('#social-share-whatsapp').href = `https://wa.me/?text=${encodedFeatureBody}`;
+  shareClipboard.onclick = () => {
+    writeClipboardText(featureBody).then();
+    fetch(getFeatureShareRoute('1', 'clipboard')).then();
+  };
+
+  shareEmail.href = getFeatureShareRoute('1', 'email');
+  shareFacebook.href = getFeatureShareRoute('1', 'facebook');
+  shareTwitter.href = getFeatureShareRoute('1', 'twitter');
+  shareWhatsapp.href = getFeatureShareRoute('1', 'whatsapp');
 };
 
 // Add event listener to all social share buttons
