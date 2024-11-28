@@ -1,0 +1,25 @@
+.dropdown
+  %a.btn.btn-secondary.dropdown-toggle.fw-semibold.d-flex.align-items-center.justify-content-center{
+    "data-bs-toggle": "dropdown",
+    role: "button",
+  }
+    Account
+    = image_tag(user_avatar_path, height: 40, class: "rounded mx-2")
+  .dropdown-menu.dropdown-menu-end
+    %h6.dropdown-header.fw-semibold.text-secondary
+      = current_user.email
+    - if can?(:access, :admin_dashboard)
+      = link_to(admin_dashboard_path,
+                class: "dropdown-item",
+                method: :get) do
+        Admin Dashboard
+    - if can?(:access, :reporter_dashboard)
+      = link_to(reporter_dashboard_path,
+                class: "dropdown-item",
+                method: :get) do
+        Reporter Dashboard
+    .dropdown-divider
+    = link_to(destroy_user_session_path,
+              class: "dropdown-item",
+              method: :delete) do
+      Sign out

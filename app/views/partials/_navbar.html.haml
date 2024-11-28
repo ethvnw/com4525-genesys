@@ -23,36 +23,12 @@
           FAQ
         = link_to("#", class: "nav-link") do
           Reviews
-        = link_to("#", class: "nav-link") do
+        = link_to(pricing_path, class: "nav-link") do
           Pricing
       .d-flex.ms-auto.gap-2.flex-column.flex-lg-row
         %hr.d-flex.d-lg-none.my-1
         - if user_signed_in?
-          .dropdown
-            %a.btn.btn-secondary.dropdown-toggle.fw-semibold.d-flex.align-items-center.justify-content-center{
-              "data-bs-toggle": "dropdown",
-              role: "button",
-            }
-              Account
-              = image_tag(user_avatar_path, height: 40, class: "rounded mx-2")
-            .dropdown-menu.dropdown-menu-end
-              %h6.dropdown-header.fw-semibold.text-secondary
-                = current_user.email
-              - if current_user.admin?
-                = link_to(admin_dashboard_path,
-                          class: "dropdown-item",
-                          method: :get) do
-                  Admin Dashboard
-              - if current_user.admin? || current_user.reporter?
-                = link_to(reporter_dashboard_path,
-                          class: "dropdown-item",
-                          method: :get) do
-                  Reporter Dashboard
-              .dropdown-divider
-              = link_to(destroy_user_session_path,
-                        class: "dropdown-item",
-                        method: :delete) do
-                Sign out
+          = render("partials/navbar_user_dropdown")
         - else
           = link_to(new_user_session_path,
                     class: "btn btn-secondary fw-semibold d-flex justify-content-center",
