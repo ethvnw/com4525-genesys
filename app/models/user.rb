@@ -62,12 +62,6 @@ class User < ApplicationRecord
     end
   end
 
-  # If the last sign in is <nil> but an account exists,
-  # then an admin created the account but the user hasn't registered
-  def account_activated?
-    !last_sign_in_at.nil?
-  end
-
   # Show the user role formatted with uppercase
   def show_role
     user_role.titleize if user_role.present?

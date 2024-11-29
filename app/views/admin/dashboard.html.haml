@@ -48,7 +48,7 @@
       %th{ scope: "col" }
       %th{ scope: "col" } Email Address
       %th{ scope: "col" } User Role
-      %th{ scope: "col" } Account Activated
+      %th{ scope: "col" } Invitation Accepted
       %th{ scope: "col" }
   %tbody
     - @users.each do |user|
@@ -59,7 +59,7 @@
         %td= user.email
         %td= user.show_role
         %td
-          - if user.account_activated?
+          - if user.invitation_accepted?
             &#x2714;
           - else
             &#10008;
