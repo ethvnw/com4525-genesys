@@ -50,7 +50,7 @@ class AdminController < ApplicationController
   private
 
   def authorize_admin
-    unless current_user.admin?
+    unless can?(:access, :admin_dashboard)
       flash[:alert] = "Unauthorized Access."
       redirect_to(root_path)
     end
