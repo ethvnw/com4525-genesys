@@ -1,0 +1,12 @@
+.d-flex.flex-fill.justify-content-center.align-items-center
+  .pb-5.mb-5.text-center.text-lg-start
+    %h1.fw-bold Hello! You've caught us early
+    %p.text-secondary
+      We're working to make Roamio available for wider release.
+      Register your interest, and you'll be the first to know!
+    .mt-4
+      %form.d-flex.gap-2.flex-column.flex-lg-row
+        %input.form-control{ type: "email", placeholder: "Enter your email", required: true }
+        %button.btn.btn-primary.text-nowrap.fw-bold{ type: "submit" }
+          %i.bi.bi-bell &nbsp;
+          Notify Me

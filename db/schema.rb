@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_26_114306) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_28_131406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "app_features", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "app_features_subscription_tiers", force: :cascade do |t|
+    t.bigint "app_feature_id", null: false
+    t.bigint "subscription_tier_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_feature_id"], name: "index_app_features_subscription_tiers_on_app_feature_id"
+    t.index ["subscription_tier_id"], name: "index_app_features_subscription_tiers_on_subscription_tier_id"
+  end
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -58,6 +74,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_26_114306) do
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
+  create_table "subscription_tiers", force: :cascade do |t|
+    t.string "name"
+    t.decimal "price_gbp"
+    t.string "discount_description"
+    t.string "terms_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -79,4 +104,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_26_114306) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "app_features_subscription_tiers", "app_features"
+  add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
 end
