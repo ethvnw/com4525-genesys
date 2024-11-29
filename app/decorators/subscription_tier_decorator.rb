@@ -5,9 +5,14 @@ class SubscriptionTierDecorator < ApplicationDecorator
   delegate_all
 
   def formatted_price
-    return "" unless object.price_gbp.present? && object.price_gbp > 0
+    price = object.price_gbp
+    return "" unless price.present? && price > 0
 
-    "£#{object.price_gbp}/month"
+    if price % 1 == 0
+      format("£%d/month", price.to_i)
+    else
+      format("£%.2f/month", price)
+    end
   end
 
   def formatted_cta
