@@ -17,6 +17,6 @@ class SubscriptionTier < ApplicationRecord
   has_many :app_features, through: :app_features_subscription_tiers
 
   def premium_subscription?
-    price_gbp.present? && price_gbp > 0
+    price_gbp.present? && price_gbp.positive?
   end
 end
