@@ -28,7 +28,7 @@ Devise.setup do |config|
   config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
 
   # Configure the class responsible to send e-mails.
-  config.mailer = "CustomDeviseMailer"
+  # config.mailer = 'Devise::Mailer'
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'
@@ -91,7 +91,7 @@ Devise.setup do |config|
   # It will change confirmation, password recovery and other workflows
   # to behave the same regardless if the e-mail provided was right or wrong.
   # Does not affect registerable.
-  # config.paranoid = true
+  config.paranoid = true
 
   # By default Devise will store the user in session. You can skip storage for
   # particular strategies by setting this option.
@@ -135,6 +135,55 @@ Devise.setup do |config|
 
   # Send a notification email when the user's password is changed.
   config.send_password_change_notification = true
+
+  # ==> Configuration for :invitable
+  # The period the generated invitation token is valid.
+  # After this period, the invited resource won't be able to accept the invitation.
+  # When invite_for is 0 (the default), the invitation won't expire.
+  config.invite_for = 30.minutes
+
+  # Number of invitations users can send.
+  # - If invitation_limit is nil, there is no limit for invitations, users can
+  # send unlimited invitations, invitation_limit column is not used.
+  # - If invitation_limit is 0, users can't send invitations by default.
+  # - If invitation_limit n > 0, users can send n invitations.
+  # You can change invitation_limit column for some users so they can send more
+  # or less invitations, even with global invitation_limit = 0
+  # Default: nil
+  # config.invitation_limit = 5
+
+  # The key to be used to check existing users when sending an invitation
+  # and the regexp used to test it when validate_on_invite is not set.
+  # config.invite_key = { email: /\A[^@]+@[^@]+\z/ }
+  # config.invite_key = { email: /\A[^@]+@[^@]+\z/, username: nil }
+
+  # Ensure that invited record is valid.
+  # The invitation won't be sent if this check fails.
+  # Default: false
+  # config.validate_on_invite = true
+
+  # Resend invitation if user with invited status is invited again
+  # Default: true
+  # config.resend_invitation = false
+
+  # The class name of the inviting model. If this is nil,
+  # the #invited_by association is declared to be polymorphic.
+  # Default: nil
+  # config.invited_by_class_name = 'User'
+
+  # The foreign key to the inviting model (if invited_by_class_name is set)
+  # Default: :invited_by_id
+  # config.invited_by_foreign_key = :invited_by_id
+
+  # The column name used for counter_cache column. If this is nil,
+  # the #invited_by association is declared without counter_cache.
+  # Default: nil
+  # config.invited_by_counter_cache = :invitations_count
+
+  # Auto-login after the user accepts the invite. If this is false,
+  # the user will need to manually log in after accepting the invite.
+  # Default: true
+  # config.allow_insecure_sign_in_after_accept = false
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -190,7 +239,7 @@ Devise.setup do |config|
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
-  config.timeout_in = 30.minutes
+  config.timeout_in = 2.hours
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
@@ -226,7 +275,7 @@ Devise.setup do |config|
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
   # change their passwords.
-  config.reset_password_within = 6.hours
+  config.reset_password_within = 30.minutes
 
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.
@@ -246,7 +295,7 @@ Devise.setup do |config|
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
   # "users/sessions/new". It's turned off by default because it's slower if you
   # are using only default views.
-  # config.scoped_views = false
+  config.scoped_views = false
 
   # Configure the default scope given to Warden. By default it's the first
   # devise role declared in your routes (usually :user).
