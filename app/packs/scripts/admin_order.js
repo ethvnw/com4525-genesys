@@ -2,8 +2,6 @@
  * Handles the reordering of items (reviews/questions) in the admin panel.
  */
 
-// TODO: Figure out why it sometimes takes two clicks to reorder for faq only
-
 // Get all items and the save button assigned to variables
 const items = document.querySelectorAll('.item');
 const saveButton = document.querySelector('.save-button');
