@@ -7,13 +7,6 @@
 ## Description
 <!-- Provide a detailed description of changes - include screenshots of new UI components (if any) -->
 
-## How Has This Been Tested?
-<!-- Tick any that are applicable -->
-<!-- To check the checkboxes, replace [ ] with [x] (removing whitespace inside the square brackets is important!) -->
-- [ ] Manual testing
-- [ ] Unit tests for any new functionality
-- [ ] End-to-end/integration tests
-
 ## Type of Change
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
@@ -21,11 +14,15 @@
 - [ ] Documentation (adding or updating documentation)
 - [ ] Dependency update
 - [ ] Security update
+- [ ] Adding tests
 
 ## Pre-PR Checklist:
 - [ ] I have made any necessary updates to the documentation.
 - [ ] I have conducted a self-review of code prior to opening a PR.
-- [ ] My code conforms to the style of this project
+- [ ] My code conforms to the style of this project.
+- [ ] I have added the appropriate tests, reaching 100% coverage of new code.
+
+<!-- If 100% coverage was unable to be reached, explain why below --> 
 
 ## What is the Impact (if any) to Other Developers on This Project?
 <!-- Does this unblock any stories, make processes easier, etc? -->
