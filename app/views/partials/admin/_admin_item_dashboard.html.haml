@@ -1,11 +1,11 @@
 .mb-4
-  %h1 Manage #{ type.capitalize }s
+  %h1 Manage #{type.capitalize}s
   = link_to("dashboard") do
     Back to admin dashboard
 
 .d-flex.gap-2.justify-content-between.align-items-center
   %h2
-    Visible #{ type.capitalize }s
+    Visible #{type.capitalize}s
     %span#visible-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= visible_items.count
 
   = form_tag(update_orders_path, method: :post, id: "save-form", class: "mb-0") do
@@ -17,6 +17,6 @@
 = render(type + "-card", items: visible_items, hidden: false)
 
 %h2
-  Hidden #{ type.capitalize }s
+  Hidden #{type.capitalize}s
   %span#hidden-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= hidden_items.count
 = render(type + "-card", items: hidden_items, hidden: true)

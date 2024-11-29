@@ -1,7 +1,7 @@
 .d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-items" : "visible-items") }
   - items.each do |review|
     = render("partials/admin/admin_item_card",
-      type: "review",
-      item: review,
-      content: review.content,
-      name: review.name)
+             type: "review",
+             item: review,
+             content: review.content,
+             name: review.name)
