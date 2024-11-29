@@ -1,5 +1,5 @@
 .d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-items" : "visible-items") }
-  - questions.each do |question|
+  - items.each do |question|
     = render("partials/admin/admin_item_card",
              type: "question",
       item: question,
@@ -9,5 +9,5 @@
 -# Second iteration is done to preserve orderding of questions, so when swapping order
   of questions, they dont swap with modals by accident etc
 .d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-items" : "visible-items") }
-  - questions.each do |question|
+  - items.each do |question|
     = render("partials/admin/admin_answer_modal", question: question)
