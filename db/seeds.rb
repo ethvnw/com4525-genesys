@@ -29,6 +29,7 @@ Question.create!(
   answer: "You can upload tickets and booking through either barcode scanning or manual entry.",
   is_hidden: false,
   engagement_counter: 0,
+  order: 1,
 ) unless Question.exists?(question: "How do I upload tickets and bookings to the app?")
 
 Question.create!(
@@ -36,6 +37,7 @@ Question.create!(
   answer: "Yes! Roamio supports both solo and group trips.",
   is_hidden: false,
   engagement_counter: 0,
+  order: 2,
 ) unless Question.exists?(question: "Can I organise group trips with friends or family?")
 
 free_tier = SubscriptionTier.find_or_create_by!(
