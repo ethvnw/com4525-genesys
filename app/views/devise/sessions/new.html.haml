@@ -1,13 +1,13 @@
 - content_for(:title, "Log In")
 
-.d-flex.justify-content-center.align-items-center.min-vh-100
+.d-flex.flex-fill.justify-content-center.align-items-center
   .card.login-card
     .card-body
       .container
         .d-flex.flex-column.align-items-center
           = link_to("/", class: "mt-4") do
-            = image_pack_tag("images/roamio_brand_icon_l_grey.png", height: 40)
-          %h2.text-secondary.mt-2
+            = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 40)
+          %h2.fw-bold.text-primary.mt-2
             Sign In
 
       = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
@@ -24,6 +24,6 @@
         .form-actions.d-flex.justify-content-end
           = f.button(:submit,
                      "Sign In",
-                     class: "btn btn-primary")
+                     class: "btn fw-bold btn-primary")
       .d-flex.flex-column
         = render("devise/shared/links")
