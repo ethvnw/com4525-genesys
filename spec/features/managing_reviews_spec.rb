@@ -14,28 +14,28 @@ RSpec.feature("Managing reviews") do
 
   feature "Submitting reviews" do
     scenario "I cannot submit a review with no content" do
-      visit "/"
+      visit root_path
       fill_in "review_name", with: "Test User"
       click_on "Submit Review"
       expect(page).to(have_content("Content can't be blank"))
     end
 
     scenario "I cannot submit a review with no name" do
-      visit "/"
+      visit root_path
       fill_in "review_content", with: "Content for the review"
       click_on "Submit Review"
       expect(page).to(have_content("Name can't be blank"))
     end
 
     scenario "I cannot submit a review with no name or content" do
-      visit "/"
+      visit root_path
       click_on "Submit Review"
       expect(page).to(have_content("Name can't be blank"))
       expect(page).to(have_content("Content can't be blank"))
     end
 
     scenario "I can submit a review and not see it yet (as it is hidden until an admin unhides it)" do
-      visit "/"
+      visit root_path
       fill_in "review_name", with: "Test User"
       fill_in "review_content", with: "Content for the review"
       click_on "Submit Review"
@@ -47,11 +47,11 @@ RSpec.feature("Managing reviews") do
 
   feature "Seeing a review in the admin review management system" do
     scenario "I can submit a review and only the admin can see it through the review management system" do
-      visit "/"
+      visit root_path
       fill_in "review_name", with: "Test User"
       fill_in "review_content", with: "Content for the review"
       click_on "Submit Review"
-      visit "/admin/manage_reviews"
+      visit admin_manage_reviews_path
       within(:css, "#hidden-reviews") do
         expect(page).to(have_content("Content for the review"))
       end
@@ -62,11 +62,11 @@ RSpec.feature("Managing reviews") do
     given!(:review) { FactoryBot.create(:review) }
 
     scenario "I can like a review" do
-      visit "/"
+      visit root_path
       within("div.reviews-carousel") do
         find("button#review_#{review.id}").click
       end
-      visit "/"
+      visit root_path
       within("div.reviews-carousel") do
         expect(page).to(have_content("1"))
       end
@@ -74,12 +74,12 @@ RSpec.feature("Managing reviews") do
 
     scenario "I can unlike a review" do
       review.increment!(:engagement_counter)
-      visit "/"
+      visit root_path
       within("div.reviews-carousel") do
         find("button#review_#{review.id}").click
       end
 
-      visit "/"
+      visit root_path
       within("div.reviews-carousel") do
         expect(page).to(have_content("0"))
       end
@@ -87,11 +87,31 @@ RSpec.feature("Managing reviews") do
   end
 
   feature "Edit review visibility" do
+    given!(:review) { FactoryBot.create(:review) }
+    
+    scenario "I can make a review hidden and no longer see it on the home page" do
+      visit admin_manage_reviews_path
+      within(:css, "#visible-reviews form.update-visibility") do
+        find("button").click
+      end
+      visit root_path
+      within("div.reviews-carousel") do
+        expect(page).not_to(have_content(review.content))
+      end
+    end
+    
     scenario "I can make a review visible and see it on the home page" do
+      review.toggle!(:is_hidden)
+      visit admin_manage_reviews_path
+      within(:css, "#hidden-reviews form.update-visibility") do
+        find("button").click
+      end
+      visit root_path
+      within("div.reviews-carousel") do
+        expect(page).to(have_content(review.content))
+      end
     end
 
-    scenario "I can make a review hidden and no longer see it on the home page" do
-    end
   end
 
   feature "Editing review orders" do
