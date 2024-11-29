@@ -17,7 +17,7 @@ const updateVisibleItemOrders = (hiddenItemOrder) => {
       item.setAttribute('data-order', item.getAttribute('data-order') - 1);
     }
   });
-  document.getElementById('save-form').dispatchEvent(new Event('submit'), { cancelable: true });
+  document.getElementById('save-form').dispatchEvent(new Event('submit', { cancelable: true }));
 };
 
 visibilityUpdateForms.forEach((form) => {
