@@ -60,7 +60,7 @@ RSpec.feature("Managing reviews") do
 
   feature "Liking reviews" do
     given!(:review) { FactoryBot.create(:review) }
-    
+
     scenario "I can like a review" do
       visit "/"
       within("div.reviews-carousel") do
@@ -68,7 +68,7 @@ RSpec.feature("Managing reviews") do
       end
       visit "/"
       within("div.reviews-carousel") do
-        expect(page).to have_content("1")
+        expect(page).to(have_content("1"))
       end
     end
 
@@ -81,7 +81,7 @@ RSpec.feature("Managing reviews") do
 
       visit "/"
       within("div.reviews-carousel") do
-        expect(page).to have_content("0")
+        expect(page).to(have_content("0"))
       end
     end
   end
