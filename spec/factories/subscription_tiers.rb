@@ -14,9 +14,9 @@
 #
 FactoryBot.define do
   factory :subscription_tier do
-    name { "MyString" }
+    name { "Subscription Tier" }
     price_gbp { "9.99" }
-    discount_description { "MyString" }
-    terms_description { "MyString" }
+    discount_description { nil }
+    terms_description { nil }
   end
 end
