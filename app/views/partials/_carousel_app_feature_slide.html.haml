@@ -2,8 +2,8 @@
   .card.mb-2
     = image_pack_tag("images/placeholder_ios_screen.png", class: "card-img")
     .card-img-overlay
-  %h3.share-feature-name.display-8.fw-bold= app_feature_obj.name
-  %p.share-feature-description.fw-semibold.text-secondary= app_feature_obj.description
+  %h4.share-feature-name.display-8.fw-bold= app_feature_obj.name
+  %p.small.share-feature-description.text-secondary= app_feature_obj.description
   %button.share-feature-button.btn.btn-light.fw-semibold.text-secondary
     %i.bi.bi-share-fill &nbsp;
     Share

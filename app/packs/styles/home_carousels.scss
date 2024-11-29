@@ -14,22 +14,22 @@
         height: 491px;
     }
 
-    h3, p {
+    h4, p {
         display: -webkit-box;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
-    h3 {
+    h4 {
         -webkit-line-clamp: 2;
         line-clamp: 2;
         min-height: 60px;
     }
 
     p {
-        -webkit-line-clamp: 3;
-        line-clamp: 3;
-        min-height: 75px;
+        -webkit-line-clamp: 6;
+        line-clamp: 6;
+        min-height: 105px;
     }
 }
 
