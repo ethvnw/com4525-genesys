@@ -6,7 +6,7 @@ class SubscriptionTierDecorator < ApplicationDecorator
 
   def formatted_price
     price = object.price_gbp
-    return "" unless price.present? && price > 0
+    return "" unless price.present? && price.positive?
 
     if price % 1 == 0
       format("£%d/month", price.to_i)
