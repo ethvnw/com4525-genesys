@@ -12,7 +12,7 @@ class PagesController < ApplicationController
     end
     @errors = flash[:errors]
     @reviews = Review.where.not(is_hidden: true).order(order: :asc)
-    @app_features = AppFeature.all
+    @app_features = SubscriptionTier.find_by(name: "Free")&.app_features
   end
 
   def pricing

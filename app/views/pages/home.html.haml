@@ -28,10 +28,11 @@
     Seamless travel, organised
   .swiper.features-carousel
     .swiper-wrapper
-      - @app_features.each do |app_feature|
-        .swiper-slide.d-flex.justify-content-center
-          = render("partials/carousel_app_feature_slide",
-                   app_feature_obj: app_feature)
+      - if @app_features.present?
+        - @app_features.each do |app_feature|
+          .swiper-slide.d-flex.justify-content-center
+            = render("partials/carousel_app_feature_slide",
+                    app_feature_obj: app_feature)
     .swiper-button-prev
     .swiper-button-next
     .swiper-scrollbar
