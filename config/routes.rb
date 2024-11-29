@@ -46,11 +46,6 @@ Rails.application.routes.draw do
   # GET: Reporter dashboard route
   get "reporter/dashboard", to: "reporter#dashboard", as: :reporter_dashboard
 
-  # POST: Sending a magic link route
-  devise_scope :user do
-    post "api/users/magic_link", to: "magic_password#send_magic_link", as: :send_magic_link
-  end
-
   # GET: User avatar route
   get "api/users/avatar", to: "avatar#show", as: :user_avatar
 

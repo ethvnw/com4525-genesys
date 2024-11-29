@@ -20,30 +20,8 @@
   %span.fw-bold Role:
   = current_user.show_role
 
-%h3 Send Magic Login Link
 %hr
 %h4 Create a Staff Account
-
--# = simple_form_for(:user, url: invitation_path(:user), html: { method: :post, remote: true}) do |f|
--#   = f.error_notification
--#
--#   .form-inputs.d-flex.align-items-center.gap-3
--#     .form-group.mb-0
--#       = f.input(:email,
--#                 required: true,
--#                 autofocus: true,
--#                 input_html: { autocomplete: "email" },
--#                 label: false,
--#                 placeholder: "Email Address")
--#
--#     .form-group.mb-0
--#       = f.select(:user_role,
--#                  options_for_select(User.user_roles.keys.map { |r| [r.humanize, r] }),
--#                  { include_blank: "Role" },
--#                  { class: "form-select form-control w-auto", required: true })
--#
--#   .form-actions
--#     = f.submit("Create Account", class: "btn btn-primary mt-3")
 
 = form_with(model: User.new, url: invitation_path(:user), method: :post, class: "d-flex gap-3") do |f|
   .form-group.mb-0
@@ -59,7 +37,7 @@
                { class: "form-select form-control w-auto", required: true })
 
   .form-actions
-    = f.submit("Send Magic Link", class: "btn btn-primary")
+    = f.submit("Send Invitation", class: "btn btn-primary")
 
 %hr
 %h4 Staff Accounts
