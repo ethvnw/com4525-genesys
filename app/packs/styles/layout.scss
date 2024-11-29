@@ -8,10 +8,6 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-
-    footer {
-        margin-top: auto;
-    }
 }
 
 .review:first-child .order-up-arrow, .review:last-child .order-down-arrow {
