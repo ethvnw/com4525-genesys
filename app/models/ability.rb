@@ -36,6 +36,7 @@ class Ability
     # User access
     if user.admin?
       can(:manage, :all)
+      can(:invite, User)
       can(:access, :admin_dashboard)
     elsif user.reporter?
       can(:read, :all)

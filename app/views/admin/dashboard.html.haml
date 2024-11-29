@@ -20,11 +20,10 @@
   %span.fw-bold Role:
   = current_user.show_role
 
-%h3 Send Magic Login Link
 %hr
 %h4 Create a Staff Account
 
-= form_with(url: send_magic_link_path, method: :post, class: "d-flex gap-3") do |f|
+= form_with(model: User.new, url: invitation_path(:user), method: :post, class: "d-flex gap-3") do |f|
   .form-group.mb-0
     = f.email_field(:email,
                     placeholder: "Email address",
@@ -38,7 +37,7 @@
                { class: "form-select form-control w-auto", required: true })
 
   .form-actions
-    = f.submit("Send Magic Link", class: "btn btn-primary")
+    = f.submit("Send Invitation", class: "btn btn-primary")
 
 %hr
 %h4 Staff Accounts
@@ -49,7 +48,7 @@
       %th{ scope: "col" }
       %th{ scope: "col" } Email Address
       %th{ scope: "col" } User Role
-      %th{ scope: "col" } Account Activated
+      %th{ scope: "col" } Invitation Accepted
       %th{ scope: "col" }
   %tbody
     - @users.each do |user|
@@ -60,7 +59,7 @@
         %td= user.email
         %td= user.show_role
         %td
-          - if user.account_activated?
+          - if user.invitation_accepted?
             &#x2714;
           - else
             &#10008;
