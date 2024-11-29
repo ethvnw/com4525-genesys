@@ -8,6 +8,10 @@
   .dropdown-menu.dropdown-menu-end
     %h6.dropdown-header.fw-semibold.text-secondary
       = current_user.email
+    = link_to(edit_user_registration_path,
+              class: "dropdown-item",
+              method: :get) do
+      My Account
     - if can?(:access, :admin_dashboard)
       = link_to(admin_dashboard_path,
                 class: "dropdown-item",
