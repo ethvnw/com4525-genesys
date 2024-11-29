@@ -66,7 +66,7 @@ class LandingPageJourneyMiddleware
 
     if route_info[:action] == FEATURE_ACTION
       interaction = { id: route_info[:id], method: route_info[:method], timestamp: Time.now.utc }
-      add_to_session(request.session, "feature", interaction)
+      add_to_session(request.session, route_info[:controller], interaction)
     end
     puts(request.session[:journey])
     # Pass request along middleware stack
