@@ -163,6 +163,9 @@ GEM
     devise-pwned_password (0.1.12)
       devise (~> 4)
       pwned (~> 2.4)
+    devise_invitable (2.0.9)
+      actionmailer (>= 5.0)
+      devise (>= 4.6)
     diff-lcs (1.5.1)
     docile (1.4.1)
     draper (4.0.2)
@@ -181,6 +184,7 @@ GEM
       factory_bot (~> 6.4)
       railties (>= 5.0.0)
     ffi (1.17.0)
+    ffi (1.17.0-arm64-darwin)
     git (1.19.1)
       addressable (~> 2.8)
       rchardet (~> 1.8)
@@ -442,6 +446,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   devise-pwned_password
+  devise_invitable
   draper
   drb
   ed25519 (>= 1.2, < 2.0)
