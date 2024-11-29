@@ -1,22 +1,5 @@
-.mb-4
-  %h1 Manage Questions
-  = link_to("dashboard") do
-    Back to admin dashboard
-
-.d-flex.gap-2.justify-content-between.align-items-center
-  %h2
-    Visible Questions
-    %span#visible-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= @visible_questions.count
-
-  = form_tag(update_question_orders_path, method: :post, id: "save-form", class: "mb-0") do
-    = button_tag(type: "submit", class: "btn btn-primary fw-bold d-none save-button") do
-      %i.bi.bi-floppy
-      &nbsp;
-      Save Changes
-
-= render("question-card", questions: @visible_questions, hidden: false)
-
-%h2
-  Hidden Questions
-  %span#hidden-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= @hidden_questions.count
-= render("question-card", questions: @hidden_questions, hidden: true)
+= render("partials/admin/admin_item_dashboard",
+         type: "question",
+         path: update_question_orders_path,
+         visible_items: @visible_questions,
+         hidden_items: @hidden_questions)

@@ -37,7 +37,7 @@ answerForms.forEach((form) => {
       })
       .then((data) => {
         // Update the ui with the new answer
-        const answerElement = document.querySelector(`#question_${questionId} .card-body .fw-bold.text-secondary`);
+        const answerElement = document.querySelector(`#item_${questionId} .card-body .fw-bold.text-secondary`);
         answerElement.textContent = data.answer || 'No answer yet';
 
         // Close the modal by getting the Bootstrap modal instance
