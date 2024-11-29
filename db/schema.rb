@@ -45,6 +45,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_02_153250) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "feature_shares", force: :cascade do |t|
+    t.string "media"
+    t.datetime "timestamp"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "question"
     t.text "answer"
@@ -62,6 +67,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_02_153250) do
     t.string "country_code"
     t.bigint "subscription_tier_id", null: false
     t.index ["subscription_tier_id"], name: "index_registrations_on_subscription_tier_id"
+  end
+
+  create_table "review_likes", force: :cascade do |t|
+    t.datetime "timestamp"
+    t.bigint "review_id"
+    t.index ["review_id"], name: "index_review_likes_on_review_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -127,4 +138,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_02_153250) do
   add_foreign_key "app_features_subscription_tiers", "app_features"
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
   add_foreign_key "registrations", "subscription_tiers"
+  add_foreign_key "review_likes", "reviews"
 end
