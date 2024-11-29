@@ -88,7 +88,7 @@ RSpec.feature("Managing reviews") do
 
   feature "Edit review visibility" do
     given!(:review) { FactoryBot.create(:review) }
-    
+
     scenario "I can make a review hidden and no longer see it on the home page" do
       visit admin_manage_reviews_path
       within(:css, "#visible-reviews form.update-visibility") do
@@ -99,7 +99,7 @@ RSpec.feature("Managing reviews") do
         expect(page).not_to(have_content(review.content))
       end
     end
-    
+
     scenario "I can make a review visible and see it on the home page" do
       review.toggle!(:is_hidden)
       visit admin_manage_reviews_path
@@ -111,7 +111,6 @@ RSpec.feature("Managing reviews") do
         expect(page).to(have_content(review.content))
       end
     end
-
   end
 
   feature "Editing review orders" do
