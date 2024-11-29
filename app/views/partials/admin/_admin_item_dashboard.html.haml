@@ -8,7 +8,7 @@
     Visible #{type.capitalize}s
     %span#visible-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= visible_items.count
 
-  = form_tag(update_orders_path, method: :post, id: "save-form", class: "mb-0") do
+  = form_tag(path, method: :post, id: "save-form", class: "mb-0") do
     = button_tag(type: "submit", class: "btn btn-primary fw-bold d-none save-button") do
       %i.bi.bi-floppy
       &nbsp;
