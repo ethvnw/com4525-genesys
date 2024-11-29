@@ -12,7 +12,7 @@ class ReporterController < ApplicationController
   private
 
   def authorize_reporter
-    unless current_user.reporter?
+    unless can?(:access, :reporter_dashboard)
       flash[:alert] = "Unauthorized Access."
       redirect_to(root_path)
     end
