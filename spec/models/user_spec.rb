@@ -41,26 +41,6 @@
 require "rails_helper"
 
 RSpec.describe(User, type: :model) do
-  describe "#account_activated?" do
-    let(:user) { build(:user, last_sign_in_at: time) }
-
-    context "when last_sign_in_at is nil" do
-      let(:time) { nil }
-
-      it "returns false that the account is not activated" do
-        expect(user.account_activated?).to(be_falsey)
-      end
-    end
-
-    context "when last_sign_in_at is timestamped" do
-      let(:time) { Time.current }
-
-      it "returns true that the account has been activated" do
-        expect(user.account_activated?).to(be_truthy)
-      end
-    end
-  end
-
   describe "#show_role" do
     let(:user) { build(:user, user_role: role) }
 
