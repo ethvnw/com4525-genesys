@@ -6,8 +6,6 @@ class InvitationsController < Devise::InvitationsController
 
   def create
     self.resource = invite_resource
-    resource.user_role = params[:user][:user_role]
-
     if resource.errors.empty?
       flash[:notice] = "Invitation sent successfully to #{resource.email}."
     else
