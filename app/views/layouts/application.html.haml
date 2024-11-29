@@ -33,9 +33,8 @@
 
           .alert{ class: "alert-#{message_type == "notice" ? "success" : "danger"}" }= message
 
-    %main
-      .container
-        = yield
+    %main.container.d-flex.flex-column.flex-fill
+      = yield
 
     %footer.bg-primary
       .container
