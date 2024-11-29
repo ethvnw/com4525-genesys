@@ -20,11 +20,27 @@ RSpec.feature("Managing reviews") do
       expect(page).to(have_content("Content can't be blank"))
     end
 
+    scenario "I cannot submit a review with too much content (>400 characters)" do
+      visit root_path
+      fill_in "review_name", with: "Test User"
+      fill_in "review_content", with: "a" * 401
+      click_on "Submit Review"
+      expect(page).to(have_content("Content is too long (maximum is 400 characters)"))
+    end
+
     scenario "I cannot submit a review with no name" do
       visit root_path
       fill_in "review_content", with: "Content for the review"
       click_on "Submit Review"
       expect(page).to(have_content("Name can't be blank"))
+    end
+
+    scenario "I cannot submit a review with too long of a name (>50 characters)" do
+      visit root_path
+      fill_in "review_name", with: "a" * 51
+      fill_in "review_content", with: "Test Content"
+      click_on "Submit Review"
+      expect(page).to(have_content("Name is too long (maximum is 50 characters)"))
     end
 
     scenario "I cannot submit a review with no name or content" do
@@ -78,7 +94,18 @@ RSpec.feature("Managing reviews") do
       within("div.reviews-carousel") do
         find("button#review_#{review.id}").click
       end
+      visit root_path
+      within("div.reviews-carousel") do
+        expect(page).to(have_content("0"))
+      end
+    end
 
+    scenario "I can like and unlike a review", js: true do
+      visit root_path
+      within("div.reviews-carousel") do
+        find("button#review_#{review.id}").click
+        find("button#review_#{review.id}").click
+      end
       visit root_path
       within("div.reviews-carousel") do
         expect(page).to(have_content("0"))
