@@ -15,9 +15,9 @@
 #
 FactoryBot.define do
   factory :review do
-    name { "MyText" }
-    content { "MyText" }
-    order { 1 }
+    name { "MyName" }
+    content { "MyContent" }
+    order { 0 }
     is_hidden { false }
     engagement_counter { 0 }
   end
