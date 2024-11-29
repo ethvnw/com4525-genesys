@@ -40,7 +40,7 @@ RSpec.feature("Pricing page", type: :feature) do
   scenario "I can select the free tier option" do
     visit subscription_tiers_pricing_path
 
-    click_on "Get Free"
+    click_on "Get #{@free_tier.name}"
 
     expect(page).to(have_current_path(subscription_tiers_register_path(s_id: @free_tier.id)))
 
@@ -50,7 +50,7 @@ RSpec.feature("Pricing page", type: :feature) do
   scenario "I can select the explorer individual tier option" do
     visit subscription_tiers_pricing_path
 
-    click_on "Get Explorer Individual"
+    click_on "Get Explorer #{@explorer_tier.name}"
 
     expect(page).to(have_current_path(subscription_tiers_register_path(s_id: @explorer_tier.id)))
 
