@@ -173,6 +173,20 @@ RSpec.feature("Managing reviews") do
       end
     end
 
+    scenario "I cannot move the first review even closer to the front as there is no up arrow shown", js: true do
+      visit admin_manage_reviews_path
+      within(:css, "#visible-items #item_#{review1.id} .order-arrows") do
+        expect(page).not_to(have_css(".order-up-arrow"))
+      end
+    end
+
+    scenario "I cannot move the last review even closer to the end as there is no down arrow", js: true do
+      visit admin_manage_reviews_path
+      within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
+        expect(page).not_to(have_css(".order-down-arrow"))
+      end
+    end
+
     scenario "I cannot edit the order of a hidden review as there are no arrows present", js: true do
       visit admin_manage_reviews_path
       within(:css, "#hidden-items #item_#{review3.id}") do
