@@ -1,0 +1,29 @@
+-# Modal for Answer
+.modal.fade{
+  id: "answerModal_#{question.id}",
+  tabindex: "-1",
+  "aria-labelledby": "answerModalLabel_#{question.id}",
+  "aria-hidden": "true",
+}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h5.modal-title{ id: "answerModalLabel_#{question.id}" } Answer Question
+        %button.btn-close{ type: "button", "data-bs-dismiss": "modal", "aria-label": "Close" }
+      .modal-body
+        %form.answer-form.mb-0{
+          "action": answer_question_path(question),
+          method: "post",
+          "data-question-id": question.id,
+        }
+          %mb-3
+          %label.form-label{ for: "answer_#{question.id}" }
+            = question.question
+          %textarea.form-control{
+            id: "answer_#{question.id}",
+            placeholder: "Answer the question here",
+            name: "answer",
+            rows: 3,
+          }
+            = question.answer
+          %button.btn.btn-primary.mt-2{ type: "submit" } Submit Answer
