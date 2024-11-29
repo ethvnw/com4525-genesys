@@ -30,6 +30,7 @@ class QuestionsController < ApplicationController
   end
 
   def update_orders
+    Rails.logger.info("Params received: #{params.inspect}")
     json = JSON.parse(params[:items])
     json.each do |id, order|
       Question.find(id).update(order: order)
