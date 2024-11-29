@@ -15,10 +15,6 @@ class PagesController < ApplicationController
     @app_features = SubscriptionTier.find_by(name: "Free")&.app_features
   end
 
-  def pricing
-    @errors = flash[:errors]
-  end
-
   def faq
     @question = if flash[:question_data]
       Question.new(flash[:question_data])
