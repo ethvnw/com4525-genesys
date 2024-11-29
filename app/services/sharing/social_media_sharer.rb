@@ -5,6 +5,7 @@ module Sharing
   # Base class for sharing features to social media
   class SocialMediaSharer < ApplicationService
     def initialize(feature)
+      super() # Explicitly specify 0 arguments, otherwise it tries to call super with `feature`
       @feature = feature
     end
 
