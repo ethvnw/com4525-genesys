@@ -1,4 +1,4 @@
-.card.bg-light
+.card.bg-light{ id: "#{tier.name.downcase}-tier-card" }
   .card-body
     - if tier.premium_subscription?
       = image_pack_tag("images/roamio_explorer_brand_logo_d_grey.png", height: 20)
