@@ -11,7 +11,7 @@ class QuestionsController < ApplicationController
 
     unless @question.save
       flash[:errors] = @question.errors.full_messages
-      flash[:question_data] = @question.attributes.slice("question", "answer")
+      flash[:question_data] = @question.attributes.slice("question")
     end
     redirect_to(faq_path)
   end
