@@ -22,7 +22,7 @@
           "action": (type == "review" ? update_visibility_path(item) : update_question_visibility_path(item)),
           method: "post",
         }
-          %button.btn.btn-secondary.fw-bold
+          %button.btn.btn-secondary.fw-bold{ id: "visibility-toggle-#{item.id}" }
             - if item.is_hidden
               %i.bi.bi-eye-fill
             - else
