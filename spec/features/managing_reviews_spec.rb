@@ -3,13 +3,6 @@
 require "rails_helper"
 
 RSpec.feature("Managing reviews") do
-  before do
-    login_as FactoryBot.create(
-      :user,
-      user_role: "admin",
-    )
-  end
-
   feature "Submitting reviews" do
     scenario "I cannot submit a review with no content" do
       visit root_path
@@ -59,19 +52,6 @@ RSpec.feature("Managing reviews") do
     end
   end
 
-  feature "Seeing a review in the admin review management system" do
-    scenario "I can submit a review and only the admin can see it through the review management system" do
-      visit root_path
-      fill_in "review_name", with: "Test User"
-      fill_in "review_content", with: "Content for the review"
-      click_on "Submit Review"
-      visit admin_manage_reviews_path
-      within(:css, "#hidden-items") do
-        expect(page).to(have_content("Content for the review"))
-      end
-    end
-  end
-
   feature "Liking reviews" do
     given!(:review) { FactoryBot.create(:review) }
 
@@ -111,7 +91,27 @@ RSpec.feature("Managing reviews") do
     end
   end
 
+  let(:admin) { create(:admin) }
+
+  feature "Seeing a review in the admin review management system" do
+    scenario "I can submit a review and only the admin can see it through the review management system" do
+      visit root_path
+      fill_in "review_name", with: "Test User"
+      fill_in "review_content", with: "Content for the review"
+      click_on "Submit Review"
+      login_as(admin, scope: :user)
+      visit admin_manage_reviews_path
+      within(:css, "#hidden-items") do
+        expect(page).to(have_content("Content for the review"))
+      end
+    end
+  end
+
   feature "Edit review visibility" do
+    before do
+      login_as(admin, scope: :user)
+    end
+
     given!(:review) { FactoryBot.create(:review) }
 
     scenario "I can make a review hidden and no longer see it on the home page" do
@@ -139,6 +139,10 @@ RSpec.feature("Managing reviews") do
   end
 
   feature "Editing review orders" do
+    before do
+      login_as(admin, scope: :user)
+    end
+
     given!(:review1) { FactoryBot.create(:review) }
     given!(:review2) { FactoryBot.create(:review, name: "OtherName", content: "OtherContent", order: 1) }
     given!(:review3) do

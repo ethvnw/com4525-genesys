@@ -45,4 +45,11 @@ FactoryBot.define do
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
   end
+
+  factory :admin, class: User do
+    email { "admin@epigenesys.org.uk" }
+    password { "GenesysModule#1" }
+    password_confirmation { "GenesysModule#1" }
+    user_role { "admin" }
+  end
 end
