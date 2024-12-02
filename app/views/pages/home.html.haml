@@ -2,25 +2,24 @@
 %section.row.align-items-center.py-5
   .col-lg-6.text-center.text-lg-start
     %h1.display-5.fw-bold.lh-1.mb-3
-      All your trip
-      %br
-      One simple space
+      No more searching through files, emails, and group chats
     %p.fw-semibold
-      Roamio is a collaborative way to manage tickets, bookings, and activities
-    = link_to("#", class: "btn btn-primary btn-lg d-lg-none fw-semibold mb-3") do
+      Roamio is a collaborative app to organise trip tickets, bookings, and activities
+    = link_to("#", class: "btn btn-primary btn-lg fw-semibold mb-5") do
       %i.bi.bi-compass &nbsp;
       Join the travel revolution
   .col-lg-6.d-flex.justify-content-center.my-0
-    %img.img-fluid{ alt: "", loading: "lazy", height: "500", width: "500" }
+    = image_pack_tag("images/roamio_brand_home_hero.png", class: "", height: 700)
 
 -# About section
-%section.row.align-items-center.py-5.px-4.bg-primary
-  .col-lg-6.text-center.text-lg-start
-    %h2.display-6.fw-bold.lh-1.mb-3
-      No more searching through files, emails, and group chats
-    %p.fw-semibold
-      All your travel plans, instantly accessible
-  .col-lg-6
+%section.row.align-items-center.py-5.px-5.card-section.bg-primary
+  .card-body
+    .row.text-center.text-lg-start
+      .col-lg-6.text-center.text-lg-start
+        %h2.display-6.fw-bold.lh-1.mb-3
+          Roamio is built for collaboration, ensuring every trip is perfectly planned
+        %p.fw-semibold
+          Disorganised plans cause stress, missed bookings, and miscommunication
 
 -# Features carousel section
 %section.row.align-items-center.py-5.gap-4
@@ -38,13 +37,14 @@
     .swiper-scrollbar
 
 -# About section
-%section.row.align-items-center.py-5.px-4.bg-light
-  .col-lg-6.text-center.text-lg-start
-    %h2.display-6.fw-bold.lh-1.mb-3
-      Built for You, Shaped by Your Feedback
-    %p.fw-semibold.text-secondary
-      Your feedback drives our design
-  .col-lg-6
+%section.row.align-items-center.py-5.px-5.card-section.bg-light
+  .card-body
+    .row.text-center.text-lg-start  
+      .col-lg-6.text-center.text-lg-start
+        %h2.display-6.fw-bold.lh-1.mb-3
+          Built for You, Shaped by Your Feedback
+        %p.fw-semibold.text-secondary
+          Your feedback drives our design
 
 -# Reviews carousel section
 %section.row.align-items-center.py-5.gap-4
