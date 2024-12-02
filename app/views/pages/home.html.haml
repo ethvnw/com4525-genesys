@@ -5,7 +5,7 @@
       No more searching through files, emails, and group chats
     %p.fw-semibold
       Roamio is a collaborative app to organise trip tickets, bookings, and activities
-    = link_to("#", class: "btn btn-primary btn-lg fw-semibold mb-5") do
+    = link_to(subscription_tiers_pricing_path, class: "btn btn-primary btn-lg fw-semibold mb-5") do
       %i.bi.bi-compass &nbsp;
       Join the travel revolution
   .col-lg-6.d-flex.justify-content-center.my-0
@@ -39,7 +39,7 @@
 -# About section
 %section.row.align-items-center.py-5.px-5.card-section.bg-light
   .card-body
-    .row.text-center.text-lg-start  
+    .row.text-center.text-lg-start
       .col-lg-6.text-center.text-lg-start
         %h2.display-6.fw-bold.lh-1.mb-3
           Built for You, Shaped by Your Feedback
@@ -50,7 +50,7 @@
 %section.row.align-items-center.py-5.gap-4
   %h2.text-center.text-lg-start.fw-bold
     Trusted by travellers
-  .swiper.reviews-carousel
+  #reviews-carousel.swiper.reviews-carousel
     .swiper-wrapper
       - @reviews.each do |review|
         .swiper-slide.d-flex.justify-content-center
