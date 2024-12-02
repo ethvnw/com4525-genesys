@@ -42,7 +42,7 @@ RSpec.feature("Viewing Homepage") do
       click_link "Facebook"
 
       # Facebook doesn't accept body in sharer, so just check for URL
-      expect(current_url).to eq("https://www.facebook.com/sharer/sharer.php?u=roamio.com")
+      expect(current_url).to(eq("https://www.facebook.com/sharer/sharer.php?u=roamio.com"))
     end
 
     scenario "I share a feauture on a Twitter", js: true do
@@ -57,7 +57,7 @@ RSpec.feature("Viewing Homepage") do
       expect(decoded_link).to(include(app_feature.name))
       expect(decoded_link).to(include(app_feature.description.downcase))
     end
-  
+
     scenario "I share a feauture on a WhatsApp", js: true do
       visit root_path
 
