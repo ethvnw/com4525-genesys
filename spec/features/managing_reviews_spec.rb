@@ -6,8 +6,6 @@ RSpec.feature("Managing reviews") do
   before do
     login_as FactoryBot.create(
       :user,
-      email: "test@epigenesys.org.uk",
-      password: "GenesysModule#1",
       user_role: "admin",
     )
   end
