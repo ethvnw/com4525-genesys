@@ -20,4 +20,15 @@
 #  fk_rails_...  (subscription_tier_id => subscription_tiers.id)
 #
 class Registration < ApplicationRecord
+  belongs_to :subscription_tier
+
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :country_code, presence: true, length: { is: 2 }
+  validate :validate_subscription_tier
+
+  private
+
+  def validate_subscription_tier
+    errors.add(:subscription_tier, "does not exist") unless subscription_tier.present?
+  end
 end
