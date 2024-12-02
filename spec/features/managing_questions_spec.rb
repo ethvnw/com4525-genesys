@@ -176,7 +176,7 @@ RSpec.feature("Managing questions") do
       end
       click_on "Save Changes"
       visit faq_path
-      within(:css, "#faqContainer") do
+      within(:css, "#faq-container") do
         first_question = find("#accordion-0")
         expect(first_question).to(have_content(question2.question))
       end
