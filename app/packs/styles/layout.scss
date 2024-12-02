@@ -10,7 +10,7 @@ body {
     flex-direction: column;
 }
 
-.review:first-child .order-up-arrow, .review:last-child .order-down-arrow {
+.item:first-child .order-up-arrow, .item:last-child .order-down-arrow {
     visibility: hidden;
 }
 
