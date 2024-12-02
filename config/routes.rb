@@ -59,4 +59,6 @@ Rails.application.routes.draw do
 
   # GET: Subscription tiers register route
   get "subscriptions/register", to: "subscription_tiers#register", as: :subscription_tiers_register
+
+  post "api/registrations", to: "registrations#create", as: :registrations
 end

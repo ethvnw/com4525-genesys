@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: registrations
@@ -19,6 +21,9 @@
 #
 FactoryBot.define do
   factory :registration do
-    
+    email { "test@example.com" }
+    country_code { "GB" }
+
+    association :subscription_tier
   end
 end
