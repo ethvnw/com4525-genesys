@@ -182,50 +182,50 @@ RSpec.feature("Managing questions") do
       end
     end
 
-    # scenario "I can move a review closer to the end so it appears after other reviews on the home page", js: true do
-    #   visit admin_manage_reviews_path
-    #   within(:css, "#visible-items #item_#{review1.id} .order-arrows") do
-    #     find(".order-down-arrow").click
-    #   end
-    #   click_on "Save Changes"
-    #   visit root_path
-    #   within(:css, ".reviews-carousel .swiper-wrapper") do
-    #     second_review = find('[data-swiper-slide-index="1"]')
-    #     expect(second_review).to(have_content(review1.content))
-    #   end
-    # end
+    scenario "I can move a question closer to the end so it appears after other questions on the faq page", js: true do
+      visit admin_manage_questions_path
+      within(:css, "#visible-items #item_#{question1.id} .order-arrows") do
+        find(".order-down-arrow").click
+      end
+      click_on "Save Changes"
+      visit faq_path
+      within(:css, "#faq-container") do
+        second_question = find("#accordion-1")
+        expect(second_question).to(have_content(question1.question))
+      end
+    end
 
-    # scenario "I cannot move the first review even closer to the front as there is no up arrow shown", js: true do
-    #   visit admin_manage_reviews_path
-    #   within(:css, "#visible-items #item_#{review1.id} .order-arrows") do
-    #     expect(page).not_to(have_css(".order-up-arrow"))
-    #   end
-    # end
+    scenario "I cannot move the first question even closer to the front as there is no up arrow shown", js: true do
+      visit admin_manage_questions_path
+      within(:css, "#visible-items #item_#{question1.id} .order-arrows") do
+        expect(page).not_to(have_css(".order-up-arrow"))
+      end
+    end
 
-    # scenario "I cannot move the last review even closer to the end as there is no down arrow", js: true do
-    #   visit admin_manage_reviews_path
-    #   within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
-    #     expect(page).not_to(have_css(".order-down-arrow"))
-    #   end
-    # end
+    scenario "I cannot move the last question even closer to the end as there is no down arrow", js: true do
+      visit admin_manage_questions_path
+      within(:css, "#visible-items #item_#{question2.id} .order-arrows") do
+        expect(page).not_to(have_css(".order-down-arrow"))
+      end
+    end
 
-    # scenario "I cannot edit the order of a hidden review as there are no arrows present", js: true do
-    #   visit admin_manage_reviews_path
-    #   within(:css, "#hidden-items #item_#{review3.id}") do
-    #     expect(page).not_to(have_css(".order-arrows"))
-    #   end
-    # end
+    scenario "I cannot edit the order of a hidden question as there are no arrows present", js: true do
+      visit admin_manage_questions_path
+      within(:css, "#hidden-items #item_#{question3.id}") do
+        expect(page).not_to(have_css(".order-arrows"))
+      end
+    end
 
-    # scenario "I can discard changes to order by not clicking the 'Save Changes' button", js: true do
-    #   visit admin_manage_reviews_path
-    #   within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
-    #     find(".order-up-arrow").click
-    #   end
-    #   visit root_path
-    #   within(:css, ".reviews-carousel .swiper-wrapper") do
-    #     first_review = find('[data-swiper-slide-index="0"]')
-    #     expect(first_review).to(have_content(review1.content))
-    #   end
-    # end
+    scenario "I can discard changes to order by not clicking the 'Save Changes' button", js: true do
+      visit admin_manage_questions_path
+      within(:css, "#visible-items #item_#{question2.id} .order-arrows") do
+        find(".order-up-arrow").click
+      end
+      visit faq_path
+      within(:css, "#faq-container") do
+        first_question = find("#accordion-0")
+        expect(first_question).to(have_content(question1.question))
+      end
+    end
   end
 end
