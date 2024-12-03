@@ -21,6 +21,7 @@ class PagesController < ApplicationController
     else
       Question.new
     end
+    @errors = flash[:errors]
     @questions = Question.where.not(is_hidden: true).order(order: :asc)
   end
 end

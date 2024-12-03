@@ -14,4 +14,5 @@
 #  updated_at         :datetime         not null
 #
 class Question < ApplicationRecord
+  validates :question, presence: true, length: { maximum: 100 }
 end
