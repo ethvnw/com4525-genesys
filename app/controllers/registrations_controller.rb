@@ -6,6 +6,8 @@ class RegistrationsController < ApplicationController
   # POST /api/registrations
   def create
     registration = Registration.new(registration_params)
+
+    # The geocoder gem won't work over localhost (as 'localhost' is not a geocodable IP), so use GB as default
     registration.country_code = request.location.country_code.presence || "GB"
 
     unless registration.save
