@@ -51,7 +51,7 @@ individual_tier = SubscriptionTier.find_or_create_by!(
   name: "Individual",
   price_gbp: 2.99,
   discount_description: "Free for 1 month",
-  terms_description: "1 user only",
+  terms_description: "1 user only.",
 )
 
 group_tier = SubscriptionTier.find_or_create_by!(

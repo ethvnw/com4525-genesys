@@ -1,6 +1,6 @@
 %nav.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
   .container
-    = link_to("/", class: "navbar-brand") do
+    = link_to(root_path, class: "navbar-brand") do
       = image_pack_tag("images/roamio_brand_logo_d_grey.png", height: 40)
     %button.navbar-toggler.collapsed{
       type: :button,
@@ -21,7 +21,7 @@
       .navbar-nav.fw-semibold.text-center
         = link_to(faq_path, class: "nav-link") do
           FAQ
-        = link_to("#", class: "nav-link") do
+        = link_to(root_path(anchor: "reviews-carousel"), class: "nav-link") do
           Reviews
         = link_to(subscription_tiers_pricing_path, class: "nav-link") do
           Pricing
@@ -34,6 +34,7 @@
                     class: "btn btn-secondary fw-semibold d-flex justify-content-center",
                     method: :get) do
             Log in
-          = link_to("#", class: "btn btn-primary fw-semibold d-flex justify-content-center gap-1") do
+          = link_to(subscription_tiers_pricing_path,
+                    class: "btn btn-primary fw-semibold d-flex justify-content-center gap-1") do
             %i.bi.bi-compass &nbsp;
             Join the travel revolution
