@@ -111,3 +111,6 @@ end
 gem "haml_lint", require: false
 gem "rubocop-shopify", require: false
 gem "rubocop", "~> 1.68"
+
+# geocoder - used to get country code from request
+gem "geocoder", "~> 1.8", ">= 1.8.3"
