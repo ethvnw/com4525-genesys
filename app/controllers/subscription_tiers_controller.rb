@@ -7,7 +7,7 @@ class SubscriptionTiersController < ApplicationController
   end
 
   def register
-    unless SubscriptionTier.exists?(params[:s_id])
+    unless SubscriptionTier.exists?(id: params[:s_id])
       redirect_to(subscription_tiers_pricing_path) and return
     end
 
