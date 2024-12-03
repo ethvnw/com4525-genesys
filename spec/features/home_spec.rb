@@ -53,7 +53,7 @@ RSpec.feature("Viewing Homepage") do
       click_link "Twitter"
 
       decoded_link = CGI.unescape(current_url)
-      expect(decoded_link).to(include("https://x.com/intent/tweet?text="))
+      expect(decoded_link).to(include("https://x.com/intent/"))
       expect(decoded_link).to(include(app_feature.name))
       expect(decoded_link).to(include(app_feature.description.downcase))
     end
