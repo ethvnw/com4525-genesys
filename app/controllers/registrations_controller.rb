@@ -12,8 +12,7 @@ class RegistrationsController < ApplicationController
 
     unless registration.save
       if registration.errors.key?(:email)
-        flash[:email_error] = true
-        flash[:alert] = "Email " + registration.errors[:email].first
+        flash[:email_error] = "Email " + registration.errors[:email].first
       end
 
       redirect_back_or_to(subscription_tiers_pricing_path) and return
