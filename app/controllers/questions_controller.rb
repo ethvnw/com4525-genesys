@@ -11,15 +11,9 @@ class QuestionsController < ApplicationController
 
     unless @question.save
       flash[:errors] = @question.errors.full_messages
-      flash[:question_data] = @question.attributes.slice("question", "answer")
+      flash[:question_data] = @question.attributes.slice("question")
     end
     redirect_to(faq_path)
-  end
-
-  def update_like_count
-    @question = Question.find(params[:id])
-    params[:like] == "true" ? @question.increment!(:engagement_counter) : @question.decrement!(:engagement_counter)
-    head(:ok)
   end
 
   def update_visibility
@@ -45,12 +39,6 @@ class QuestionsController < ApplicationController
       respond_to do |format|
         format.json { render(json: { answer: @question.answer }, status: :ok) }
         format.html { redirect_to(admin_manage_questions_path, notice: "Answer saved successfully.") }
-      end
-    else
-      # If the update fails, respond with the full error messages
-      respond_to do |format|
-        format.json { render(json: { error: @question.errors.full_messages }, status: :unprocessable_entity) }
-        format.html { redirect_to(admin_manage_questions_path, alert: "Failed to save answer.") }
       end
     end
   end
