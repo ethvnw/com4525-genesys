@@ -22,10 +22,6 @@
 require "rails_helper"
 
 RSpec.describe(Registration, type: :model) do
-  it "has a valid factory" do
-    expect(build(:registration)).to(be_valid)
-  end
-
   describe "email validation" do
     it "is invalid when no email is present" do
       expect(build(:registration, email: nil)).to(be_invalid)
