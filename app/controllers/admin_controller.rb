@@ -7,7 +7,7 @@ class AdminController < ApplicationController
 
   # GET: Admin dashboard route ("/admin/dashboard")
   def dashboard
-    @users = User.all
+    @users = User.all.decorate
   end
 
   # GET: Edit staff account route ("/admin/staff/:id/edit")
