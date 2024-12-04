@@ -84,8 +84,6 @@ class LandingPageJourneyMiddleware
     else
       remove_from_session(request.session, route_info[:controller], interaction)
     end
-
-    puts request.session[:journey]
   end
 
   ##
