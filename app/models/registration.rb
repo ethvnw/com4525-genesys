@@ -1,0 +1,34 @@
+# frozen_string_literal: true
+
+# == Schema Information
+#
+# Table name: registrations
+#
+#  id                   :bigint           not null, primary key
+#  country_code         :string
+#  email                :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  subscription_tier_id :bigint           not null
+#
+# Indexes
+#
+#  index_registrations_on_subscription_tier_id  (subscription_tier_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (subscription_tier_id => subscription_tiers.id)
+#
+class Registration < ApplicationRecord
+  belongs_to :subscription_tier
+
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :country_code, presence: true, length: { is: 2 }
+  validate :validate_subscription_tier
+
+  private
+
+  def validate_subscription_tier
+    errors.add(:subscription_tier, "does not exist") unless subscription_tier.present?
+  end
+end
