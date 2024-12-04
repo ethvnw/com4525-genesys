@@ -18,6 +18,13 @@ module Api
         redirect_back_or_to(pricing_subscriptions_path) and return
       end
 
+      if session[:journey].present?
+        Analytics::FeatureShareSaver.call(registration.id, session[:journey]["features"])
+        Analytics::ReviewLikeSaver.call(registration.id, session[:journey]["reviews"])
+      end
+
+      session[:journey] = nil
+
       flash[:notice] = "Successfully registered. Keep an eye on your inbox for updates!"
       redirect_to(root_path)
     end

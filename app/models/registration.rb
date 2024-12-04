@@ -21,6 +21,8 @@
 #
 class Registration < ApplicationRecord
   belongs_to :subscription_tier
+  has_many :app_features, through: :feature_shares
+  has_many :reviews, through: :review_likes
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :country_code, presence: true, length: { is: 2 }
