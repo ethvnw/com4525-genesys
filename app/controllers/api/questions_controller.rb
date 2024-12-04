@@ -47,10 +47,28 @@ module Api
       end
     end
 
+    def click
+      unless user_can_click?(params[:id])
+        head(:not_found) and return
+      end
+
+      Question.find(params[:id]).increment!(:engagement_counter)
+      session[:questions_liked]
+      head(:ok)
+    end
+
     private
 
     def question_params
       params.require(:question).permit(:question)
+    end
+
+    ##
+    # Checks that a question exists, and that the user has not already clicked on this question
+    # @param [ActionController::Parameters] question_id the ID of the question to check for validity
+    # @return [Boolean] true if current user can click, else false
+    def user_can_click?(question_id)
+      Question.exists?(id: question_id) && !session[:questions_liked]&.include?(question_id)
     end
   end
 end

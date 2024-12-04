@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       member do
         post :visibility
         post :answer
+        post :click
       end
 
       collection do
