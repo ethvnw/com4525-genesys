@@ -32,19 +32,33 @@
 #     ],
 #   }
 class LandingPageJourneyMiddleware
-  # The actions that should trigger adding/removing a journey
-  QUESTION_REVIEW_ACTIONS = [
-    "update_like_count",
-    "update_question_like_count",
-  ]
-
-  FEATURE_ACTION = "share_feature"
-
   def initialize(app)
     @app = app
   end
 
   def call(env)
+    handle_analytics(env)
+
+    # Pass request along middleware stack
+    @app.call(env)
+  end
+
+  private
+
+  # The actions that should trigger adding/removing a journey
+  LIKE_ACTION = "update_like_count"
+  FEATURE_ACTION = "share_feature"
+
+  JOURNEY_ACTIONS = [
+    LIKE_ACTION,
+    FEATURE_ACTION,
+    "update_click_count",
+  ]
+
+  ##
+  # Handles a route that has been intercepted by the middleware.
+  # Creates and adds/removes a journey point if necessary.
+  def handle_analytics(env)
     # Safely get route info (if route doesn't exist then a RoutingError will be thrown, which we should rescue)
     route_info = begin
       Rails.application.routes.recognize_path(env["PATH_INFO"], method: env["REQUEST_METHOD"])
@@ -52,34 +66,42 @@ class LandingPageJourneyMiddleware
       { action: nil }
     end
 
-    request = Rack::Request.new(env)
-
-    # Handle questions/reviews separately as they have like/unlike
-    if QUESTION_REVIEW_ACTIONS.include?(route_info[:action])
-      interaction = { id: route_info[:id], timestamp: Time.now.utc }
-      if request.params["like"] == "true"
-        add_to_session(request.session, route_info[:controller], interaction)
-      else
-        remove_from_session(request.session, route_info[:controller], interaction)
-      end
+    # Guard clause to catch all actions that we don't need analytics for
+    unless JOURNEY_ACTIONS.include?(route_info[:action])
+      return
     end
+
+    request = Rack::Request.new(env)
+    interaction = { id: route_info[:id], timestamp: Time.now.utc }
 
     if route_info[:action] == FEATURE_ACTION
-      interaction = { id: route_info[:id], method: route_info[:method], timestamp: Time.now.utc }
-      add_to_session(request.session, route_info[:controller], interaction)
+      # Add feature-specific info
+      interaction[:method] = route_info[:method]
     end
-    puts(request.session[:journey])
-    # Pass request along middleware stack
-    @app.call(env)
+
+    if adding?(route_info[:action], request.params)
+      add_to_session(request.session, route_info[:controller], interaction)
+    else
+      remove_from_session(request.session, route_info[:controller], interaction)
+    end
+
+    puts request.session[:journey]
   end
 
-  private
+  ##
+  # Checks whether we are adding to the journey or not
+  # @param [String] action the action that has been called
+  # @param [Rack::Request] params the parameters that have been passed with the request
+  # @return [bool] true if adding, otherwise false
+  def adding?(action, params)
+    action != LIKE_ACTION || params["like"] == "true"
+  end
 
   ##
   # Checks whether a journey feature is present within the session hash
   # @param [Hash] user_session the user's session to check
   # @param [String] journey_feature the journey feature to check for
-  # @return [Boolean] true if journey_feature is present within user_session, otherwise false
+  # @return [bool] true if journey_feature is present within user_session, otherwise false
   def feature_exists_in_session?(user_session, journey_feature)
     user_session.key?(:journey) && user_session[:journey].key?(journey_feature)
   end
@@ -89,7 +111,7 @@ class LandingPageJourneyMiddleware
   # checking of the new timestamp-free hashes (as timestamp will be different every time)
   # @param [Hash] p1 the first journey point to check
   # @param [Hash] p2 the second journey point to check
-  # @return [Boolean] true if p1 and p2 are equivalent, otherwise false
+  # @return [bool] true if p1 and p2 are equivalent, otherwise false
   def equivalent_journey_points?(p1, p2)
     p1.except(:timestamp) == p2.except(:timestamp)
   end
@@ -135,7 +157,7 @@ class LandingPageJourneyMiddleware
   # Removes a journey point (feature shared, review/question liked) from the user's session
   # @param user_session [Hash] the user's session hash
   # @param journey_feature [String] the journey feature to remove the journey point for
-  # @param journey_point [Integer] the journey_point to remove
+  # @param journey_point [Hash] the journey_point to remove
   def remove_from_session(user_session, journey_feature, journey_point)
     equivalent_point = find_equivalent_journey_point(user_session, journey_feature, journey_point)
     unless equivalent_point.nil?
