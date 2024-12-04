@@ -74,6 +74,8 @@ RSpec.feature("Managing staff") do
       within("table") do
         expect(page).not_to(have_selector("tr", text: reporter.email))
       end
+
+      expect(User.exists?(email: reporter.email)).to(be_falsey)
     end
   end
 end

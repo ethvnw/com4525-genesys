@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require "invitations_helper"
 
 RSpec.feature("Invitations") do
   let(:admin) { create(:admin) }
@@ -8,25 +9,6 @@ RSpec.feature("Invitations") do
   before do
     login_as(admin, scope: :user)
     visit admin_dashboard_path
-  end
-
-  # Helper method to send an invitation to a new email
-  def submit_invitation_to_new_email(email, role)
-    # Send an invitation to the new email address
-    fill_in("Email address", with: email)
-    select(role, from: "user_user_role")
-    click_button("Send Invitation")
-
-    within(".alert.alert-success") do
-      expect(page).to(have_content("Invitation sent successfully to #{email}."))
-    end
-
-    # Check the user has been added to the staff table
-    within("table") do
-      expect(page).to(have_text(email))
-      row = find("tr", text: email)
-      expect(row).to(have_text(role))
-    end
   end
 
   feature "Invitation form visibility" do
