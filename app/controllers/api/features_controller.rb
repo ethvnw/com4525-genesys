@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-class DummyFeature
-  attr_reader :name
-  attr_reader :description
-
-  def initialize(id)
-    @name = "Feature #{id}"
-    @description = "Test description"
-  end
-end
-
 module Api
   ##
   # Controller for features, handling sharing
@@ -22,22 +12,22 @@ module Api
     }.freeze
 
     def share
-      unless valid_share_method?(params[:method])
-        head(:unprocessable_entity) and return
+      unless can_share?(params)
+        head(:bad_request) and return
       end
 
       sharer = SHARERS.fetch(params[:method].to_s, Sharing::SocialMediaSharer)
-      redirect_to(sharer.call(DummyFeature.new(params[:id])), allow_other_host: true)
+      redirect_to(sharer.call(AppFeature.find_by_id(params[:id])), allow_other_host: true)
     end
 
     private
 
     ##
     # Checks whether a given share method is valid
-    # @param [ActionController::Parameters] method the method to check for validity
-    # @return [bool] true if method is valid, else false
-    def valid_share_method?(method)
-      method.present? && SHARERS.key?(method.to_s)
+    # @param [ActionController::Parameters] params the params to check for validity
+    # @return [bool] true if share is possible, else false
+    def can_share?(params)
+      AppFeature.exists?(id: params[:id]) && params[:method].present? && SHARERS.key?(params[:method].to_s)
     end
   end
 end
