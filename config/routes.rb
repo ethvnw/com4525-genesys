@@ -4,29 +4,49 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { invitations: "invitations" }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :reviews
-  # POST: Update the like count for a review
-  post "api/reviews/:id/likes", to: "reviews#update_like_count", as: :update_like_count
+  namespace :api do
+    resources :staff, only: [:update, :destroy]
 
-  # POST: Update the visibility of a review
-  post "api/reviews/:id/visibility", to: "reviews#update_visibility", as: :update_visibility
+    resources :questions, only: [:create] do
+      member do
+        post :visibility
+        post :answer
+      end
 
-  # POST: Update review order
-  post "api/reviews/orders", to: "reviews#update_orders", as: :update_orders
+      collection do
+        post :update_orders
+      end
+    end
 
-  resources :questions
+    resources :reviews, only: [:create] do
+      member do
+        post :visibility
+        post :like
+      end
 
-  # POST: Update the like count for a question
-  post "api/questions/:id/likes", to: "questions#update_like_count", as: :update_question_like_count
+      collection do
+        post :update_orders
+      end
+    end
+  end
 
-  # POST: Update the visibility of a question
-  post "api/questions/:id/visibility", to: "questions#update_visibility", as: :update_question_visibility
+  namespace :admin do
+    get :dashboard, to: "dashboard#index"
 
-  # POST: Update question order
-  post "api/questions/orders", to: "questions#update_orders", as: :update_question_orders
+    resources :staff, only: [:edit]
 
-  # POST: Answer a question
-  post "questions/:id/answer", to: "questions#answer", as: :answer_question
+    resources :reviews, only: [] do
+      collection do
+        get :manage
+      end
+    end
+
+    resources :questions, only: [] do
+      collection do
+        get :manage
+      end
+    end
+  end
 
   # Defines the root path route ("/")
   root "pages#home"
@@ -34,25 +54,11 @@ Rails.application.routes.draw do
   # GET: FAQ route
   get "faq", to: "pages#faq", as: :faq
 
-  # GET: Admin dashboard route
-  get "admin/dashboard", to: "admin#dashboard", as: :admin_dashboard
-
-  # GET: Admin review management route
-  get "admin/manage_reviews", to: "admin#manage_reviews", as: :admin_manage_reviews
-
-  # GET: Admin question management route
-  get "admin/manage_questions", to: "admin#manage_questions", as: :admin_manage_questions
-
   # GET: Reporter dashboard route
   get "reporter/dashboard", to: "reporter#dashboard", as: :reporter_dashboard
 
   # GET: User avatar route
   get "api/users/avatar", to: "avatar#show", as: :user_avatar
-
-  # GET / PATCH / DELETE: Admin routes for handling staff accounts
-  get "staff/:id/edit", to: "admin#edit_staff", as: :edit_staff
-  patch "api/staff/:id", to: "admin#update_staff", as: :update_staff
-  delete "api/staff/:id", to: "admin#destroy_staff", as: :destroy_staff
 
   # GET: Subscription tiers pricing route
   get "subscriptions/pricing", to: "subscription_tiers#pricing", as: :subscription_tiers_pricing
