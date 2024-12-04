@@ -11,7 +11,11 @@ class UserDecorator < ApplicationDecorator
       dicebear_url = "https://api.dicebear.com/9.x/thumbs/svg?seed=#{object.id}"
       dicebear_url
     else
-      "/images/fallback_avatar.png"
+      "images/fallback_avatar.png"
     end
+  end
+
+  def show_role
+    object.user_role.present? ? object.user_role.titleize : ""
   end
 end
