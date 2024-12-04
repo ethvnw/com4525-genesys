@@ -40,6 +40,46 @@ Question.create!(
   order: 2,
 ) unless Question.exists?(question: "Can I organise group trips with friends or family?")
 
+Review.create!(
+  name: "A Revelation for Travellers!",
+  content: "Roamio will make travel planning stress-free! All my tickets,
+itineraries, and travel ideas in one place! I can’t wait to use this for my next
+adventure!",
+  order: 1,
+  is_hidden: false,
+) unless Review.exists?(name: "A Revelation for Travellers!")
+
+Review.create!(
+  name: "Finally, an App That Understands Travelers",
+  content: "Roamio is everything I’ve been looking for in a travel app. It’s
+like having a personal travel assistant!",
+  order: 2,
+  is_hidden: false,
+) unless Review.exists?(name: "Finally, an App That Understands Travelers")
+
+Review.create!(
+  name: "Perfect for Me!",
+  content: "As someone who loves exploring but hates organising, Roamio is my
+dream app. No more rooting through emails to find my boarding pass!",
+  order: 3,
+  is_hidden: false,
+) unless Review.exists?(name: "Perfect for Me!")
+
+Review.create!(
+  name: "Group Trips? No Bother!",
+  content: "Roamio will let me share itineraries and keep everyone on the same
+page. No more confusion or missed plans!",
+  order: 4,
+  is_hidden: false,
+) unless Review.exists?(name: "Group Trips? No Bother!")
+
+Review.create!(
+  name: "Innovative and Seamless",
+  content: "Roamio brings all your travel essentials into one place!",
+  order: 5,
+  is_hidden: false,
+) unless Review.exists?(name: "Innovative and Seamless")
+
 free_tier = SubscriptionTier.find_or_create_by!(
   name: "Free",
   price_gbp: 0.0,
