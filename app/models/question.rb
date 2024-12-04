@@ -14,5 +14,6 @@
 #  updated_at         :datetime         not null
 #
 class Question < ApplicationRecord
+  has_and_belongs_to_many :registrations
   validates :question, presence: true, length: { maximum: 100 }
 end

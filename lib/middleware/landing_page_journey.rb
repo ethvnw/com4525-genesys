@@ -6,7 +6,7 @@
 # which are of the form "type-id" (example journey below)
 #
 #   {
-#     :features: [
+#     features: [
 #         {
 #           id: 3,
 #           method: "twitter",
@@ -18,13 +18,13 @@
 #           timestamp: <Time Object>
 #         }
 #     ],
-#     :reviews: [
+#     reviews: [
 #         {
 #           id: 12,
 #           timestamp: <Time Object>
 #         }
 #     ],
-#     :questions: [
+#     questions: [
 #         {
 #           id: 5,
 #           timestamp: <Time Object>
@@ -32,7 +32,7 @@
 #     ],
 #   }
 class LandingPageJourneyMiddleware
-  # The actions that should trigger adding/removing a journey point
+  # The actions that should trigger adding/removing a journey
   QUESTION_REVIEW_ACTIONS = [
     "update_like_count",
     "update_question_like_count",
@@ -54,7 +54,7 @@ class LandingPageJourneyMiddleware
 
     request = Rack::Request.new(env)
 
-    # Handle questions/reviews separately as they need to be removable as well
+    # Handle questions/reviews separately as they have like/unlike
     if QUESTION_REVIEW_ACTIONS.include?(route_info[:action])
       interaction = { id: route_info[:id], timestamp: Time.now.utc }
       if request.params["like"] == "true"
