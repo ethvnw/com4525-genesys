@@ -33,7 +33,7 @@ RSpec.describe(UserDecorator, type: :decorator) do
 
     context "when the user is a reporter" do
       before { decorated_user.user_role = :reporter }
-  
+
       it "correctly formats the role name" do
         expect(decorated_user.show_role).to(eq("Reporter"))
       end
@@ -41,7 +41,7 @@ RSpec.describe(UserDecorator, type: :decorator) do
 
     context "when no user role is present" do
       before { decorated_user.user_role = nil }
-  
+
       it "correctly formats the role name" do
         expect(decorated_user.show_role).to(eq(""))
       end
