@@ -20,8 +20,6 @@ class AdminController < ApplicationController
     @user = User.find(params[:id])
     if @user.update(user_params)
       redirect_to(admin_dashboard_path, notice: "#{@user.email} updated successfully.")
-    else
-      redirect_to(admin_dashboard_path, notice: "Error updating #{@user.email}.")
     end
   end
 
@@ -30,8 +28,6 @@ class AdminController < ApplicationController
     @user = User.find(params[:id])
     if @user.destroy
       redirect_to(admin_dashboard_path, notice: "Access removed for #{@user.email}")
-    else
-      redirect_to(admin_dashboard_path, notice: "Failed to remove access for #{@user.email}.")
     end
   end
 
