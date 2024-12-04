@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_28_204140) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_02_153250) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_204140) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order", default: 0
+  end
+
+  create_table "registrations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+    t.string "country_code"
+    t.bigint "subscription_tier_id", null: false
+    t.index ["subscription_tier_id"], name: "index_registrations_on_subscription_tier_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -117,4 +126,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_204140) do
 
   add_foreign_key "app_features_subscription_tiers", "app_features"
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
+  add_foreign_key "registrations", "subscription_tiers"
 end

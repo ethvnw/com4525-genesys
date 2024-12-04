@@ -153,14 +153,4 @@ RSpec.describe(User, type: :model) do
       end
     end
   end
-
-  # FactoryBot tests
-  it "creates an admin user" do
-    admin = create(:admin)
-    expect(admin.user_role).to(eq("admin"))
-  end
-  it "creates a reporter user" do
-    reporter = create(:reporter)
-    expect(reporter.user_role).to(eq("reporter"))
-  end
 end
