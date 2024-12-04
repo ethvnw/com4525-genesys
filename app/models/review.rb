@@ -14,6 +14,7 @@
 #  updated_at         :datetime         not null
 #
 class Review < ApplicationRecord
+  has_many :review_likes, dependent: :destroy
   has_many :registrations, through: :review_likes
   validates :name, presence: true, length: { maximum: 50 }
   validates :content, presence: true, length: { maximum: 400 }
