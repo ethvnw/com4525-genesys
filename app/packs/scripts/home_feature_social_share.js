@@ -40,8 +40,9 @@ const writeClipboardText = async (text) => {
  * Updates all the social share links with the feature name and description.
  * @param {string} featureName - The name of the feature to share.
  * @param {string} featureDescription - The description of the feature to share.
+ * @param {string} featureId - The ID of the feature to share
  */
-const updateSocialShareLinks = (featureName, featureDescription) => {
+const updateSocialShareLinks = (featureName, featureDescription, featureId) => {
   const featureBody = `With ${featureName} you can ${featureDescription.toLowerCase()}\n\nCheck it out on ${pageUrl}`;
 
   // Update all the links
@@ -49,13 +50,13 @@ const updateSocialShareLinks = (featureName, featureDescription) => {
   socialShareCanvas.querySelector('#social-share-url').textContent = pageUrl;
   shareClipboard.onclick = () => {
     writeClipboardText(featureBody).then();
-    fetch(getFeatureShareRoute('1', 'clipboard')).then();
+    fetch(getFeatureShareRoute(featureId, 'clipboard')).then();
   };
 
-  shareEmail.href = getFeatureShareRoute('1', 'email');
-  shareFacebook.href = getFeatureShareRoute('1', 'facebook');
-  shareTwitter.href = getFeatureShareRoute('1', 'twitter');
-  shareWhatsapp.href = getFeatureShareRoute('1', 'whatsapp');
+  shareEmail.href = getFeatureShareRoute(featureId, 'email');
+  shareFacebook.href = getFeatureShareRoute(featureId, 'facebook');
+  shareTwitter.href = getFeatureShareRoute(featureId, 'twitter');
+  shareWhatsapp.href = getFeatureShareRoute(featureId, 'whatsapp');
 };
 
 // Add event listener to all social share buttons
@@ -71,7 +72,7 @@ document.querySelectorAll('.share-feature-button').forEach((button) => {
     socialShareCanvas.querySelector('.offcanvas-body').scrollLeft = 0;
 
     // Update the social share links with the feature
-    updateSocialShareLinks(featureName, featureDescription);
+    updateSocialShareLinks(featureName, featureDescription, button.dataset.id);
 
     // Show the canvas
     bsSocialShareCanvas.show();
