@@ -46,7 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_04_165550) do
   end
 
   create_table "feature_shares", force: :cascade do |t|
-    t.string "media"
+    t.string "share_method"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "registration_id"
