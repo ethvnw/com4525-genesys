@@ -4,7 +4,7 @@
     role: "button",
   }
     Account
-    = image_tag(user_avatar_path, height: 40, class: "rounded mx-2")
+    = image_tag(current_user.avatar_url, height: 40, class: "rounded mx-2")
   .dropdown-menu.dropdown-menu-end
     %h6.dropdown-header.fw-semibold.text-secondary
       = current_user.email

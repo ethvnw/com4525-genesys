@@ -14,6 +14,9 @@ class ApplicationController < ActionController::Base
   # Checks whether the user is on the login page
   helper_method :sign_in_page?
 
+  # Decorate the current user
+  before_action :decorate_current_user
+
   def after_sign_in_path_for(resource)
     set_flash_message!(:alert, :warn_pwned) if resource.respond_to?(:pwned?) && resource.pwned?
     super
@@ -34,5 +37,9 @@ class ApplicationController < ActionController::Base
 
   def sign_in_page?
     request.path == user_session_path
+  end
+
+  def decorate_current_user
+    @current_user = current_user.decorate if current_user.present?
   end
 end
