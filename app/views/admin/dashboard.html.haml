@@ -32,7 +32,7 @@
 
   .form-group.mb-0
     = f.select(:user_role,
-               options_for_select(User.user_roles.keys.map { |r| [r.humanize, r] }),
+               options_for_select(User.user_roles.keys.map(&:humanize)),
                { include_blank: "Role" },
                { class: "form-select form-control w-auto", required: true })
 
