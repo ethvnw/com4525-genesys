@@ -1,5 +1,5 @@
 -# Questions dropdown section
-= append_javascript_pack_tag('scriptpacks/faq')
+= append_javascript_pack_tag("scriptpacks/faq")
 %section#faq-container.row.align-items-center.py-5
   %h2.text-center.text-lg-start.fw-bold
     Frequently Asked Questions
@@ -7,16 +7,20 @@
     .accordion.mb-2{ id: "accordion-#{index}" }
       .accordion-item
         .accordion-header{ id: "heading-#{index}" }
-          %button.accordion-button.collapsed{ type: "button",
-                                              "data-bs-toggle": "collapse",
-                                              "data-bs-target": "#collapse-#{index}",
-                                              "data-id": question.id,
-                                              "aria-expanded": "false",
-                                              "aria-controls": "collapse-#{index}" }
+          %button.accordion-button.collapsed{
+            type: "button",
+            "data-bs-toggle": "collapse",
+            "data-bs-target": "#collapse-#{index}",
+            "data-id": question.id,
+            "aria-expanded": "false",
+            "aria-controls": "collapse-#{index}",
+          }
             = question.question
-        .accordion-collapse.collapse{ id: "collapse-#{index}",
-                                      "aria-labelledby": "heading-#{index}",
-                                      "data-bs-parent": "#accordion-#{index}" }
+        .accordion-collapse.collapse{
+          id: "collapse-#{index}",
+          "aria-labelledby": "heading-#{index}",
+          "data-bs-parent": "#accordion-#{index}",
+        }
           .accordion-body
             %p
               %strong Answer:
