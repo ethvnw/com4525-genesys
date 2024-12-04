@@ -21,7 +21,14 @@
 #
 class Registration < ApplicationRecord
   belongs_to :subscription_tier
+
+  has_many :feature_shares, dependent: :destroy
   has_many :app_features, through: :feature_shares
+
+  has_many :question_clicks, dependent: :destroy
+  has_many :questions, through: :question_clicks
+
+  has_many :review_likes, dependent: :destroy
   has_many :reviews, through: :review_likes
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }

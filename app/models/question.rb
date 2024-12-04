@@ -14,6 +14,7 @@
 #  updated_at         :datetime         not null
 #
 class Question < ApplicationRecord
-  has_and_belongs_to_many :registrations
+  has_many :question_clicks, dependent: :destroy
+  has_many :registrations, through: :question_clicks
   validates :question, presence: true, length: { maximum: 100 }
 end

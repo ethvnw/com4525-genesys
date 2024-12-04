@@ -2,20 +2,20 @@
 
 # == Schema Information
 #
-# Table name: review_likes
+# Table name: question_clicks
 #
 #  id              :bigint           not null, primary key
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  question_id     :bigint
 #  registration_id :bigint
-#  review_id       :bigint
 #
 # Indexes
 #
-#  index_review_likes_on_registration_id  (registration_id)
-#  index_review_likes_on_review_id        (review_id)
+#  index_question_clicks_on_question_id      (question_id)
+#  index_question_clicks_on_registration_id  (registration_id)
 #
-class ReviewLike < ApplicationRecord
-  belongs_to :review
+class QuestionClick < ApplicationRecord
+  belongs_to :question
   belongs_to :registration
 end
