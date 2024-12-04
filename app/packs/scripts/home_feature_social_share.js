@@ -1,5 +1,5 @@
 import { Offcanvas } from 'bootstrap';
-import { getFeatureShareRoute } from './constants/api_routes';
+import { getFeatureShareApiRoute } from './constants/api_routes';
 
 const pageUrl = 'roamio.com';
 const socialShareCanvas = document.getElementById('social-share-offcanvas');
@@ -50,13 +50,13 @@ const updateSocialShareLinks = (featureName, featureDescription, featureId) => {
   socialShareCanvas.querySelector('#social-share-url').textContent = pageUrl;
   shareClipboard.onclick = () => {
     writeClipboardText(featureBody).then();
-    fetch(getFeatureShareRoute(featureId, 'clipboard')).then();
+    fetch(getFeatureShareApiRoute(featureId, 'clipboard')).then();
   };
 
-  shareEmail.href = getFeatureShareRoute(featureId, 'email');
-  shareFacebook.href = getFeatureShareRoute(featureId, 'facebook');
-  shareTwitter.href = getFeatureShareRoute(featureId, 'twitter');
-  shareWhatsapp.href = getFeatureShareRoute(featureId, 'whatsapp');
+  shareEmail.href = getFeatureShareApiRoute(featureId, 'email');
+  shareFacebook.href = getFeatureShareApiRoute(featureId, 'facebook');
+  shareTwitter.href = getFeatureShareApiRoute(featureId, 'twitter');
+  shareWhatsapp.href = getFeatureShareApiRoute(featureId, 'whatsapp');
 };
 
 // Add event listener to all social share buttons
