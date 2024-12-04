@@ -100,7 +100,7 @@ RSpec.feature("Managing reviews") do
       fill_in "review_content", with: "Content for the review"
       click_on "Submit Review"
       login_as(admin, scope: :user)
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#hidden-items") do
         expect(page).to(have_content("Content for the review"))
       end
@@ -115,7 +115,7 @@ RSpec.feature("Managing reviews") do
     given!(:review) { FactoryBot.create(:review) }
 
     scenario "I can make a review hidden and no longer see it on the home page" do
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#visible-items form.update-visibility") do
         find("button").click
       end
@@ -127,7 +127,7 @@ RSpec.feature("Managing reviews") do
 
     scenario "I can make a review visible and see it on the home page" do
       review.toggle!(:is_hidden)
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#hidden-items form.update-visibility") do
         find("button").click
       end
@@ -150,7 +150,7 @@ RSpec.feature("Managing reviews") do
     end
 
     scenario "I can move a review closer to the front so it appears before other reviews on the home page", js: true do
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
         find(".order-up-arrow").click
       end
@@ -163,7 +163,7 @@ RSpec.feature("Managing reviews") do
     end
 
     scenario "I can move a review closer to the end so it appears after other reviews on the home page", js: true do
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review1.id} .order-arrows") do
         find(".order-down-arrow").click
       end
@@ -176,28 +176,28 @@ RSpec.feature("Managing reviews") do
     end
 
     scenario "I cannot move the first review even closer to the front as there is no up arrow shown", js: true do
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review1.id} .order-arrows") do
         expect(page).not_to(have_css(".order-up-arrow"))
       end
     end
 
     scenario "I cannot move the last review even closer to the end as there is no down arrow", js: true do
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
         expect(page).not_to(have_css(".order-down-arrow"))
       end
     end
 
     scenario "I cannot edit the order of a hidden review as there are no arrows present", js: true do
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#hidden-items #item_#{review3.id}") do
         expect(page).not_to(have_css(".order-arrows"))
       end
     end
 
     scenario "I can discard changes to order by not clicking the 'Save Changes' button", js: true do
-      visit admin_manage_reviews_path
+      visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
         find(".order-up-arrow").click
       end

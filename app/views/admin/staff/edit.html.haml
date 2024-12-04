@@ -12,7 +12,7 @@
   %span.fw-bold Account Email:
   #{@user.email}
 
-= simple_form_for(@user, url: update_staff_path(@user)) do |f|
+= simple_form_for(@user, url: api_staff_path(@user)) do |f|
   = f.error_notification
 
   .form-inputs
@@ -32,7 +32,7 @@
 %hr
 .d-flex.justify-content-end
   = button_to("Remove Access",
-              destroy_staff_path(@user),
+              api_staff_path(@user),
               method: :delete,
               data: { confirm: "Are you sure you want to remove access for #{@user.email}?" },
               class: "btn btn-danger d-flex justify-content-end")

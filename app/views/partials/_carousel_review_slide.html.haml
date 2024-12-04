@@ -4,7 +4,7 @@
       %p.card-text.fw-semibold.text-secondary= review_obj.content
       %p.card-text.fw-bold= review_obj.name
     .card-body.pt-0
-      %form{ "action": update_like_count_path(review_obj), method: "post" }
+      %form{ "action": like_api_review_path(review_obj), method: "post" }
         %button.btn.btn-secondary.fw-bold.review{ id: "review_#{review_obj.id}", "data-bs-toggle": "button" }
           %span.like-count= review_obj.engagement_counter
           %i.bi.bi-hand-thumbs-up
