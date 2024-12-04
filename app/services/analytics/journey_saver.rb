@@ -13,9 +13,9 @@ module Analytics
     end
 
     def call
-      save_feature_shares(@journey[:features] || [])
-      save_question_clicks(@journey[:questions] || [])
-      save_review_likes(@journey[:reviews] || [])
+      save_feature_shares(@journey["features"] || [])
+      save_question_clicks(@journey["questions"] || [])
+      save_review_likes(@journey["reviews"] || [])
     end
 
     private
