@@ -10,11 +10,14 @@ module Api
       @question.is_hidden = true
       @question.engagement_counter = 0
 
-      unless @question.save
+      if @question.save
+        session.delete(:question_data)
+        redirect_to(faq_path, notice: "Your question has been submitted.")
+      else
         flash[:errors] = @question.errors.full_messages
-        flash[:question_data] = @question.attributes.slice("question")
+        session[:question_data] = @question.attributes.slice("question")
+        redirect_to(faq_path)
       end
-      redirect_to(faq_path)
     end
 
     def visibility
