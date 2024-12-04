@@ -41,26 +41,6 @@
 require "rails_helper"
 
 RSpec.describe(User, type: :model) do
-  describe "#show_role" do
-    let(:user) { build(:user, user_role: role) }
-
-    context "when the user is an admin" do
-      let(:role) { :admin }
-
-      it "correctly formats the role name" do
-        expect(user.show_role).to(eq("Admin"))
-      end
-    end
-
-    context "when the user is a reporter" do
-      let(:role) { :reporter }
-
-      it "correctly formats the role name" do
-        expect(user.show_role).to(eq("Reporter"))
-      end
-    end
-  end
-
   describe "access rights" do
     let(:user) { build(:user, user_role: role) }
 

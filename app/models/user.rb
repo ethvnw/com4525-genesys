@@ -61,9 +61,4 @@ class User < ApplicationRecord
       errors.add(:password, "must contain upper and lower-case letters and numbers")
     end
   end
-
-  # Show the user role formatted with uppercase
-  def show_role
-    user_role.titleize if user_role.present?
-  end
 end
