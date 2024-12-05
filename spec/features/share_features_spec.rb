@@ -33,7 +33,7 @@ RSpec.feature("Sharing Features") do
     # Check link to prevent opening email
     email_link = find("a", text: "Email")
     uri = URI.parse(email_link[:href])
-    expect("#{uri.path}?#{uri.query}").to(eq(share_api_feature_path(id: app_feature.id, method: "email")))
+    expect("#{uri.path}?#{uri.query}").to(eq(share_api_feature_path(id: app_feature.id, method: "Email")))
   end
 
   scenario "I can share a feature on Facebook", js: true, opens_new_tab: true do
