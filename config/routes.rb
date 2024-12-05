@@ -9,7 +9,11 @@ Rails.application.routes.draw do
 
   get :faq, to: "pages#faq"
 
-  resources :subscriptions, only: [:index, :new]
+  resources :subscriptions, only: [:new] do
+    collection do
+      get :pricing
+    end
+  end
 
   namespace :api do
     resources :staff, only: [:update, :destroy]
@@ -23,7 +27,7 @@ Rails.application.routes.draw do
       end
 
       collection do
-        post :update_orders
+        post :orders
       end
     end
 
@@ -34,7 +38,7 @@ Rails.application.routes.draw do
       end
 
       collection do
-        post :update_orders
+        post :orders
       end
     end
   end

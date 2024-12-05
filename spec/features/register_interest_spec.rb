@@ -45,7 +45,7 @@ RSpec.feature("Registering Interest") do
   context "when visiting the registration route for a tier that does not exist" do
     scenario "I will be redirected to the pricing page" do
       visit new_subscription_path(s_id: 123)
-      expect(current_path).to(eq(subscriptions_path))
+      expect(current_path).to(eq(pricing_subscriptions_path))
     end
   end
 end
