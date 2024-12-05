@@ -33,16 +33,17 @@ class Ability
     # Guest user (not logged in)
     user ||= User.new
 
-    # User access
     if user.admin?
       can(:manage, :all)
-      can(:invite, User)
-      can(:access, :admin_dashboard)
-    elsif user.reporter?
-      can(:read, :all)
-      can(:access, :reporter_dashboard)
-    else
-      can(:read, :public_content)
     end
+
+    if user.reporter?
+      can(:access, :reporter_dashboard)
+      can(:read, Registration)
+    end
+
+    can(:read, SubscriptionTier)
+    can(:read, Question, is_hidden: false)
+    can(:read, Review, is_hidden: false)
   end
 end

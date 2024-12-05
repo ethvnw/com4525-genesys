@@ -2,9 +2,7 @@
 
 module Admin
   # Reviews controller
-  class ReviewsController < ApplicationController
-    before_action :authenticate_user!
-    include AdminAuthorisation
+  class ReviewsController < Admin::BaseController
     def manage
       @script_packs = ["admin_manage_reviews"]
       @visible_reviews = Review.where(is_hidden: false).order(order: :asc)

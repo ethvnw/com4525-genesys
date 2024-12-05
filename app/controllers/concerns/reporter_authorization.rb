@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Reporter authorisation
-module ReporterAuthorisation
+module ReporterAuthorization
   extend ActiveSupport::Concern
 
   included do
@@ -12,8 +12,7 @@ module ReporterAuthorisation
 
   def authorize_reporter
     unless can?(:access, :reporter_dashboard)
-      flash[:alert] = "Unauthorized Access."
-      redirect_to(root_path)
+      raise(CanCan::AccessDenied.new("Not authorized!", :access, :reporter_dashboard))
     end
   end
 end

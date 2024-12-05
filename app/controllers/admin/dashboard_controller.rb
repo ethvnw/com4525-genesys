@@ -2,9 +2,7 @@
 
 module Admin
   # Dashboard controller
-  class DashboardController < ApplicationController
-    before_action :authenticate_user!
-    include AdminAuthorisation
+  class DashboardController < Admin::BaseController
     def index
       @users = User.all.decorate
     end
