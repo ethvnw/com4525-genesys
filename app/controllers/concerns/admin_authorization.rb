@@ -12,8 +12,7 @@ module AdminAuthorization
 
   def authorize_admin
     unless can?(:access, :admin_dashboard)
-      flash[:alert] = "Unauthorized Access."
-      redirect_to(root_path)
+      raise(CanCan::AccessDenied.new("Not authorized!", :access, :admin_dashboard))
     end
   end
 end

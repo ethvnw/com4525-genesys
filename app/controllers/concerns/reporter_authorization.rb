@@ -12,8 +12,7 @@ module ReporterAuthorization
 
   def authorize_reporter
     unless can?(:access, :reporter_dashboard)
-      flash[:alert] = "Unauthorized Access."
-      redirect_to(root_path)
+      raise(CanCan::AccessDenied.new("Not authorized!", :access, :reporter_dashboard))
     end
   end
 end
