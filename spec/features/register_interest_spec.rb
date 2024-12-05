@@ -1,76 +1,109 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require "registrations_helper"
 
 RSpec.feature("Registering Interest") do
   scenario "I can register my interest" do
-    tier = create(:subscription_tier)
-    visit new_subscription_path(s_id: tier.id)
-    fill_in "registration_email", with: "test@example.com"
-    click_on "Notify Me"
+    create(:subscription_tier)
+    visit root_path
+
+    click_link "Join the travel revolution"
+    click_on "Free"
+
+    register_with_email
 
     expect(Registration.find_by(email: "test@example.com")).to(be_present)
     expect(page).to(have_content("Successfully registered"))
   end
 
-  ##
-  # Many sleep_for_js calls needed here as without them, registrations_controller
-  # cannot access the database - I have spent 5 hours trying to figure out why, to
-  # no avail.
-  scenario "After registering, my landing page journey will be saved to the database", js: true do
-    tier = create(:subscription_tier)
-    feature = create(:app_feature)
-    feature2 = create(:app_feature)
+  describe "The landing page journey", js: true do
+    let!(:tier) { create(:subscription_tier) }
+    let!(:feature) { create(:app_feature) }
+    let!(:review1) { create(:review) }
+    let!(:review2) { create(:review) }
+    let!(:question1) { create(:question) }
+    let!(:question2) { create(:question) }
 
-    create(:app_features_subscription_tier, app_feature: feature, subscription_tier: tier)
-    create(:app_features_subscription_tier, app_feature: feature2, subscription_tier: tier)
+    before do
+      create(:app_features_subscription_tier, app_feature: feature, subscription_tier: tier)
 
-    review = create(:review, is_hidden: false)
-    review2 = create(:review, is_hidden: false)
+      visit root_path
+    end
 
-    question = create(:question, is_hidden: false)
-    question2 = create(:question, is_hidden: false)
+    scenario "After registering, my landing page journey will be saved to the database", js: true do
+      share_feature(feature, "Facebook")
+      share_feature(feature, "WhatsApp")
 
-    visit root_path
+      click_link "Reviews"
+      click_button(id: "review_#{review1.id}")
+      click_button(id: "review_#{review2.id}")
 
-    click_button(id: "share_#{feature.id}")
-    click_link "Facebook"
-    find(".offcanvas-backdrop").click
+      click_link "FAQ"
+      click_button(id: "question_#{question1.id}")
+      click_button(id: "question_#{question2.id}")
 
-    click_button(id: "share_#{feature2.id}")
-    click_link "WhatsApp"
-    find(".offcanvas-backdrop").click
+      click_link "Pricing"
+      click_link "Get Free"
 
-    click_link "Reviews"
-    click_button(id: "review_#{review.id}")
-    click_button(id: "review_#{review2.id}")
+      register_with_email
 
-    click_link "FAQ"
-    click_button(id: "question_#{question.id}")
-    click_button(id: "question_#{question2.id}")
+      # Removing this stops registrations_controller from being able to access the database
+      # It is unable to find subscription_tier, leading to a validation error
+      # even though subscription_controller can find it
+      sleep_for_js
 
-    click_link "Pricing"
-    click_link "Get Free"
+      registration = Registration.first
 
-    fill_in "registration_email", with: "test@example.com"
-    click_on "Notify Me"
+      expect(
+        FeatureShare.find_by(app_feature_id: feature.id, registration_id: registration.id, share_method: "Facebook"),
+      ).to(be_present)
+      expect(
+        FeatureShare.find_by(app_feature_id: feature.id, registration_id: registration.id, share_method: "WhatsApp"),
+      ).to(be_present)
 
-    sleep_for_js # Removing this stops registrations_controller from being able to access the database
+      expect(ReviewLike.find_by(review_id: review1.id, registration_id: registration.id)).to(be_present)
+      expect(ReviewLike.find_by(review_id: review2.id, registration_id: registration.id)).to(be_present)
 
-    registration = Registration.first
+      expect(QuestionClick.find_by(question_id: question1.id, registration_id: registration.id)).to(be_present)
+      expect(QuestionClick.find_by(question_id: question2.id, registration_id: registration.id)).to(be_present)
+    end
 
-    expect(
-      FeatureShare.find_by(app_feature_id: feature.id, registration_id: registration.id, share_method: "Facebook"),
-    ).to(be_present)
-    expect(
-      FeatureShare.find_by(app_feature_id: feature2.id, registration_id: registration.id, share_method: "WhatsApp"),
-    ).to(be_present)
+    scenario "Duplicate events will not be saved twice", js: true do
+      share_feature(feature, "Facebook")
+      share_feature(feature, "Facebook")
 
-    expect(ReviewLike.find_by(review_id: review.id, registration_id: registration.id)).to(be_present)
-    # expect(ReviewLike.find_by(review_id: review2.id, registration_id: registration.id)).to(be_present)
-    #
-    # expect(QuestionClick.find_by(question_id: question.id, registration_id: registration.id)).to(be_present)
-    # expect(QuestionClick.find_by(question_id: question2.id, registration_id: registration.id)).to(be_present)
+      # Don't need to check duplicate review events as the second review click will 'unlike' the review
+
+      click_link "FAQ"
+      click_button(id: "question_#{question1.id}")
+      click_button(id: "question_#{question1.id}")
+
+      click_link "Pricing"
+      click_link "Get Free"
+
+      register_with_email
+
+      sleep_for_js # Give time for registration request to be processed
+
+      expect(FeatureShare.count).to(eq(1))
+      expect(QuestionClick.count).to(eq(1))
+    end
+
+    scenario "An unliked review will not appear in my landing page journey", js: true do
+      click_link "Reviews"
+      click_button(id: "review_#{review1.id}")
+      click_button(id: "review_#{review1.id}")
+
+      click_link "Pricing"
+      click_link "Get Free"
+
+      register_with_email
+
+      sleep_for_js # Give time for registration request to be processed
+
+      expect(FeatureShare.count).to(eq(0))
+    end
   end
 
   context "when email validation fails" do

@@ -53,7 +53,12 @@ module Api
       end
 
       Question.find(params[:id]).increment!(:engagement_counter)
-      session[:questions_liked]
+      unless session[:questions_liked].present?
+        session[:questions_liked] = []
+      end
+
+      session[:questions_liked].push(params[:id])
+
       head(:ok)
     end
 

@@ -28,6 +28,29 @@ RSpec.feature("Managing questions") do
     end
   end
 
+  feature "tracking question engagement" do
+    let!(:question) { create(:question) }
+    scenario "Clicking on a question will increase its engagement count", js: true do
+      visit faq_path
+
+      expect(Question.find(question.id).engagement_counter).to(be_zero)
+      click_button(id: "question_#{question.id}")
+      sleep_for_js
+      expect(Question.find(question.id).engagement_counter).to(eq(1))
+    end
+
+    scenario "Clicking a question more than once in one session only increases its engagement counter by 1", js: true do
+      visit faq_path
+
+      expect(Question.find(question.id).engagement_counter).to(be_zero)
+      click_button(id: "question_#{question.id}")
+      click_button(id: "question_#{question.id}")
+      click_button(id: "question_#{question.id}")
+      sleep_for_js
+      expect(Question.find(question.id).engagement_counter).to(eq(1))
+    end
+  end
+
   feature "Managing questions dashboard" do
     specify "I can add a question, and it will appear as hidden on the questions dashboard" do
       visit faq_path
