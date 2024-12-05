@@ -6,7 +6,7 @@
       Register your interest, and you'll be the first to know!
     .mt-4
       %div{ class: ("is-invalid" if flash[:email_error]) }
-        = simple_form_for(@registration,
+        = simple_form_for([:api, @registration],
                           html: { class: "mb-0 d-flex gap-2 flex-column flex-lg-row " }) do |f|
           = f.hidden_field(:subscription_tier_id, value: params[:s_id])
           .w-100

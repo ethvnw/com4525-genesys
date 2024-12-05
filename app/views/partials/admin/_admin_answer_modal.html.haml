@@ -12,7 +12,7 @@
         %button.btn-close{ type: "button", "data-bs-dismiss": "modal", "aria-label": "Close" }
       .modal-body
         %form.answer-form.mb-0{
-          "action": answer_question_path(question),
+          "action": answer_api_question_path(question),
           method: "post",
           "data-question-id": question.id,
         }
