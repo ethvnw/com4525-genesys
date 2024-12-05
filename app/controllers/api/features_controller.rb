@@ -16,7 +16,7 @@ module Api
         head(:bad_request) and return
       end
 
-      sharer = SHARERS.fetch(params[:method].to_s, Sharing::SocialMediaSharer)
+      sharer = SHARERS.fetch(params[:method].downcase, Sharing::SocialMediaSharer)
       redirect_to(sharer.call(AppFeature.find_by_id(params[:id])), allow_other_host: true)
     end
 
@@ -27,7 +27,7 @@ module Api
     # @param [ActionController::Parameters] params the params to check for validity
     # @return [bool] true if share is possible, else false
     def can_share?(params)
-      AppFeature.exists?(id: params[:id]) && params[:method].present? && SHARERS.key?(params[:method].to_s)
+      AppFeature.exists?(id: params[:id]) && params[:method].present? && SHARERS.key?(params[:method].downcase)
     end
   end
 end
