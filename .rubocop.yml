@@ -27,6 +27,10 @@ AllCops:
     - 'db/migrate/**/*'
     - 'db/schema.rb'
 
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'config/initializers/version.rb'
+
 Style/Documentation:
   Enabled: true
 
