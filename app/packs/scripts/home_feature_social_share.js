@@ -72,7 +72,7 @@ document.querySelectorAll('.share-feature-button').forEach((button) => {
     socialShareCanvas.querySelector('.offcanvas-body').scrollLeft = 0;
 
     // Update the social share links with the feature
-    updateSocialShareLinks(featureName, featureDescription, button.dataset.id);
+    updateSocialShareLinks(featureName, featureDescription, button.dataset.shareId);
 
     // Show the canvas
     bsSocialShareCanvas.show();
