@@ -9,7 +9,6 @@ module Api
 
       # The geocoder gem won't work over localhost (as 'localhost' is not a geocodable IP), so use GB as default
       registration.country_code = request.location.country_code.presence || "GB"
-
       unless registration.save
         if registration.errors.key?(:email)
           flash[:email_error] = "Email " + registration.errors[:email].first
@@ -17,6 +16,11 @@ module Api
 
         redirect_back_or_to(pricing_subscriptions_path) and return
       end
+
+      Analytics::JourneySaver.call(registration.id, session[:journey])
+
+      # Reset session
+      session[:journey] = nil
 
       flash[:notice] = "Successfully registered. Keep an eye on your inbox for updates!"
       redirect_to(root_path)

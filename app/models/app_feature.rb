@@ -13,4 +13,7 @@
 class AppFeature < ApplicationRecord
   has_many :app_features_subscription_tiers
   has_many :subscription_tiers, through: :app_features_subscription_tiers
+
+  has_many :feature_shares
+  has_many :registrations, through: :feature_shares
 end
