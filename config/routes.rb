@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       member do
         post :visibility
         post :answer
+        post :click
       end
 
       collection do
@@ -39,6 +40,12 @@ Rails.application.routes.draw do
 
       collection do
         post :orders
+      end
+    end
+
+    resources :features, only: [] do
+      member do
+        get :share
       end
     end
   end

@@ -1,8 +1,15 @@
 import { Offcanvas } from 'bootstrap';
+import { getFeatureShareApiRoute } from './constants/api_routes';
 
 const pageUrl = 'roamio.com';
 const socialShareCanvas = document.getElementById('social-share-offcanvas');
 const bsSocialShareCanvas = new Offcanvas(socialShareCanvas);
+
+const shareClipboard = socialShareCanvas.querySelector('#social-share-clipboard');
+const shareEmail = socialShareCanvas.querySelector('#social-share-email');
+const shareFacebook = socialShareCanvas.querySelector('#social-share-facebook');
+const shareTwitter = socialShareCanvas.querySelector('#social-share-twitter');
+const shareWhatsapp = socialShareCanvas.querySelector('#social-share-whatsapp');
 
 /**
  * Updates the icon in the "Copy Description" button.
@@ -33,20 +40,23 @@ const writeClipboardText = async (text) => {
  * Updates all the social share links with the feature name and description.
  * @param {string} featureName - The name of the feature to share.
  * @param {string} featureDescription - The description of the feature to share.
+ * @param {string} featureId - The ID of the feature to share
  */
-const updateSocialShareLinks = (featureName, featureDescription) => {
+const updateSocialShareLinks = (featureName, featureDescription, featureId) => {
   const featureBody = `With ${featureName} you can ${featureDescription.toLowerCase()}\n\nCheck it out on ${pageUrl}`;
-  const featureSubject = `Check out ${featureName} on Roamio!`;
-  const encodedFeatureBody = encodeURIComponent(featureBody);
 
   // Update all the links
-  socialShareCanvas.querySelector('#social-share-clipboard').onclick = () => writeClipboardText(featureBody);
   socialShareCanvas.querySelector('#social-share-title').textContent = featureName;
   socialShareCanvas.querySelector('#social-share-url').textContent = pageUrl;
-  socialShareCanvas.querySelector('#social-share-email').href = `mailto:?body=${encodedFeatureBody}&subject=${featureSubject}`;
-  socialShareCanvas.querySelector('#social-share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
-  socialShareCanvas.querySelector('#social-share-twitter').href = `https://twitter.com/intent/tweet?text=${encodedFeatureBody}&url=${pageUrl}`;
-  socialShareCanvas.querySelector('#social-share-whatsapp').href = `https://wa.me/?text=${encodedFeatureBody}`;
+  shareClipboard.onclick = () => {
+    writeClipboardText(featureBody).then();
+    fetch(getFeatureShareApiRoute(featureId, 'clipboard')).then();
+  };
+
+  shareEmail.href = getFeatureShareApiRoute(featureId, 'Email');
+  shareFacebook.href = getFeatureShareApiRoute(featureId, 'Facebook');
+  shareTwitter.href = getFeatureShareApiRoute(featureId, 'Twitter');
+  shareWhatsapp.href = getFeatureShareApiRoute(featureId, 'WhatsApp');
 };
 
 // Add event listener to all social share buttons
@@ -62,7 +72,7 @@ document.querySelectorAll('.share-feature-button').forEach((button) => {
     socialShareCanvas.querySelector('.offcanvas-body').scrollLeft = 0;
 
     // Update the social share links with the feature
-    updateSocialShareLinks(featureName, featureDescription);
+    updateSocialShareLinks(featureName, featureDescription, button.dataset.shareId);
 
     // Show the canvas
     bsSocialShareCanvas.show();

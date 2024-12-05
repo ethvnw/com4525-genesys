@@ -2,6 +2,7 @@
  * Handle like button clicks for reviews.
  * Save the like state in localStorage and send the like state to the server.
  */
+import CSRF_TOKEN from './constants/ajax_constants';
 
 const likeButtons = document.querySelectorAll('button.review');
 
@@ -29,7 +30,7 @@ likeButtons.forEach((button) => {
     fetch(form.action, {
       method: 'POST',
       headers: {
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        'X-CSRF-Token': CSRF_TOKEN,
       },
       body: formData,
     }).then(() => {
