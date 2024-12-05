@@ -9,10 +9,6 @@ module Sharing
       @feature = feature
     end
 
-    def call
-      "/"
-    end
-
     def share_message
       ERB::Util.url_encode(
         "With #{@feature.name}, you can #{@feature.description.downcase}\n\nCheck it out on #{ROOT_URL}!",

@@ -16,7 +16,7 @@ module Api
         head(:bad_request) and return
       end
 
-      sharer = SHARERS.fetch(params[:method].downcase, Sharing::SocialMediaSharer)
+      sharer = SHARERS[params[:method].downcase]
       redirect_to(sharer.call(AppFeature.find_by_id(params[:id])), allow_other_host: true)
     end
 
