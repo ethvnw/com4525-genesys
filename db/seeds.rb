@@ -58,7 +58,7 @@ about a plan! Amazing!",
 
 Review.create!(
   name: "James March",
-  content: "I can't wait to get reminders about myvflights and plans. No more
+  content: "I can't wait to get reminders about my flights and plans. No more
 missed flights for me!",
   order: 3,
   is_hidden: false,

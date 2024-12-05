@@ -53,11 +53,11 @@ module Api
       end
 
       Question.find(params[:id]).increment!(:engagement_counter)
-      unless session[:questions_liked].present?
-        session[:questions_liked] = []
+      unless session[:questions_clicked].present?
+        session[:questions_clicked] = []
       end
 
-      session[:questions_liked].push(params[:id])
+      session[:questions_clicked].push(params[:id])
 
       head(:ok)
     end
@@ -73,7 +73,7 @@ module Api
     # @param [ActionController::Parameters] question_id the ID of the question to check for validity
     # @return [Boolean] true if current user can click, else false
     def user_can_click?(question_id)
-      Question.exists?(id: question_id) && !session[:questions_liked]&.include?(question_id)
+      Question.exists?(id: question_id) && !session[:questions_clicked]&.include?(question_id)
     end
   end
 end

@@ -14,9 +14,9 @@ RSpec.describe("Analytics::JourneySaver") do
     it "does nothing" do
       Analytics::JourneySaver.call(registration.id, nil)
 
-      expect(FeatureShare.count).to(eq(0))
-      expect(QuestionClick.count).to(eq(0))
-      expect(ReviewLike.count).to(eq(0))
+      expect(FeatureShare.count).to(be_zero)
+      expect(QuestionClick.count).to(be_zero)
+      expect(ReviewLike.count).to(be_zero)
     end
   end
 

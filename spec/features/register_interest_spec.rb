@@ -102,7 +102,7 @@ RSpec.feature("Registering Interest") do
 
       sleep_for_js # Give time for registration request to be processed
 
-      expect(FeatureShare.count).to(eq(0))
+      expect(FeatureShare.count).to(be_zero)
     end
   end
 
