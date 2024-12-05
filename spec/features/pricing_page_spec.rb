@@ -13,7 +13,7 @@ RSpec.feature("Pricing page", type: :feature) do
   end
 
   scenario "I can see prices for different subscription tiers" do
-    visit subscription_tiers_pricing_path
+    visit subscriptions_path
 
     expect(page).to(have_content("Free"))
     expect(page).to(have_content("Explorer Individual"))
@@ -27,7 +27,7 @@ RSpec.feature("Pricing page", type: :feature) do
     # Associate feature with the tiers
     explorer_tier.app_features << explorer_feature
     free_tier.app_features << free_feature
-    visit subscription_tiers_pricing_path
+    visit subscriptions_path
 
     within(:css, "##{free_tier.name.downcase}-tier-card") do
       expect(page).to(have_content(free_feature.name))
@@ -41,20 +41,20 @@ RSpec.feature("Pricing page", type: :feature) do
   end
 
   scenario "I can select the free tier option" do
-    visit subscription_tiers_pricing_path
+    visit subscriptions_path
 
     click_on "Get #{free_tier.name}"
 
-    expect(page).to(have_current_path(subscription_tiers_register_path(s_id: free_tier.id)))
+    expect(page).to(have_current_path(new_subscription_path(s_id: free_tier.id)))
     expect(page).to(have_content("Hello! You've caught us early"))
   end
 
   scenario "I can select the explorer individual tier option" do
-    visit subscription_tiers_pricing_path
+    visit subscriptions_path
 
     click_on "Get Explorer #{explorer_tier.name}"
 
-    expect(page).to(have_current_path(subscription_tiers_register_path(s_id: explorer_tier.id)))
+    expect(page).to(have_current_path(new_subscription_path(s_id: explorer_tier.id)))
     expect(page).to(have_content("Hello! You've caught us early"))
   end
 end

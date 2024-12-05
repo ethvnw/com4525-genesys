@@ -18,7 +18,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (app_feature_id => app_features.id)
-#  fk_rails_...  (subscription_tier_id => subscription_tiers.id)
+#  fk_rails_...  (subscription_tier_id => subscriptions.id)
 #
 FactoryBot.define do
   factory :app_features_subscription_tier do

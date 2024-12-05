@@ -6,7 +6,7 @@ module Admin
     before_action :authenticate_user!
     include AdminAuthorisation
     def index
-      @users = User.all
+      @users = User.all.decorate
     end
   end
 end

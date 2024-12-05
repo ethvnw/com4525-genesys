@@ -4,8 +4,17 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { invitations: "invitations" }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  # Defines the root path route ("/")
+  root "pages#home"
+
+  get :faq, to: "pages#faq"
+
+  resources :subscriptions, only: [:index, :new]
+
   namespace :api do
     resources :staff, only: [:update, :destroy]
+
+    resources :registrations, only: [:create]
 
     resources :questions, only: [:create] do
       member do
@@ -48,23 +57,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # Defines the root path route ("/")
-  root "pages#home"
-
-  # GET: FAQ route
-  get "faq", to: "pages#faq", as: :faq
-
-  # GET: Reporter dashboard route
-  get "reporter/dashboard", to: "reporter#dashboard", as: :reporter_dashboard
-
-  # GET: User avatar route
-  get "api/users/avatar", to: "avatar#show", as: :user_avatar
-
-  # GET: Subscription tiers pricing route
-  get "subscriptions/pricing", to: "subscription_tiers#pricing", as: :subscription_tiers_pricing
-
-  # GET: Subscription tiers register route
-  get "subscriptions/register", to: "subscription_tiers#register", as: :subscription_tiers_register
-
-  post "api/registrations", to: "registrations#create", as: :registrations
+  namespace :reporter do
+    get :dashboard, to: "dashboard#index"
+  end
 end
