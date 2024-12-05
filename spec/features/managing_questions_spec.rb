@@ -34,7 +34,7 @@ RSpec.feature("Managing questions") do
       fill_in "question_question", with: "Content for the hidden question"
       click_on "Submit Question"
       login_as(admin, scope: :user)
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       expect(page).to(have_css("#hidden-items"))
       within("#hidden-items") do
         expect(page).to(have_content("Content for the hidden question"))
@@ -45,7 +45,7 @@ RSpec.feature("Managing questions") do
       hidden_question = create(:question, question: "A hidden question", is_hidden: true)
       visible_question = create(:question, question: "A visible question", is_hidden: false)
       login_as(admin, scope: :user)
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       expect(page).to(have_css("#hidden-items"))
       expect(page).to(have_css("#visible-items"))
       within("#hidden-items") do
@@ -61,7 +61,7 @@ RSpec.feature("Managing questions") do
     specify "I can set a hidden question to visible" do
       question = create(:question, question: "A hidden question", is_hidden: true)
       login_as(admin, scope: :user)
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within("#visible-items") do
         expect(page).not_to(have_content("A hidden question"))
       end
@@ -70,7 +70,7 @@ RSpec.feature("Managing questions") do
         find("#visibility-toggle-#{question.id}").click
       end
       # Capybara deals with the request weirdly, so the page is refereshed to reload the content
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within("#hidden-items") do
         expect(page).not_to(have_content("A hidden question"))
       end
@@ -82,7 +82,7 @@ RSpec.feature("Managing questions") do
     specify "I can set a visible question to hidden" do
       question = create(:question, question: "A visible question", is_hidden: false)
       login_as(admin, scope: :user)
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within("#hidden-items") do
         expect(page).not_to(have_content("A visible question"))
       end
@@ -91,7 +91,7 @@ RSpec.feature("Managing questions") do
         find("#visibility-toggle-#{question.id}").click
       end
       # Capybara deals with the request weirdly, so the page is refereshed to reload the content
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within("#visible-items") do
         expect(page).not_to(have_content("A visible question"))
       end
@@ -117,7 +117,7 @@ RSpec.feature("Managing questions") do
     specify "I can answer a question and it will show on the admin FAQ dashboard" do
       question = create(:question, question: "A question")
       login_as(admin, scope: :user)
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       # Click on the answer button to make the modal appear
       within("#visible-items") do
         click_on "Answer"
@@ -132,7 +132,7 @@ RSpec.feature("Managing questions") do
     specify "I can answer a question and it will show on the FAQ page" do
       question = create(:question, question: "A question", is_hidden: false)
       login_as(admin, scope: :user)
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       # Click on the answer button to make the modal appear
       within("#visible-items") do
         click_on "Answer"
@@ -146,7 +146,7 @@ RSpec.feature("Managing questions") do
     specify "If a question is answered, the answer will automatically be on the edit modal" do
       question = create(:question, question: "A question", answer: "An answer", is_hidden: false)
       login_as(admin, scope: :user)
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       # Click on the answer button to make the modal appear
       within("#visible-items") do
         click_on "Answer"
@@ -170,7 +170,7 @@ RSpec.feature("Managing questions") do
 
     scenario "I can move a question closer to the front so it appears before other questions on the faq page",
       js: true do
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question2.id} .order-arrows") do
         find(".order-up-arrow").click
       end
@@ -183,7 +183,7 @@ RSpec.feature("Managing questions") do
     end
 
     scenario "I can move a question closer to the end so it appears after other questions on the faq page", js: true do
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question1.id} .order-arrows") do
         find(".order-down-arrow").click
       end
@@ -196,28 +196,28 @@ RSpec.feature("Managing questions") do
     end
 
     scenario "I cannot move the first question even closer to the front as there is no up arrow shown", js: true do
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question1.id} .order-arrows") do
         expect(page).not_to(have_css(".order-up-arrow"))
       end
     end
 
     scenario "I cannot move the last question even closer to the end as there is no down arrow", js: true do
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question2.id} .order-arrows") do
         expect(page).not_to(have_css(".order-down-arrow"))
       end
     end
 
     scenario "I cannot edit the order of a hidden question as there are no arrows present", js: true do
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within(:css, "#hidden-items #item_#{question3.id}") do
         expect(page).not_to(have_css(".order-arrows"))
       end
     end
 
     scenario "I can discard changes to order by not clicking the 'Save Changes' button", js: true do
-      visit admin_manage_questions_path
+      visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question2.id} .order-arrows") do
         find(".order-up-arrow").click
       end

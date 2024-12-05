@@ -12,7 +12,7 @@
     %ul.subscription-tier-features.card-text.fw-semibold.small
       - tier.app_features.each do |app_feature|
         %li= app_feature.name
-    = link_to(subscription_tiers_register_path(s_id: tier.id),
+    = link_to(new_subscription_path(s_id: tier.id),
               class: "btn btn d-flex justify-content-center fw-bold btn-primary") do
       = tier.formatted_cta
     %p.subscription-tier-footer.card-text.small.text-body-secondary.text-center.mt-2= tier.terms_description
