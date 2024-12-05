@@ -1,6 +1,8 @@
 %p Hi #{@resource.email}!
 
-%p Someone has invited you to be a #{@resource.user_role} at #{root_url}, you can accept it through the link below.
+%p
+  Someone has invited you to be a #{User.user_roles[@resource.user_role]} at #{root_url},
+  you can accept it through the link below.
 
 = link_to(t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, invitation_token: @token))
 
