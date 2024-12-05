@@ -53,7 +53,7 @@ class User < ApplicationRecord
     :timeoutable,
     :pwned_password
 
-  enum user_role: { reporter: "Reporter", admin: "Admin" }
+  enum user_role: { reporter: "Reporter", admin: "Product Owner" }
 
   # Validates the complexity of a password
   def password_complexity

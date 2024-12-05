@@ -16,6 +16,6 @@ class UserDecorator < ApplicationDecorator
   end
 
   def show_role
-    object.user_role.present? ? object.user_role.titleize : ""
+    object.user_role.present? ? User.user_roles[object.user_role] : ""
   end
 end
