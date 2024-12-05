@@ -78,13 +78,15 @@ RSpec.feature("Sharing Features") do
     expect(decoded_link).to(include(app_feature.description.downcase))
   end
 
-  scenario "I receive a 400 bad request when I visit the share route with an invalid method" do
-    visit share_api_feature_path(app_feature, method: "invalid")
-    expect(page.status_code).to(eq(400))
-  end
+  feature "Visiting an invalid share route" do
+    scenario "I receive a 400 bad request when using an invalid method" do
+      visit share_api_feature_path(app_feature, method: "invalid")
+      expect(page.status_code).to(eq(400))
+    end
 
-  scenario "I receive a 400 bad request when I visit the share route with an feature ID that doesn't exist" do
-    visit share_api_feature_path(id: "invalid", method: "email")
-    expect(page.status_code).to(eq(400))
+    scenario "I receive a 400 bad request when using a feature ID that doesn't exist" do
+      visit share_api_feature_path(id: "invalid", method: "email")
+      expect(page.status_code).to(eq(400))
+    end
   end
 end
