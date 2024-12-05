@@ -13,6 +13,61 @@ RSpec.feature("Registering Interest") do
     expect(page).to(have_content("Successfully registered"))
   end
 
+  scenario "After registering, my landing page journey will be saved to the database", js: true do
+    feature_tier = create(:app_features_subscription_tier)
+    create(:app_features_subscription_tier)
+
+    review = create(:review, is_hidden: false)
+    review2 = create(:review, is_hidden: false)
+    #
+    # question = create(:question, is_hidden: false)
+    # question2 = create(:question, is_hidden: false)
+
+    visit root_path
+    click_button(id: "share_#{feature_tier.app_feature.id}")
+    click_link "Facebook"
+
+    # visit root_path # Clear offcanvas
+    #
+    # click_button(id: "review_#{review.id}")
+    # click_button(id: "review_#{review2.id}")
+    #
+    # visit faq_path
+    #
+    # click_button(id: "question_#{question.id}")
+    # click_button(id: "question_#{question2.id}")
+
+    puts SubscriptionTier.find_by(id: feature_tier.subscription_tier.id)
+
+    visit new_subscription_path(s_id: feature_tier.subscription_tier.id)
+
+    fill_in "registration_email", with: "test@example.com"
+    click_on "Notify Me"
+    registration = Registration.first
+    puts registration
+    expect(
+      FeatureShare.find_by(
+        app_feature_id: feature_tier.app_feature.id,
+        registration_id: registration.id,
+        share_method: "Facebook",
+      ),
+    ).to(be_present)
+
+    expect(
+      FeatureShare.find_by(
+        app_feature_id: feature_tier.app_feature.id,
+        registration_id: registration.id,
+        share_method: "WhatsApp",
+      ),
+    ).to(be_present)
+
+    expect(ReviewLike.find_by(review_id: review.id, registration_id: registration.id)).to(be_present)
+    expect(ReviewLike.find_by(review_id: review2.id, registration_id: registration.id)).to(be_present)
+
+    expect(QuestionClick.find_by(question_id: question.id, registration_id: registration.id)).to(be_present)
+    expect(QuestionClick.find_by(question_id: question2.id, registration_id: registration.id)).to(be_present)
+  end
+
   context "when email validation fails" do
     scenario "I will be told if the email I entered is blank" do
       tier = create(:subscription_tier)

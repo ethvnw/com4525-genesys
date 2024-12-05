@@ -4,6 +4,9 @@
     .card-img-overlay
   %h4.share-feature-name.display-8.fw-bold= app_feature_obj.name
   %p.small.share-feature-description.fw-semibold.text-secondary= app_feature_obj.description
-  %button.share-feature-button.btn.btn-light.fw-semibold.text-secondary{ data: { id: app_feature_obj.id } }
+  %button.share-feature-button.btn.btn-light.fw-semibold.text-secondary{
+    id: "share_#{app_feature_obj.id}",
+    data: { "share-id": app_feature_obj.id },
+  }
     %i.bi.bi-share-fill &nbsp;
     Share

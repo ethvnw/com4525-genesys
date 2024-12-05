@@ -46,13 +46,14 @@ class LandingPageJourneyMiddleware
   private
 
   # The actions that should trigger adding/removing a journey
-  LIKE_ACTION = "update_like_count"
-  FEATURE_ACTION = "share_feature"
+  LIKE_REVIEW_ACTION = "like"
+  SHARE_FEATURE_ACTION = "share"
+  CLICK_QUESTION_ACTION = "click"
 
   JOURNEY_ACTIONS = [
-    LIKE_ACTION,
-    FEATURE_ACTION,
-    "update_click_count",
+    LIKE_REVIEW_ACTION,
+    SHARE_FEATURE_ACTION,
+    CLICK_QUESTION_ACTION,
   ]
 
   ##
@@ -74,9 +75,9 @@ class LandingPageJourneyMiddleware
     request = Rack::Request.new(env)
     interaction = { id: route_info[:id], timestamp: Time.now.utc }
 
-    if route_info[:action] == FEATURE_ACTION
+    if route_info[:action] == SHARE_FEATURE_ACTION
       # Add feature-specific info
-      interaction[:method] = route_info[:method]
+      interaction[:method] = env["QUERY_STRING"].slice!("method=")
     end
 
     if adding?(route_info[:action], request.params)
@@ -92,7 +93,7 @@ class LandingPageJourneyMiddleware
   # @param [Rack::Request] params the parameters that have been passed with the request
   # @return [bool] true if adding, otherwise false
   def adding?(action, params)
-    action != LIKE_ACTION || params["like"] == "true"
+    action != LIKE_REVIEW_ACTION || params["like"] == "true"
   end
 
   ##

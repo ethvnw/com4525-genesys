@@ -8,6 +8,7 @@
       .accordion-item
         .accordion-header{ id: "heading-#{index}" }
           %button.accordion-button.collapsed{
+            id: "question_#{question.id}",
             type: "button",
             "data-bs-toggle": "collapse",
             "data-bs-target": "#collapse-#{index}",
