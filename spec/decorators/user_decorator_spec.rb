@@ -27,7 +27,7 @@ RSpec.describe(UserDecorator, type: :decorator) do
       before { decorated_user.user_role = :admin }
 
       it "correctly formats the role name" do
-        expect(decorated_user.show_role).to(eq("Admin"))
+        expect(decorated_user.show_role).to(eq("Product Owner"))
       end
     end
 

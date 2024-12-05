@@ -39,7 +39,7 @@ RSpec.feature("Managing staff") do
         end
       end
 
-      select("Admin", from: "user_user_role")
+      select("Product Owner", from: "user_user_role")
       click_button("Save Changes")
 
       within(".alert.alert-success") do
@@ -50,7 +50,7 @@ RSpec.feature("Managing staff") do
         row = find("tr", text: reporter.email)
         within(row) do
           # Check the staff's current role is now admin
-          expect(row).to(have_text("Admin"))
+          expect(row).to(have_text("Product Owner"))
         end
       end
     end

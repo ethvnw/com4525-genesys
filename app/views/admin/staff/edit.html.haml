@@ -21,9 +21,10 @@
         %span.fw-bold Privileges:
       .col
         = f.input(:user_role,
-                  collection: User.user_roles.keys.map { |r| [r.humanize, r] },
+                  collection: User.user_roles.values,
                   label: false,
-                  input_html: { class: "form-select form-control w-auto" })
+                  input_html: { class: "form-select form-control w-auto" },
+                  selected: User.user_roles[@user.user_role])
 
   .form-actions.mt-3
     = button_tag(type: "submit", class: "btn btn-primary d-flex justify-content-end") do
