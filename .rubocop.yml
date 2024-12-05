@@ -26,6 +26,7 @@ AllCops:
     - 'bin/bundle'
     - 'db/migrate/**/*'
     - 'db/schema.rb'
+    - 'config/initializers/version.rb'
 
 Style/Documentation:
   Enabled: true
