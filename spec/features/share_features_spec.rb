@@ -13,7 +13,7 @@ RSpec.feature("Sharing Features") do
 
   # Switch back to original tab after each test (sharing tests require a new tab)
   after(opens_new_tab: true) do
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.first)
+    page.driver.browser.close
   end
 
   scenario "I can view a feature" do
