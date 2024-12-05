@@ -2,10 +2,7 @@
 
 module Api
   # Staff controller
-  class StaffController < ApplicationController
-    before_action :authenticate_user!
-    include AdminAuthorisation
-
+  class StaffController < Admin::BaseController
     def update
       @user = User.find(params[:id])
       if @user.update(user_params)
