@@ -5,8 +5,8 @@ class PagesController < ApplicationController
   def home
     @script_packs = ["home"]
 
-    @review = if flash[:review_data]
-      Review.new(flash[:review_data])
+    @review = if session[:review_data]
+      Review.new(session[:review_data])
     else
       Review.new
     end
@@ -16,8 +16,8 @@ class PagesController < ApplicationController
   end
 
   def faq
-    @question = if flash[:question_data]
-      Question.new(flash[:question_data])
+    @question = if session[:question_data]
+      Question.new(session[:question_data])
     else
       Question.new
     end
