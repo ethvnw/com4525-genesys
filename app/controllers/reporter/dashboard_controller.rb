@@ -2,10 +2,7 @@
 
 module Reporter
   # Dashboard controller
-  class DashboardController < ApplicationController
-    before_action :authenticate_user!
-    include ReporterAuthorisation
-
+  class DashboardController < Reporter::BaseController
     def index
     end
   end

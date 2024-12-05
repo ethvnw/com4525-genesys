@@ -24,9 +24,8 @@ class ApplicationController < ActionController::Base
 
   private
 
-  rescue_from CanCan::AccessDenied do |exception|
-    flash[:alert] = exception.message
-    redirect_to(root_path)
+  rescue_from CanCan::AccessDenied do
+    head :unauthorized
   end
 
   def update_headers_to_disable_caching

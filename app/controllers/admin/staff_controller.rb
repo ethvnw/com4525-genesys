@@ -2,10 +2,7 @@
 
 module Admin
   # Staff controller
-  class StaffController < ApplicationController
-    before_action :authenticate_user!
-    include AdminAuthorisation
-
+  class StaffController < Admin::BaseController
     def edit
       @user = User.find(params[:id])
     end

@@ -35,10 +35,7 @@ RSpec.feature("Dashboard access") do
 
     specify "I am unauthorised to view the admin dashboard" do
       visit admin_dashboard_path
-
-      within(".alert.alert-danger") do
-        expect(page).to(have_content("Unauthorized Access."))
-      end
+      expect(page.status_code).to(eq(401))
     end
   end
 
@@ -49,16 +46,12 @@ RSpec.feature("Dashboard access") do
 
     specify "I am unauthorised to view the admin dashboard" do
       visit admin_dashboard_path
-      within(".alert.alert-danger") do
-        expect(page).to(have_content("Unauthorized Access."))
-      end
+      expect(page.status_code).to(eq(401))
     end
 
     specify "I am unauthorised to view the reporter dashboard" do
       visit reporter_dashboard_path
-      within(".alert.alert-danger") do
-        expect(page).to(have_content("Unauthorized Access."))
-      end
+      expect(page.status_code).to(eq(401))
     end
   end
 end
