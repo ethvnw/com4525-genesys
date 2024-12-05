@@ -77,7 +77,7 @@ class LandingPageJourneyMiddleware
 
     if route_info[:action] == SHARE_FEATURE_ACTION
       # Add feature-specific info
-      interaction[:method] = env["QUERY_STRING"].slice!("method=")
+      interaction[:method] = env["QUERY_STRING"].slice("method=")
     end
 
     if adding?(route_info[:action], request.params)
