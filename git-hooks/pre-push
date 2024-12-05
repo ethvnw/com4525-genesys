@@ -5,6 +5,14 @@ set -e
 protected_branch='main'
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 push_command=$(ps -ocommand= -p $PPID)
+deploying="false"
+
+while getopts ":c:" opt; do
+  case $opt in
+    c) exit 0 # Early exit if deploying
+    ;;
+  esac
+done
 
 if [[ $push_command =~ $protected_branch ]] || [[ $current_branch = $protected_branch ]]; then
   echo "No pushing directly to main >:("
