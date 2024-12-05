@@ -45,16 +45,18 @@ class LandingPageJourneyMiddleware
 
   private
 
-  # The actions that should trigger adding/removing a journey
-  LIKE_REVIEW_ACTION = "like"
-  SHARE_FEATURE_ACTION = "share"
-  CLICK_QUESTION_ACTION = "click"
+  # The routes that should trigger adding/removing a journey
+  # Can't use route variables from routes.rb in middleware
+  # Omit the :id path param
+  LIKE_REVIEW_ROUTE = "api/reviews/like"
+  SHARE_FEATURE_ROUTE = "api/features/share"
+  CLICK_QUESTION_ROUTE = "api/questions/click"
 
-  JOURNEY_ACTIONS = [
-    LIKE_REVIEW_ACTION,
-    SHARE_FEATURE_ACTION,
-    CLICK_QUESTION_ACTION,
-  ]
+  ROUTES_TO_JOURNEY = {
+    LIKE_REVIEW_ROUTE => "reviews",
+    SHARE_FEATURE_ROUTE => "features",
+    CLICK_QUESTION_ROUTE => "questions",
+  }
 
   ##
   # Handles a route that has been intercepted by the middleware.
@@ -64,26 +66,28 @@ class LandingPageJourneyMiddleware
     route_info = begin
       Rails.application.routes.recognize_path(env["PATH_INFO"], method: env["REQUEST_METHOD"])
     rescue
-      { action: nil }
+      {}
     end
 
+    full_route = "#{route_info[:controller]}/#{route_info[:action]}"
+
     # Guard clause to catch all actions that we don't need analytics for
-    unless JOURNEY_ACTIONS.include?(route_info[:action])
+    unless ROUTES_TO_JOURNEY.key?(full_route)
       return
     end
 
     request = Rack::Request.new(env)
     interaction = { id: route_info[:id], timestamp: Time.now.utc }
 
-    if route_info[:action] == SHARE_FEATURE_ACTION
+    if full_route == SHARE_FEATURE_ROUTE
       # Add feature-specific info
-      interaction[:method] = env["QUERY_STRING"].slice("method=")
+      interaction[:method] = env["QUERY_STRING"].sub("method=", "")
     end
 
-    if adding?(route_info[:action], request.params)
-      add_to_session(request.session, route_info[:controller], interaction)
+    if adding?(full_route, request.params)
+      add_to_session(request.session, ROUTES_TO_JOURNEY[full_route], interaction)
     else
-      remove_from_session(request.session, route_info[:controller], interaction)
+      remove_from_session(request.session, ROUTES_TO_JOURNEY[full_route], interaction)
     end
   end
 
@@ -93,7 +97,7 @@ class LandingPageJourneyMiddleware
   # @param [Rack::Request] params the parameters that have been passed with the request
   # @return [bool] true if adding, otherwise false
   def adding?(action, params)
-    action != LIKE_REVIEW_ACTION || params["like"] == "true"
+    action != LIKE_REVIEW_ROUTE || params["like"] == "true"
   end
 
   ##

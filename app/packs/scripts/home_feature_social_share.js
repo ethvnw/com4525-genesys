@@ -53,10 +53,10 @@ const updateSocialShareLinks = (featureName, featureDescription, featureId) => {
     fetch(getFeatureShareApiRoute(featureId, 'clipboard')).then();
   };
 
-  shareEmail.href = getFeatureShareApiRoute(featureId, 'email');
-  shareFacebook.href = getFeatureShareApiRoute(featureId, 'facebook');
-  shareTwitter.href = getFeatureShareApiRoute(featureId, 'twitter');
-  shareWhatsapp.href = getFeatureShareApiRoute(featureId, 'whatsapp');
+  shareEmail.href = getFeatureShareApiRoute(featureId, 'Email');
+  shareFacebook.href = getFeatureShareApiRoute(featureId, 'Facebook');
+  shareTwitter.href = getFeatureShareApiRoute(featureId, 'Twitter');
+  shareWhatsapp.href = getFeatureShareApiRoute(featureId, 'WhatsApp');
 };
 
 // Add event listener to all social share buttons
