@@ -19,23 +19,24 @@ RSpec.feature("Registering Interest") do
 
     review = create(:review, is_hidden: false)
     review2 = create(:review, is_hidden: false)
-    #
-    # question = create(:question, is_hidden: false)
-    # question2 = create(:question, is_hidden: false)
+
+    question = create(:question, is_hidden: false)
+    question2 = create(:question, is_hidden: false)
 
     visit root_path
+
     click_button(id: "share_#{feature_tier.app_feature.id}")
     click_link "Facebook"
 
-    # visit root_path # Clear offcanvas
-    #
-    # click_button(id: "review_#{review.id}")
-    # click_button(id: "review_#{review2.id}")
-    #
-    # visit faq_path
-    #
-    # click_button(id: "question_#{question.id}")
-    # click_button(id: "question_#{question2.id}")
+    visit root_path
+
+    click_button(id: "review_#{review.id}")
+    click_button(id: "review_#{review2.id}")
+
+    visit faq_path
+
+    click_button(id: "question_#{question.id}")
+    click_button(id: "question_#{question2.id}")
 
     puts SubscriptionTier.find_by(id: feature_tier.subscription_tier.id)
 
