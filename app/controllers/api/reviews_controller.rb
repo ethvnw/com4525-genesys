@@ -26,7 +26,7 @@ module Api
       head(:ok)
     end
 
-    def update_orders
+    def orders
       json = JSON.parse(params[:items])
       json.each do |id, order|
         Review.find(id).update(order: order)

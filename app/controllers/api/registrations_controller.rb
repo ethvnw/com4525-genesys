@@ -15,7 +15,7 @@ module Api
           flash[:email_error] = "Email " + registration.errors[:email].first
         end
 
-        redirect_back_or_to(subscriptions_path) and return
+        redirect_back_or_to(pricing_subscriptions_path) and return
       end
 
       flash[:notice] = "Successfully registered. Keep an eye on your inbox for updates!"
