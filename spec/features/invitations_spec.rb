@@ -16,17 +16,14 @@ RSpec.feature("Invitations") do
       expect(page).to(have_content("Create a Staff Account"))
       expect(page).to(have_field("Email address"))
 
-      # Take into account "Role" as an option but cannot be chosen
-      expected_roles = ["Role"] + User.user_roles.keys.map(&:humanize)
-
-      expect(page).to(have_select("user_user_role", options: expected_roles))
+      expect(page).to(have_select("user_user_role", options: ["Role"] + User.user_roles.values))
       expect(page).to(have_button("Send Invitation"))
     end
   end
 
   feature "Submitting an invitation to a new email address" do
     specify "I can submit an invitation and give admin privileges" do
-      submit_invitation_to_new_email("new_admin@genesys.com", "Admin")
+      submit_invitation_to_new_email("new_admin@genesys.com", "Product Owner")
     end
 
     specify "I can submit an invitation and give reporter privileges" do
@@ -38,7 +35,7 @@ RSpec.feature("Invitations") do
     specify "I cannot submit an invitation to a user that already exists" do
       # Send an invitation to an existing email address
       fill_in("Email address", with: admin.email)
-      select("Admin", from: "user_user_role")
+      select("Product Owner", from: "user_user_role")
       click_button("Send Invitation")
 
       within(".alert.alert-danger") do
