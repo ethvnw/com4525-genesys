@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-# Reporter authorisation
-module ReporterAuthorisation
+# Admin authorisation
+module AdminAuthorization
   extend ActiveSupport::Concern
 
   included do
-    before_action :authorize_reporter
+    before_action :authorize_admin
   end
 
   private
 
-  def authorize_reporter
-    unless can?(:access, :reporter_dashboard)
+  def authorize_admin
+    unless can?(:access, :admin_dashboard)
       flash[:alert] = "Unauthorized Access."
       redirect_to(root_path)
     end
