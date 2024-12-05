@@ -40,7 +40,6 @@ class Ability
     if user.reporter?
       can(:access, :reporter_dashboard)
       can(:read, Registration)
-      cannot(:manage, User)
     end
 
     can(:read, SubscriptionTier)
