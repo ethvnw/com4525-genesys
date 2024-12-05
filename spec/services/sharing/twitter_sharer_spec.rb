@@ -11,8 +11,8 @@ RSpec.describe("Sharing::TwitterSharer") do
     encoded_feature_name = ERB::Util.url_encode(feature.name.to_s)
     encoded_feature_desc = ERB::Util.url_encode(feature.description.to_s.downcase)
 
-    expect(twitter).to(start_with("https://twitter.com"))
-    expect(twitter.include?(encoded_feature_name)).to(be_truthy)
-    expect(twitter.include?(encoded_feature_desc)).to(be_truthy)
+    expect(twitter).to(start_with("https://x.com"))
+    expect(twitter).to(include(encoded_feature_name))
+    expect(twitter).to(include(encoded_feature_desc))
   end
 end
