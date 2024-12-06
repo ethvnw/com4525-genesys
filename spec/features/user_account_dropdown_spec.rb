@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.feature("User account dropdown") do
-  let(:admin) { create(:admin) }
+  let!(:admin) { create(:admin) }
   let!(:reporter) { create(:reporter) }
 
   feature "Admin user dropdown", js: true do

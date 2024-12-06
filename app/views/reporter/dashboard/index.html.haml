@@ -12,8 +12,6 @@
       %button.nav-link{ "data-bs-target": "#all-time-tab", "data-bs-toggle": "pill", type: "button" } All Time
   .tab-content
     #today-tab.tab-pane.show.active
-      = puts "!!"
-      = puts @registrations_this_month
       = render("partials/reporter_dashboard_cards_tab",
                landing_page_visits: @landing_page_visits_today,
                registrations: @registrations_today,
