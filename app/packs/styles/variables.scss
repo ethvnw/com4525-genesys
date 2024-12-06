@@ -11,6 +11,13 @@ $theme-colors: map-merge($theme-colors, (
   "primary": $primary
 ));
 
+/* Overwrite tabs */
+$nav-link-font-weight: 600;
+$nav-link-color: $secondary;
+$nav-link-hover-color: $primary;
+$nav-pills-link-active-bg: $light;
+$nav-pills-link-active-color: $primary;
+
 /* Set default font to Inter */
 $font-family-sans-serif: "Inter", "InterVariable", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 

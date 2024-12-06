@@ -45,6 +45,9 @@ RSpec.configure do |config|
   config.include(Rails.application.routes.url_helpers)
   config.include(Devise::Test::ControllerHelpers, type: :controller)
 
+  # Allows us to travel to specific time periods
+  config.include(ActiveSupport::Testing::TimeHelpers)
+
   # Ensure our database is definitely empty before running the suite
   # (e.g. if a process got killed and things weren't cleaned up)
   config.before(:suite) do

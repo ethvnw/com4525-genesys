@@ -1,0 +1,12 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th #
+      - table_header.each do |header|
+        %th= header
+  %tbody
+    - table_contents.each_with_index do |row, index|
+      %tr
+        %th= index + 1
+        %td= ("#{row.first.emoji_flag} #{row.first.common_name}")
+        %td= row.second
