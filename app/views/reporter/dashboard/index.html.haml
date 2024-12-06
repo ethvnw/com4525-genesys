@@ -53,11 +53,11 @@
   .tab-content
     #landing-countries.tab-pane.show.active
       = render("partials/reporter_dashboard_country_table",
-               table_header: ["Country", "Amount"],
+               table_header: ["Country", "Landing Page Visits"],
                table_contents: @landing_page_visits_by_country)
     #registration-countries.tab-pane
       = render("partials/reporter_dashboard_country_table",
-               table_header: ["Country", "Amount"],
+               table_header: ["Country", "Registrations"],
                table_contents: @registrations_by_country)
   %hr.mt-3
   %h4.fw-semibold.mt-3
