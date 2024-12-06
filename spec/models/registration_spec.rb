@@ -99,36 +99,33 @@ RSpec.describe(Registration, type: :model) do
     end
 
     describe "by_day" do
-      it "groups registrations by day" do
+      it "counts registrations by day" do
         by_day = Registration.by_day
-        expect(by_day.count).to(eq(5))
-        expect(by_day[Time.zone.parse("2024-01-01")].count).to(eq(2))
+        expect(by_day[Time.zone.parse("2024-01-01")]).to(eq(2))
       end
     end
 
     describe "by_week" do
-      it "groups registrations by week" do
+      it "counts registrations by week" do
         by_week = Registration.by_week
-        expect(by_week.count).to(eq(4))
-        expect(by_week[Time.zone.parse("2024-01-01")].count).to(eq(3))
+        expect(by_week[Time.zone.parse("2024-01-01")]).to(eq(3))
       end
     end
 
     describe "by_month" do
-      it "groups registrations by month" do
+      it "counts registrations by month" do
         by_month = Registration.by_month
-        expect(by_month.count).to(eq(3))
-        expect(by_month[Time.zone.parse("2024-01-01")].count).to(eq(4))
+        expect(by_month[Time.zone.parse("2024-01-01")]).to(eq(4))
       end
     end
 
     describe "by_country" do
       it "groups registrations by country" do
         by_country = Registration.by_country
+        gb_country_obj = ISO3166::Country.new("GB")
         expect(by_country.count).to(eq(4))
-        expect(by_country["GB"].count).to(eq(3))
+        expect(by_country[gb_country_obj]).to(eq(3))
       end
     end
   end
 end
-3
