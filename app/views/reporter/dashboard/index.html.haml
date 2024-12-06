@@ -31,6 +31,7 @@
                landing_page_visits: 0,
                registrations: @registrations_all_time,
                time_period: "All Time")
+  %hr.mt-3
   %h4.fw-semibold.mt-3
     %i.bi.bi-globe-europe-africa &nbsp;
     By Location
@@ -76,9 +77,9 @@
   .tab-content
     #engagement-features.tab-pane
       = render("partials/reporter_dashboard_table",
-              table_header: ["Feature Name", "Shares"],
-              table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
+               table_header: ["Feature Name", "Shares"],
+               table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
     #engagement-pricing.tab-pane.show.active
       = render("partials/reporter_dashboard_table",
-              table_header: ["Pricing Option", "Clicks"],
-              table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
+               table_header: ["Pricing Option", "Clicks"],
+               table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
