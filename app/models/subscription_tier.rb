@@ -17,6 +17,13 @@ class SubscriptionTier < ApplicationRecord
   has_many :app_features_subscription_tiers
   has_many :app_features, through: :app_features_subscription_tiers
 
+  class << self
+    def engagement_stats
+      SubscriptionTier&.order(engagement_counter: :desc)
+        &.pluck(:name, :engagement_counter) || []
+    end
+  end
+
   def increment_engagement_counter!
     increment!(:engagement_counter)
   end

@@ -22,6 +22,12 @@ class AppFeature < ApplicationRecord
     def get_features_by_tier(tier)
       SubscriptionTier.find_by(name: tier)&.app_features
     end
+
+    def engagement_stats(tier)
+      AppFeature.get_features_by_tier(tier)
+        &.order(engagement_counter: :desc)
+        &.pluck(:name, :engagement_counter) || []
+    end
   end
 
   def increment_engagement_counter!
