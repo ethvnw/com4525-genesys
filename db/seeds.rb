@@ -14,14 +14,14 @@ User.create!(
   email: "admin@genesys.com",
   password: "AdminGenesys#1",
   password_confirmation: "AdminGenesys#1",
-  user_role: :admin,
+  user_role: User.user_roles[:admin],
 ) unless User.exists?(email: "admin@genesys.com")
 
 User.create!(
   email: "reporter@genesys.com",
   password: "ReporterGenesys#1",
   password_confirmation: "ReporterGenesys#1",
-  user_role: :reporter,
+  user_role: User.user_roles[:reporter],
 ) unless User.exists?(email: "reporter@genesys.com")
 
 Question.create!(
