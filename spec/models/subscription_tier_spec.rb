@@ -6,6 +6,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  discount_description :string
+#  engagement_counter   :integer          default(0), not null
 #  name                 :string
 #  price_gbp            :decimal(, )
 #  terms_description    :string

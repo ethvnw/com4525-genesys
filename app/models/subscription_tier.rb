@@ -6,6 +6,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  discount_description :string
+#  engagement_counter   :integer          default(0), not null
 #  name                 :string
 #  price_gbp            :decimal(, )
 #  terms_description    :string
@@ -15,6 +16,10 @@
 class SubscriptionTier < ApplicationRecord
   has_many :app_features_subscription_tiers
   has_many :app_features, through: :app_features_subscription_tiers
+
+  def increment_engagement_counter!
+    increment!(:engagement_counter)
+  end
 
   def premium_subscription?
     price_gbp.present? && price_gbp.positive?
