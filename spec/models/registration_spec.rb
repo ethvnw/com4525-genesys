@@ -58,7 +58,7 @@ RSpec.describe(Registration, type: :model) do
     end
   end
 
-  describe "grouping methods" do
+  describe "counting methods" do
     before do
       create(
         :registration,
@@ -120,7 +120,7 @@ RSpec.describe(Registration, type: :model) do
     end
 
     describe "by_country" do
-      it "groups registrations by country" do
+      it "counts registrations by country" do
         by_country = Registration.by_country
         gb_country_obj = ISO3166::Country.new("GB")
         expect(by_country.count).to(eq(4))

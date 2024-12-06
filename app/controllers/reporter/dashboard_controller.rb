@@ -18,15 +18,11 @@ module Reporter
       @landing_page_visits_all_time = LandingPageVisit.count
       @landing_page_visits_by_country = LandingPageVisit.by_country
 
-      # Statistics for feature sharing
-      @app_features_engagement = AppFeature.get_features_by_tier(:Free)
-        &.order(engagement_counter: :desc)
-        &.pluck(:name, :engagement_counter) || []
+      # Statistics for feature sharing - Free tier is the only features on the landing page
+      @app_features_engagement = AppFeature.engagement_stats(:Free)
 
       # Statistics for subscription tiers
-      @subscription_tiers_engagement = SubscriptionTier
-        &.order(engagement_counter: :desc)
-        &.pluck(:name, :engagement_counter) || []
+      @subscription_tiers_engagement = SubscriptionTier.engagement_stats
     end
   end
 end

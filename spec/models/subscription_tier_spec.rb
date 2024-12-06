@@ -16,9 +16,26 @@
 require "rails_helper"
 
 RSpec.describe(SubscriptionTier, type: :model) do
+  let!(:premium_tier) { create(:subscription_tier, name: "Premium", price_gbp: 10, engagement_counter: 5) }
+  let!(:group_tier) { create(:subscription_tier, name: "Group", price_gbp: 12, engagement_counter: 20) }
+  let!(:free_tier) { create(:subscription_tier, name: "Free", price_gbp: 0, engagement_counter: 10) }
+
+  describe ".engagement_stats" do
+    it "returns subscription tiers ordered by engagement_counter in descending order" do
+      engagement_stats = SubscriptionTier.engagement_stats
+      expect(engagement_stats).to(eq([[group_tier.name, 20], [free_tier.name, 10], [premium_tier.name, 5]]))
+    end
+  end
+
+  describe "#increment_engagement_counter!" do
+    let!(:engagement_tier) { create(:subscription_tier, engagement_counter: 0) }
+
+    it "increments the engagement counter by 1" do
+      expect { engagement_tier.increment_engagement_counter! }.to(change { engagement_tier.engagement_counter }.by(1))
+    end
+  end
+
   describe "#premium_subscription?" do
-    let(:premium_tier) { build(:subscription_tier, price_gbp: 10) }
-    let(:free_tier) { build(:subscription_tier, price_gbp: 0) }
     let(:no_subscription_tier) { build(:subscription_tier, price_gbp: nil) }
 
     it "returns true if price_gbp is greater than 0" do
