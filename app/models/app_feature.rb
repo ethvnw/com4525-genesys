@@ -17,4 +17,14 @@ class AppFeature < ApplicationRecord
 
   has_many :feature_shares
   has_many :registrations, through: :feature_shares
+
+  class << self
+    def get_features_by_tier(tier)
+      SubscriptionTier.find_by(name: tier)&.app_features
+    end
+  end
+
+  def increment_engagement_counter!
+    increment!(:engagement_counter)
+  end
 end
