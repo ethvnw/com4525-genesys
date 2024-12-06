@@ -35,6 +35,33 @@ class Registration < ApplicationRecord
   validates :country_code, presence: true, length: { is: 2 }
   validate :validate_subscription_tier
 
+  class << self
+    def by_day
+      Registration.all.group_by do |registration|
+        registration.created_at.beginning_of_day
+      end.transform_values(&:count)
+    end
+
+    def by_week
+      Registration.all.group_by do |registration|
+        registration.created_at.beginning_of_week
+      end.transform_values(&:count)
+    end
+
+    def by_month
+      Registration.all.group_by do |registration|
+        registration.created_at.beginning_of_month
+      end.transform_values(&:count)
+    end
+
+    def by_country
+      Registration.all
+        .group_by(&:country_code)
+        .transform_keys { |code| ISO3166::Country.new(code) }
+        .transform_values(&:count)
+    end
+  end
+
   private
 
   def validate_subscription_tier

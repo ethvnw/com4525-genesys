@@ -89,4 +89,17 @@ RSpec.feature("Sharing Features") do
       expect(page.status_code).to(eq(400))
     end
   end
+
+  scenario "It increments the engagement count for the feature", js: true, opens_new_tab: true do
+    inital_engagement = app_feature.engagement_counter
+
+    visit root_path
+
+    click_button "Share"
+
+    click_link "Twitter"
+    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+    sleep_for_js
+    expect(app_feature.reload.engagement_counter).to(eq(inital_engagement + 1))
+  end
 end
