@@ -114,3 +114,6 @@ gem "rubocop", "~> 1.68"
 
 # geocoder - used to get country code from request
 gem "geocoder", "~> 1.8", ">= 1.8.3"
+
+# countries handle ISO codes [https://github.com/countries/countries]
+gem "countries", "~> 7.0"
