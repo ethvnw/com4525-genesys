@@ -50,13 +50,19 @@
       } Registrations
   .tab-content
     #landing-countries.tab-pane.show.active
-      = render("partials/reporter_dashboard_country_table",
-               table_header: ["Country", "Landing Page Visits"],
-               table_contents: @landing_page_visits_by_country)
+      - if @landing_page_visits_by_country.blank?
+        = render("partials/reporter_dashboard_no_data")
+      - else
+        = render("partials/reporter_dashboard_country_table",
+                 table_header: ["Country", "Landing Page Visits"],
+                 table_contents: @landing_page_visits_by_country)
     #registration-countries.tab-pane
-      = render("partials/reporter_dashboard_country_table",
-               table_header: ["Country", "Registrations"],
-               table_contents: @registrations_by_country)
+      - if @registrations_by_country.blank?
+        = render("partials/reporter_dashboard_no_data")
+      - else
+        = render("partials/reporter_dashboard_country_table",
+                 table_header: ["Country", "Registrations"],
+                 table_contents: @registrations_by_country)
   %hr.mt-3
   %h4.fw-semibold.mt-3
     %i.bi.bi-bar-chart-line-fill &nbsp;
@@ -76,10 +82,16 @@
       } Pricing
   .tab-content
     #engagement-features.tab-pane.show.active
-      = render("partials/reporter_dashboard_table",
-               table_header: ["Feature Name", "Shares"],
-               table_contents: @app_features_engagement)
+      - if @app_features_engagement.blank?
+        = render("partials/reporter_dashboard_no_data")
+      - else
+        = render("partials/reporter_dashboard_table",
+                 table_header: ["Feature Name", "Shares"],
+                 table_contents: @app_features_engagement)
     #engagement-pricing.tab-pane
-      = render("partials/reporter_dashboard_table",
-               table_header: ["Pricing Tier", "Clicks"],
-               table_contents: @subscription_tiers_engagement)
+      - if @subscription_tiers_engagement.blank?
+        = render("partials/reporter_dashboard_no_data")
+      - else
+        = render("partials/reporter_dashboard_table",
+                 table_header: ["Pricing Tier", "Clicks"],
+                 table_contents: @subscription_tiers_engagement)

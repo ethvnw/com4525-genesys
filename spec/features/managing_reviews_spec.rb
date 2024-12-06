@@ -82,6 +82,7 @@ RSpec.feature("Managing reviews") do
       visit root_path
       within("div.reviews-carousel") do
         find("button#review_#{review.id}").click
+        sleep_for_js
         find("button#review_#{review.id}").click
       end
       visit root_path
