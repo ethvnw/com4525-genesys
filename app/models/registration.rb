@@ -35,6 +35,24 @@ class Registration < ApplicationRecord
   validates :country_code, presence: true, length: { is: 2 }
   validate :validate_subscription_tier
 
+  class << self
+    def by_day
+      Registration.all.group_by { |registration| registration.created_at.beginning_of_day }
+    end
+
+    def by_week
+      Registration.all.group_by { |registration| registration.created_at.beginning_of_week }
+    end
+
+    def by_month
+      Registration.all.group_by { |registration| registration.created_at.beginning_of_month }
+    end
+
+    def by_country
+      Registration.all.group_by(&:country_code)
+    end
+  end
+
   private
 
   def validate_subscription_tier
