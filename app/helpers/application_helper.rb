@@ -27,9 +27,4 @@ module ApplicationHelper
       []
     end
   end
-
-  # Formats country code into its flag emoji representation
-  def get_country_flag(country_code)
-    country_code.upcase.chars.map { |char| (127397 + char.ord).chr }.join
-  end
 end
