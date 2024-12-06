@@ -8,5 +8,5 @@
     - table_contents.each_with_index do |row, index|
       %tr
         %th= index + 1
-        %td= get_country_flag(row.first) + ISO3166::Country[row.first]
+        %td= "#{row.first.emoji_flag} #{row.first.common_name}"
         %td= row.second

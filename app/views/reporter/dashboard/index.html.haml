@@ -30,7 +30,7 @@
       = render("partials/reporter_dashboard_cards_tab",
                landing_page_visits: 0,
                registrations: @registrations_all_time,
-               time_period: "This Month")
+               time_period: "All Time")
   %h4.fw-semibold.mt-3
     %i.bi.bi-globe-europe-africa &nbsp;
     By Location
@@ -50,7 +50,7 @@
   .tab-content
     #landing-countries.tab-pane.show.active
       = render("partials/reporter_dashboard_table",
-               table_header: ["apple", "dasdas"],
+               table_header: ["Country", "Amount"],
                table_contents: [["1", "32"]])
     #registration-countries.tab-pane
       = render("partials/reporter_dashboard_country_table",
@@ -59,6 +59,9 @@
   %hr.mt-3
   %h4.fw-semibold
     Features
+  %p.small.text-secondary
+    %i.bi.bi-hand-index-thumb &nbsp;
+    Engagement
   .col
     = render("partials/reporter_dashboard_table",
              table_header: ["Feature Name", "Shares"],
@@ -66,7 +69,10 @@
   %hr.mt-3
   %h4.fw-semibold
     Pricing Options
+  %p.small.text-secondary
+    %i.bi.bi-hand-index-thumb &nbsp;
+    Engagement
   .col
     = render("partials/reporter_dashboard_table",
-             table_header: ["Feature Name", "Shares"],
+             table_header: ["Pricing Option", "Clicks"],
              table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
