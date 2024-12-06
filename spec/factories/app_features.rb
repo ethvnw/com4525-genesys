@@ -15,5 +15,6 @@ FactoryBot.define do
   factory :app_feature do
     name { "App Feature" }
     description { "A feature" }
+    engagement_counter { 0 }
   end
 end
