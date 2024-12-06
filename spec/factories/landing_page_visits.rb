@@ -11,6 +11,6 @@
 #
 FactoryBot.define do
   factory :landing_page_visit do
-    country_code_iso { "GB" }
+    country_code { "GB" }
   end
 end
