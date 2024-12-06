@@ -16,8 +16,13 @@ module Api
         head(:bad_request) and return
       end
 
+      # Get the app feature and increment its engagement counter
+      app_feature = AppFeature.find_by_id(params[:id])
+      app_feature.increment_engagement_counter!
+      app_feature.save
+
       sharer = SHARERS[params[:method].downcase]
-      redirect_to(sharer.call(AppFeature.find_by_id(params[:id])), allow_other_host: true)
+      redirect_to(sharer.call(app_feature), allow_other_host: true)
     end
 
     private

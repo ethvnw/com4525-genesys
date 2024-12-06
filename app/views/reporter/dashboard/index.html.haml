@@ -58,7 +58,7 @@
                table_header: ["Country", "Amount"],
                table_contents: @registrations_by_country)
   %hr.mt-3
-  %h4.fw-semibold
+  %h4.fw-semibold.mt-3
     %i.bi.bi-bar-chart-line-fill &nbsp;
     Engagement
   %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
@@ -75,11 +75,8 @@
         type: "button",
       } Pricing
   .tab-content
-    #engagement-features.tab-pane
+    #engagement-features.tab-pane.show.active
       = render("partials/reporter_dashboard_table",
                table_header: ["Feature Name", "Shares"],
-               table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
-    #engagement-pricing.tab-pane.show.active
-      = render("partials/reporter_dashboard_table",
-               table_header: ["Pricing Option", "Clicks"],
-               table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
+               table_contents: @app_feature_engagement)
+    #engagement-pricing.tab-pane

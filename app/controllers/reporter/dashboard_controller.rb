@@ -17,6 +17,11 @@ module Reporter
       @landing_page_visits_this_month = LandingPageVisit.by_month[Time.current.beginning_of_month]
       @landing_page_visits_all_time = LandingPageVisit.count
       @landing_page_visits_by_country = LandingPageVisit.by_country
+
+      # Statistics for feature sharing
+      @app_feature_engagement = AppFeature.get_features_by_tier(:Free)
+        .order(engagement_counter: :desc)
+        .pluck(:name, :engagement_counter)
     end
   end
 end
