@@ -14,7 +14,7 @@ RSpec.feature("User account dropdown") do
     scenario "Admin can access admin dashboard through dropdown" do
       visit root_path
 
-      find("#user-account-dropdown-toggle").click
+      find("#user-account-dropdown .dropdown-toggle").click
 
       within(:css, "#user-account-dropdown") do
         expect(page).to(have_link("Admin Dashboard", href: admin_dashboard_path))
@@ -28,7 +28,7 @@ RSpec.feature("User account dropdown") do
     scenario "Admin can access reporter dashboard through dropdown" do
       visit root_path
 
-      find("#user-account-dropdown-toggle").click
+      find("#user-account-dropdown .dropdown-toggle").click
 
       within(:css, "#user-account-dropdown") do
         expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
@@ -42,7 +42,7 @@ RSpec.feature("User account dropdown") do
     scenario "Admin can access account settings through dropdown" do
       visit root_path
 
-      find("#user-account-dropdown-toggle").click
+      find("#user-account-dropdown .dropdown-toggle").click
 
       within(:css, "#user-account-dropdown") do
         expect(page).to(have_link("My Account", href: edit_user_registration_path))
@@ -62,7 +62,7 @@ RSpec.feature("User account dropdown") do
     scenario "Reporter can't access admin dashboard through dropdown" do
       visit root_path
 
-      find("#user-account-dropdown-toggle").click
+      find("#user-account-dropdown .dropdown-toggle").click
 
       within(:css, "#user-account-dropdown") do
         expect(page).to_not(have_link("Admin Dashboard", href: admin_dashboard_path))
@@ -72,7 +72,7 @@ RSpec.feature("User account dropdown") do
     scenario "Admin can access reporter dashboard through dropdown" do
       visit root_path
 
-      find("#user-account-dropdown-toggle").click
+      find("#user-account-dropdown .dropdown-toggle").click
 
       within(:css, "#user-account-dropdown") do
         expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
@@ -86,7 +86,7 @@ RSpec.feature("User account dropdown") do
     scenario "Reporter can access account settings through dropdown" do
       visit root_path
 
-      find("#user-account-dropdown-toggle").click
+      find("#user-account-dropdown .dropdown-toggle").click
 
       within(:css, "#user-account-dropdown") do
         expect(page).to(have_link("My Account", href: edit_user_registration_path))
