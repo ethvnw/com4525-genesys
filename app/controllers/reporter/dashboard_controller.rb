@@ -20,13 +20,13 @@ module Reporter
 
       # Statistics for feature sharing
       @app_features_engagement = AppFeature.get_features_by_tier(:Free)
-        .order(engagement_counter: :desc)
-        .pluck(:name, :engagement_counter)
+        &.order(engagement_counter: :desc)
+        &.pluck(:name, :engagement_counter) || []
 
       # Statistics for subscription tiers
       @subscription_tiers_engagement = SubscriptionTier
-        .order(engagement_counter: :desc)
-        .pluck(:name, :engagement_counter)
+        &.order(engagement_counter: :desc)
+        &.pluck(:name, :engagement_counter) || []
     end
   end
 end
