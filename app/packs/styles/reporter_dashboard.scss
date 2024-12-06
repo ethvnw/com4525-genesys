@@ -1,0 +1,16 @@
+.card-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+}
+
+table {
+    table-layout:fixed;
+}
+table td {
+    overflow:hidden;
+}

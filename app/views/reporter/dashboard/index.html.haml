@@ -1,4 +1,72 @@
-%h1 Reporter Dashboard
-
-%p User: #{current_user.email}
-%p Role: #{current_user.show_role}
+%section.row.align-items-center
+  %h1.fw-bold.display-6.mb-3 Reporter Dashboard
+  %hr.mt-3
+  %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
+    %li.nav-item
+      %button.nav-link.active{ "data-bs-target": "#today-tab", "data-bs-toggle": "pill", type: "button" } Day
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#week-tab", "data-bs-toggle": "pill", type: "button" } Week
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#month-tab", "data-bs-toggle": "pill", type: "button" } Month
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#all-time-tab", "data-bs-toggle": "pill", type: "button" } All Time
+  .tab-content
+    #today-tab.tab-pane.show.active
+      = render("partials/reporter_dashboard_cards_tab",
+               landing_page_visits: 2,
+               registrations: 4,
+               time_period: "Today")
+    #week-tab.profile.tab-pane
+      = render("partials/reporter_dashboard_cards_tab",
+               landing_page_visits: 3,
+               registrations: 5,
+               time_period: "This Week")
+    #month-tab.tab-pane
+      = render("partials/reporter_dashboard_cards_tab",
+               landing_page_visits: 2,
+               registrations: 4,
+               time_period: "This Month")
+    #all-time-tab.tab-pane
+      = render("partials/reporter_dashboard_cards_tab",
+               landing_page_visits: 2,
+               registrations: 4,
+               time_period: "This Month")
+  %h4.fw-semibold.mt-3
+    %i.bi.bi-globe-europe-africa &nbsp;
+    By Location
+  %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
+    %li.nav-item
+      %button.nav-link.active{
+        "data-bs-target": "#landing-countries",
+        "data-bs-toggle": "pill",
+        type: "button",
+      } Landing Page Visits
+    %li.nav-item
+      %button.nav-link{
+        "data-bs-target": "#registration-countries",
+        "data-bs-toggle": "pill",
+        type: "button",
+      } Registrations
+  .tab-content
+    #landing-countries.tab-pane.show.active
+      = render("partials/reporter_dashboard_table",
+               table_header: ["apple", "dasdas"],
+               table_contents: [["1", "32"]])
+    #registration-countries.tab-pane
+      = render("partials/reporter_dashboard_table",
+               table_header: ["apple", "dasdas"],
+               table_contents: [["1", "32"]])
+  %hr.mt-3
+  %h4.fw-semibold
+    Features
+  .col
+    = render("partials/reporter_dashboard_table",
+             table_header: ["Feature Name", "Shares"],
+             table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
+  %hr.mt-3
+  %h4.fw-semibold
+    Pricing Options
+  .col
+    = render("partials/reporter_dashboard_table",
+             table_header: ["Feature Name", "Shares"],
+             table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])

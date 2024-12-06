@@ -6,5 +6,6 @@ import 'swiper/swiper-bundle.css';
 import '../../styles/home.scss';
 import '../../styles/social_share.scss';
 import '../../styles/pricing.scss';
+import '../../styles/reporter_dashboard.scss';
 
 require.context('../../images', true);

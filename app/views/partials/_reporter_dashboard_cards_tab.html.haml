@@ -1,0 +1,13 @@
+.row
+  .col-lg-6.mb-3
+    = render("partials/reporter_dashboard_card",
+             card_icons: "bi bi-person",
+             card_title: "Landing Page Visits",
+             card_metric: landing_page_visits,
+             card_time_period: time_period)
+  .col-lg-6
+    = render("partials/reporter_dashboard_card",
+             card_icons: "bi bi-person",
+             card_title: "Registrations",
+             card_metric: registrations,
+             card_time_period: time_period)
