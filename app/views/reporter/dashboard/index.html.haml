@@ -58,21 +58,27 @@
                table_contents: @registrations_by_country)
   %hr.mt-3
   %h4.fw-semibold
-    Features
-  %p.small.text-secondary
-    %i.bi.bi-hand-index-thumb &nbsp;
+    %i.bi.bi-bar-chart-line-fill &nbsp;
     Engagement
-  .col
-    = render("partials/reporter_dashboard_table",
-             table_header: ["Feature Name", "Shares"],
-             table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
-  %hr.mt-3
-  %h4.fw-semibold
-    Pricing Options
-  %p.small.text-secondary
-    %i.bi.bi-hand-index-thumb &nbsp;
-    Engagement
-  .col
-    = render("partials/reporter_dashboard_table",
-             table_header: ["Pricing Option", "Clicks"],
-             table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
+  %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
+    %li.nav-item
+      %button.nav-link.active{
+        "data-bs-target": "#engagement-features",
+        "data-bs-toggle": "pill",
+        type: "button",
+      } Features
+    %li.nav-item
+      %button.nav-link{
+        "data-bs-target": "#engagement-pricing",
+        "data-bs-toggle": "pill",
+        type: "button",
+      } Pricing
+  .tab-content
+    #engagement-features.tab-pane
+      = render("partials/reporter_dashboard_table",
+              table_header: ["Feature Name", "Shares"],
+              table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
+    #engagement-pricing.tab-pane.show.active
+      = render("partials/reporter_dashboard_table",
+              table_header: ["Pricing Option", "Clicks"],
+              table_contents: [["dasdsaddsasdad sadsa d s sdadsd sad", "32"]])
