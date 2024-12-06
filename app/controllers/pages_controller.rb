@@ -5,6 +5,12 @@ class PagesController < ApplicationController
   def home
     @script_packs = ["home"]
 
+    # Record the visit
+    landing_page_vist = LandingPageVisit.new
+    landing_page_vist.country_code = request.location.country_code.presence || "GB"
+    unless landing_page_vist.save
+    end
+
     @review = if session[:review_data]
       Review.new(session[:review_data])
     else

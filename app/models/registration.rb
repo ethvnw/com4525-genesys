@@ -55,9 +55,10 @@ class Registration < ApplicationRecord
     end
 
     def by_country
-      Registration.all.group_by(&:country_code).transform_keys do |country_code|
-        ISO3166::Country.new(country_code)
-      end.transform_values(&:count)
+      Registration.all
+        .group_by(&:country_code)
+        .transform_keys { |code| ISO3166::Country.new(code) }
+        .transform_values { |registrations| registrations.count }
     end
   end
 
