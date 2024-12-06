@@ -37,19 +37,25 @@ class Registration < ApplicationRecord
 
   class << self
     def by_day
-      Registration.all.group_by { |registration| registration.created_at.beginning_of_day }
+      Registration.all.group_by do |registration|
+        registration.created_at.beginning_of_day
+      end.transform_values(&:count)
     end
 
     def by_week
-      Registration.all.group_by { |registration| registration.created_at.beginning_of_week }
+      Registration.all.group_by do |registration|
+        registration.created_at.beginning_of_week
+      end.transform_values(&:count)
     end
 
     def by_month
-      Registration.all.group_by { |registration| registration.created_at.beginning_of_month }
+      Registration.all.group_by do |registration|
+        registration.created_at.beginning_of_month
+      end.transform_values(&:count)
     end
 
     def by_country
-      Registration.all.group_by(&:country_code)
+      Registration.all.group_by(&:country_code).transform_values(&:count)
     end
   end
 

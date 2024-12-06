@@ -13,23 +13,23 @@
   .tab-content
     #today-tab.tab-pane.show.active
       = render("partials/reporter_dashboard_cards_tab",
-               landing_page_visits: 2,
-               registrations: 4,
+               landing_page_visits: 0,
+               registrations: @registrations_today,
                time_period: "Today")
     #week-tab.profile.tab-pane
       = render("partials/reporter_dashboard_cards_tab",
-               landing_page_visits: 3,
-               registrations: 5,
+               landing_page_visits: 0,
+               registrations: @registrations_this_week,
                time_period: "This Week")
     #month-tab.tab-pane
       = render("partials/reporter_dashboard_cards_tab",
-               landing_page_visits: 2,
-               registrations: 4,
+               landing_page_visits: 0,
+               registrations: @registrations_this_month,
                time_period: "This Month")
     #all-time-tab.tab-pane
       = render("partials/reporter_dashboard_cards_tab",
-               landing_page_visits: 2,
-               registrations: 4,
+               landing_page_visits: 0,
+               registrations: @registrations_all_time,
                time_period: "This Month")
   %h4.fw-semibold.mt-3
     %i.bi.bi-globe-europe-africa &nbsp;
@@ -53,9 +53,9 @@
                table_header: ["apple", "dasdas"],
                table_contents: [["1", "32"]])
     #registration-countries.tab-pane
-      = render("partials/reporter_dashboard_table",
-               table_header: ["apple", "dasdas"],
-               table_contents: [["1", "32"]])
+      = render("partials/reporter_dashboard_country_table",
+               table_header: ["Country", "Amount"],
+               table_contents: @registrations_by_country)
   %hr.mt-3
   %h4.fw-semibold
     Features

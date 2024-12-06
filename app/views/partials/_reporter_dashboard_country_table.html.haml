@@ -1,0 +1,12 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th #
+      - table_header.each do |header|
+        %th= header
+  %tbody
+    - table_contents.each_with_index do |row, index|
+      %tr
+        %th= index + 1
+        %td= get_country_flag(row.first) + ISO3166::Country[row.first]
+        %td= row.second
