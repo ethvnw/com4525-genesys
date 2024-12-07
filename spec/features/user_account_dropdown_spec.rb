@@ -16,7 +16,7 @@ RSpec.feature("User account dropdown") do
 
       find("#user-account-dropdown .dropdown-toggle").click
 
-      within(:css, "#user-account-dropdown") do
+      within("#user-account-dropdown") do
         expect(page).to(have_link("Admin Dashboard", href: admin_dashboard_path))
 
         click_link "Admin Dashboard"
@@ -30,7 +30,7 @@ RSpec.feature("User account dropdown") do
 
       find("#user-account-dropdown .dropdown-toggle").click
 
-      within(:css, "#user-account-dropdown") do
+      within("#user-account-dropdown") do
         expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
 
         click_link "Reporter Dashboard"

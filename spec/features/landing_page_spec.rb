@@ -11,9 +11,34 @@ RSpec.feature("Visiting landing page") do
     expect(LandingPageVisit.count).to(eq(initial_count + 1))
   end
 
-  specify "When visiting the landing page, the visit location is tracked" do
-    visit root_path
+  feature "landing page visit geolocation" do
+    specify "When visiting the landing page with a geocodable IP, the visit location is tracked" do
+      ENV["TEST_IP_ADDR"] = "185.156.172.142" # IP address in Amsterdam
+      visit root_path
 
-    expect(LandingPageVisit.last.country_code).to(eq("GB"))
+      expect(LandingPageVisit.last.country_code).to(eq("NL"))
+
+      ENV["TEST_IP_ADDR"] = "210.138.184.59" # IP address in Tokyo
+      visit root_path
+
+      expect(LandingPageVisit.last.country_code).to(eq("JP"))
+
+      ENV["TEST_IP_ADDR"] = "178.238.11.6" # IP address in London
+      visit root_path
+
+      expect(LandingPageVisit.last.country_code).to(eq("GB"))
+    end
+
+    specify "When visiting the landing page with a non-geocodable IP, the visit location falls back to GB" do
+      ENV["TEST_IP_ADDR"] = "127.0.0.1" # localhost
+      visit root_path
+
+      expect(LandingPageVisit.last.country_code).to(eq("GB"))
+
+      ENV["TEST_IP_ADDR"] = nil
+      visit root_path
+
+      expect(LandingPageVisit.last.country_code).to(eq("GB"))
+    end
   end
 end
