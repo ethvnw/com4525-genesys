@@ -1,10 +1,31 @@
-%table{ border: "1" }
-  %thead
-    %tr
-      %th Key
-      %th Value
-  %tbody
-    - @landing_page_journey.each do |key|
-      %tr
-        %td= key.inspect
-        %td= key.journey_title
+%section.row.align-items-center
+  %h1.fw-bold.display-6.mb-3 Landing Page Journey
+  = link_to("Back to dashboard", admin_dashboard_path, class: "link-primary fw-semibold mb-3")
+  %hr
+  .row.row-cols-auto
+    .col
+      %p.fw-bold.text-muted
+        %i.bi.bi-envelope &nbsp;
+        Register Email
+      %p.fw-semibold
+        = @registration.email
+    .col
+      %p.fw-bold.text-muted
+        %i.bi.bi-calendar &nbsp;
+        Register date
+      %p.fw-semibold
+        = @registration.decorate.formatted_timestamp
+
+%section.container.mt-3
+  %ul.timeline-with-icons
+    - @landing_page_journey.each do |journey|
+      = render("partials/landing_page_journey_timeline_item",
+               journey_title: journey.journey_title,
+               journey_header: journey.journey_header,
+               journey_date: journey.formatted_timestamp,
+               journey_icon: journey.journey_icon)
+    = render("partials/landing_page_journey_timeline_item",
+             journey_title: @registration.subscription_tier.name,
+             journey_header: "Subscribed to Tier",
+             journey_date: @registration.formatted_timestamp,
+             journey_icon: "bi bi-person")
