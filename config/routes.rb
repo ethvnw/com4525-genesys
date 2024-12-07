@@ -61,6 +61,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :registrations, only: [:show]
+
     resources :questions, only: [] do
       collection do
         get :manage

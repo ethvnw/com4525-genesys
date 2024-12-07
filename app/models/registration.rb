@@ -62,6 +62,16 @@ class Registration < ApplicationRecord
     end
   end
 
+  def landing_page_journey
+    feature_shares = FeatureShare.where(registration_id: id).decorate
+    question_clicks = QuestionClick.where(registration_id: id).decorate
+    review_likes = ReviewLike.where(registration_id: id).decorate
+
+    landing_page_journey = feature_shares + question_clicks + review_likes
+
+    landing_page_journey.sort_by(&:created_at)
+  end
+
   private
 
   def validate_subscription_tier
