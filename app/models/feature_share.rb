@@ -7,7 +7,6 @@
 #  id              :bigint           not null, primary key
 #  share_method    :string
 #  created_at      :datetime         not null
-#  updated_at      :datetime         not null
 #  app_feature_id  :bigint
 #  registration_id :bigint
 #

@@ -6,7 +6,6 @@
 #
 #  id              :bigint           not null, primary key
 #  created_at      :datetime         not null
-#  updated_at      :datetime         not null
 #  question_id     :bigint
 #  registration_id :bigint
 #
