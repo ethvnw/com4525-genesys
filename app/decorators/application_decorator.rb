@@ -4,6 +4,10 @@
 class ApplicationDecorator < Draper::Decorator
   delegate_all
 
+  def formatted_timestamp
+    object.created_at.strftime("%B %d, %Y %I:%M %p")
+  end
+
   class << self
     def collection_decorator_class
       PaginatingDecorator

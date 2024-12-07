@@ -10,9 +10,4 @@ class RegistrationDecorator < ApplicationDecorator
 
     "#{country_obj.emoji_flag} #{country_obj.common_name}"
   end
-
-  def formatted_timestamp
-    # %Month %Day of Month, %Year %Hours%Minutes %AM/PM
-    object.created_at.strftime("%B %d, %Y %I:%M %p")
-  end
 end
