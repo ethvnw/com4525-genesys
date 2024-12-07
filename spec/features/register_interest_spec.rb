@@ -65,7 +65,7 @@ RSpec.feature("Registering Interest") do
       # Removing this stops registrations_controller from being able to access the database
       # It is unable to find subscription_tier, leading to a validation error
       # even though subscription_controller can find it
-      sleep_for_js
+      sleep(1)
 
       registration = Registration.first
 
