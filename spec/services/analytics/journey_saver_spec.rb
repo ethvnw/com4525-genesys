@@ -26,15 +26,36 @@ RSpec.describe("Analytics::JourneySaver") do
         {
           id: feature.id,
           method: "Mock Share Method",
+          timestamp: Time.zone.parse("2024-01-01 09:00:45"),
         },
         {
           id: feature.id,
           method: "Mock Share Method 2",
+          timestamp: Time.zone.parse("2024-01-01 09:01:21"),
         },
       ]
 
-      question_journey = [{ id: question1.id }, { id: question2.id }]
-      review_journey = [{ id: review1.id }, { id: review2.id }]
+      question_journey = [
+        {
+          id: question1.id,
+          timestamp: Time.zone.parse("2024-01-01 09:01:36"),
+        },
+        {
+          id: question2.id,
+          timestamp: Time.zone.parse("2024-01-01 09:02:43"),
+        },
+      ]
+
+      review_journey = [
+        {
+          id: review1.id,
+          timestamp: Time.zone.parse("2024-01-01 09:05:47"),
+        },
+        {
+          id: review2.id,
+          timestamp: Time.zone.parse("2024-01-01 09:07:18"),
+        },
+      ]
 
       Analytics::JourneySaver.call(registration.id, {
         "features" => feature_journey,
@@ -47,6 +68,7 @@ RSpec.describe("Analytics::JourneySaver") do
           app_feature_id: feature.id,
           registration_id: registration.id,
           share_method: "Mock Share Method",
+          created_at: Time.zone.parse("2024-01-01 09:00:45"),
         ),
       ).to(be_present)
 
@@ -55,14 +77,31 @@ RSpec.describe("Analytics::JourneySaver") do
           app_feature_id: feature.id,
           registration_id: registration.id,
           share_method: "Mock Share Method 2",
+          created_at: Time.zone.parse("2024-01-01 09:01:21"),
         ),
       ).to(be_present)
 
-      expect(ReviewLike.find_by(review_id: review1.id, registration_id: registration.id)).to(be_present)
-      expect(ReviewLike.find_by(review_id: review2.id, registration_id: registration.id)).to(be_present)
+      expect(ReviewLike.find_by(
+        review_id: review1.id,
+        registration_id: registration.id,
+        created_at: Time.zone.parse("2024-01-01 09:05:47"),
+      )).to(be_present)
+      expect(ReviewLike.find_by(
+        review_id: review2.id,
+        registration_id: registration.id,
+        created_at: Time.zone.parse("2024-01-01 09:07:18"),
+      )).to(be_present)
 
-      expect(QuestionClick.find_by(question_id: question1.id, registration_id: registration.id)).to(be_present)
-      expect(QuestionClick.find_by(question_id: question2.id, registration_id: registration.id)).to(be_present)
+      expect(QuestionClick.find_by(
+        question_id: question1.id,
+        registration_id: registration.id,
+        created_at: Time.zone.parse("2024-01-01 09:01:36"),
+      )).to(be_present)
+      expect(QuestionClick.find_by(
+        question_id: question2.id,
+        registration_id: registration.id,
+        created_at: Time.zone.parse("2024-01-01 09:02:43"),
+      )).to(be_present)
     end
   end
 end
