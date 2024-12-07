@@ -15,6 +15,7 @@ RSpec.feature("User account dropdown") do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
+      sleep_for_js
 
       within("#user-account-dropdown") do
         expect(page).to(have_link("Admin Dashboard", href: admin_dashboard_path))
@@ -29,6 +30,7 @@ RSpec.feature("User account dropdown") do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
+      sleep_for_js
 
       within("#user-account-dropdown") do
         expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
@@ -46,7 +48,7 @@ RSpec.feature("User account dropdown") do
 
       within("#user-account-dropdown") do
         expect(page).to(have_link("My Account", href: edit_user_registration_path))
-
+        sleep_for_js
         click_link "My Account"
       end
 

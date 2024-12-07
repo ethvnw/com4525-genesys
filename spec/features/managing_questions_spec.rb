@@ -198,6 +198,7 @@ RSpec.feature("Managing questions") do
         find(".order-up-arrow").click
       end
       click_on "Save Changes"
+      sleep_for_js
       visit faq_path
       within(:css, "#faq-container") do
         first_question = find("#accordion-0")
@@ -211,6 +212,7 @@ RSpec.feature("Managing questions") do
         find(".order-down-arrow").click
       end
       click_on "Save Changes"
+      sleep_for_js
       visit faq_path
       within(:css, "#faq-container") do
         second_question = find("#accordion-1")
