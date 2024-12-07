@@ -8,7 +8,7 @@ module Api
       registration = Registration.new(registration_params)
 
       # The geocoder gem won't work over localhost (as 'localhost' is not a geocodable IP), so use GB as default
-      registration.country_code = request.location.country_code.presence || "GB"
+      registration.country_code = request.location&.country_code.presence || "GB"
       unless registration.save
         if registration.errors.key?(:email)
           flash[:email_error] = "Email " + registration.errors[:email].first
