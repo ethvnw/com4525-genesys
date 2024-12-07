@@ -98,33 +98,64 @@ RSpec.describe(Registration, type: :model) do
       )
     end
 
-    describe "by_day" do
+    describe "#by_day" do
       it "counts registrations by day" do
         by_day = Registration.by_day
         expect(by_day[Time.zone.parse("2024-01-01")]).to(eq(2))
       end
     end
 
-    describe "by_week" do
+    describe "#by_week" do
       it "counts registrations by week" do
         by_week = Registration.by_week
         expect(by_week[Time.zone.parse("2024-01-01")]).to(eq(3))
       end
     end
 
-    describe "by_month" do
+    describe "#by_month" do
       it "counts registrations by month" do
         by_month = Registration.by_month
         expect(by_month[Time.zone.parse("2024-01-01")]).to(eq(4))
       end
     end
 
-    describe "by_country" do
+    describe "#by_country" do
       it "counts registrations by country" do
         by_country = Registration.by_country
         gb_country_obj = ISO3166::Country.new("GB")
         expect(by_country.count).to(eq(4))
         expect(by_country[gb_country_obj]).to(eq(3))
+      end
+    end
+  end
+
+  describe "#landing_page_journey" do
+    it "retrieves the landing page journey that led to this registration" do
+      registration = create(:registration)
+      registration2 = create(:registration, email: "test2@example.com")
+
+      create(:feature_share, registration: registration, created_at: Time.zone.parse("2024-01-06"))
+      create(:feature_share, registration: registration, created_at: Time.zone.parse("2024-01-05"))
+      create(:feature_share, registration: registration2)
+
+      create(:review_like, registration: registration, created_at: Time.zone.parse("2024-01-04"))
+      create(:review_like, registration: registration, created_at: Time.zone.parse("2024-01-03"))
+      create(:review_like, registration: registration2)
+
+      create(:question_click, registration: registration, created_at: Time.zone.parse("2024-01-02"))
+      create(:question_click, registration: registration, created_at: Time.zone.parse("2024-01-01"))
+      create(:question_click, registration: registration2)
+
+      journey = registration.landing_page_journey
+
+      expect(journey.length).to(eq(6))
+
+      # Should contain only the journey points for registration, and should be sorted by created_at
+      previous_datetime = Time.zone.parse("2023-12-31")
+      journey.each do |journey_point|
+        expect(journey_point.registration_id).to(eq(registration.id))
+        expect(journey_point.created_at).to(be > previous_datetime)
+        previous_datetime = journey_point.created_at
       end
     end
   end
