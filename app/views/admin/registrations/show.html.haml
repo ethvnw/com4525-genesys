@@ -1,0 +1,10 @@
+%table{ border: "1" }
+  %thead
+    %tr
+      %th Key
+      %th Value
+  %tbody
+    - @landing_page_journey.each do |key|
+      %tr
+        %td= key.inspect
+        %td= key.journey_title
