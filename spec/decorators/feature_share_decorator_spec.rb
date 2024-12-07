@@ -9,19 +9,19 @@ RSpec.describe(FeatureShareDecorator, type: :decorator) do
 
   describe "#journey_title" do
     it "returns the name of the app feature" do
-      expect(decorated_feature_share.journey_title).to eq("Sample Feature")
+      expect(decorated_feature_share.journey_title).to(eq("Sample Feature"))
     end
   end
 
   describe "#journey_header" do
     it "returns a formatted header" do
-      expect(decorated_feature_share.journey_header).to eq("Shared using Email")
+      expect(decorated_feature_share.journey_header).to(eq("Shared using Email"))
     end
   end
 
   describe "#journey_icon" do
     it "returns the correct icon" do
-      expect(decorated_feature_share.journey_icon).to eq("bi bi-share")
+      expect(decorated_feature_share.journey_icon).to(eq("bi bi-share"))
     end
   end
 end

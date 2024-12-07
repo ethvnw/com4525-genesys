@@ -9,19 +9,19 @@ RSpec.describe(QuestionClickDecorator, type: :decorator) do
 
   describe "#journey_title" do
     it "returns the name of the app feature" do
-      expect(decorated_question_click.journey_title).to eq("Sample Question")
+      expect(decorated_question_click.journey_title).to(eq("Sample Question"))
     end
   end
 
   describe "#journey_header" do
     it "returns a formatted header" do
-      expect(decorated_question_click.journey_header).to eq("Clicked on Question")
+      expect(decorated_question_click.journey_header).to(eq("Clicked on Question"))
     end
   end
 
   describe "#journey_icon" do
     it "returns the correct icon" do
-      expect(decorated_question_click.journey_icon).to eq("bi bi-hand-index")
+      expect(decorated_question_click.journey_icon).to(eq("bi bi-hand-index"))
     end
   end
 end
