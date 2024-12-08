@@ -29,6 +29,7 @@ RSpec.feature("Registering Interest") do
     register_with_email
 
     expect(Registration.find_by(email: "test@example.com", country_code: "NL")).to(be_present)
+    ENV["TEST_IP_ADDR"] = nil
   end
 
   describe "The landing page journey", js: true do

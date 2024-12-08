@@ -27,6 +27,7 @@ RSpec.feature("Visiting landing page") do
       visit root_path
 
       expect(LandingPageVisit.last.country_code).to(eq("GB"))
+      ENV["TEST_IP_ADDR"] = nil
     end
 
     specify "When visiting the landing page with a non-geocodable IP, the visit location falls back to GB" do
