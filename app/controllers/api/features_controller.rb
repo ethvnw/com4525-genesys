@@ -21,7 +21,7 @@ module Api
       app_feature.increment_engagement_counter!
       app_feature.save
 
-      sharer = SHARERS[params[:method].downcase]
+      sharer = SHARERS[params[:method]]
       redirect_to(sharer.call(app_feature), allow_other_host: true)
     end
 
@@ -32,7 +32,7 @@ module Api
     # @param [ActionController::Parameters] params the params to check for validity
     # @return [bool] true if share is possible, else false
     def can_share?(params)
-      AppFeature.exists?(id: params[:id]) && params[:method].present? && SHARERS.key?(params[:method].downcase)
+      AppFeature.exists?(id: params[:id]) && params[:method].present? && SHARERS.key?(params[:method].to_s)
     end
   end
 end

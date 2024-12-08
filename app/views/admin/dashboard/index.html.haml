@@ -42,7 +42,7 @@
 %hr
 %h4 Staff Accounts
 
-%table.table
+%table#staff-table.table
   %thead
     %tr
       %th{ scope: "col" }
@@ -65,3 +65,24 @@
             &#10008;
         %td
           = link_to("View Account", edit_admin_staff_path(user))
+
+%hr
+%h4 Registrations
+
+%table#registrations-table.table
+  %thead
+    %tr
+      %th{ scope: "col" }
+      %th{ scope: "col" } Timestamp
+      %th{ scope: "col" } Email
+      %th{ scope: "col" } Country
+      %th{ scope: "col" }
+  %tbody
+    - @registrations.each do |registration|
+      %tr
+        %th{ scope: "row" }
+        %td= registration.formatted_timestamp
+        %td= registration.email
+        %td= registration.formatted_country_name
+        %td
+          = link_to("View Journey", admin_registration_path(registration.id))

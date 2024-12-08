@@ -2,6 +2,9 @@
 
 require "active_support/core_ext/integer/time"
 
+# Require custom middleware
+require_relative "../../lib/middleware/test_ip_mock.rb"
+
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
 # your test database is "scratch space" for the test suite and is wiped
@@ -71,4 +74,5 @@ Rails.application.configure do
 
   # Make sure we know about it if params haven't been permitted
   config.action_controller.action_on_unpermitted_parameters = :raise
+  config.middleware.use(TestIpMock)
 end

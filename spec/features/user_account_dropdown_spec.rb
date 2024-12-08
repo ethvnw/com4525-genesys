@@ -15,8 +15,9 @@ RSpec.feature("User account dropdown") do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
+      sleep_for_js
 
-      within(:css, "#user-account-dropdown") do
+      within("#user-account-dropdown") do
         expect(page).to(have_link("Admin Dashboard", href: admin_dashboard_path))
 
         click_link "Admin Dashboard"
@@ -29,8 +30,9 @@ RSpec.feature("User account dropdown") do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
+      sleep_for_js
 
-      within(:css, "#user-account-dropdown") do
+      within("#user-account-dropdown") do
         expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
 
         click_link "Reporter Dashboard"
@@ -44,9 +46,9 @@ RSpec.feature("User account dropdown") do
 
       find("#user-account-dropdown .dropdown-toggle").click
 
-      within(:css, "#user-account-dropdown") do
+      within("#user-account-dropdown") do
         expect(page).to(have_link("My Account", href: edit_user_registration_path))
-
+        sleep_for_js
         click_link "My Account"
       end
 
@@ -64,7 +66,7 @@ RSpec.feature("User account dropdown") do
 
       find("#user-account-dropdown .dropdown-toggle").click
 
-      within(:css, "#user-account-dropdown") do
+      within("#user-account-dropdown") do
         expect(page).to_not(have_link("Admin Dashboard", href: admin_dashboard_path))
       end
     end
@@ -74,7 +76,7 @@ RSpec.feature("User account dropdown") do
 
       find("#user-account-dropdown .dropdown-toggle").click
 
-      within(:css, "#user-account-dropdown") do
+      within("#user-account-dropdown") do
         expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
 
         click_link "Reporter Dashboard"
@@ -88,7 +90,7 @@ RSpec.feature("User account dropdown") do
 
       find("#user-account-dropdown .dropdown-toggle").click
 
-      within(:css, "#user-account-dropdown") do
+      within("#user-account-dropdown") do
         expect(page).to(have_link("My Account", href: edit_user_registration_path))
 
         click_link "My Account"

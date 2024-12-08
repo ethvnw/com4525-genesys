@@ -7,6 +7,7 @@
 #  id              :bigint           not null, primary key
 #  share_method    :string
 #  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #  app_feature_id  :bigint
 #  registration_id :bigint
 #
@@ -15,7 +16,10 @@
 #  index_feature_shares_on_app_feature_id   (app_feature_id)
 #  index_feature_shares_on_registration_id  (registration_id)
 #
-class FeatureShare < ApplicationRecord
-  belongs_to :app_feature
-  belongs_to :registration
+FactoryBot.define do
+  factory :feature_share do
+    share_method { "email" }
+    association :app_feature
+    association :registration
+  end
 end

@@ -14,7 +14,9 @@
 #  index_question_clicks_on_question_id      (question_id)
 #  index_question_clicks_on_registration_id  (registration_id)
 #
-class QuestionClick < ApplicationRecord
-  belongs_to :question
-  belongs_to :registration
+FactoryBot.define do
+  factory :question_click do
+    association :question
+    association :registration
+  end
 end

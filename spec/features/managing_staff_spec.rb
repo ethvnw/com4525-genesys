@@ -15,7 +15,7 @@ RSpec.feature("Managing staff") do
     specify "I want to be able to view a staff user's account" do
       expect(page).to(have_content("Staff Accounts"))
 
-      within("table") do
+      within("#staff-table") do
         expect(page).to(have_text(reporter.email))
         row = find("tr", text: reporter.email)
         within(row) do
@@ -30,7 +30,7 @@ RSpec.feature("Managing staff") do
 
   feature "Edit staff role" do
     specify "I want to be able to edit a staff user's role from reporter to admin" do
-      within("table") do
+      within("#staff-table") do
         row = find("tr", text: reporter.email)
         within(row) do
           # Check the staff's current role is reporter
@@ -46,7 +46,7 @@ RSpec.feature("Managing staff") do
         expect(page).to(have_content("#{reporter.email} updated successfully."))
       end
 
-      within("table") do
+      within("#staff-table") do
         row = find("tr", text: reporter.email)
         within(row) do
           # Check the staff's current role is now admin
@@ -58,7 +58,7 @@ RSpec.feature("Managing staff") do
 
   feature "Remove access from staff" do
     specify "I want to be able to remove access from a user's account" do
-      within("table") do
+      within("#staff-table") do
         row = find("tr", text: reporter.email)
         within(row) do
           click_link("View Account")
@@ -71,7 +71,7 @@ RSpec.feature("Managing staff") do
       end
 
       # The staff should also no longer appear on the admin's dashboard
-      within("table") do
+      within("#staff-table") do
         expect(page).not_to(have_selector("tr", text: reporter.email))
       end
 

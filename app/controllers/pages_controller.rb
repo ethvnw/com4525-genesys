@@ -7,7 +7,7 @@ class PagesController < ApplicationController
 
     # Record the visit
     landing_page_vist = LandingPageVisit.new
-    landing_page_vist.country_code = request.location.country_code.presence || "GB"
+    landing_page_vist.country_code = request.location&.country_code.presence || "GB"
     landing_page_vist.save
 
     @review = if session[:review_data]
