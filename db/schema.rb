@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_06_143306) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_07_144652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,7 +49,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_06_143306) do
   create_table "feature_shares", force: :cascade do |t|
     t.string "share_method"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "registration_id"
     t.bigint "app_feature_id"
     t.index ["app_feature_id"], name: "index_feature_shares_on_app_feature_id"
@@ -64,7 +63,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_06_143306) do
 
   create_table "question_clicks", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "question_id"
     t.bigint "registration_id"
     t.index ["question_id"], name: "index_question_clicks_on_question_id"
@@ -92,7 +90,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_06_143306) do
 
   create_table "review_likes", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "review_id"
     t.bigint "registration_id"
     t.index ["registration_id"], name: "index_review_likes_on_registration_id"

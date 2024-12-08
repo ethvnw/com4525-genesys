@@ -29,6 +29,7 @@ module Analytics
           registration_id: @registration_id,
           app_feature_id: feature_share[:id],
           share_method: feature_share[:method],
+          created_at: feature_share[:timestamp],
         )
       end
     end
@@ -41,6 +42,7 @@ module Analytics
         QuestionClick.create(
           registration_id: @registration_id,
           question_id: question_click[:id],
+          created_at: question_click[:timestamp],
         )
       end
     end
@@ -53,6 +55,7 @@ module Analytics
         ReviewLike.create(
           registration_id: @registration_id,
           review_id: review_like[:id],
+          created_at: review_like[:timestamp],
         )
       end
     end

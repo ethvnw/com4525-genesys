@@ -17,6 +17,21 @@ RSpec.feature("Registering Interest") do
     expect(page).to(have_content("Successfully registered"))
   end
 
+  scenario "After I register my interest, my geolocation will be saved" do
+    ENV["TEST_IP_ADDR"] = "185.156.172.142" # IP address in Amsterdam
+
+    create(:subscription_tier)
+    visit root_path
+
+    click_link "Join the travel revolution"
+    click_on "Free"
+
+    register_with_email
+
+    expect(Registration.find_by(email: "test@example.com", country_code: "NL")).to(be_present)
+    ENV["TEST_IP_ADDR"] = nil
+  end
+
   describe "The landing page journey", js: true do
     let!(:tier) { create(:subscription_tier) }
     let!(:feature) { create(:app_feature) }
@@ -51,15 +66,15 @@ RSpec.feature("Registering Interest") do
       # Removing this stops registrations_controller from being able to access the database
       # It is unable to find subscription_tier, leading to a validation error
       # even though subscription_controller can find it
-      sleep_for_js
+      sleep(1)
 
       registration = Registration.first
 
       expect(
-        FeatureShare.find_by(app_feature_id: feature.id, registration_id: registration.id, share_method: "Facebook"),
+        FeatureShare.find_by(app_feature_id: feature.id, registration_id: registration.id, share_method: "facebook"),
       ).to(be_present)
       expect(
-        FeatureShare.find_by(app_feature_id: feature.id, registration_id: registration.id, share_method: "WhatsApp"),
+        FeatureShare.find_by(app_feature_id: feature.id, registration_id: registration.id, share_method: "whatsapp"),
       ).to(be_present)
 
       expect(ReviewLike.find_by(review_id: review1.id, registration_id: registration.id)).to(be_present)
