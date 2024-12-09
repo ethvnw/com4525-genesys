@@ -1,88 +1,97 @@
-%h1.d-flex.justify-content-center
-  Admin Dashboard
+%h1.fw-bold.display-6.mb-3 Admin Dashboard
+.d-flex.gap-4
+  = link_to("Manage Reviews", manage_admin_reviews_path, class: "btn btn-secondary")
+  = link_to("Manage Questions", manage_admin_questions_path, class: "btn btn-secondary")
 
-.d-flex.justify-content-end
-  = link_to(manage_admin_reviews_path) do
-    Manage Reviews
-
-.d-flex.justify-content-end
-  = link_to(manage_admin_questions_path) do
-    Manage Questions
-
-%hr
-%h4 My Account
+%hr.mt-3
+%h4.fw-semibold.mt-3
+  %i.bi.bi-person-fill &nbsp;
+  My Account
 
 %p
-  %span.fw-bold User:
+  %span.fw-bold Email:
   = current_user.email
-
 %p
   %span.fw-bold Role:
   = current_user.show_role
 
-%hr
-%h4 Create a Staff Account
+%hr.mt-3
+%h4.fw-semibold.mt-3
+  %i.bi.bi-person-fill-add &nbsp;
+  Create Staff Account
 
-= form_with(model: User.new, url: invitation_path(:user), method: :post, class: "d-flex gap-3") do |f|
-  .form-group.mb-0
+= form_with(model: User.new,
+            url: invitation_path(:user),
+            method: :post,
+            class: "mt-0 row g-3 align-items-center") do |f|
+  .col-12.col-sm-8
     = f.email_field(:email,
                     placeholder: "Email address",
                     required: true,
                     class: "form-control")
 
-  .form-group.mb-0
+  .col-12.col-sm-4
     = f.select(:user_role,
                options_for_select(User.user_roles.values),
                { include_blank: "Role" },
-               { class: "form-select form-control w-auto", required: true })
+               { class: "form-select form-control", required: true })
 
   .form-actions
     = f.submit("Send Invitation", class: "btn btn-primary")
 
-%hr
-%h4 Staff Accounts
+%hr.mt-3
+%h4.fw-semibold.mt-3
+  %i.bi.bi-people-fill &nbsp;
+  Staff Accounts
 
-%table#staff-table.table
-  %thead
-    %tr
-      %th{ scope: "col" }
-      %th{ scope: "col" } Email Address
-      %th{ scope: "col" } User Role
-      %th{ scope: "col" } Invitation Accepted
-      %th{ scope: "col" }
-  %tbody
-    - @users.each do |user|
-      - next if current_user.email == user.email
-
+.table-responsive
+  %table#staff-table.table.table-striped
+    %thead
       %tr
-        %th{ scope: "row" }
-        %td= user.email
-        %td= user.show_role
-        %td
-          - if user.invitation_accepted?
-            &#x2714;
-          - else
-            &#10008;
-        %td
-          = link_to("View Account", edit_admin_staff_path(user))
+        %th{ scope: "col" } #
+        %th{ scope: "col" } Email Address
+        %th{ scope: "col" } User Role
+        %th.text-center{ scope: "col" } Invitation Accepted
+        %th{ scope: "col" }
+    %tbody
+      - @users.each_with_index do |user, index|
+        - next if current_user.email == user.email
 
-%hr
-%h4 Registrations
+        %tr
+          %th{ scope: "row" }= index + 1
+          %td= user.email
+          %td= user.show_role
+          %td.text-center
+            - if user.invitation_accepted?
+              %i.bi.bi-check-circle
+            - else
+              %i.bi.bi-x-circle
+          %td
+            = link_to("View Account", edit_admin_staff_path(user))
 
-%table#registrations-table.table
-  %thead
-    %tr
-      %th{ scope: "col" }
-      %th{ scope: "col" } Timestamp
-      %th{ scope: "col" } Email
-      %th{ scope: "col" } Country
-      %th{ scope: "col" }
-  %tbody
-    - @registrations.each do |registration|
-      %tr
-        %th{ scope: "row" }
-        %td= registration.formatted_timestamp
-        %td= registration.email
-        %td= registration.formatted_country_name
-        %td
-          = link_to("View Journey", admin_registration_path(registration.id))
+%hr.mt-3
+%h4.fw-semibold.mt-3
+  %i.bi.bi-bar-chart-line-fill &nbsp;
+  Registrations
+
+- if @registrations.blank?
+  %p No registrations have been made yet.
+- else
+  .table-responsive
+    %table#registrations-table.table.table-striped
+      %thead
+        %tr
+          %th{ scope: "col" } #
+          %th{ scope: "col" } Timestamp
+          %th{ scope: "col" } Email
+          %th{ scope: "col" } Country
+          %th{ scope: "col" }
+      %tbody
+        - @registrations.each_with_index do |registration, index|
+          %tr
+            %th{ scope: "row" }= index + 1
+            %td= registration.formatted_timestamp
+            %td= registration.email
+            %td= registration.formatted_country_name
+            %td
+              = link_to("View Journey", admin_registration_path(registration.id))
