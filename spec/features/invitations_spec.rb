@@ -13,7 +13,7 @@ RSpec.feature("Invitations") do
 
   feature "Invitation form visibility" do
     specify "A send invitation form will be visible the admin dashboard" do
-      expect(page).to(have_content("Create a Staff Account"))
+      expect(page).to(have_content("Create Staff Account"))
       expect(page).to(have_field("Email address"))
 
       expect(page).to(have_select("user_user_role", options: ["Role"] + User.user_roles.values))
