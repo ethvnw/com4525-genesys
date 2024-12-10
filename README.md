@@ -24,8 +24,16 @@ Key Features include:
 - Run `bundle install` and `yarn install` to download dependencies
 - Create the database with `bin/rails db:create`
 - Migrate the database with `bin/rails db:migrate RAILS_ENV=development`
+- Seed the database with `bin/rails db:seed`
 - Start the application with `bundle exec rails s`
 - In a separate terminal window, run `bin/shakapacker-dev-server` to start Shakapacker which will serve and load client side requests
+
+## Default User Accounts
+| Role | Email | Password |
+| ---- | ----- | -------- |
+| Product Owner | admin@genesys.com | AdminGenesys#1 |
+ | Reporter | reporter@genesys.com | ReporterGenesys#1 |
+
 ## Style Guides Used
 - Ruby/Rails using [Shopify](https://ruby-style-guide.shopify.dev/)
 - JavaScript using [Airbnb](https://github.com/airbnb/javascript)
