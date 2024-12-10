@@ -4,7 +4,7 @@ module Admin
   # Dashboard controller
   class DashboardController < Admin::BaseController
     def index
-      @users = User.all.decorate
+      @users = User.where.not(id: current_user.id).decorate
       @registrations = Registration.all.order(created_at: :desc).decorate
     end
   end
