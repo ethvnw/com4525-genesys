@@ -55,7 +55,6 @@
         %th{ scope: "col" }
     %tbody
       - @users.each_with_index do |user, index|
-        - next if current_user.email == user.email
 
         %tr
           %th{ scope: "row" }= index + 1
