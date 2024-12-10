@@ -15,6 +15,7 @@ User.create!(
   password: "AdminGenesys#1",
   password_confirmation: "AdminGenesys#1",
   user_role: User.user_roles[:admin],
+  invitation_accepted_at: Time.zone.now,
 ) unless User.exists?(email: "admin@genesys.com")
 
 User.create!(
@@ -22,6 +23,7 @@ User.create!(
   password: "ReporterGenesys#1",
   password_confirmation: "ReporterGenesys#1",
   user_role: User.user_roles[:reporter],
+  invitation_accepted_at: Time.zone.now,
 ) unless User.exists?(email: "reporter@genesys.com")
 
 Question.create!(
