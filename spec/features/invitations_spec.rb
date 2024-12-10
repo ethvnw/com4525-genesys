@@ -23,7 +23,7 @@ RSpec.feature("Invitations") do
 
   feature "Submitting an invitation to a new email address" do
     specify "I can submit an invitation and give admin privileges" do
-      submit_invitation_to_new_email("new_admin@genesys.com", "Product Owner")
+      submit_invitation_to_new_email("new_admin@genesys.com", "Admin")
     end
 
     specify "I can submit an invitation and give reporter privileges" do
@@ -35,7 +35,7 @@ RSpec.feature("Invitations") do
     specify "I cannot submit an invitation to a user that already exists" do
       # Send an invitation to an existing email address
       fill_in("Email address", with: admin.email)
-      select("Product Owner", from: "user_user_role")
+      select("Admin", from: "user_user_role")
       click_button("Send Invitation")
 
       within(".alert.alert-danger") do
