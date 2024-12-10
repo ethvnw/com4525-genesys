@@ -17,6 +17,7 @@ require "action_view/railtie"
 
 # Require custom middleware
 require_relative "../lib/middleware/landing_page_journey.rb"
+require_relative "../lib/middleware/route_suppressor.rb"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -65,5 +66,6 @@ module Project
     }
 
     config.middleware.use(LandingPageJourneyMiddleware)
+    config.middleware.use(RouteSuppressorMiddleware)
   end
 end
