@@ -21,4 +21,14 @@ namespace :deploy do
       end
     end
   end
+
+  task :full_reset do
+    on primary(:db) do
+      within current_path do
+        with rails_env: fetch(:stage) do
+          execute :rake, "db:full_reset"
+        end
+      end
+    end
+  end
 end
