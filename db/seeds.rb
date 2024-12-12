@@ -9,9 +9,6 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 # db/seeds.rb
-
-require "database_cleaner"
-
 if ENV["clear_first"]
   DatabaseCleaner.clean_with(:truncation)
 end
