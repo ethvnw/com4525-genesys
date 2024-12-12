@@ -22,11 +22,11 @@ namespace :deploy do
     end
   end
 
-  task :full_reset do
+  task :reseed do
     on primary(:db) do
       within current_path do
         with rails_env: fetch(:stage) do
-          execute :rake, "db:full_reset"
+          execute :rake, "db:seed clear_first=yes"
         end
       end
     end

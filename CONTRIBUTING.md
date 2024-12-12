@@ -26,7 +26,7 @@ We use the [Conventional Commits](https://www.conventionalcommits.org/en) specif
 
 - Push commits following `type(scope): description` for the name.
   - `type` should be one of the ones outlined [above](#branch-naming).
-  - `scope` refers to the _scope_ of the change, e.g. `views`, `admin-dashbaoard`, or `api`.
+  - `scope` refers to the _scope_ of the change, e.g. `views`, `admin-dashboard`, or `api`.
   - `description` is a short description of the change.
 - Ensure that your PRs are titled following this spec, as the PR title becomes the commit message.
 
