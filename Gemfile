@@ -64,6 +64,9 @@ gem "sanitize_email"
 gem "sentry-ruby"
 gem "sentry-rails"
 
+gem "database_cleaner"
+gem "annotate"
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
@@ -78,7 +81,6 @@ group :development do
   gem "rails_live_reload"
 
   gem "letter_opener"
-  gem "annotate"
   gem "brakeman"
   gem "bundler-audit"
 
@@ -97,7 +99,6 @@ end
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
-  gem "database_cleaner"
   gem "launchy"
   gem "simplecov"
 end
