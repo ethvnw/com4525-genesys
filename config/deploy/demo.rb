@@ -21,4 +21,14 @@ namespace :deploy do
       end
     end
   end
+
+  task :reseed do
+    on primary(:db) do
+      within current_path do
+        with rails_env: fetch(:stage) do
+          execute :rake, "db:seed clear_first=yes"
+        end
+      end
+    end
+  end
 end
