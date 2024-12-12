@@ -10,6 +10,12 @@
 
 # db/seeds.rb
 
+require "database_cleaner"
+
+if ENV["clear_first"]
+  DatabaseCleaner.clean_with(:truncation)
+end
+
 User.create!(
   email: "admin@genesys.com",
   password: "AdminGenesys#1",
