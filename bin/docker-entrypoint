@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+bundle exec rake db:prepare
+
+exec "${@}"

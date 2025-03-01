@@ -1,7 +1,7 @@
 import { Offcanvas } from 'bootstrap';
 import { getFeatureShareApiRoute } from './constants/api_routes';
 
-const pageUrl = 'roamio.com';
+const pageUrl = 'roamio.co.uk';
 
 let socialShareCanvas;
 let bsSocialShareCanvas;

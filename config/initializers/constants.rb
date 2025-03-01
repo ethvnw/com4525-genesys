@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-ROOT_URL = "roamio.com"
+ROOT_URL = "roamiotravel.co.uk"

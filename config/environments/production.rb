@@ -100,7 +100,20 @@ Rails.application.configure do
   # Intentionally kept format to make it more obvious / easier to upgrade. #
   ##########################################################################
 
-  app_url = "PUT_APP_URL_HERE" # TODO: replace this with your application's URL (e.g. 'myapp.demo.epigenesys.org.uk')
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "smtp.migadu.com",
+    port: 587,
+    # domain: "roamiotravel.co.uk",
+    user_name: ENV["SMTP_USERNAME"],
+    password: ENV["SMTP_PASSWORD"],
+    authentication: "plain",
+    enable_starttls: true,
+    open_timeout: 5,
+    read_timeout: 5,
+  }
+
+  app_url = "roamiotravel.co.uk" # TODO: replace this with your application's URL (e.g. 'myapp.demo.epigenesys.org.uk')
   config.action_mailer.default_url_options    = { host: app_url, protocol: "https" }
   config.action_mailer.asset_host             = "https://#{app_url}"
   config.action_mailer.smtp_settings[:domain] = app_url
