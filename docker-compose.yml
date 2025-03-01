@@ -1,0 +1,38 @@
+name: roamio
+
+services:
+  postgres:
+    image: postgres:14.13
+    command: "postgres -c 'max_connections=500'"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_socket:/var/run/postgresql
+    expose:
+      - "5432"
+    env_file:
+      - .env
+    restart: always
+
+  rails:
+    build: .
+    command: "./bin/rails server -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/rails
+      - postgres_socket:/var/run/postgresql
+    expose:
+      - "3000"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    networks:
+      - proxiable
+    restart: always
+
+volumes:
+  postgres_data:
+  postgres_socket:
+networks:
+  proxiable:
+    name: proxiable
+    external: true

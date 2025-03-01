@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.config.x.session_cookie_name = (
-  Rails.env.production? ? "_APP_NAME_session_id" : "_APP_NAME_#{Rails.env}_session_id"
+  Rails.env.production? ? "roamio_session_id" : "roamio_#{Rails.env}_session_id"
 )
 
 Rails.application.config.action_dispatch.cookies_same_site_protection = :lax

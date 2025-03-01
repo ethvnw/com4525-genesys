@@ -36,8 +36,10 @@ FileUtils.chdir(APP_ROOT) do
   puts "\n== Removing old logs and tempfiles =="
   system! "bin/rails log:clear tmp:clear"
 
-  system! "git config --local core.hooksPath git-hooks"
-
   puts "\n== Installing Puppeteer dependencies =="
   system!("npx puppeteer browsers install chrome")
+
+  if Dir.exist?(".git")
+    system! "git config --local core.hooksPath git-hooks"
+  end
 end
