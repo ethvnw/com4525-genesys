@@ -26,6 +26,7 @@
 #  sign_in_count          :integer          default(0), not null
 #  unlock_token           :string
 #  user_role              :string
+#  username               :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  invited_by_id          :bigint
@@ -37,6 +38,7 @@
 #  index_users_on_invited_by            (invited_by_type,invited_by_id)
 #  index_users_on_invited_by_id         (invited_by_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_username              (username) UNIQUE
 #
 class User < ApplicationRecord
   validate :password_complexity
@@ -54,6 +56,10 @@ class User < ApplicationRecord
     :pwned_password
 
   enum user_role: { reporter: "Reporter", admin: "Admin" }
+
+  has_one_attached :avatar, dependent: :destroy
+  has_many :trip_memberships, dependent: :destroy
+  has_many :trips, through: :trip_memberships
 
   # Validates the complexity of a password
   def password_complexity
