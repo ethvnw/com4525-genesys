@@ -4,8 +4,8 @@ class CreateTrips < ActiveRecord::Migration[7.0]
       t.string :title, null: false
       t.string :description
       t.string :location_name
-      t.decimal :location_lat
-      t.decimal :location_lng
+      t.decimal :location_latitude
+      t.decimal :location_longitude
       t.timestamp :start_date
       t.timestamp :end_date
 

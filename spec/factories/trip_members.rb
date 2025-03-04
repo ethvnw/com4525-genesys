@@ -19,5 +19,10 @@
 #
 FactoryBot.define do
   factory :trip_membership do
+    is_invite_accepted { false }
+    user_display_name { "Mock Display Name" }
+
+    association :user
+    association :trip
   end
 end

@@ -43,22 +43,44 @@
 
 FactoryBot.define do
   factory :user do
+    username { "MockUser" }
     email { "test@epigenesys.org.uk" }
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
+
+    avatar do
+      Rack::Test::UploadedFile.new(
+        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
+        "image/png",
+      )
+    end
   end
 
   factory :admin, class: User do
+    username { "MockAdmin" }
     email { "admin@epigenesys.org.uk" }
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
     user_role { "admin" }
+    avatar do
+      Rack::Test::UploadedFile.new(
+        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
+        "image/png",
+      )
+    end
   end
 
   factory :reporter, class: User do
+    username { "MockReporter" }
     email { "reporter@epigenesys.org.uk" }
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
     user_role { "reporter" }
+    avatar do
+      Rack::Test::UploadedFile.new(
+        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
+        "image/png",
+      )
+    end
   end
 end
