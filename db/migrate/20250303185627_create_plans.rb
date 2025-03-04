@@ -5,11 +5,11 @@ class CreatePlans < ActiveRecord::Migration[7.0]
       t.string :title, null: false
       t.string :type, null: false
       t.string :start_location_name
-      t.decimal :start_location_lat
-      t.decimal :start_location_lng
+      t.decimal :start_location_latitude
+      t.decimal :start_location_longitude
       t.string :end_location_name
-      t.decimal :end_location_lat
-      t.decimal :end_location_lng
+      t.decimal :end_location_latitude
+      t.decimal :end_location_longitude
       t.timestamp :start_date
       t.timestamp :end_date
 

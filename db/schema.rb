@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_03_185712) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_04_233938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -91,6 +91,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_03_185712) do
     t.index ["registration_id"], name: "index_feature_shares_on_registration_id"
   end
 
+  create_table "featured_locations", force: :cascade do |t|
+    t.string "name"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "landing_page_visits", force: :cascade do |t|
     t.string "country_code"
     t.datetime "created_at", null: false
@@ -102,11 +110,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_03_185712) do
     t.string "title", null: false
     t.string "type", null: false
     t.string "start_location_name"
-    t.decimal "start_location_lat"
-    t.decimal "start_location_lng"
+    t.decimal "start_location_latitude"
+    t.decimal "start_location_longitude"
     t.string "end_location_name"
-    t.decimal "end_location_lat"
-    t.decimal "end_location_lng"
+    t.decimal "end_location_latitude"
+    t.decimal "end_location_longitude"
     t.datetime "start_date", precision: nil
     t.datetime "end_date", precision: nil
     t.datetime "created_at", null: false
@@ -193,8 +201,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_03_185712) do
     t.string "title", null: false
     t.string "description"
     t.string "location_name"
-    t.decimal "location_lat"
-    t.decimal "location_lng"
+    t.decimal "location_latitude"
+    t.decimal "location_longitude"
     t.datetime "start_date", precision: nil
     t.datetime "end_date", precision: nil
     t.datetime "created_at", null: false

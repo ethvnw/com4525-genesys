@@ -57,7 +57,7 @@ class User < ApplicationRecord
 
   enum user_role: { reporter: "Reporter", admin: "Admin" }
 
-  has_one_attached :avatar, dependent: :destroy
+  has_one_attached :avatar
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
 

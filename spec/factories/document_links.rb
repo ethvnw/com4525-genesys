@@ -16,5 +16,7 @@
 #
 FactoryBot.define do
   factory :document_link do
+    document_link { "https://example.com" }
+    association :plan
   end
 end
