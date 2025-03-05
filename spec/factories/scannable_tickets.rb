@@ -2,21 +2,24 @@
 
 # == Schema Information
 #
-# Table name: ticket_links
+# Table name: scannable_tickets
 #
 #  id            :bigint           not null, primary key
-#  ticket_link :string           not null
+#  code          :string           not null
+#  ticket_format :integer          not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  plan_id       :bigint
 #
 # Indexes
 #
-#  index_ticket_links_on_plan_id  (plan_id)
+#  index_scannable_tickets_on_plan_id  (plan_id)
 #
 FactoryBot.define do
-  factory :ticket_link do
-    ticket_link { "https://example.com" }
+  factory :scannable_ticket do
+    code { "Mock ticket code" }
+    ticket_format { :qr }
+
     association :plan
   end
 end

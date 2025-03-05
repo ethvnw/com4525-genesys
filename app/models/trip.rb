@@ -19,7 +19,7 @@ class Trip < ApplicationRecord
   has_one_attached :image
 
   has_many :plans, dependent: :destroy
-  has_many :document_links, through: :plans
+  has_many :ticket_links, through: :plans
   has_many :trip_memberships, dependent: :destroy
   has_many :users, through: :trip_memberships
 end
