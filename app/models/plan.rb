@@ -14,7 +14,7 @@
 #  start_location_longitude :decimal(, )
 #  start_location_name      :string
 #  title                    :string           not null
-#  type                     :string           not null
+#  type                     :integer          not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  trip_id                  :bigint
@@ -26,5 +26,10 @@
 class Plan < ApplicationRecord
   belongs_to :trip
   has_many_attached :documents
-  has_many :document_links, dependent: :destroy
+  has_many :ticket_links, dependent: :destroy
+  has_many :scannable_tickets, dependent: :destroy
+
+  enum type: [:sightseeing]
+
+  validates :type, inclusion: { in: types }
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_04_233938) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_05_124921) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,14 +74,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_04_233938) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "document_links", force: :cascade do |t|
-    t.bigint "plan_id"
-    t.string "document_link", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["plan_id"], name: "index_document_links_on_plan_id"
-  end
-
   create_table "feature_shares", force: :cascade do |t|
     t.string "share_method"
     t.datetime "created_at", null: false
@@ -108,7 +100,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_04_233938) do
   create_table "plans", force: :cascade do |t|
     t.bigint "trip_id"
     t.string "title", null: false
-    t.string "type", null: false
+    t.integer "type", null: false
     t.string "start_location_name"
     t.decimal "start_location_latitude"
     t.decimal "start_location_longitude"
@@ -167,6 +159,15 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_04_233938) do
     t.string "name", limit: 50
   end
 
+  create_table "scannable_tickets", force: :cascade do |t|
+    t.bigint "plan_id"
+    t.string "code", null: false
+    t.integer "ticket_format", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_scannable_tickets_on_plan_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
     t.text "data"
@@ -184,6 +185,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_04_233938) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "engagement_counter", default: 0, null: false
+  end
+
+  create_table "ticket_links", force: :cascade do |t|
+    t.bigint "plan_id"
+    t.string "ticket_link", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_ticket_links_on_plan_id"
   end
 
   create_table "trip_memberships", force: :cascade do |t|

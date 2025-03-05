@@ -3,7 +3,7 @@ class CreatePlans < ActiveRecord::Migration[7.0]
     create_table :plans do |t|
       t.belongs_to :trip
       t.string :title, null: false
-      t.string :type, null: false
+      t.integer :type, null: false
       t.string :start_location_name
       t.decimal :start_location_latitude
       t.decimal :start_location_longitude

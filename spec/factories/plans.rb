@@ -14,7 +14,7 @@
 #  start_location_longitude :decimal(, )
 #  start_location_name      :string
 #  title                    :string           not null
-#  type                     :string           not null
+#  type                     :integer          not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  trip_id                  :bigint
@@ -29,7 +29,7 @@ FactoryBot.define do
   # and specify the dates when using the factory.
   factory :plan do
     title { "Mock Plan" }
-    type { "Hiking" }
+    type { :sightseeing }
     start_location_name { "Edale, Peak District, UK" }
     start_location_latitude { 53.3673 }
     start_location_longitude { 1.8158 }
