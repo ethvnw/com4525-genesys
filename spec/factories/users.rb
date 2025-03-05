@@ -26,6 +26,7 @@
 #  sign_in_count          :integer          default(0), not null
 #  unlock_token           :string
 #  user_role              :string
+#  username               :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  invited_by_id          :bigint
@@ -37,26 +38,49 @@
 #  index_users_on_invited_by            (invited_by_type,invited_by_id)
 #  index_users_on_invited_by_id         (invited_by_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_username              (username) UNIQUE
 #
 
 FactoryBot.define do
   factory :user do
+    username { "MockUser" }
     email { "test@epigenesys.org.uk" }
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
+
+    avatar do
+      Rack::Test::UploadedFile.new(
+        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
+        "image/png",
+      )
+    end
   end
 
   factory :admin, class: User do
+    username { "MockAdmin" }
     email { "admin@epigenesys.org.uk" }
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
     user_role { "admin" }
+    avatar do
+      Rack::Test::UploadedFile.new(
+        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
+        "image/png",
+      )
+    end
   end
 
   factory :reporter, class: User do
+    username { "MockReporter" }
     email { "reporter@epigenesys.org.uk" }
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
     user_role { "reporter" }
+    avatar do
+      Rack::Test::UploadedFile.new(
+        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
+        "image/png",
+      )
+    end
   end
 end
