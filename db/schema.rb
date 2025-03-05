@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_07_144652) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_05_124921) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "app_features", force: :cascade do |t|
     t.string "name"
@@ -55,10 +83,35 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_07_144652) do
     t.index ["registration_id"], name: "index_feature_shares_on_registration_id"
   end
 
+  create_table "featured_locations", force: :cascade do |t|
+    t.string "name"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "landing_page_visits", force: :cascade do |t|
     t.string "country_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.bigint "trip_id"
+    t.string "title", null: false
+    t.integer "type", null: false
+    t.string "start_location_name"
+    t.decimal "start_location_latitude"
+    t.decimal "start_location_longitude"
+    t.string "end_location_name"
+    t.decimal "end_location_latitude"
+    t.decimal "end_location_longitude"
+    t.datetime "start_date", precision: nil
+    t.datetime "end_date", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trip_id"], name: "index_plans_on_trip_id"
   end
 
   create_table "question_clicks", force: :cascade do |t|
@@ -106,6 +159,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_07_144652) do
     t.string "name", limit: 50
   end
 
+  create_table "scannable_tickets", force: :cascade do |t|
+    t.bigint "plan_id"
+    t.string "code", null: false
+    t.integer "ticket_format", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_scannable_tickets_on_plan_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
     t.text "data"
@@ -123,6 +185,37 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_07_144652) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "engagement_counter", default: 0, null: false
+  end
+
+  create_table "ticket_links", force: :cascade do |t|
+    t.bigint "plan_id"
+    t.string "ticket_link", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_ticket_links_on_plan_id"
+  end
+
+  create_table "trip_memberships", force: :cascade do |t|
+    t.boolean "is_invite_accepted", default: false
+    t.string "user_display_name"
+    t.bigint "trip_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trip_id"], name: "index_trip_memberships_on_trip_id"
+    t.index ["user_id"], name: "index_trip_memberships_on_user_id"
+  end
+
+  create_table "trips", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description"
+    t.string "location_name"
+    t.decimal "location_latitude"
+    t.decimal "location_longitude"
+    t.datetime "start_date", precision: nil
+    t.datetime "end_date", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -150,13 +243,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_07_144652) do
     t.string "invited_by_type"
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
+    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_features_subscription_tiers", "app_features"
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
   add_foreign_key "registrations", "subscription_tiers"
