@@ -21,6 +21,7 @@
 - [ ] I have conducted a self-review of code prior to opening a PR.
 - [ ] My code conforms to the style of this project.
 - [ ] I have added the appropriate tests, reaching 100% coverage of new code.
+- [ ] I have updated the Kanban Board to reflect the current status of addressed stories.
 
 <!-- If 100% coverage was unable to be reached, explain why below --> 
 
