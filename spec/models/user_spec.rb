@@ -44,41 +44,37 @@ require "rails_helper"
 
 RSpec.describe(User, type: :model) do
   describe "access rights" do
-    let(:user) { build(:user, user_role: role) }
+    let(:admin_user) { create(:admin) }
+    let(:reporter_user) { create(:reporter) }
+    let(:no_role_user) { create(:user) }
 
     context "when the user is an admin" do
-      let(:role) { :admin }
-
       it "returns true that the user is an admin" do
-        expect(user.admin?).to(be_truthy)
+        expect(admin_user.admin?).to(be_truthy)
       end
 
       it "returns false that the user is a reporter" do
-        expect(user.reporter?).to(be_falsey)
+        expect(admin_user.reporter?).to(be_falsey)
       end
     end
 
     context "when the user is an reporter" do
-      let(:role) { :reporter }
-
       it "returns true that the user is a reporter" do
-        expect(user.reporter?).to(be_truthy)
+        expect(reporter_user.reporter?).to(be_truthy)
       end
 
       it "returns false that the user is an admin" do
-        expect(user.admin?).to(be_falsey)
+        expect(reporter_user.admin?).to(be_falsey)
       end
     end
 
     context "when the user has no role" do
-      let(:role) { nil }
-
       it "admin authorisation returns false" do
-        expect(user.admin?).to(be_falsey)
+        expect(no_role_user.admin?).to(be_falsey)
       end
 
       it "reporter authorisation returns false" do
-        expect(user.reporter?).to(be_falsey)
+        expect(no_role_user.reporter?).to(be_falsey)
       end
     end
   end
@@ -132,6 +128,41 @@ RSpec.describe(User, type: :model) do
           user.valid?
           expect(user.errors[:password]).to(include("must contain upper and lower-case letters and numbers"))
         end
+      end
+    end
+  end
+
+  describe "#find_for_authentication" do
+    let!(:user) { create(:user) }
+
+    context "when logging in with a username" do
+      it "finds the user by username" do
+        found_user = User.find_for_authentication(login: "MockUser")
+        expect(found_user).to(eq(user))
+      end
+    end
+
+    context "when logging in with an email" do
+      it "finds the user by email" do
+        found_user = User.find_for_authentication(login: "test@epigenesys.org.uk")
+        expect(found_user).to(eq(user))
+      end
+    end
+
+    context "when logging in with a non-existent username or email" do
+      it "returns nil" do
+        found_user = User.find_for_authentication(login: "nonexistentuser")
+        expect(found_user).to(be_nil)
+      end
+    end
+
+    context "when login input is case-insensitive" do
+      it "finds the user regardless of case" do
+        found_user = User.find_for_authentication(login: "mockuser")
+        expect(found_user).to(eq(user))
+
+        found_user = User.find_for_authentication(login: "TEST@EPIGENESYS.ORG.UK")
+        expect(found_user).to(eq(user))
       end
     end
   end
