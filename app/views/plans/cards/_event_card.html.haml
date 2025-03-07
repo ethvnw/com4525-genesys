@@ -1,0 +1,41 @@
+%section.d-flex.flex-column.p-3.bg-danger-subtle.rounded.mb-2
+  .row.mb-2
+    .col-auto
+      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
+      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
+      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
+    .col
+      %p.mb-0.text-secondary Group booking
+
+  .mb-4
+    %h2.fw-bold.mb-0
+      = plan.title
+      %span.fs-4
+        - case plan.plan_type
+        - when "clubbing"
+          🕺
+        - when "live_music"
+          🎸
+        - when "restaurant"
+          🍽️
+        - when "sport_event"
+          🏀
+        - else
+          🎉
+
+    %p.mb-0.text-dark-emphasis
+      = plan.start_date.strftime("%H:%M") if plan.start_date.present?
+      - if plan.end_date.present?
+        to
+        - if plan.start_date.strftime("%d %B %Y") != plan.end_date.strftime("%d %B %Y")
+          = plan.end_date.strftime("%d %B %Y, %H:%M")
+        - else
+          = plan.end_date.strftime("%H:%M")
+
+  .d-flex.gap-2.align-items-center.mb-3
+    %p.mb-0.i.bi.bi-building
+    %p.mb-0 Company Name
+
+  .d-flex.gap-2.align-items-center
+    %p.mb-0.i.bi.bi-geo-alt
+    %p.mb-0= plan.start_location_name
