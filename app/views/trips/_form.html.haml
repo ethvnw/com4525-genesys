@@ -1,0 +1,54 @@
+- unless errors.nil?
+  .alert.alert-danger
+    %ul.mb-0
+      - errors.each do |error|
+        %li= error
+
+= simple_form_for([:api, trip], html: { class: "d-flex flex-column gap-2" }) do |f|
+  = f.input(:title,
+            as: :text,
+            input_html: { class: "fw-semibold" },
+            label: false,
+            placeholder: "Enter the trip title...")
+
+  = f.input(:description,
+            as: :text,
+            input_html: { class: "fw-semibold", rows: 3 },
+            label: false,
+            placeholder: "Enter the trip description...")
+
+  = f.input(:start_date,
+            as: :string,
+            input_html: { class: "fw-semibold", type: "datetime-local" },
+            label: false,
+            placeholder: "Enter the trip start date...")
+
+  = f.input(:end_date,
+            as: :string,
+            input_html: { class: "fw-semibold", type: "datetime-local" },
+            label: false,
+            placeholder: "Enter the trip end date...")
+
+  = f.input(:location_name,
+            as: :text,
+            input_html: { class: "fw-semibold" },
+            label: false,
+            placeholder: "Enter the location name...")
+
+  = f.input(:location_latitude,
+            as: :string,
+            input_html: { class: "fw-semibold", type: "number", step: "any" },
+            label: false,
+            placeholder: "Enter the location latitude...")
+
+  = f.input(:location_longitude,
+            as: :string,
+            input_html: { class: "fw-semibold", type: "number", step: "any" },
+            label: false,
+            placeholder: "Enter the location longitude...")
+
+  .d-flex.justify-content-end
+    = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
+      %i.bi.bi-send-fill
+      &nbsp;
+      Create Trip
