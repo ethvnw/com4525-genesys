@@ -12,10 +12,10 @@
 
       = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         .form-inputs.py-2
-          = f.input(:email,
+          = f.input(:login,
                     required: false,
                     autofocus: true,
-                    input_html: { autocomplete: "email", placeholder: "Email address", class: "mb-3" },
+                    input_html: { placeholder: "Email address or Username", class: "mb-3" },
                     label: false)
           = f.input(:password,
                     required: false,

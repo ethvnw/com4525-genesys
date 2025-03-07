@@ -57,6 +57,9 @@ class User < ApplicationRecord
 
   enum user_role: { reporter: "Reporter", admin: "Admin" }
 
+  # Ensuring username follows specific rules
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+
   has_one_attached :avatar
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
@@ -65,6 +68,21 @@ class User < ApplicationRecord
   def password_complexity
     if encrypted_password_changed? && password !~ /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/
       errors.add(:password, "must contain upper and lower-case letters and numbers")
+    end
+  end
+
+  # Attribute called login to allow users to log in with either their username or email
+  attr_accessor :login
+
+  # Overrides the devise method find_for_authentication, allowing users to sign in using
+  # their username or email address
+  # https://stackoverflow.com/questions/2997179/ror-devise-sign-in-with-username-or-email
+  class << self
+    def find_for_authentication(conditions)
+      login = conditions.delete(:login)
+      where(conditions)
+        .where(["lower(username) = :value OR lower(email) = :value", { value: login.downcase }])
+        .first
     end
   end
 end

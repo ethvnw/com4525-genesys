@@ -15,6 +15,7 @@ end
 
 User.create!(
   email: "admin@genesys.com",
+  username: "admin101",
   password: "AdminGenesys#1",
   password_confirmation: "AdminGenesys#1",
   user_role: User.user_roles[:admin],
@@ -23,6 +24,7 @@ User.create!(
 
 User.create!(
   email: "reporter@genesys.com",
+  username: "reporter101",
   password: "ReporterGenesys#1",
   password_confirmation: "ReporterGenesys#1",
   user_role: User.user_roles[:reporter],
