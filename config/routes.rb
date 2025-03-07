@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   root "pages#home"
 
   get :faq, to: "pages#faq"
+  get :trip_test, to: "pages#trip_test"
 
   resources :trips
 
@@ -23,6 +24,8 @@ Rails.application.routes.draw do
     resources :staff, only: [:update, :destroy]
 
     resources :registrations, only: [:create]
+
+    resources :trips, only: [:create]
 
     resources :questions, only: [:create] do
       member do
