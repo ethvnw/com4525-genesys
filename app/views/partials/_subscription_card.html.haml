@@ -15,11 +15,11 @@
 
     - if !tier.premium_subscription?
       = link_to(new_user_registration_path,
-              class: "btn btn d-flex justify-content-center fw-bold btn-primary") do
+                class: "btn btn d-flex justify-content-center fw-bold btn-primary") do
         = tier.formatted_cta
     - else
       = link_to(new_subscription_path(s_id: tier.id),
-              class: "btn btn d-flex justify-content-center fw-bold btn-primary") do
+                class: "btn btn d-flex justify-content-center fw-bold btn-primary") do
         = tier.formatted_cta
 
     %p.subscription-tier-footer.card-text.small.text-body-secondary.text-center.mt-2= tier.terms_description
