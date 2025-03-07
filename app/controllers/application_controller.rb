@@ -17,6 +17,15 @@ class ApplicationController < ActionController::Base
   # Decorate the current user
   before_action :decorate_current_user
 
+  # Permit parameters such as username and email
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  # Permit username and email when signing up or updating details
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :email])
+  end
+
   def after_sign_in_path_for(resource)
     set_flash_message!(:alert, :warn_pwned) if resource.respond_to?(:pwned?) && resource.pwned?
     super
