@@ -9,12 +9,12 @@
 #  end_location_latitude    :decimal(, )
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
+#  plan_type                :integer          not null
 #  start_date               :datetime
 #  start_location_latitude  :decimal(, )
 #  start_location_longitude :decimal(, )
 #  start_location_name      :string
 #  title                    :string           not null
-#  type                     :integer          not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  trip_id                  :bigint

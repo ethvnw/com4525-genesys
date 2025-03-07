@@ -9,5 +9,7 @@ import '../../styles/pricing.scss';
 import '../../styles/reporter_dashboard.scss';
 import '../../styles/landing_page_journey.scss';
 import '../../styles/toast-utils.scss';
+import '../../styles/plans.scss';
+import 'leaflet/dist/leaflet.css';
 
 require.context('../../images', true);

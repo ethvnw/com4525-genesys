@@ -1,0 +1,10 @@
+- previous_start_date = nil
+- @plans.each do |plan|
+  - if previous_start_date != plan.start_date.strftime("%d %B %Y")
+    - previous_start_date = plan.start_date.strftime("%d %B %Y")
+    %h3.my-3.border-bottom= plan.start_date.strftime("%A, %d %B %Y")
+
+  - if plan.plan_type.starts_with?("travel_")
+    = render("plans/cards/travel_card", plan: plan)
+  - else
+    = render("plans/cards/event_card", plan: plan)
