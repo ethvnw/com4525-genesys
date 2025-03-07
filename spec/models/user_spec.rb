@@ -43,11 +43,11 @@
 require "rails_helper"
 
 RSpec.describe(User, type: :model) do
-  describe "access rights" do
-    let(:admin_user) { create(:admin) }
-    let(:reporter_user) { create(:reporter) }
-    let(:no_role_user) { create(:user) }
+  let(:admin_user) { create(:admin) }
+  let(:reporter_user) { create(:reporter) }
+  let(:no_role_user) { create(:user) }
 
+  describe "#admin?" do
     context "when the user is an admin" do
       it "returns true that the user is an admin" do
         expect(admin_user.admin?).to(be_truthy)
@@ -57,7 +57,9 @@ RSpec.describe(User, type: :model) do
         expect(admin_user.reporter?).to(be_falsey)
       end
     end
+  end
 
+  describe "#reporter?" do
     context "when the user is an reporter" do
       it "returns true that the user is a reporter" do
         expect(reporter_user.reporter?).to(be_truthy)
@@ -67,7 +69,9 @@ RSpec.describe(User, type: :model) do
         expect(reporter_user.admin?).to(be_falsey)
       end
     end
+  end
 
+  describe "when the user has no assigned role" do
     context "when the user has no role" do
       it "admin authorisation returns false" do
         expect(no_role_user.admin?).to(be_falsey)
