@@ -22,8 +22,7 @@ module Api
       # Reset session
       session[:journey] = nil
 
-      flash[:notice] = "Successfully registered. Keep an eye on your inbox for updates!"
-      redirect_to(root_path)
+      redirect_to(root_path, notice: "Successfully registered. Keep an eye on your inbox for updates!")
     end
 
     private

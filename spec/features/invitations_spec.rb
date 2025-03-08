@@ -32,15 +32,15 @@ RSpec.feature("Invitations") do
   end
 
   feature "Submitting an invitation to an existing email address" do
-    specify "I cannot submit an invitation to a user that already exists" do
+    specify "I cannot submit an invitation to a user that already exists", js: true do
       # Send an invitation to an existing email address
       fill_in("Email address", with: admin.email)
       select("Admin", from: "user_user_role")
       click_button("Send Invitation")
-
-      within(".alert.alert-danger") do
-        expect(page).to(have_content("There was an issue sending an invitation: Email has already been taken."))
-      end
+      expect(page).to(have_selector(
+        "#js-variables[data-alert-message='There was an issue sending an invitation: Email has already been taken.']",
+        visible: :all,
+      ))
     end
   end
 
