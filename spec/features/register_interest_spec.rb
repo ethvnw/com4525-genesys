@@ -34,7 +34,7 @@ RSpec.feature("Registering Interest") do
 
   describe "The landing page journey", js: true do
     let!(:free_tier) { create(:subscription_tier) }
-    let!(:individual_tier) { create(:subscription_tier, :individual) }
+    let!(:individual_tier) { create(:individual_tier) }
     let!(:feature) { create(:app_feature) }
     let!(:review1) { create(:review) }
     let!(:review2) { create(:review) }
