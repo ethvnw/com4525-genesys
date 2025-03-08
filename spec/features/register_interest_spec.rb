@@ -5,7 +5,7 @@ require "registrations_helper"
 
 RSpec.feature("Registering Interest") do
   scenario "I can register my interest" do
-    create(:subscription_tier, :individual)
+    create(:individual_tier)
     visit root_path
 
     click_link "Join the travel revolution"
