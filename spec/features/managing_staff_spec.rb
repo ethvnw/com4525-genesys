@@ -42,9 +42,10 @@ RSpec.feature("Managing staff") do
       select("Admin", from: "user_user_role")
       click_button("Save Changes")
 
-      within(".alert.alert-success") do
-        expect(page).to(have_content("#{reporter.email} updated successfully."))
-      end
+      expect(page).to(have_selector(
+        "#js-variables[data-alert-message='#{reporter.email} updated successfully.']",
+        visible: :all,
+      ))
 
       within("#staff-table") do
         row = find("tr", text: reporter.email)
@@ -66,9 +67,11 @@ RSpec.feature("Managing staff") do
       end
 
       click_button("Remove Access")
-      within(".alert.alert-success") do
-        expect(page).to(have_content("Access removed for #{reporter.email}"))
-      end
+
+      expect(page).to(have_selector(
+        "#js-variables[data-alert-message='Access removed for #{reporter.email}']",
+        visible: :all,
+      ))
 
       # The staff should also no longer appear on the admin's dashboard
       within("#staff-table") do
