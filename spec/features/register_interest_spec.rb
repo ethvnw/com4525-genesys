@@ -20,7 +20,7 @@ RSpec.feature("Registering Interest") do
   scenario "After I register my interest, my geolocation will be saved" do
     ENV["TEST_IP_ADDR"] = "185.156.172.142" # IP address in Amsterdam
 
-    create(:subscription_tier, :individual)
+    create(:individual_tier)
     visit root_path
 
     click_link "Join the travel revolution"
