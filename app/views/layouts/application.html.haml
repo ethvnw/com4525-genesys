@@ -33,7 +33,10 @@
     %link{ rel: "manifest", href: "/site.webmanifest" }
 
   %body
-    #page-alert
+    - if flash[:alert_message].present?
+      = render("partials/prefilled_alert")
+    - else
+      #page-alert.alert
     -# Don't show navigation bar on sign in page
     - unless sign_in_page?
       = render("partials/navbar")

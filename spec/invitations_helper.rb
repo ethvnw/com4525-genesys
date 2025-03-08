@@ -7,6 +7,10 @@ def submit_invitation_to_new_email(email, role)
   select(role, from: "user_user_role")
   click_button("Send Invitation")
 
+  within("#page-alert.alert-success") do
+    expect(page).to(have_content("Invitation sent successfully to #{email}."))
+  end
+
   # Check the user has been added to the staff table
   within("table") do
     expect(page).to(have_text(email))

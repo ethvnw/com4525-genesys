@@ -14,10 +14,9 @@ RSpec.feature("Registering Interest") do
     register_with_email
 
     expect(Registration.find_by(email: "test@example.com")).to(be_present)
-    expect(page).to(have_selector(
-      "#js-variables[data-alert-message='Successfully registered. Keep an eye on your inbox for updates!']",
-      visible: :all,
-    ))
+    within("#page-alert.alert-success") do
+      expect(page).to(have_content("Successfully registered"))
+    end
   end
 
   scenario "After I register my interest, my geolocation will be saved" do

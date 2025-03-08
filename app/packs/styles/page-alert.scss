@@ -3,7 +3,6 @@ $show-time: 500ms;
 #page-alert {
   // Huge Z-index to ensure it always shows up on top of the document
   z-index: 100000;
-  transition: transform $show-time ease;
   position: fixed;
   display: flex;
   align-items: center;
@@ -31,4 +30,30 @@ $show-time: 500ms;
   * {
     font-size: 0.85rem !important;
   }
+}
+
+// Separate class for transition - will be applied by JS to prevent FOUC
+.alert-transition {
+  transition: transform $show-time ease;
+}
+
+// Alias bootstrap icons to alert type icons
+.alert-icon-primary::before,
+.alert-icon-secondary::before,
+.alert-icon-success::before,
+.alert-icon-light::before,
+.alert-icon-dark::before {
+  content: "\F26B"; // bi-check-circle
+}
+
+.alert-icon-danger::before {
+  content: "\F623"; // bi-x-circle
+}
+
+.alert-icon-warning::before {
+ content: "\F33B"; // bi-exclamation-triangle
+}
+
+.alert-icon-info::before {
+  content: "\F333"; // bi-exclamation-circle
 }
