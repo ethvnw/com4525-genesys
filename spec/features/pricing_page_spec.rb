@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.feature("Pricing page", type: :feature) do
   let(:free_tier) { create(:subscription_tier, name: "Free", price_gbp: 0, engagement_counter: 0) }
   # Explorer is appended to any premium tier, so "Individual" is "Explorer Individual"
-  let(:explorer_tier) { create(:subscription_tier, name: "Individual", price_gbp: 10) }
+  let(:explorer_tier) { create(:subscription_tier, name: "Individual", price_gbp: 10, engagement_counter: 0) }
 
   before do
     free_tier
@@ -45,8 +45,8 @@ RSpec.feature("Pricing page", type: :feature) do
 
     click_on "Get #{free_tier.name}"
 
-    expect(page).to(have_current_path(new_subscription_path(s_id: free_tier.id)))
-    expect(page).to(have_content("Hello! You've caught us early"))
+    expect(page).to(have_current_path(new_user_registration_path))
+    expect(page).to(have_content("Sign Up"))
   end
 
   scenario "I can select the explorer individual tier option" do
@@ -59,13 +59,13 @@ RSpec.feature("Pricing page", type: :feature) do
   end
 
   scenario "It increments the engagement counter" do
-    inital_engagement = free_tier.engagement_counter
+    inital_engagement = explorer_tier.engagement_counter
 
     visit pricing_subscriptions_path
 
-    click_on "Get #{free_tier.name}"
+    click_on "Get Explorer #{explorer_tier.name}"
 
     sleep_for_js
-    expect(free_tier.reload.engagement_counter).to(eq(inital_engagement + 1))
+    expect(explorer_tier.reload.engagement_counter).to(eq(inital_engagement + 1))
   end
 end

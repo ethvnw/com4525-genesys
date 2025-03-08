@@ -19,5 +19,12 @@ FactoryBot.define do
     price_gbp { nil }
     discount_description { nil }
     terms_description { nil }
+
+    trait :individual do
+      name { "Individual" }
+      price_gbp { 2.99 }
+      discount_description { "Free for 1 month" }
+      terms_description { "1 user only." }
+    end
   end
 end
