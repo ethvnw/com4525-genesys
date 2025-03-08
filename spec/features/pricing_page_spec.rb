@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.feature("Pricing page", type: :feature) do
-  let(:free_tier) { create(:free_tier) }
+  let(:free_tier) { create(:subscription_tier) }
   # Explorer is appended to any premium tier, so "Individual" is "Explorer Individual"
   let!(:explorer_tier) { create(:individual_tier) }
 
