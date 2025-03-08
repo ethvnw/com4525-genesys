@@ -10,19 +10,8 @@ const ANIM_TIME = parseInt(variables.animationTime, 10);
 // A custom event that can be dispatched to window when an alert should be closed
 export const alertCloseEvent = new Event('alert-close');
 
-const BASE_CLASSES = 'alert';
+const BASE_CLASSES = 'alert .alert-transition';
 const BASE_ICON_CLASSES = 'bi user-select-none me-2';
-
-const TYPE_ICONS = {
-  primary: 'bi-check-circle',
-  secondary: 'bi-check-circle',
-  success: 'bi-check-circle',
-  danger: 'bi-x-circle',
-  warning: 'bi-exclamation-triangle',
-  info: 'bi-exclamation-circle',
-  light: 'bi-check-circle',
-  dark: 'bi-check-circle',
-};
 
 /**
  * @class PageAlert
@@ -34,16 +23,23 @@ const TYPE_ICONS = {
 class PageAlert {
   constructor(id) {
     this.shouldHideTimeout = null;
+    this.autoClosing = true; // When true, will prevent message from being closed by alertCloseEvent
 
     this.flashElem = document.getElementById(id);
-    this.flashElem.className = BASE_CLASSES;
 
-    this.autoClosing = true;
+    // Initial setup
+    if (this.flashElem.dataset.prefilled === null) {
+      // If not prefilled we need to manually build the alert
+      this.flashElem.className = BASE_CLASSES;
 
-    // Create and add required children of alert div
-    this.flashIcon = createElementWithAttributes('i', { class: BASE_ICON_CLASSES });
-    this.flashText = document.createElement('p');
-    setChildList(this.flashElem, [this.flashIcon, this.flashText]);
+      // Create and add required children of alert div
+      this.flashIcon = createElementWithAttributes('i', { class: BASE_ICON_CLASSES });
+      this.flashText = document.createElement('p');
+      setChildList(this.flashElem, [this.flashIcon, this.flashText]);
+    } else {
+      this.flashIcon = document.querySelector('#page-alert i');
+      this.flashText = document.querySelector('#page-alert p');
+    }
   }
 
   /**
@@ -67,33 +63,31 @@ class PageAlert {
   }
 
   /**
-   * Flashes a message across the top of the user's screen
+   * Sets the alert to be a given type, and to contain a given message
    * @param text {string} the text to display in the alert
    * @param alertType {string} the type of alert to use (see wiki entry)
-   * @param autoClose {boolean} whether or not the alert should automatically close
-   * @param openTime {number} milliseconds that the alert should stay open for (default: 1500)
    */
-  flash(text, alertType, autoClose = true, openTime = 1500) {
+  setMessage(text, alertType) {
     // Reset alert before flashing
     this.reset();
 
-    // Replace rails alert types with bootstrap types
-    const bootstrapType = alertType
-      .replace('alert', 'warning')
-      .replace('notice', 'info');
-
     this.flashText.innerText = text;
+    this.flashElem.classList.add(`alert-${alertType}`);
+    this.flashIcon.classList.add(`alert-icon-${alertType}`);
+  }
 
-    this.flashElem.classList.add(`alert-${bootstrapType}`, 'show');
-    this.flashIcon.classList.add(TYPE_ICONS[bootstrapType]);
-    this.autoClosing = false;
-
+  /**
+   * Flashes the message across the top of the user's screen
+   * @param autoClose {boolean} whether or not the alert should automatically close
+   * @param openTime {number} milliseconds that the alert should stay open for (default: 1500)
+   */
+  flash(autoClose = true, openTime = 1500) {
+    this.flashElem.classList.add('alert-transition', 'show');
+    this.autoClosing = autoClose;
     if (autoClose) {
-      this.autoClosing = true;
-
       // Set a timeout to hide after a number of milliseconds (defined by openTime)
       this.shouldHideTimeout = setTimeout(() => {
-        this.flashElem.classList.remove('show');
+        this.close();
       }, ANIM_TIME + openTime);
     }
   }

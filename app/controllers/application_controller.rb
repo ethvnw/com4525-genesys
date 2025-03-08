@@ -59,10 +59,12 @@ class ApplicationController < ActionController::Base
   # Extracts messages from flash[:alert] or flash[:notice] and puts them in the correct format to be used by PageAlert
   def convert_flash_messages
     if flash[:alert].present?
-      flash[:js_data] = { alert: { message: flash[:alert], type: "danger" } }
+      flash[:alert_message] = flash[:alert]
+      flash[:alert_type] = "danger"
       flash.discard(:alert)
     elsif flash[:notice].present?
-      flash[:js_data] = { alert: { message: flash[:notice], type: "success" } }
+      flash[:alert_message] = flash[:notice]
+      flash[:alert_type] = "success"
       flash.discard(:notice)
     end
   end

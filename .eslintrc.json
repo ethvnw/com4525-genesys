@@ -3,5 +3,8 @@
   "env": {
     "browser": true
   },
-  "ignorePatterns": ["node_modules/", "public/packs/", "coverage/**/*", "public/packs-test/"]
+  "ignorePatterns": ["node_modules/", "public/packs/", "coverage/**/*", "public/packs-test/"],
+  "parserOptions": {
+    "ecmaVersion": 2020 // Adds support for optional chaining, among other things
+  }
 }

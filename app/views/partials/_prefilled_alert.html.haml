@@ -1,0 +1,6 @@
+#page-alert{ class: "alert alert-#{flash[:alert_type]}", data: { prefilled: true } }
+  %i{ class: "bi user-select-none me-2 alert-icon-#{flash[:alert_type]}" }
+  %p= flash[:alert_message]
+
+- flash.discard(:alert_type)
+- flash.discard(:alert_message)
