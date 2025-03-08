@@ -14,10 +14,19 @@
 #  updated_at           :datetime         not null
 #
 FactoryBot.define do
-  factory :subscription_tier do
+  factory :subscription_tier, class: SubscriptionTier do
     name { "Free" }
     price_gbp { nil }
     discount_description { nil }
     terms_description { nil }
+    engagement_counter { 0 }
+  end
+
+  factory :individual_tier, class: SubscriptionTier do
+    name { "Individual" }
+    price_gbp { 10 }
+    discount_description { "Free for 1 month" }
+    terms_description { "1 user only." }
+    engagement_counter { 0 }
   end
 end

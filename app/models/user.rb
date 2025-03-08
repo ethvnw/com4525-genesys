@@ -41,6 +41,7 @@
 #  index_users_on_username              (username) UNIQUE
 #
 class User < ApplicationRecord
+  before_save :downcase_username
   validate :password_complexity
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -55,16 +56,48 @@ class User < ApplicationRecord
     :timeoutable,
     :pwned_password
 
+  # User roles for RBAC
   enum user_role: { reporter: "Reporter", admin: "Admin" }
+
+  # Ensuring username follows specific rules
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates_format_of :username,
+    with: /\A[a-zA-Z0-9_.]+\z/,
+    message: "Can only contain letters, numbers, underscores, and periods",
+    multiline: true
+  validates_length_of :username,
+    minimum: 6,
+    maximum: 20,
+    message: "Must be between 6 and 20 characters"
 
   has_one_attached :avatar
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
 
+  # Used to save the username in lowercase
+  def downcase_username
+    self.username = username&.downcase
+  end
+
   # Validates the complexity of a password
   def password_complexity
     if encrypted_password_changed? && password !~ /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/
       errors.add(:password, "must contain upper and lower-case letters and numbers")
+    end
+  end
+
+  # Attribute called login to allow users to log in with either their username or email
+  attr_accessor :login
+
+  # Overrides the devise method find_for_authentication, allowing users to sign in using
+  # their username or email address
+  # https://stackoverflow.com/questions/2997179/ror-devise-sign-in-with-username-or-email
+  class << self
+    def find_for_authentication(conditions)
+      login = conditions.delete(:login)
+      where(conditions)
+        .where(["lower(username) = :value OR lower(email) = :value", { value: login.downcase }])
+        .first
     end
   end
 end

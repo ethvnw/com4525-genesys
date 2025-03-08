@@ -5,11 +5,11 @@ require "registrations_helper"
 
 RSpec.feature("Registering Interest") do
   scenario "I can register my interest" do
-    create(:subscription_tier)
+    create(:individual_tier)
     visit root_path
 
     click_link "Join the travel revolution"
-    click_on "Free"
+    click_on "Get Explorer Individual"
 
     register_with_email
 
@@ -20,11 +20,11 @@ RSpec.feature("Registering Interest") do
   scenario "After I register my interest, my geolocation will be saved" do
     ENV["TEST_IP_ADDR"] = "185.156.172.142" # IP address in Amsterdam
 
-    create(:subscription_tier)
+    create(:individual_tier)
     visit root_path
 
     click_link "Join the travel revolution"
-    click_on "Free"
+    click_on "Get Explorer Individual"
 
     register_with_email
 
@@ -33,7 +33,8 @@ RSpec.feature("Registering Interest") do
   end
 
   describe "The landing page journey", js: true do
-    let!(:tier) { create(:subscription_tier) }
+    let!(:free_tier) { create(:subscription_tier) }
+    let!(:individual_tier) { create(:individual_tier) }
     let!(:feature) { create(:app_feature) }
     let!(:review1) { create(:review) }
     let!(:review2) { create(:review) }
@@ -41,7 +42,7 @@ RSpec.feature("Registering Interest") do
     let!(:question2) { create(:question) }
 
     before do
-      create(:app_features_subscription_tier, app_feature: feature, subscription_tier: tier)
+      create(:app_features_subscription_tier, app_feature: feature, subscription_tier: free_tier)
 
       visit root_path
     end
@@ -59,7 +60,7 @@ RSpec.feature("Registering Interest") do
       click_button(id: "question_#{question2.id}")
 
       click_link "Pricing"
-      click_link "Get Free"
+      click_link "Get Explorer Individual"
 
       register_with_email
 
@@ -95,7 +96,7 @@ RSpec.feature("Registering Interest") do
       click_button(id: "question_#{question1.id}")
 
       click_link "Pricing"
-      click_link "Get Free"
+      click_link "Get Explorer Individual"
 
       register_with_email
 
@@ -111,7 +112,7 @@ RSpec.feature("Registering Interest") do
       click_button(id: "review_#{review1.id}")
 
       click_link "Pricing"
-      click_link "Get Free"
+      click_link "Get Explorer Individual"
 
       register_with_email
 
