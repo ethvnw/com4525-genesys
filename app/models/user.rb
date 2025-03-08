@@ -62,7 +62,7 @@ class User < ApplicationRecord
   # Ensuring username follows specific rules
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates_format_of :username,
-    with: /^[a-zA-Z0-9_.]*$/,
+    with: /\A[a-zA-Z0-9_.]+\z/,
     message: "Can only contain letters, numbers, underscores, and periods",
     multiline: true
   validates_length_of :username,
