@@ -14,7 +14,7 @@
 #  updated_at           :datetime         not null
 #
 FactoryBot.define do
-  factory :free_tier, class: SubscriptionTier do
+  factory :subscription_tier, class: SubscriptionTier do
     name { "Free" }
     price_gbp { nil }
     discount_description { nil }

@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.feature("Sharing Features") do
   let(:app_feature) { create(:app_feature, name: "Feature", description: "Feature Description") }
-  let(:subscription_tier) { create(:free_tier) }
+  let(:subscription_tier) { create(:subscription_tier) }
 
   before do
     app_feature
