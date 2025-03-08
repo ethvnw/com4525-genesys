@@ -1,0 +1,6 @@
+// The sole purpose of this file is to export the animationTime variable to javascript
+@use 'page-alert';
+
+:export {
+  animationTime: page-alert.$show-time;
+}

@@ -2,7 +2,7 @@ import toCamelCase from './stringUtils';
 
 /**
  * A class that can be used to interact with hidden divs containing variables from the backend.
- * A singleton, `variablesDivSingleton`, is provided to interact with the default one.
+ * A singleton, `defaultVariablesDiv`, is provided to interact with the default one.
  * @param divId {string} the ID of the div to wrap
  */
 export class VariablesDiv {
@@ -27,4 +27,4 @@ export class VariablesDiv {
  * which is present on all pages.
  * @type {VariablesDiv}
  */
-export const variablesDivSingleton = new VariablesDiv();
+export const defaultVariablesDiv = new VariablesDiv();
