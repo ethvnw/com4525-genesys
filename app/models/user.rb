@@ -41,6 +41,7 @@
 #  index_users_on_username              (username) UNIQUE
 #
 class User < ApplicationRecord
+  before_save :downcase_username
   validate :password_complexity
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -55,14 +56,28 @@ class User < ApplicationRecord
     :timeoutable,
     :pwned_password
 
+  # User roles for RBAC
   enum user_role: { reporter: "Reporter", admin: "Admin" }
 
   # Ensuring username follows specific rules
   validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates_format_of :username,
+    with: /^[a-zA-Z0-9_.]*$/,
+    message: "Can only contain letters, numbers, underscores, and periods",
+    multiline: true
+  validates_length_of :username,
+    minimum: 6,
+    maximum: 20,
+    message: "Must be between 6 and 20 characters"
 
   has_one_attached :avatar
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
+
+  # Used to save the username in lowercase
+  def downcase_username
+    self.username = username&.downcase
+  end
 
   # Validates the complexity of a password
   def password_complexity

@@ -47,37 +47,83 @@ RSpec.describe(User, type: :model) do
   let(:reporter_user) { create(:reporter) }
   let(:no_role_user) { create(:user) }
 
-  describe "#admin?" do
-    context "when the user is an admin" do
-      it "returns true that the user is an admin" do
-        expect(admin_user.admin?).to(be_truthy)
+  describe "#downcase_username" do
+    let(:user) { create(:user, username: "MixedCASE_Username") }
+
+    it "saves the username in lowercase" do
+      expect(user.reload.username).to(eq("mixedcase_username"))
+    end
+  end
+
+  describe "validations" do
+    let(:user) { build(:user) }
+
+    context "username validation" do
+      it "only contain letters, numbers, underscores, and periods" do
+        valid_usernames = ["validUsername", "user_name", "username.with.dots", "user_456"]
+
+        valid_usernames.each do |username|
+          user.username = username
+          expect(user).to(be_valid)
+        end
       end
 
-      it "returns false that the user is a reporter" do
-        expect(admin_user.reporter?).to(be_falsey)
+      it "reject invalid usernames" do
+        invalid_usernames = ["user@name", "user name", "user#name!", "user-name"]
+
+        invalid_usernames.each do |username|
+          user.username = username
+          expect(user).to(be_invalid)
+          expect(user.errors[:username]).to(include("Can only contain letters, numbers, underscores, and periods"))
+        end
+      end
+    end
+
+    context "username length validation" do
+      it "is invalid if username is too short" do
+        user.username = "short"
+        expect(user).to(be_invalid)
+        expect(user.errors[:username]).to(include("Must be between 6 and 20 characters"))
+      end
+
+      it "is invalid if username is too long" do
+        user.username = "a" * 21
+        expect(user).to(be_invalid)
+        expect(user.errors[:username]).to(include("Must be between 6 and 20 characters"))
+      end
+
+      it "is valid if username is within length" do
+        user.username = "validUsername"
+        expect(user).to(be_valid)
+      end
+    end
+  end
+
+  describe "#admin?" do
+    context "when the user is an admin" do
+      it "returns true" do
+        expect(admin_user.admin?).to(be_truthy)
+      end
+    end
+
+    context "when the user is not an admin" do
+      it "returns false" do
+        expect(reporter_user.admin?).to(be_falsey)
+        expect(no_role_user.admin?).to(be_falsey)
       end
     end
   end
 
   describe "#reporter?" do
-    context "when the user is an reporter" do
-      it "returns true that the user is a reporter" do
+    context "when the user is a reporter" do
+      it "returns true" do
         expect(reporter_user.reporter?).to(be_truthy)
       end
-
-      it "returns false that the user is an admin" do
-        expect(reporter_user.admin?).to(be_falsey)
-      end
     end
-  end
 
-  describe "when the user has no assigned role" do
-    context "when the user has no role" do
-      it "admin authorisation returns false" do
-        expect(no_role_user.admin?).to(be_falsey)
-      end
-
-      it "reporter authorisation returns false" do
+    context "when the user is not a reporter" do
+      it "returns false" do
+        expect(admin_user.reporter?).to(be_falsey)
         expect(no_role_user.reporter?).to(be_falsey)
       end
     end
