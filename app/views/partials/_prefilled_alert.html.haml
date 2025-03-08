@@ -1,4 +1,10 @@
-#page-alert{ class: "alert alert-#{flash[:alert_type]}", data: { prefilled: true } }
+#page-alert{
+  class: "alert alert-#{flash[:alert_type]}",
+  data: { prefilled: true },
+  role: "alert",
+  "aria-live": "assertive",
+  "aria-atomic": "true",
+}
   %i{ class: "bi user-select-none me-2 alert-icon-#{flash[:alert_type]}" }
   %p= flash[:alert_message]
 
