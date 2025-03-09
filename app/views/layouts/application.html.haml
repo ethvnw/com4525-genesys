@@ -34,7 +34,7 @@
 
   %body
     -# Render any necessary toasts
-    #toast-list.toast-container.top-0.start-50.translate-middle-x.mt-2
+    #toast-list.toast-container.top-0.start-50.translate-middle-x.mt-2.d-flex.flex-column.align-items-center
       - flash[:notifications].each do |notification|
         = render("partials/toast",
                  message: notification[:message],

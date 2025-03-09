@@ -38,5 +38,16 @@ E.g.:
 buildNewToast('Hello, World!!', 'success').show();
 ```
 
+To make a toast to show the user that something is happening in the background
+(e.g. attempting to regain connection, or a request is being made), make use of
+the optional `spinner` argument, as below:
+
+```javascript
+buildNewToast('Attempting to regain connection...', 'warning', true).show();
+```
+
+This will create a toast that can only be dismissed through calling its `.hide`
+method, which contains a spinner.
+
 See [`scripts/lib/ToastUtils.js`](../app/packs/scripts/lib/ToastUtils.js) for
 the full function signature/docstrings.
