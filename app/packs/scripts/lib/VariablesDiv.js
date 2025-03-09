@@ -1,4 +1,4 @@
-import toCamelCase from './stringUtils';
+import toCamelCase from './StringUtils';
 
 /**
  * A class that can be used to interact with hidden divs containing variables from the backend.

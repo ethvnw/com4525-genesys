@@ -7,7 +7,7 @@ def submit_invitation_to_new_email(email, role)
   select(role, from: "user_user_role")
   click_button("Send Invitation")
 
-  within("#page-alert.alert-success") do
+  within("#toast-list .text-bg-success") do
     expect(page).to(have_content("Invitation sent successfully to #{email}."))
   end
 

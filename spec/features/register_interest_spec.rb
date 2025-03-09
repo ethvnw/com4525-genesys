@@ -14,7 +14,7 @@ RSpec.feature("Registering Interest") do
     register_with_email
 
     expect(Registration.find_by(email: "test@example.com")).to(be_present)
-    within("#page-alert.alert-success") do
+    within("#toast-list .text-bg-success") do
       expect(page).to(have_content("Successfully registered"))
     end
   end
