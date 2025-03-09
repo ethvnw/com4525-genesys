@@ -10,6 +10,16 @@ class PlanValidator < ActiveModel::Validator
     if record.start_date.present? && record.start_date < Time.current
       record.errors.add(:start_date, "cannot be in the past")
     end
+
+    unless record.plan_type.starts_with?("travel_by")
+      record.end_location_name = nil
+      record.end_location_latitude = nil
+      record.end_location_longitude = nil
+    end
+
+    if record.plan_type.starts_with?("travel_by") && record.end_location_name.blank?
+      record.errors.add(:end_location_name, "must be present for travel plans")
+    end
   end
 end
 
@@ -57,6 +67,7 @@ class Plan < ApplicationRecord
   }
 
   validates :plan_type, inclusion: { in: plan_types.keys }
-  validates :title, :start_location_name, :start_date, presence: true
+  validates :title, presence: true, length: { maximum: 250 }
+  validates :start_location_name, :start_date, presence: true
   validates_with PlanValidator
 end

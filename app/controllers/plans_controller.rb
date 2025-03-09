@@ -23,7 +23,7 @@ class PlansController < ApplicationController
     @plan = Plan.new(plan_params)
     @plan.trip = Trip.first
     if @plan.save
-      redirect_to(root_path)
+      redirect_to(plans_path, notice: "Plan created successfully.")
       session.delete(:plan_data)
     else
       flash[:errors] = @plan.errors.full_messages
@@ -42,6 +42,28 @@ class PlansController < ApplicationController
         )
       redirect_to(new_plan_path)
     end
+  end
+
+  def edit
+    @script_packs = ["plans"]
+    @plan = Plan.find(params[:id])
+    @errors = flash[:errors]
+  end
+
+  def update
+    @plan = Plan.find(params[:id])
+    if @plan.update(plan_params)
+      redirect_to(plans_path, notice: "Plan updated successfully.")
+    else
+      flash[:errors] = @plan.errors.full_messages
+      redirect_to(edit_plan_path(@plan))
+    end
+  end
+
+  def destroy
+    @plan = Plan.find(params[:id])
+    @plan.destroy
+    redirect_back_or_to(plans_path, notice: "Plan deleted successfully.")
   end
 
   private
