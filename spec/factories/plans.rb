@@ -29,7 +29,8 @@ FactoryBot.define do
   # and specify the dates when using the factory.
   factory :plan do
     title { "Mock Plan" }
-    type { :sightseeing }
+    plan_type { :travel_by_plane }
+    start_date { Time.current + 1.day }
     start_location_name { "Edale, Peak District, UK" }
     start_location_latitude { 53.3673 }
     start_location_longitude { 1.8158 }

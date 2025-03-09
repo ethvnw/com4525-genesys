@@ -1,17 +1,14 @@
-%section.d-flex.flex-column.align-items-center.p-3.bg-primary.rounded.mb-2
-  .row.align-self-start.mb-2
-    .col-auto
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-    .col
-      %p.mb-0.text-secondary Group booking
+%section.p-3.rounded.mb-2.bg-primary
+  = render("plans/cards/card_header", plan: plan)
 
-  .row.w-100.align-items-center.mb-3
-    .col.p-0
-      %h3.mb-0= plan.start_location_name
+  -# Start location and date
+  .row.align-items-center.mb-3
+    .col
+      %h4.mb-0.max-height-2-lines= plan.start_location_name
       %p.mb-0.text-white-50= plan.start_date.strftime("%H:%M")
-    .col-auto.p-0
+
+    -# Travel icon
+    .col-auto.px-4
       %h2.text-white-50
         - case plan.plan_type
         - when "travel_by_plane"
@@ -29,8 +26,9 @@
         - else
           .i.bi.bi-question-circle-fill
 
-    .col.p-0
-      %h3.mb-0.text-end= plan.end_location_name
+    -# End location and date
+    .col
+      %h4.mb-0.text-end.max-height-2-lines= plan.end_location_name
       - if plan.end_date.present?
         - if plan.start_date.strftime("%d %B %Y") != plan.end_date.strftime("%d %B %Y")
           %p.mb-0.text-end.text-white-50= plan.end_date.strftime("%d %B %Y, %H:%M")
@@ -39,6 +37,13 @@
       - else
         %p.mb-0.text-end.text-white-50 No end date
 
-  .d-flex.align-self-start.gap-2.align-items-center.mb-3
-    %p.mb-0.i.bi.bi-building
+  -# Company name
+  .d-flex.gap-3.align-items-center
+    %i.bi.bi-building
     %p.mb-0 Company Name
+
+  -# View tickets button
+  .border-top.border-secondary.mt-2.pt-3.fw-semibold
+    %button.btn.d-flex.gap-3.align-items-center.p-0.text-light
+      %i.bi.bi-ticket-detailed-fill
+      %p.mb-0 View Tickets

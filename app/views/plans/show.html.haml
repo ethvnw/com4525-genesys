@@ -1,0 +1,7 @@
+%h2= @plan.title
+%h4.mb-4= @plan.start_date.strftime("%A, %d %B %Y")
+
+- if @plan.plan_type.starts_with?("travel_")
+  = render("plans/cards/travel_card", plan: @plan)
+- else
+  = render("plans/cards/event_card", plan: @plan)

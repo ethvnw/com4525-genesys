@@ -1,27 +1,9 @@
-%section.d-flex.flex-column.p-3.bg-danger-subtle.rounded.mb-2
-  .row.mb-2
-    .col-auto
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-    .col
-      %p.mb-0.text-secondary Group booking
+%section.p-3.rounded.mb-2.bg-danger-subtle
+  = render("plans/cards/card_header", plan: plan)
 
   .mb-4
-    %h2.fw-bold.mb-0
+    %h4.fw-bold.mb-0.max-height-2-lines
       = plan.title
-      %span.fs-4
-        - case plan.plan_type
-        - when "clubbing"
-          🕺
-        - when "live_music"
-          🎸
-        - when "restaurant"
-          🍽️
-        - when "sport_event"
-          🏀
-        - else
-          🎉
 
     %p.mb-0.text-dark-emphasis
       = plan.start_date.strftime("%H:%M") if plan.start_date.present?
@@ -32,10 +14,26 @@
         - else
           = plan.end_date.strftime("%H:%M")
 
-  .d-flex.gap-2.align-items-center.mb-3
-    %p.mb-0.i.bi.bi-building
+  -# Company name
+  .d-flex.gap-3.align-items-center
+    %i.bi.bi-building
     %p.mb-0 Company Name
 
-  .d-flex.gap-2.align-items-center
-    %p.mb-0.i.bi.bi-geo-alt
+  -# Start location
+  .d-flex.gap-3.align-items-center
+    %i.bi.bi-geo-alt
     %p.mb-0= plan.start_location_name
+
+  -# View tickets button
+  .border-top.border-secondary.mt-2.pt-3.fw-semibold
+    %button.btn.d-flex.gap-3.align-items-center.p-0
+      - case plan.plan_type
+      - when "clubbing", "live_music", "sport_event"
+        %i.bi.bi-ticket-detailed-fill
+        %p.mb-0 View Tickets
+      - when "restaurant"
+        %i.bi.bi-bookmark-dash-fill
+        %p.mb-0 View Reservation
+      - else
+        %i.bi.bi-receipt
+        %p.mb-0 View Booking
