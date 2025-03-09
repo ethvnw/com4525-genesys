@@ -14,7 +14,9 @@ RSpec.feature("Registering Interest") do
     register_with_email
 
     expect(Registration.find_by(email: "test@example.com")).to(be_present)
-    expect(page).to(have_content("Successfully registered"))
+    within("#toast-list .text-bg-success") do
+      expect(page).to(have_content("Successfully registered"))
+    end
   end
 
   scenario "After I register my interest, my geolocation will be saved" do

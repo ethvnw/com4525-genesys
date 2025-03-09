@@ -1,0 +1,40 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/variables';
+
+// Prevent text wrapping with long notifications (i.e. lost connection) on larger screens
+@include media-breakpoint-up(md) {
+  .toast {
+    min-width: max-content;
+  }
+}
+
+// Alias bootstrap icons to toast type icons
+.toast-icon-success::before {
+  content: "\F26B"; // bi-check-circle
+}
+
+.toast-icon-danger::before {
+  content: "\F623"; // bi-x-circle
+}
+
+.toast-icon-warning::before {
+ content: "\F33B"; // bi-exclamation-triangle
+}
+
+.toast-icon-primary::before,
+.toast-icon-secondary::before,
+.toast-icon-info::before,
+.toast-icon-light::before,
+.toast-icon-dark::before {
+  content: "\F333"; // bi-exclamation-circle
+}
+
+// Can use these rather than having a conditional to check whether btn-close-white is necessary
+.btn-close-on-primary,
+.btn-close-on-secondary,
+.btn-close-on-danger,
+.btn-close-on-dark,
+.btn-close-on-success{
+  filter: var(--bs-btn-close-white-filter);
+}

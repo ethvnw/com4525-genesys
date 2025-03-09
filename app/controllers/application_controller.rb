@@ -17,6 +17,9 @@ class ApplicationController < ActionController::Base
   # Decorate the current user
   before_action :decorate_current_user
 
+  # Convert any flash messages to a PageAlert-compatible format
+  before_action :convert_flash_messages
+
   # Permit parameters such as username and email
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -49,5 +52,20 @@ class ApplicationController < ActionController::Base
 
   def decorate_current_user
     @current_user = current_user.decorate if current_user.present?
+  end
+
+  ##
+  # Converts flash messages from rails-style to bootstrap-style
+  # Extracts messages from flash[:alert] or flash[:notice] and puts them in the correct format to be used by toasts
+  def convert_flash_messages
+    flash[:notifications] ||= []
+
+    if flash[:alert].present?
+      flash[:notifications] << { message: flash[:alert], notification_type: "danger" }
+      flash.discard(:alert)
+    elsif flash[:notice].present?
+      flash[:notifications] << { message: flash[:notice], notification_type: "success" }
+      flash.discard(:notice)
+    end
   end
 end
