@@ -42,7 +42,7 @@ RSpec.feature("Managing staff") do
       select("Admin", from: "user_user_role")
       click_button("Save Changes")
 
-      within("#page-alert.alert-success") do
+      within("#toast-list .text-bg-success") do
         expect(page).to(have_content("#{reporter.email} updated successfully."))
       end
 
@@ -67,7 +67,7 @@ RSpec.feature("Managing staff") do
 
       click_button("Remove Access")
 
-      within("#page-alert.alert-success") do
+      within("#toast-list .text-bg-success") do
         expect(page).to(have_content("Access removed for #{reporter.email}"))
       end
 

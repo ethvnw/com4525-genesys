@@ -56,15 +56,15 @@ class ApplicationController < ActionController::Base
 
   ##
   # Converts flash messages from rails-style to bootstrap-style
-  # Extracts messages from flash[:alert] or flash[:notice] and puts them in the correct format to be used by PageAlert
+  # Extracts messages from flash[:alert] or flash[:notice] and puts them in the correct format to be used by toasts
   def convert_flash_messages
+    flash[:notifications] ||= []
+
     if flash[:alert].present?
-      flash[:alert_message] = flash[:alert]
-      flash[:alert_type] = "danger"
+      flash[:notifications] << { message: flash[:alert], notification_type: "danger" }
       flash.discard(:alert)
     elsif flash[:notice].present?
-      flash[:alert_message] = flash[:notice]
-      flash[:alert_type] = "success"
+      flash[:notifications] << { message: flash[:notice], notification_type: "success" }
       flash.discard(:notice)
     end
   end
