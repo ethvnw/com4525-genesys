@@ -1,3 +1,14 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/variables';
+
+// Prevent text wrapping with long notifications (i.e. lost connection) on larger screens
+@include media-breakpoint-up(md) {
+  .toast {
+    min-width: max-content;
+  }
+}
+
 // Alias bootstrap icons to toast type icons
 .toast-icon-success::before {
   content: "\F26B"; // bi-check-circle
