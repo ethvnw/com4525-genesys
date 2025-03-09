@@ -11,14 +11,16 @@ class PlanValidator < ActiveModel::Validator
       record.errors.add(:start_date, "cannot be in the past")
     end
 
-    unless record.plan_type.starts_with?("travel_by")
-      record.end_location_name = nil
-      record.end_location_latitude = nil
-      record.end_location_longitude = nil
-    end
+    unless record.plan_type.blank?
+      unless record.plan_type.starts_with?("travel_by")
+        record.end_location_name = nil
+        record.end_location_latitude = nil
+        record.end_location_longitude = nil
+      end
 
-    if record.plan_type.starts_with?("travel_by") && record.end_location_name.blank?
-      record.errors.add(:end_location_name, "must be present for travel plans")
+      if record.plan_type.starts_with?("travel_by") && record.end_location_name.blank?
+        record.errors.add(:end_location_name, "must be present for travel plans")
+      end
     end
   end
 end
