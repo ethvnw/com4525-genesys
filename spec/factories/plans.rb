@@ -31,6 +31,7 @@ FactoryBot.define do
     title { "Mock Plan" }
     plan_type { :travel_by_plane }
     start_date { Time.current + 1.day }
+    end_date { Time.current + 2.days }
     start_location_name { "Edale, Peak District, UK" }
     start_location_latitude { 53.3673 }
     start_location_longitude { 1.8158 }
