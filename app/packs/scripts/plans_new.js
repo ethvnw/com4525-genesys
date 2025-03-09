@@ -49,7 +49,7 @@ const updateLocationPin = (marker, lat, lng) => {
 /**
  * Show the end location input if the plan type is a travel plan.
  */
-typeDropdown.addEventListener('change', () => {
+const updateEndLocationInput = () => {
   const endLocationInput = document.getElementById('plan_end_location_name');
   const typeValue = typeDropdown.value;
 
@@ -66,7 +66,9 @@ typeDropdown.addEventListener('change', () => {
     endMarker.setLatLng([0, 0]);
     line.remove();
   }
-});
+};
+
+typeDropdown.addEventListener('change', updateEndLocationInput);
 
 /**
  * Setup the autocomplete for the location input.
@@ -105,3 +107,7 @@ const setupAutocomplete = (elementId) => {
 
 setupAutocomplete('#plan_start_location_name');
 setupAutocomplete('#plan_end_location_name');
+
+export {
+  updateLocationPin, startMarker, endMarker, updateEndLocationInput,
+};
