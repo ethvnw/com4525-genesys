@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# Validates the plan's start date and end date
+class PlanValidator < ActiveModel::Validator
+  def validate(record)
+    if record.start_date.present? && record.end_date.present? && record.start_date > record.end_date
+      record.errors.add(:start_date, "cannot be after end date")
+    end
+
+    if record.start_date.present? && record.start_date < Time.current
+      record.errors.add(:start_date, "cannot be in the past")
+    end
+  end
+end
+
 # == Schema Information
 #
 # Table name: plans
@@ -23,18 +36,6 @@
 #
 #  index_plans_on_trip_id  (trip_id)
 #
-class PlanValidator < ActiveModel::Validator
-  def validate(record)
-    if record.start_date.present? && record.end_date.present? && record.start_date > record.end_date
-      record.errors.add(:start_date, "cannot be after end date")
-    end
-
-    if record.start_date.present? && record.start_date < Time.current
-      record.errors.add(:start_date, "cannot be in the past")
-    end
-  end
-end
-
 class Plan < ApplicationRecord
   belongs_to :trip
   has_many_attached :documents
@@ -57,5 +58,5 @@ class Plan < ApplicationRecord
 
   validates :plan_type, inclusion: { in: plan_types.keys }
   validates :title, :start_location_name, :start_date, presence: true
-  validates_with PlanValidator 
+  validates_with PlanValidator
 end
