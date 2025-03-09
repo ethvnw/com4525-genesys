@@ -5,7 +5,7 @@ class PlansController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @plans = Plan.order(:start_date)
+    @plans = Plan.order(:start_date).decorate
   end
 
   def new

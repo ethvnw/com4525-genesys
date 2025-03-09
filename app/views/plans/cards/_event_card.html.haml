@@ -6,13 +6,7 @@
       = plan.title
 
     %p.mb-0.text-dark-emphasis
-      = plan.start_date.strftime("%H:%M") if plan.start_date.present?
-      - if plan.end_date.present?
-        to
-        - if plan.start_date.strftime("%d %B %Y") != plan.end_date.strftime("%d %B %Y")
-          = plan.end_date.strftime("%d %B %Y, %H:%M")
-        - else
-          = plan.end_date.strftime("%H:%M")
+      = plan.formatted_date_range
 
   -# Company name
   .d-flex.gap-3.align-items-center
@@ -27,13 +21,5 @@
   -# View tickets button
   .border-top.border-secondary.mt-2.pt-3.fw-semibold
     %button.btn.d-flex.gap-3.align-items-center.p-0
-      - case plan.plan_type
-      - when "clubbing", "live_music", "sport_event"
-        %i.bi.bi-ticket-detailed-fill
-        %p.mb-0 View Tickets
-      - when "restaurant"
-        %i.bi.bi-bookmark-dash-fill
-        %p.mb-0 View Reservation
-      - else
-        %i.bi.bi-receipt
-        %p.mb-0 View Booking
+      %i{ class: plan.view_icon }
+      %p.mb-0= plan.view_label

@@ -10,32 +10,12 @@
     -# Travel icon
     .col-auto.px-4
       %h2.text-white-50
-        - case plan.plan_type
-        - when "travel_by_plane"
-          .i.bi.bi-airplane-fill
-        - when "travel_by_train"
-          .i.bi.bi-train-front-fill
-        - when "travel_by_bus"
-          .i.bi.bi-bus-front-fill
-        - when "travel_by_car"
-          .i.bi.bi-car-front-fill
-        - when "travel_by_boat"
-          .i.bi.bi-water
-        - when "travel_by_foot"
-          .i.bi.bi-person-walking
-        - else
-          .i.bi.bi-question-circle-fill
+        %i{ class: plan.travel_icon }
 
     -# End location and date
     .col
       %h4.mb-0.text-end.max-height-2-lines= plan.end_location_name
-      - if plan.end_date.present?
-        - if plan.start_date.strftime("%d %B %Y") != plan.end_date.strftime("%d %B %Y")
-          %p.mb-0.text-end.text-white-50= plan.end_date.strftime("%d %B %Y, %H:%M")
-        - else
-          %p.mb-0.text-end.text-white-50= plan.end_date.strftime("%H:%M")
-      - else
-        %p.mb-0.text-end.text-white-50 No end date
+      %p.mb-0.text-end.text-white-50= plan.formatted_end_date
 
   -# Company name
   .d-flex.gap-3.align-items-center
@@ -45,5 +25,5 @@
   -# View tickets button
   .border-top.border-secondary.mt-2.pt-3.fw-semibold
     %button.btn.d-flex.gap-3.align-items-center.p-0.text-light
-      %i.bi.bi-ticket-detailed-fill
-      %p.mb-0 View Tickets
+      %i{ class: plan.view_icon }
+      %p.mb-0= plan.view_label
