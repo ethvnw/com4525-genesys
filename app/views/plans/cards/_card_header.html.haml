@@ -1,16 +1,7 @@
 .d-flex.justify-content-between.align-items-center
-  -# User avatars
-  .d-flex.gap-4.mb-2
-    .d-flex.align-items-center.gap-1
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
-
-    %p.mb-0.text-secondary
-      - if !plan.plan_type.starts_with?("travel_")
-        = plan.plan_type.humanize.titleize
-      - else
-        Group Booking
+  %p.mb-0.text-secondary
+    - unless plan.plan_type.starts_with?("travel_")
+      = plan.plan_type.humanize.titleize
 
   -# Dropdown menu
   .dropdown

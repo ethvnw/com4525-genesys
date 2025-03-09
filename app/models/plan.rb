@@ -1,16 +1,8 @@
 # frozen_string_literal: true
 
-# Validates the plan's start date and end date
+# Validates the plan's end location name if the plan type is a travel plan
 class PlanValidator < ActiveModel::Validator
   def validate(record)
-    if record.start_date.present? && record.end_date.present? && record.start_date > record.end_date
-      record.errors.add(:start_date, "cannot be after end date")
-    end
-
-    if record.start_date.present? && record.start_date < Time.current
-      record.errors.add(:start_date, "cannot be in the past")
-    end
-
     unless record.plan_type.blank?
       unless record.plan_type.starts_with?("travel_by")
         record.end_location_name = nil
@@ -72,4 +64,5 @@ class Plan < ApplicationRecord
   validates :title, presence: true, length: { maximum: 250 }
   validates :start_location_name, :start_date, presence: true
   validates_with PlanValidator
+  validates_with DateValidator
 end

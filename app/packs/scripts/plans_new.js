@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/autocomplete';
-import { EsriProvider } from 'leaflet-geosearch';
 import L from 'leaflet';
 
 const startMarker = L.marker([0, 0]);
@@ -76,32 +75,34 @@ typeDropdown.addEventListener('change', updateEndLocationInput);
  */
 const setupAutocomplete = (elementId) => {
   $(elementId).autocomplete({
-    async source(request, response) {
-      const providerform = new EsriProvider({
-        params: {
-          limit: 5,
-        },
-      });
+    source: async (request, response) => {
+      const url = `https://photon.komoot.io/api/?q=${request.term}&limit=5`;
 
-      const results = await providerform.search({ query: request.term });
-      if (results.length === 0) {
+      try {
+        const data = await $.getJSON(url);
+        const results = data.features.map((feature) => ({
+          value: [feature.properties.name, feature.properties.city, feature.properties.country].filter(Boolean).join(', '),
+          latitude: feature.geometry.coordinates[1],
+          longitude: feature.geometry.coordinates[0],
+        }));
+
+        response(results);
+      } catch (error) {
         response([{ label: 'No Results Found', value: '' }]);
-        return;
       }
-
-      if (elementId === '#plan_start_location_name') {
-        document.getElementById('plan_start_location_latitude').value = results[0].y;
-        document.getElementById('plan_start_location_longitude').value = results[0].x;
-      } else {
-        document.getElementById('plan_end_location_latitude').value = results[0].y;
-        document.getElementById('plan_end_location_longitude').value = results[0].x;
-      }
-
-      updateLocationPin(elementId === '#plan_start_location_name' ? startMarker : endMarker, results[0].y, results[0].x);
-      response(results);
     },
-    delay: 100,
-    minLength: 1,
+    minLength: 3,
+    select: (event, ui) => {
+      if (elementId === '#plan_start_location_name') {
+        document.getElementById('plan_start_location_latitude').value = ui.item.latitude;
+        document.getElementById('plan_start_location_longitude').value = ui.item.longitude;
+      } else {
+        document.getElementById('plan_end_location_latitude').value = ui.item.latitude;
+        document.getElementById('plan_end_location_longitude').value = ui.item.longitude;
+      }
+
+      updateLocationPin(elementId === '#plan_start_location_name' ? startMarker : endMarker, ui.item.latitude, ui.item.longitude);
+    },
   });
 };
 

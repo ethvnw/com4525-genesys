@@ -18,12 +18,12 @@
   = f.input(:start_location_name,
             input_html: { class: "fw-semibold" },
             label: false,
-            placeholder: "Search for a start location...",
+            placeholder: "Search for a start location... (min 3 characters)",
             required: true)
   = f.input(:end_location_name,
             input_html: { class: "fw-semibold d-none" },
             label: false,
-            placeholder: "Search for an end location...",
+            placeholder: "Search for an end location... (min 3 characters)",
             disabled: true,
             required: false)
   #map
