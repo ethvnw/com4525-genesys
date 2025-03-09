@@ -6,12 +6,12 @@
       = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
       = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
 
-    %p.mb-0.text-secondary 
-      - if not plan.plan_type.starts_with?("travel_")
+    %p.mb-0.text-secondary
+      - if !plan.plan_type.starts_with?("travel_")
         = plan.plan_type.humanize.titleize
       - else
         Group Booking
-    
+
   -# Dropdown menu
   .dropdown
     %button.btn.px-0.py-2{ "data-bs-toggle": "dropdown", "aria-expanded": "false" }
