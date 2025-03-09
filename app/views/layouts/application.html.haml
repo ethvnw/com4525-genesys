@@ -33,16 +33,18 @@
     %link{ rel: "manifest", href: "/site.webmanifest" }
 
   %body
+    -# Render any necessary toasts
+    #toast-list.toast-container.top-0.start-50.translate-middle-x.mt-2.d-flex.flex-column.align-items-center
+      - flash[:notifications].each do |notification|
+        = render("partials/toast",
+                 message: notification[:message],
+                 notification_type: notification[:notification_type])
+
+    - flash.discard(:notifications)
+
     -# Don't show navigation bar on sign in page
     - unless sign_in_page?
       = render("partials/navbar")
-
-    - if flash.present?
-      .container.flash-messages
-        - flash.each do |message_type, message|
-          - next unless message_type == "alert" || message_type == "notice"
-
-          .alert{ class: "alert-#{message_type == "notice" ? "success" : "danger"}" }= message
 
     %main.container.d-flex.flex-column.flex-fill
       = yield
@@ -56,4 +58,5 @@
             &copy; 2024 Roamio & Genesys Team 02. All rights reserved
           %hr
 
-    #js-variables{ data: @js_data ? @js_data : {} }
+    #js-variables{ data: @js_data || flash[:js_data] || {} }
+    - flash.discard(:js_data) # Discard flash messages after use to prevent them from being shown twice

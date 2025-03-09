@@ -8,5 +8,6 @@ import '../../styles/social_share.scss';
 import '../../styles/pricing.scss';
 import '../../styles/reporter_dashboard.scss';
 import '../../styles/landing_page_journey.scss';
+import '../../styles/toast-utils.scss';
 
 require.context('../../images', true);
