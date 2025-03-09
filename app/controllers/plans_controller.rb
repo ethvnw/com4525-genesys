@@ -2,6 +2,8 @@
 
 # Handles the creation of plans
 class PlansController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @plans = Plan.order(:start_date)
   end
@@ -41,6 +43,8 @@ class PlansController < ApplicationController
       redirect_to(new_plan_path)
     end
   end
+
+  private
 
   def plan_params
     params.require(:plan).permit(

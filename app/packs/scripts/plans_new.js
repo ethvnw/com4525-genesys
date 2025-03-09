@@ -5,8 +5,11 @@ import L from 'leaflet';
 
 const startMarker = L.marker([0, 0]);
 const endMarker = L.marker([0, 0]);
-let line = L.polyline([], { color: 'red' });
-
+const typeDropdown = document.getElementById('plan_plan_type');
+const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+  maxZoom: 20,
+  subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+});
 const map = L.map('map', {
   center: [0, 0],
   zoom: 1,
@@ -18,12 +21,17 @@ const map = L.map('map', {
   ],
 });
 
-const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-  maxZoom: 20,
-  subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-});
+let line = L.polyline([], { color: 'red' });
+
 map.addLayer(googleHybrid);
 
+/**
+ * Update the location pin on the map with the new latitude and longitude.
+ * Also updates the line between the start and end locations if both are set.
+ * @param {L.marker} marker The marker to update
+ * @param {float} lat The new latitude
+ * @param {float} lng The new longitude
+ */
 const updateLocationPin = (marker, lat, lng) => {
   marker.setLatLng([lat, lng]);
   marker.addTo(map);
@@ -38,8 +46,9 @@ const updateLocationPin = (marker, lat, lng) => {
   }
 };
 
-const typeDropdown = document.getElementById('plan_plan_type');
-
+/**
+ * Show the end location input if the plan type is a travel plan.
+ */
 typeDropdown.addEventListener('change', () => {
   const endLocationInput = document.getElementById('plan_end_location_name');
   const typeValue = typeDropdown.value;
@@ -59,6 +68,10 @@ typeDropdown.addEventListener('change', () => {
   }
 });
 
+/**
+ * Setup the autocomplete for the location input.
+ * @param {string} elementId The id of the input element to setup the autocomplete for.
+ */
 const setupAutocomplete = (elementId) => {
   $(elementId).autocomplete({
     async source(request, response) {

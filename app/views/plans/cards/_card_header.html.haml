@@ -1,0 +1,30 @@
+.d-flex.justify-content-between.align-items-center
+  -# User avatars
+  .d-flex.gap-4.mb-2
+    .d-flex.align-items-center.gap-1
+      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
+      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
+      = image_pack_tag("images/fallback_avatar.png", class: "rounded-circle", height: 15)
+
+    %p.mb-0.text-secondary 
+      - if not plan.plan_type.starts_with?("travel_")
+        = plan.plan_type.humanize.titleize
+      - else
+        Group Booking
+    
+  -# Dropdown menu
+  .dropdown
+    %button.btn.px-0.py-2{ "data-bs-toggle": "dropdown", "aria-expanded": "false" }
+      %i{ class: "bi bi-three-dots-vertical #{"text-light" if plan.plan_type.starts_with?("travel_")}" }
+
+    .dropdown-menu
+      = link_to(edit_plan_path(plan),
+                class: "dropdown-item",
+                method: :get) do
+        Edit
+
+      = link_to(plan_path(plan),
+                class: "dropdown-item text-danger",
+                method: :delete,
+                data: { confirm: "Are you sure you want to delete this plan?" }) do
+        Delete
