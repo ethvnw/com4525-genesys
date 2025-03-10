@@ -1,2 +1,2 @@
 import '../../scripts/plans_new';
-import '../../scripts/plans_edit';
+import '../../scripts/plan_load_data';
