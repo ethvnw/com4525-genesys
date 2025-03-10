@@ -9,7 +9,7 @@ module Api
         session.delete(:review_data)
         redirect_to(root_path, notice: "Thank you for your review!")
       else
-        flash[:errors] = @review.errors.full_messages
+        flash[:errors] = @review.errors.to_hash(true)
         session[:review_data] = @review.attributes.slice("name", "content")
         redirect_to(root_path(anchor: "new_review"))
       end
