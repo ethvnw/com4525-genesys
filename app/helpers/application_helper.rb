@@ -43,4 +43,13 @@ module ApplicationHelper
       end
     end
   end
+
+  def get_formatted_errors(errors, key)
+    errors ||= {}
+    errors_for_key = errors[key]
+
+    if errors_for_key.present?
+      errors_for_key.join("\n")
+    end
+  end
 end
