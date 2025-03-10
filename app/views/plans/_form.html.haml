@@ -15,17 +15,10 @@
              { prompt: "Select plan type" },
              class: "form-select fw-semibold",
              required: true)
-  = f.input(:start_location_name,
-            input_html: { class: "fw-semibold" },
-            label: false,
-            placeholder: "Search for a start location... (min 3 characters)",
-            required: true)
-  = f.input(:end_location_name,
-            input_html: { class: "fw-semibold d-none" },
-            label: false,
-            placeholder: "Search for an end location... (min 3 characters)",
-            disabled: true,
-            required: false)
+
+  #start-location-autocomplete
+  #end-location-autocomplete.d-none
+
   #map
   = f.label(:start_date, "Start Date and Time", class: "fw-semibold")
   = f.datetime_local_field(:start_date,
@@ -39,6 +32,8 @@
 
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 
+  = f.input(:start_location_name, as: :hidden)
+  = f.input(:end_location_name, as: :hidden)
   = f.input(:start_location_latitude, as: :hidden)
   = f.input(:start_location_longitude, as: :hidden)
   = f.input(:end_location_latitude, as: :hidden)

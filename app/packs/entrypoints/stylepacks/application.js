@@ -11,5 +11,6 @@ import '../../styles/landing_page_journey.scss';
 import '../../styles/toast-utils.scss';
 import '../../styles/plans.scss';
 import 'leaflet/dist/leaflet.css';
+import '@algolia/autocomplete-theme-classic';
 
 require.context('../../images', true);

@@ -1,5 +1,7 @@
-import $ from 'jquery';
-import 'jquery-ui/ui/widgets/autocomplete';
+// Intialises the map and location searches for new plan page.
+
+import { autocomplete } from '@algolia/autocomplete-js';
+import '@algolia/autocomplete-theme-classic';
 import L from 'leaflet';
 
 const startMarker = L.marker([0, 0]);
@@ -19,10 +21,9 @@ const map = L.map('map', {
     [90, 180],
   ],
 });
+map.addLayer(googleHybrid);
 
 let line = L.polyline([], { color: 'red' });
-
-map.addLayer(googleHybrid);
 
 /**
  * Update the location pin on the map with the new latitude and longitude.
@@ -46,21 +47,98 @@ const updateLocationPin = (marker, lat, lng) => {
 };
 
 /**
- * Show the end location input if the plan type is a travel plan.
+ * Debounce a promise returning function.
+ * @param {*} fn The function to debounce
+ * @param {*} time The time to debounce by
+ * @returns {function} The debounced function
  */
+function debouncePromise(fn, time) {
+  let timer;
+
+  return function debounced(...args) {
+    if (timer) {
+      clearTimeout(timer); // Clear the timeout first if it's already defined.
+    }
+
+    return new Promise((resolve) => {
+      timer = setTimeout(() => resolve(fn(...args)), time);
+    });
+  };
+}
+
+const DEBOUNCE_MS = 300;
+const debounced = debouncePromise((items) => Promise.resolve(items), DEBOUNCE_MS);
+
+/**
+ * Create an autocomplete object for a given container id and text.
+ * @param {string} containerId The id of the container to create the autocomplete in
+ * @param {string} text The text to display in the placeholder
+ * @returns {object} The created autocomplete object
+ */
+const createAutocomplete = (containerId, text) => autocomplete({
+  container: containerId,
+  placeholder: `Search for a ${text} location`,
+  detachedMediaQuery: '',
+  stallThreshold: 700,
+  getSources({ query }) {
+    return debounced([
+      {
+        sourceId: 'places',
+        getItems() {
+          return fetch(
+            `https://photon.komoot.io/api/?q=${query}&limit=5`,
+          ).then((response) => response.json())
+            .then((data) => data.features.map((place) => ({
+              name: [place.properties.name, place.properties.city, place.properties.country].filter(Boolean).join(', '),
+              lat: place.geometry.coordinates[1],
+              lng: place.geometry.coordinates[0],
+            })));
+        },
+        getItemInputValue({ item }) {
+          return item.name;
+        },
+        onSelect({ item }) {
+          const inputName = document.querySelector(`#plan_${text}_location_name`);
+          const inputLat = document.querySelector(`#plan_${text}_location_latitude`);
+          const inputLng = document.querySelector(`#plan_${text}_location_longitude`);
+          inputName.value = item.name;
+          inputLat.value = item.lat;
+          inputLng.value = item.lng;
+
+          updateLocationPin(text === 'start' ? startMarker : endMarker, item.lat, item.lng);
+        },
+        templates: {
+          item({ item }) {
+            return item.name;
+          },
+        },
+      },
+    ]);
+  },
+});
+
+const startAutocomplete = createAutocomplete('#start-location-autocomplete', 'start');
+const endAutocomplete = createAutocomplete('#end-location-autocomplete', 'end');
+
+/**
+ * Show the end location input if the plan type is a travel plan.
+*/
 const updateEndLocationInput = () => {
-  const endLocationInput = document.getElementById('plan_end_location_name');
+  const endLocationSearch = document.querySelector('#end-location-autocomplete');
+  const endLocationInput = document.querySelector('#plan_end_location_name');
   const typeValue = typeDropdown.value;
 
   if (typeValue.split('_')[0] === 'travel') {
+    endLocationSearch.classList.remove('d-none');
     endLocationInput.disabled = false;
     endLocationInput.required = true;
-    endLocationInput.classList.remove('d-none');
   } else {
+    endLocationSearch.classList.add('d-none');
+    endAutocomplete.setQuery('');
     endLocationInput.disabled = true;
     endLocationInput.required = false;
-    endLocationInput.classList.add('d-none');
     endLocationInput.value = '';
+
     endMarker.remove();
     endMarker.setLatLng([0, 0]);
     line.remove();
@@ -69,46 +147,7 @@ const updateEndLocationInput = () => {
 
 typeDropdown.addEventListener('change', updateEndLocationInput);
 
-/**
- * Setup the autocomplete for the location input.
- * @param {string} elementId The id of the input element to setup the autocomplete for.
- */
-const setupAutocomplete = (elementId) => {
-  $(elementId).autocomplete({
-    source: async (request, response) => {
-      const url = `https://photon.komoot.io/api/?q=${request.term}&limit=5`;
-
-      try {
-        const data = await $.getJSON(url);
-        const results = data.features.map((feature) => ({
-          value: [feature.properties.name, feature.properties.city, feature.properties.country].filter(Boolean).join(', '),
-          latitude: feature.geometry.coordinates[1],
-          longitude: feature.geometry.coordinates[0],
-        }));
-
-        response(results);
-      } catch (error) {
-        response([{ label: 'No Results Found', value: '' }]);
-      }
-    },
-    minLength: 3,
-    select: (event, ui) => {
-      if (elementId === '#plan_start_location_name') {
-        document.getElementById('plan_start_location_latitude').value = ui.item.latitude;
-        document.getElementById('plan_start_location_longitude').value = ui.item.longitude;
-      } else {
-        document.getElementById('plan_end_location_latitude').value = ui.item.latitude;
-        document.getElementById('plan_end_location_longitude').value = ui.item.longitude;
-      }
-
-      updateLocationPin(elementId === '#plan_start_location_name' ? startMarker : endMarker, ui.item.latitude, ui.item.longitude);
-    },
-  });
-};
-
-setupAutocomplete('#plan_start_location_name');
-setupAutocomplete('#plan_end_location_name');
-
 export {
-  updateLocationPin, startMarker, endMarker, updateEndLocationInput,
+  updateLocationPin, startMarker, endMarker,
+  updateEndLocationInput, startAutocomplete, endAutocomplete,
 };
