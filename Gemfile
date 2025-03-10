@@ -64,6 +64,8 @@ gem "sanitize_email"
 gem "sentry-ruby"
 gem "sentry-rails"
 
+gem "turbo-rails"
+
 gem "database_cleaner"
 gem "annotate"
 
