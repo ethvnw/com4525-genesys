@@ -4,19 +4,17 @@
     %p.text-secondary
       We're working to make Roamio available for wider release.
       Register your interest, and you'll be the first to know!
-    .mt-4
-      %div{ class: ("is-invalid" if flash[:email_error]) }
+    .mt-4.text-start
+      = turbo_frame_tag @registration do
         = simple_form_for([:api, @registration],
-                          html: { class: "mb-0 d-flex gap-2 flex-column flex-lg-row " }) do |f|
+                          html: { class: "mb-0 d-flex gap-2 flex-column flex-lg-row align-items-start" },
+                          builder: ValidatedFormBuilder) do |f|
           = f.hidden_field(:subscription_tier_id, value: params[:s_id])
-          .w-100
-            = f.input(:email,
-                      input_html: { class: "form-control #{"is-invalid" if flash[:email_error]}" },
-                      label: false,
-                      placeholder: "Enter your email",
-                      required: true)
-          = button_tag(type: "submit", class: "btn btn-primary text-nowrap fw-bold") do
+          = f.validated_text_input(:email,
+                                   flash[:email_error],
+                                   placeholder: "Enter your email",
+                                   required: true,
+                                   class: "w-100")
+          = button_tag(type: "submit", class: "btn btn-primary text-nowrap fw-bold", style: "margin-top: 2rem") do
             %i.bi.bi-bell &nbsp;
             Notify Me
-      .invalid-feedback
-        = flash[:email_error]
