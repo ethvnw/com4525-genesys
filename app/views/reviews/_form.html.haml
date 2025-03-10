@@ -1,22 +1,22 @@
-- unless errors.nil?
-  .alert.alert-danger
-    %ul.mb-0
-      - errors.each do |error|
-        %li= error
+= turbo_frame_tag review do
+  = simple_form_for([:api, review],
+                    builder: ValidatedFormBuilder,
+                    html: { class: "d-flex flex-column gap-2" }) do |f|
+    = f.validated_input(:name,
+                        get_formatted_errors(errors, :name),
+                        class: "fw-semibold",
+                        label: false,
+                        placeholder: "Enter your name...")
+    = f.validated_input(:content,
+                        get_formatted_errors(errors, :content),
+                        as: :text,
+                        class: "fw-semibold",
+                        rows: 3,
+                        label: false,
+                        placeholder: "Enter your review...")
 
-= simple_form_for([:api, review], html: { class: "d-flex flex-column gap-2" }) do |f|
-  = f.input(:name,
-            input_html: { class: "fw-semibold" },
-            label: false,
-            placeholder: "Enter your name...")
-  = f.input(:content,
-            as: :text,
-            input_html: { class: "fw-semibold", rows: 3 },
-            label: false,
-            placeholder: "Enter your review...")
-
-  .d-flex.justify-content-end
-    = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
-      %i.bi.bi-send-fill
-      &nbsp;
-      Submit Review
+    .d-flex.justify-content-end
+      = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
+        %i.bi.bi-send-fill
+        &nbsp;
+        Submit Review
