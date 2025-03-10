@@ -14,6 +14,8 @@ module Api
           flash[:email_error] = "Email " + registration.errors[:email].first
         end
 
+        flash[:current_email] = registration.email
+
         redirect_back_or_to(pricing_subscriptions_path) and return
       end
 
