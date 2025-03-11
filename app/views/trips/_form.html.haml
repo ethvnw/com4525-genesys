@@ -1,3 +1,7 @@
+%link{href: "https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.css", rel: "stylesheet", type: "text/css"}/
+%script{src: "https://cdn.jsdelivr.net/momentjs/latest/moment.min.js", type: "text/javascript"}
+%script{src: "https://cdn.jsdelivr.net/gh/alumuko/vanilla-datetimerange-picker@latest/dist/vanilla-datetimerange-picker.js"}
+
 - unless errors.nil?
   .alert.alert-danger
     %ul.mb-0
@@ -9,43 +13,62 @@
             as: :text,
             input_html: { class: "fw-semibold" },
             label: false,
-            placeholder: "Enter the trip title...")
+            placeholder: "Enter the trip title..." )
 
   = f.input(:description,
             as: :text,
             input_html: { class: "fw-semibold", rows: 3 },
             label: false,
-            placeholder: "Enter the trip description...")
+            placeholder: "Enter the trip description..." )
 
+  // The start_date and end_date are hidden fields, updated in the background by the date range picker
   = f.input(:start_date,
             as: :string,
-            input_html: { class: "fw-semibold", type: "datetime-local" },
+            input_html: { class: "d-none", type: "datetime-local", id: "start_date" },
             label: false,
-            placeholder: "Enter the trip start date...")
+            placeholder: "Enter the trip start date..." )
 
   = f.input(:end_date,
             as: :string,
-            input_html: { class: "fw-semibold", type: "datetime-local" },
+            input_html: { class: "d-none", type: "datetime-local", id: "end_date" },
             label: false,
-            placeholder: "Enter the trip end date...")
+            placeholder: "Enter the trip end date..." )
+
+  %input#datetimerange-input1{size: "24", style: "text-align:center", type: "text", placeholder: "Select date range"}
+
+  :javascript
+    window.addEventListener("load", function (event) {
+        new DateRangePicker('datetimerange-input1',
+            {
+                timePicker: true,
+                opens: 'right',
+                locale: {
+                    format: "YYYY-MM-DD HH:mm:ss",
+                }
+            },
+            function (start, end) {
+                document.getElementById('start_date').value = start.format('YYYY-MM-DDTHH:mm:ss');
+                document.getElementById('end_date').value = end.format('YYYY-MM-DDTHH:mm:ss');
+            })
+    });
 
   = f.input(:location_name,
             as: :text,
             input_html: { class: "fw-semibold" },
             label: false,
-            placeholder: "Enter the location name...")
+            placeholder: "Enter the location name..." )
 
   = f.input(:location_latitude,
             as: :string,
             input_html: { class: "fw-semibold", type: "number", step: "any" },
             label: false,
-            placeholder: "Enter the location latitude...")
+            placeholder: "Enter the location latitude..." )
 
   = f.input(:location_longitude,
             as: :string,
             input_html: { class: "fw-semibold", type: "number", step: "any" },
             label: false,
-            placeholder: "Enter the location longitude...")
+            placeholder: "Enter the location longitude..." )
 
   .d-flex.justify-content-end
     = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
