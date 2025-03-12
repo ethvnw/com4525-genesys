@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require "webmock/rspec"
 
 RSpec.feature("Managing plans") do
   let(:user) { create(:user) }
@@ -11,7 +12,7 @@ RSpec.feature("Managing plans") do
   end
 
   feature "Creating plans" do
-    scenario "I cannot create a plan with no title", js: true do
+    scenario "I cannot create a plan with no title", js: true, vcr: true do
       visit new_plan_path
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -23,7 +24,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Title can't be blank"))
     end
 
-    scenario "I cannot create a plan with a title that is too long (>250 characters)", js: true do
+    scenario "I cannot create a plan with a title that is too long (>250 characters)", js: true, vcr: true do
       visit new_plan_path
       fill_in "plan_title", with: "a" * 300
       select "Other", from: "plan_plan_type"
@@ -36,7 +37,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Title is too long (maximum is 250 characters)"))
     end
 
-    scenario "I cannot create a plan with no provided plan type", js: true do
+    scenario "I cannot create a plan with no provided plan type", js: true, vcr: true do
       visit new_plan_path
       fill_in "plan_title", with: "a"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -57,7 +58,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start location name can't be blank"))
     end
 
-    scenario "I cannot create a plan with no start date", js: true do
+    scenario "I cannot create a plan with no start date", js: true, vcr: true do
       visit new_plan_path
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
@@ -69,7 +70,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start date can't be blank"))
     end
 
-    scenario "I cannot create a plan with a start date after the end date", js: true do
+    scenario "I cannot create a plan with a start date after the end date", js: true, vcr: true do
       visit new_plan_path
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
@@ -83,7 +84,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start date cannot be after end date"))
     end
 
-    scenario "I cannot create a plan with a start date prior to the current time", js: true do
+    scenario "I cannot create a plan with a start date prior to the current time", js: true, vcr: true do
       visit new_plan_path
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
@@ -96,7 +97,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start date cannot be in the past"))
     end
 
-    scenario "I cannot create a plan with no end location if it is a travel plan", js: true do
+    scenario "I cannot create a plan with no end location if it is a travel plan", js: true, vcr: true do
       visit new_plan_path
       fill_in "plan_title", with: "Test Title"
       select "Travel By Plane", from: "plan_plan_type"
@@ -119,7 +120,7 @@ RSpec.feature("Managing plans") do
 
     given!(:trip) { FactoryBot.create(:trip) }
 
-    scenario "I can create a plan and see its information on the plans index page", js: true do
+    scenario "I can create a plan and see its information on the plans index page", js: true, vcr: true do
       visit new_plan_path
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
@@ -136,7 +137,9 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content(Time.current.strftime("%H:%M")))
     end
 
-    scenario "I can create 2 plans within the same day and see their information on the plans index page", js: true do
+    scenario "I can create 2 plans within the same day and see their information on the plans index page",
+      js: true,
+      vcr: true do
       visit new_plan_path
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
@@ -168,7 +171,7 @@ RSpec.feature("Managing plans") do
   feature "Edit a plan" do
     given!(:plan) { FactoryBot.create(:plan) }
 
-    scenario "I can edit the start location of a plan and see it on the plan page", js: true do
+    scenario "I can edit the start location of a plan and see it on the plan page", js: true, vcr: true do
       visit plans_path
       within(:css, "section .dropdown") do
         find("button").click
