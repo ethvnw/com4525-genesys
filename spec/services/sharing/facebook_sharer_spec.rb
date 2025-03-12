@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe("Sharing::FacebookSharer") do
   let(:feature) { build(:app_feature) }
 
-  it "Correctly formats the feature details as a facebook sharing link" do
+  it "Correctly formats the feature details as a facebook sharing link", vcr: true do
     facebook = Sharing::FacebookSharer.call(feature)
 
     expect(facebook).to(start_with("https://www.facebook.com"))
