@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get :faq, to: "pages#faq"
 
+  resources :plans
+
   resources :subscriptions, only: [:new] do
     collection do
       get :pricing
