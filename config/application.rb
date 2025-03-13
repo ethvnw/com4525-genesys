@@ -65,5 +65,6 @@ module Project
     }
 
     config.middleware.use(LandingPageJourneyMiddleware)
+    config.autoload_paths += ["#{config.root}/app/models/validators"]
   end
 end

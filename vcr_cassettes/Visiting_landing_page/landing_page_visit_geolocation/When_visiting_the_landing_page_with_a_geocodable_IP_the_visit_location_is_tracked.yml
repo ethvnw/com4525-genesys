@@ -1,0 +1,181 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://ipinfo.io/185.156.172.142/geo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Sentry-Trace:
+      - cd70a29c22244c66becf104b5cbeffeb-0c64d3d0fe874a5a
+      Baggage:
+      - sentry-trace_id=cd70a29c22244c66becf104b5cbeffeb,sentry-environment=test
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 12 Mar 2025 14:09:11 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '261'
+      Via:
+      - 1.1 google
+      Strict-Transport-Security:
+      - max-age=2592000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "ip": "185.156.172.142",
+          "city": "Amsterdam",
+          "region": "North Holland",
+          "country": "NL",
+          "loc": "52.3068,4.9453",
+          "org": "AS9009 M247 Europe SRL",
+          "postal": "1101",
+          "timezone": "Europe/Amsterdam",
+          "readme": "https://ipinfo.io/missingauth"
+        }
+  recorded_at: Wed, 12 Mar 2025 14:09:11 GMT
+- request:
+    method: get
+    uri: http://ipinfo.io/210.138.184.59/geo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Sentry-Trace:
+      - 9fe15dacb773426f922d7415707fb484-155e6b101ddb4ec0
+      Baggage:
+      - sentry-trace_id=9fe15dacb773426f922d7415707fb484,sentry-environment=test
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 12 Mar 2025 14:09:11 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '318'
+      Via:
+      - 1.1 google
+      Strict-Transport-Security:
+      - max-age=2592000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "ip": "210.138.184.59",
+          "hostname": "59.184.138.210.rev.iijgio.jp",
+          "city": "Asagaya-minami",
+          "region": "Tokyo",
+          "country": "JP",
+          "loc": "35.7021,139.6375",
+          "org": "AS2497 Internet Initiative Japan Inc.",
+          "postal": "166-0000",
+          "timezone": "Asia/Tokyo",
+          "readme": "https://ipinfo.io/missingauth"
+        }
+  recorded_at: Wed, 12 Mar 2025 14:09:11 GMT
+- request:
+    method: get
+    uri: http://ipinfo.io/178.238.11.6/geo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Sentry-Trace:
+      - 35de9b9490374a48bce9832e7b1b8ca7-44938318bb284f1b
+      Baggage:
+      - sentry-trace_id=35de9b9490374a48bce9832e7b1b8ca7,sentry-environment=test
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 12 Mar 2025 14:09:11 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '241'
+      Via:
+      - 1.1 google
+      Strict-Transport-Security:
+      - max-age=2592000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "ip": "178.238.11.6",
+          "city": "London",
+          "region": "England",
+          "country": "GB",
+          "loc": "51.5085,-0.1257",
+          "org": "AS62240 Clouvider",
+          "postal": "E1W",
+          "timezone": "Europe/London",
+          "readme": "https://ipinfo.io/missingauth"
+        }
+  recorded_at: Wed, 12 Mar 2025 14:09:11 GMT
+recorded_with: VCR 6.3.1

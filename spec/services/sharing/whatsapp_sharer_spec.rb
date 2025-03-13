@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe("Sharing::WhatsAppSharer") do
   let(:feature) { build(:app_feature) }
 
-  it "Correctly formats the feature details as a whatsapp sharing link" do
+  it "Correctly formats the feature details as a whatsapp sharing link", vcr: true do
     whatsapp = Sharing::WhatsappSharer.call(feature)
 
     encoded_feature_name = ERB::Util.url_encode(feature.name.to_s)
