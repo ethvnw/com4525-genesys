@@ -12,7 +12,8 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
     default_input_type(attribute_name, column, options)
 
     @template.content_tag(:div, class: options[:class]) do
-      label(attribute_name, class: "form-label") +
+      # Use label from options if one is defined, with attribute name as default
+      label(options.fetch(:label, attribute_name), class: "form-label") +
         input_field(attribute_name, input_options) +
         @template.content_tag(:div, simple_format(error), class: "invalid-feedback") +
         @template.content_tag(:div, "Looks Good!", class: "valid-feedback")
