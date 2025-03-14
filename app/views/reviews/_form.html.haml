@@ -20,3 +20,6 @@
         %i.bi.bi-send-fill
         &nbsp;
         Submit Review
+
+  %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
+  - flash.discard(:notifications)
