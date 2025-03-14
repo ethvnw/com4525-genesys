@@ -4,10 +4,7 @@ module Api
   # Handles the creation of trips
   class TripsController < ApplicationController
     def create
-<<<<<<< HEAD
       # First, the trip is created using the form params
-=======
->>>>>>> 2099fd1 (feat(trips): added trip creation form)
       @trip = Trip.new(trip_params)
 
       if @trip.save
@@ -18,7 +15,6 @@ module Api
         session[:trip_data] = @trip.attributes.slice("trip")
         redirect_to(trip_test_path)
       end
-<<<<<<< HEAD
 
       # Next, a TripMembership is created between the current logged in user and the new trip
       @membership = TripMembership.new
@@ -28,8 +24,6 @@ module Api
       @membership.is_invite_accepted = true
       @membership.user_display_name = "TODO" # TODO, fill in username when Kush's changes are merged in !!
       @membership.save
-=======
->>>>>>> 2099fd1 (feat(trips): added trip creation form)
     end
 
     def trip_params
