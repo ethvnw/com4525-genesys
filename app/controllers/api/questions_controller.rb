@@ -14,7 +14,7 @@ module Api
         session.delete(:question_data)
         redirect_to(faq_path, notice: "Your question has been submitted.")
       else
-        flash[:errors] = @question.errors.full_messages
+        flash[:errors] = @question.errors.to_hash(true)
         session[:question_data] = @question.attributes.slice("question")
         redirect_to(faq_path)
       end

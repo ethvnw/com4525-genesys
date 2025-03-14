@@ -1,17 +1,21 @@
-- unless errors.nil?
-  .alert.alert-danger
-    %ul.mb-0
-      - errors.each do |error|
-        %li= error
+%h4.text-center.text-lg-start.fw-bold.mt-5
+  Got a question? Submit it here!
 
-= simple_form_for([:api, question], html: { class: "d-flex flex-column gap-2" }) do |f|
-  = f.input(:question,
-            input_html: { class: "fw-semibold" },
-            label: false,
-            placeholder: "Any questions? Feel free to ask here...")
+= turbo_frame_tag question do
+  = simple_form_for([:api, question],
+                    builder: ValidatedFormBuilder,
+                    html: { class: "d-flex flex-column gap-2" }) do |f|
+    = f.validated_input(:question,
+                        get_formatted_errors(errors, :question),
+                        label: "Your Question",
+                        class: "fw-semibold",
+                        placeholder: "Enter your question here",)
 
-  .d-flex.justify-content-end
-    = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
-      %i.bi.bi-send-fill
-      &nbsp;
-      Submit Question
+    .d-flex.justify-content-end
+      = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
+        %i.bi.bi-send-fill
+        &nbsp;
+        Submit Question
+
+  %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
+  - flash.discard(:notifications)
