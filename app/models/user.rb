@@ -71,6 +71,8 @@ class User < ApplicationRecord
     maximum: 20,
     message: "Must be between 6 and 20 characters"
 
+  validates :user_role, presence: true
+
   has_one_attached :avatar
   validates :avatar,
     content_type: ["image/png", "image/jpeg"],

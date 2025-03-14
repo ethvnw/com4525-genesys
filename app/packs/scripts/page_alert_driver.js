@@ -19,7 +19,7 @@ document.addEventListener('turbo:frame-load', () => {
 
   document.querySelectorAll('[data-turbo-toast]').forEach((turboToastContainer) => {
     if (!Object.prototype.hasOwnProperty.call(turboToastContainer.dataset, 'notifications')) {
-      return false;
+      return;
     }
 
     JSON.parse(turboToastContainer.dataset.notifications).forEach((notification) => {
