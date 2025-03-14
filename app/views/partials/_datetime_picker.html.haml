@@ -1,17 +1,17 @@
 // The date range picker using Tempus Dominus. The HAML here is from the example implementation
 // This isn't actually a part of the form, but instead updated the hidden fields above when a range is selected
 #html-target.col-sm-12{ data: { controller: "datetimepicker" } }
-    #datetimepicker1.input-group.log-event{
-        "data-td-target-input" => "nearest",
-        "data-td-target-toggle" => "nearest",
+  #datetimepicker1.input-group.log-event{
+    "data-td-target-input" => "nearest",
+    "data-td-target-toggle" => "nearest",
+  }
+    %input#datetimepicker1-input.form-control.fw-semibold.my-1{
+      "data-td-target" => "#datetimepicker1",
+      type: "text",
+      placeholder: "Enter the date range...",
     }
-        %input#datetimepicker1-input.form-control.fw-semibold.my-1{
-        "data-td-target" => "#datetimepicker1",
-        type: "text",
-        placeholder: "Enter the date range...",
-        }
-        %span.input-group-text.my-1{
+      %span.input-group-text.my-1{
         "data-td-target" => "#datetimepicker1",
         "data-td-toggle" => "datetimepicker",
-        }
-            %i.bi.bi-calendar
+      }
+        %i.bi.bi-calendar
