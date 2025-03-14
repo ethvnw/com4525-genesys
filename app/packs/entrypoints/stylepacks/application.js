@@ -17,4 +17,6 @@ import '@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css';
 import '../../styles/forms.scss';
 import '../../styles/trips.scss';
 
+import '@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css';
+
 require.context('../../images', true);
