@@ -20,24 +20,30 @@
   %i.bi.bi-person-fill-add &nbsp;
   Create Staff Account
 
-= form_with(model: User.new,
-            url: invitation_path(:user),
-            method: :post,
-            class: "mt-0 row g-3 align-items-center") do |f|
-  .col-12.col-sm-8
-    = f.email_field(:email,
-                    placeholder: "Email address",
-                    required: true,
-                    class: "form-control")
+= turbo_frame_tag "new_user" do
+  = form_with(model: @user,
+              url: invitation_path(:user),
+              method: :post,
+              builder: ValidatedFormBuilder,
+              is_form_submitted: @errors.present?,
+              html: { id: "new_user", novalidate: true },
+              class: "mt-0 row g-3 align-items-top") do |f|
+    .col-12.col-sm-8
+      = f.validated_input(:email,
+                          get_formatted_errors(@errors, :email),
+                          placeholder: "Email address")
 
-  .col-12.col-sm-4
-    = f.select(:user_role,
-               options_for_select(User.user_roles.values),
-               { include_blank: "Role" },
-               { class: "form-select form-control", required: true })
+    .col-12.col-sm-4
+      = f.validated_select(:user_role,
+                           options_for_select(User.user_roles.values, selected: @user.user_role&.titleize),
+                           get_formatted_errors(@errors, :user_role),
+                           include_blank: "Role")
 
-  .form-actions
-    = f.submit("Send Invitation", class: "btn btn-primary")
+    .form-actions
+      = f.submit("Send Invitation", class: "btn btn-primary")
+
+  %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
+  - flash.discard(:notifications)
 
 %hr.mt-3
 %h4.fw-semibold.mt-3

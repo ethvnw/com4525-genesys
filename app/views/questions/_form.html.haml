@@ -4,6 +4,7 @@
 = turbo_frame_tag question do
   = simple_form_for([:api, question],
                     builder: ValidatedFormBuilder,
+                    is_form_submitted: errors.present?,
                     html: { class: "d-flex flex-column gap-2" }) do |f|
     = f.validated_input(:question,
                         get_formatted_errors(errors, :question),
