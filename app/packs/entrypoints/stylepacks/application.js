@@ -14,4 +14,6 @@ import '../../styles/plans.scss';
 import 'leaflet/dist/leaflet.css';
 import '@algolia/autocomplete-theme-classic';
 
+import '@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css';
+
 require.context('../../images', true);

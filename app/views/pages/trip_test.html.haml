@@ -11,22 +11,21 @@
     All Trips
   %table
     %tbody
-      %th 
-        title 
+      %th
+        title
       %th
         description
       %th
         start-date
       %th
         end-date
-    - @trips.each_with_index do |trip, index|
+    - @trips.each_with_index do |trip, _index|
       %tr
         %td
-          =trip.title
-        %td 
-          =trip.description
+          = trip.title
         %td
-          =trip.start_date
+          = trip.description
         %td
-          =trip.end_date
-
+          = trip.start_date
+        %td
+          = trip.end_date
