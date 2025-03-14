@@ -31,6 +31,7 @@ class PagesController < ApplicationController
   end
 
   def trip_test
+    @script_packs = ["trips"]
     @trip = if session[:trip_data]
       Trip.new(session[:trip_data])
     else
