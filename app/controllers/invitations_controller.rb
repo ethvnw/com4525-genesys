@@ -6,12 +6,19 @@ class InvitationsController < Devise::InvitationsController
   before_action :block_default_new_invitation_path
 
   def create
-    self.resource = invite_resource
-    if resource.errors.empty?
-      flash[:notice] = "Invitation sent successfully to #{resource.email}."
+    user = User.new(invite_params)
+    user.valid?
+    invitation_errors = user.errors.messages.slice(:email, :user_role) # Only validate email and user role
+
+    if invitation_errors.any?
+      flash[:errors] = user.errors.to_hash(true)
+      session[:user_data] = user.attributes.slice("email", "user_role")
     else
-      flash[:alert] = "There was an issue sending an invitation: #{resource.errors.full_messages.to_sentence}."
+      user.invite!
+      flash[:notice] = "Invitation sent successfully to #{resource.email}."
+      session.delete(:user_data)
     end
+
     redirect_to(admin_dashboard_path)
   end
 
