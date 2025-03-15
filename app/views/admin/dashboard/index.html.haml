@@ -20,7 +20,7 @@
   %i.bi.bi-person-fill-add &nbsp;
   Create Staff Account
 
-= turbo_frame_tag "new_user" do
+= turbo_frame_tag("new_user") do
   = form_with(model: @user,
               url: invitation_path(:user),
               method: :post,
@@ -32,16 +32,13 @@
       = f.validated_input(:email,
                           get_formatted_errors(@errors, :email),
                           placeholder: "Email address")
-
     .col-12.col-sm-4
       = f.validated_select(:user_role,
                            options_for_select(User.user_roles.values, selected: @user.user_role&.titleize),
                            get_formatted_errors(@errors, :user_role),
                            include_blank: "Role")
-
     .form-actions
       = f.submit("Send Invitation", class: "btn btn-primary")
-
   %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
   - flash.discard(:notifications)
 
