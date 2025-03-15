@@ -35,7 +35,7 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
   def get_input_options(attribute_name, error, element_options, additional_classes = "")
     input_options = element_options.dup
 
-    input_options[:class] = "#{input_options[:input_class]} form-control #{additional_classes}".strip
+    input_options[:class] = "#{input_options[:input_class] || "form-control"} #{additional_classes}".strip
     input_options.delete(:input_class)
 
     if error
@@ -67,7 +67,7 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
   def build_input(attribute_name, error, input_element, hint_element, element_options)
     @template.content_tag(:div, class: "#{element_options[:class]} d-flex flex-column mb-3") do
       # Use label from options if one is defined, with attribute name as default
-      child_elements = label(element_options.fetch(:label, attribute_name), class: "mb-1")
+      child_elements = label(element_options.fetch(:label, attribute_name), class: "mb-1", for: element_options[:id])
 
       child_elements += hint_element
       child_elements += input_element

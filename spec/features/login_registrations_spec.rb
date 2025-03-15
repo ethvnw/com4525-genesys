@@ -42,7 +42,7 @@ RSpec.feature("Login and Registrations") do
     scenario "I cannot edit my username to one that already exists" do
       fill_in "Username", with: user2.username
       fill_in "Current password", with: "GenesysModule#1"
-      click_button "Update"
+      click_button "Apply Changes"
 
       expect(page).to(have_content("Username has already been taken"))
     end
@@ -50,7 +50,7 @@ RSpec.feature("Login and Registrations") do
     scenario "I can edit my username to one that does not already exist" do
       fill_in "Username", with: "new_unique_username"
       fill_in "Current password", with: "GenesysModule#1"
-      click_button "Update"
+      click_button "Apply Changes"
 
       expect(page).to(have_content("Your account has been updated successfully"))
       expect(user.reload.username).to(eq("new_unique_username"))
@@ -59,7 +59,7 @@ RSpec.feature("Login and Registrations") do
     scenario "I can edit my username to one that does not already exist and login" do
       fill_in "Username", with: "new_username"
       fill_in "Current password", with: "GenesysModule#1"
-      click_button "Update"
+      click_button "Apply Changes"
 
       expect(page).to(have_content("Your account has been updated successfully"))
 
@@ -86,7 +86,7 @@ RSpec.feature("Login and Registrations") do
       fill_in "Username", with: user.username
       fill_in "Password", with: "GenesysModule#1"
       fill_in "Password confirmation", with: "GenesysModule#1"
-      click_button "Sign up"
+      click_button "Sign Up"
 
       expect(page).to(have_content("Username has already been taken"))
     end
@@ -98,7 +98,7 @@ RSpec.feature("Login and Registrations") do
       fill_in "Username", with: "newuniqueusername"
       fill_in "Password", with: "GenesysModule#1"
       fill_in "Password confirmation", with: "GenesysModule#1"
-      click_button "Sign up"
+      click_button "Sign Up"
 
       expect(page).to(have_content("Welcome! You have signed up successfully."))
       expect(User.find_by(username: "newuniqueusername")).to(be_present)

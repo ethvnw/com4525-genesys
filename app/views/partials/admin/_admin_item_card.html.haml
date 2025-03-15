@@ -1,11 +1,16 @@
-.card.position-relative.text-break.item{ id: "item_#{item.id}", data: { order: item.order } }
-  .d-flex.flex-column.gap-2.position-absolute.top-50.start-0.translate-middle.order-arrows{
-    class: ("d-none" if item.is_hidden),
-  }
-    %button.btn.btn-secondary.rounded-circle.p-2.order-up-arrow
-      %i.bi.bi-caret-up-fill
-    %button.btn.btn-secondary.rounded-circle.p-2.order-down-arrow
-      %i.bi.bi-caret-down-fill
+.card.position-relative.text-break.item{ id: "item_#{item.id}" }
+  - unless item.is_hidden
+    .d-flex.flex-column.gap-2.position-absolute.top-50.start-0.translate-middle.order-arrows
+      = form_with(url: type == "review" ? order_api_review_path(item) : order_api_question_path(item),
+                  method: :post) do |f|
+        = f.hidden_field(:order_change, value: -1)
+        %button.btn.btn-secondary.rounded-circle.p-2.order-up-arrow
+          %i.bi.bi-caret-up-fill
+      = form_with(url: type == "review" ? order_api_review_path(item) : order_api_question_path(item),
+                  method: :post) do |f|
+        = f.hidden_field(:order_change, value: 1)
+        %button.btn.btn-secondary.rounded-circle.p-2.order-down-arrow
+          %i.bi.bi-caret-down-fill
 
   .card-body.px-4
     .d-flex.justify-content-between.gap-2
@@ -18,10 +23,9 @@
             %i.bi.bi-hand-thumbs-up
           - else
             %i.bi.bi-hand-index
-        %form.update-visibility.mb-0{
-          "action": (type == "review" ? visibility_api_review_path(item) : visibility_api_question_path(item)),
-          method: "post",
-        }
+        = form_with(url: type == "review" ? visibility_api_review_path(item) : visibility_api_question_path(item),
+                    method: :post,
+                    class: "mb-0") do
           %button.btn.btn-secondary.fw-bold{ id: "visibility-toggle-#{item.id}" }
             - if item.is_hidden
               %i.bi.bi-eye-fill
@@ -33,27 +37,26 @@
 
     .d-flex.mt-4.justify-content-between.align-items-end.gap-2
       - if type == "question"
-        = turbo_frame_tag("question-#{item.id}", class: "flex-grow") do
-          = form_with(url: answer_api_question_path(item),
-                      method: :post,
-                      builder: ValidatedFormBuilder,
-                      id: "answer-form-#{item.id}",
-                      class: "mb-0") do |f|
-            = f.validated_input(:answer,
-                                nil,
-                                as: :text,
-                                disabled: true,
-                                value: name,
-                                placeholder: "[Unanswered]",
-                                class: "card-text fw-bold",
-                                input_class: "form-control-plaintext fw-bold text-secondary resize-none pe-auto",
-                                data: { default_value: name })
-            = button_tag(type: "submit", class: "btn btn-secondary fw-bold d-none mt-3") do
-              %i.bi.bi-send-fill
-              &nbsp;
-              Submit Answer
+        = form_with(url: answer_api_question_path(item),
+                    method: :post,
+                    builder: ValidatedFormBuilder,
+                    id: "answer-form-#{item.id}",
+                    class: "mb-0") do |f|
+          = f.validated_input(:answer,
+                              nil,
+                              as: :text,
+                              disabled: true,
+                              value: name,
+                              placeholder: "[Unanswered]",
+                              id: "answer_#{item.id}",
+                              class: "card-text fw-bold",
+                              input_class: "form-control-plaintext fw-bold text-secondary resize-none pe-auto",
+                              data: { default_value: name })
+          = button_tag(type: "submit", class: "btn btn-secondary fw-bold d-none mt-3") do
+            %i.bi.bi-send-fill
+            &nbsp;
+            Submit Answer
 
-          %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
       - if type == "review"
         %p.mb-0.card-text.fw-bold.text-secondary= name
       %p.mb-0.card-text.fw-semibold.text-secondary= item.created_at.to_formatted_s(:long_ordinal)

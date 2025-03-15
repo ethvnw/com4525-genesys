@@ -137,14 +137,14 @@ RSpec.feature("Managing questions") do
   end
 
   feature "Answering questions" do
-    specify "I can answer a question and it will show on the admin FAQ dashboard" do
+    specify "I can answer a question and it will show on the admin FAQ dashboard", js: true do
       question = create(:question, question: "A question")
       login_as(admin, scope: :user)
       visit manage_admin_questions_path
-      # Click on the answer button to make the modal appear
       within("#visible-items") do
         click_on "Answer"
       end
+
       fill_in "answer_#{question.id}", with: "An answer"
       click_on "Submit Answer"
       within("#item_#{question.id}") do
@@ -156,7 +156,6 @@ RSpec.feature("Managing questions") do
       question = create(:question, question: "A question", is_hidden: false)
       login_as(admin, scope: :user)
       visit manage_admin_questions_path
-      # Click on the answer button to make the modal appear
       within("#visible-items") do
         click_on "Answer"
       end
