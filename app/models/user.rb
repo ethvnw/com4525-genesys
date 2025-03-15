@@ -87,7 +87,7 @@ class User < ApplicationRecord
   end
 
   def valid_invite?
-    unless user_role.present? && user_roles.include?(user_role)
+    unless user_role.present? && User.user_roles.include?(user_role)
       errors.add(:user_role, "must be either 'Admin' or 'Reporter'")
     end
   end

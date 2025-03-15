@@ -9,7 +9,7 @@
 #  engagement_counter :integer          default(0)
 #  is_hidden          :boolean          default(TRUE)
 #  name               :string(50)
-#  order              :integer          default(0)
+#  order              :integer
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #

@@ -27,10 +27,7 @@ Rails.application.routes.draw do
         post :visibility
         post :answer
         post :click
-      end
-
-      collection do
-        post :orders
+        post :order
       end
     end
 
@@ -38,10 +35,7 @@ Rails.application.routes.draw do
       member do
         post :visibility
         post :like
-      end
-
-      collection do
-        post :orders
+        post :order
       end
     end
 
