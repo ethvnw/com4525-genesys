@@ -27,7 +27,7 @@ body {
   width: 30rem;
 }
 
-main {  
+main {
     @extend .d-flex;
     @extend .flex-fill;
 
@@ -58,7 +58,7 @@ main {
         // Desktop lg
         @extend .justify-content-lg-start;
     }
-    
+
     .nav span {
         @extend .d-none;
         // Desktop lg
@@ -80,7 +80,7 @@ main {
     }
 
     #user-account-dropdown {
-    
+
         .dropdown-username {
             @extend .d-none;
             @extend .d-lg-flex;
@@ -93,7 +93,7 @@ main {
 
         .dropdown-toggle::after {
             @extend .d-none;
-            @extend .d-lg-flex;           
+            @extend .d-lg-flex;
         }
     }
 }
@@ -170,4 +170,12 @@ main {
 
 footer {
     padding-bottom: env(safe-area-inset-bottom);
+}
+
+.resize-none {
+    resize: none;
+}
+
+.flex-grow {
+    flex: 1 0 auto;
 }

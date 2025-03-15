@@ -64,14 +64,14 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates_format_of :username,
     with: /\A[a-zA-Z0-9_.]+\z/,
-    message: "Can only contain letters, numbers, underscores, and periods",
+    message: "can only contain letters, numbers, underscores, and periods",
     multiline: true
   validates_length_of :username,
     minimum: 6,
     maximum: 20,
-    message: "Must be between 6 and 20 characters"
+    message: "must be between 6 and 20 characters"
 
-  validates :user_role, presence: true
+  # validates :user_role, presence: true
 
   has_one_attached :avatar
   validates :avatar,

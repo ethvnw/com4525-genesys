@@ -7,4 +7,11 @@ class RegistrationsController < Devise::RegistrationsController
     @script_packs = ["registrations"]
     super
   end
+
+  protected
+
+  # Redirect back to user edit path after editing account
+  def after_update_path_for(resource)
+    edit_user_registration_path
+  end
 end
