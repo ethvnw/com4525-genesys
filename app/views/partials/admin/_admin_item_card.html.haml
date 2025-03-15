@@ -9,7 +9,7 @@
 
   .card-body.px-4
     .d-flex.justify-content-between.gap-2
-      %p.mb-0.card-text= content
+      %p.mb-0.card-text.fs-5= content
 
       .d-flex.gap-3.align-items-center.align-self-start.flex-shrink-0
         %p.mb-0
@@ -28,9 +28,32 @@
             - else
               %i.bi.bi-eye-slash-fill
         - if type == "question"
-          %button.btn.btn-success{ "data-bs-toggle": "modal", "data-bs-target": "#answerModal_#{item.id}" }
+          %button.btn.btn-success{ id: "answer-button-#{item.id}", data: { question_id: item.id } }
             Answer
 
-    .d-flex.mt-4.justify-content-between.align-items-center
-      %p.mb-0.card-text.fw-bold.text-secondary= name
+    .d-flex.mt-4.justify-content-between.align-items-end.gap-2
+      - if type == "question"
+        = turbo_frame_tag("question-#{item.id}", class: "flex-grow") do
+          = form_with(url: answer_api_question_path(item),
+                      method: :post,
+                      builder: ValidatedFormBuilder,
+                      id: "answer-form-#{item.id}",
+                      class: "mb-0") do |f|
+            = f.validated_input(:answer,
+                                nil,
+                                as: :text,
+                                disabled: true,
+                                value: name,
+                                placeholder: "[Unanswered]",
+                                class: "card-text fw-bold",
+                                input_class: "form-control-plaintext fw-bold text-secondary resize-none pe-auto",
+                                data: { default_value: name })
+            = button_tag(type: "submit", class: "btn btn-secondary fw-bold d-none mt-3") do
+              %i.bi.bi-send-fill
+              &nbsp;
+              Submit Answer
+
+          %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
+      - if type == "review"
+        %p.mb-0.card-text.fw-bold.text-secondary= name
       %p.mb-0.card-text.fw-semibold.text-secondary= item.created_at.to_formatted_s(:long_ordinal)

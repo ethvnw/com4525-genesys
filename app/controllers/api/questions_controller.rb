@@ -37,6 +37,7 @@ module Api
 
     def answer
       @question = Question.find(params[:id])
+      puts @question.inspect
       # Update the answer for the question and respond depending on if an error occurred
       if @question.update(answer: params[:answer])
         # If the update is successful, respond with the answer
@@ -49,7 +50,7 @@ module Api
 
     def click
       unless user_can_click?(params[:id])
-        head(:not_found) and return
+        head(:ok) and return
       end
 
       Question.find(params[:id]).increment!(:engagement_counter)

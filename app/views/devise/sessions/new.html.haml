@@ -14,11 +14,10 @@
               = image_pack_tag("images/placeholder_ios_screen_2.png", class: "d-block img-fluid screen")
             .login-slideshow-image
               = image_pack_tag("images/placeholder_ios_screen_3.png", class: "d-block img-fluid screen")
-
           = image_pack_tag("images/iphone11-frame.png", id: "iphone-frame", class: "d-block")
 
     .col-xl-6.d-flex.justify-content-center.align-items-center
-      .card.login-card
+      .card.login-card.px-md-5.py-3
         .card-body
           .container
             .d-flex.flex-column.align-items-center.pb-4
@@ -36,9 +35,9 @@
                         required: false,
                         input_html: { placeholder: "Password", class: "mb-3", autocomplete: "new-password" },
                         label: false)
-            .form-actions
+            .form-actions.d-flex.justify-content-center
               = f.button(:submit,
                          "Log In",
-                         class: "btn btn-sm fw-bold btn-primary w-100")
+                         class: "btn fw-bold btn-primary w-100")
           .d-flex.flex-column
             = render("devise/shared/links")

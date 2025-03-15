@@ -1,7 +1,7 @@
 %h4.text-center.text-lg-start.fw-bold.mt-5
   Got a question? Submit it here!
 
-= turbo_frame_tag question do
+= turbo_frame_tag(question) do
   = simple_form_for([:api, question],
                     builder: ValidatedFormBuilder,
                     is_form_submitted: errors.present?,
@@ -10,7 +10,7 @@
                         get_formatted_errors(errors, :question),
                         label: "Your Question",
                         class: "fw-semibold",
-                        placeholder: "Enter your question here",)
+                        placeholder: "Enter your question here")
 
     .d-flex.justify-content-end
       = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do

@@ -3,6 +3,7 @@
 # Handles account creation invitations
 class InvitationsController < Devise::InvitationsController
   before_action :authorize_invitation, only: [:new, :create]
+  before_action :update_sanitized_params, only: :update
   before_action :block_default_new_invitation_path
 
   def create
@@ -20,6 +21,15 @@ class InvitationsController < Devise::InvitationsController
     end
 
     redirect_to(admin_dashboard_path)
+  end
+
+  protected
+
+  def update_sanitized_params
+    devise_parameter_sanitizer.permit(
+      :accept_invitation,
+      keys: [:username, :password, :password_confirmation, :invitation_token],
+    )
   end
 
   private
