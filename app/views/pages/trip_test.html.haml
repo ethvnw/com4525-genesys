@@ -1,14 +1,13 @@
 // include scripts and links in my clipboard
 
 %h1.display-5.fw-bold.lh-1.mb-3
-  Num of trips made:
-  = @trips.size
+  Create a new trip
 
 = render("trips/form", trip: @trip, errors: @errors)
 
 %section#faq-container.row.align-items-center.py-5
   %h2.text-center.text-lg-start.fw-bold
-    All Trips
+    = "All Trips (" + @trips.size.to_s + ")"
   %table
     %tbody
       %th

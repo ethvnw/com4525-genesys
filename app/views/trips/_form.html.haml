@@ -6,7 +6,7 @@
 
 = simple_form_for([:api, trip], html: { class: "d-flex flex-column" }) do |f|
   = f.input(:title,
-            as: :text,
+            as: :string,
             input_html: { class: "fw-semibold my-1" },
             label: false,
             placeholder: "Enter the trip title...")
@@ -31,21 +31,25 @@
 
   = render("partials/datetime_picker")
 
+  #trip-location-autocomplete.my-1
+
+  #map.my-1
+
   = f.input(:location_name,
             as: :text,
-            input_html: { class: "fw-semibold my-1" },
+            input_html: { class: "d-none", id: "location_name_input" },
             label: false,
             placeholder: "Enter the location name...")
 
   = f.input(:location_latitude,
             as: :string,
-            input_html: { class: "fw-semibold my-1", type: "number", step: "any" },
+            input_html: { class: "d-none", type: "number", step: "any", id: "latitude_input" },
             label: false,
             placeholder: "Enter the location latitude...")
 
   = f.input(:location_longitude,
             as: :string,
-            input_html: { class: "fw-semibold my-1", type: "number", step: "any" },
+            input_html: { class: "d-none", type: "number", step: "any", id: "longitude_input" },
             label: false,
             placeholder: "Enter the location longitude...")
 
