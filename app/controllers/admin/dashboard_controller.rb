@@ -14,7 +14,6 @@ module Admin
         User.new
       end
 
-      puts @user.inspect
       @errors = flash[:errors]
     end
   end
