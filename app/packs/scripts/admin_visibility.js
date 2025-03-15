@@ -1,6 +1,7 @@
 /**
  * Handles the visibility of questions in the admin panel.
  */
+import CSRF_TOKEN from './constants/ajax_constants';
 
 const visibilityUpdateForms = document.querySelectorAll('form.update-visibility');
 // Get the containers and counts for visible and hidden items to update later
@@ -31,7 +32,7 @@ visibilityUpdateForms.forEach((form) => {
       updateVisibleItemOrders(item.getAttribute('data-order'));
     }
 
-    item.setAttribute('data-order', isVisible ? 0 : visibleContainer.children.length);
+    item.setAttribute('data-order', isVisible ? 0 : visibleContainer.children.length + 1);
 
     const formData = new FormData(form);
     formData.append('order', item.getAttribute('data-order'));
@@ -40,7 +41,7 @@ visibilityUpdateForms.forEach((form) => {
     fetch(form.action, {
       method: 'POST',
       headers: {
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        'X-CSRF-Token': CSRF_TOKEN,
       },
       body: formData,
     }).then(() => {

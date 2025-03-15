@@ -1,20 +1,31 @@
-%h2 Set your password
+.col-lg-6.m-auto
+  %h2.mt-3 Set up your account
 
-= simple_form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put }) do |f|
-  = f.error_notification
-  = f.hidden_field(:invitation_token)
+  = simple_form_for(resource,
+                    builder: ValidatedFormBuilder,
+                    as: resource_name,
+                    url: invitation_path(resource_name),
+                    is_form_submitted: resource.errors.present?,
+                    html: { method: :put }) do |f|
+    .form-inputs
+      = f.hidden_field(:invitation_token)
 
-  .form-inputs
-    = f.input(:password,
-              label: "Password",
-              required: true,
-              autofocus: true,
-              input_html: { autocomplete: "new-password" })
+      = f.validated_input(:username,
+                          get_formatted_errors(resource.errors.to_hash(true), :username),
+                          required: true,
+                          autofocus: true)
 
-    = f.input(:password_confirmation,
-              label: "Confirm your new password",
-              required: true,
-              input_html: { autocomplete: "new-password" })
+      = f.validated_input(:password,
+                          get_formatted_errors(resource.errors.to_hash(true), :password),
+                          label: "New Password",
+                          required: false,
+                          autocomplete: "new-password")
 
-  .form-actions
-    = f.button(:submit, "Set my password")
+      = f.validated_input(:password_confirmation,
+                          get_formatted_errors(resource.errors.to_hash(true), :password_confirmation),
+                          label: "New Password Confirmation",
+                          required: false,
+                          autocomplete: "new-password")
+
+    .form-actions.mt-4.d-flex.justify-content-end.gap-2
+      = f.button(:submit, "Confirm Your Account", class: "btn-primary px-4")
