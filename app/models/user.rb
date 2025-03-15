@@ -70,8 +70,6 @@ class User < ApplicationRecord
     maximum: 20,
     message: "must be between 6 and 20 characters"
 
-  # validates :user_role, presence: true
-
   has_one_attached :avatar
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
@@ -85,6 +83,12 @@ class User < ApplicationRecord
   def password_complexity
     if encrypted_password_changed? && password !~ /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/
       errors.add(:password, "must contain upper and lower-case letters and numbers")
+    end
+  end
+
+  def valid_invite?
+    unless user_role.present? && user_roles.include?(user_role)
+      errors.add(:user_role, "must be either 'Admin' or 'Reporter'")
     end
   end
 
