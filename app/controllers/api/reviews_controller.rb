@@ -22,18 +22,19 @@ module Api
     end
 
     def visibility
-      @review = Review.find(params[:id])
-      @review.toggle!(:is_hidden)
-      @review.update(order: params[:order])
-      head(:ok)
+      if AdminManagement::VisibilityUpdater.call(Review, params[:id])
+        redirect_to(manage_admin_reviews_path)
+      else
+        redirect_to(manage_admin_reviews_path, alert: "An error occurred while trying to update review visibility.")
+      end
     end
 
-    def orders
-      json = JSON.parse(params[:items])
-      json.each do |id, order|
-        Review.find(id).update(order: order)
+    def order
+      if AdminManagement::OrderUpdater.call(Review, params[:id], params[:order_change].to_i)
+        redirect_to(manage_admin_reviews_path)
+      else
+        redirect_to(manage_admin_reviews_path, alert: "An error occurred while trying to update review order.")
       end
-      head(:ok)
     end
 
     private

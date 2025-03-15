@@ -7,8 +7,8 @@
 #  id                 :bigint           not null, primary key
 #  answer             :text
 #  engagement_counter :integer
-#  is_hidden          :boolean
-#  order              :integer          default(0)
+#  is_hidden          :boolean          default(TRUE)
+#  order              :integer
 #  question           :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null

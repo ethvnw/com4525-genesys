@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_07_160449) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_15_184137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -125,11 +125,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_07_160449) do
   create_table "questions", force: :cascade do |t|
     t.string "question"
     t.text "answer"
-    t.boolean "is_hidden"
+    t.boolean "is_hidden", default: true
     t.integer "engagement_counter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "order", default: 0
+    t.integer "order"
   end
 
   create_table "registrations", force: :cascade do |t|
@@ -151,7 +151,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_07_160449) do
 
   create_table "reviews", force: :cascade do |t|
     t.text "content"
-    t.integer "order", default: 0
+    t.integer "order"
     t.boolean "is_hidden", default: true
     t.integer "engagement_counter", default: 0
     t.datetime "created_at", null: false
