@@ -103,9 +103,9 @@ const createAutocomplete = (containerId, text) => autocomplete({
         },
         onSelect({ item }) {
           // Update the values in the form input fields with the name and geolocation.
-          const locationNameInput = document.getElementById("location_name_input");
-          const latitudeInput = document.getElementById("latitude_input");
-          const longitudeInput = document.getElementById("longitude_input");
+          const locationNameInput = document.getElementById('location_name_input');
+          const latitudeInput = document.getElementById('latitude_input');
+          const longitudeInput = document.getElementById('longitude_input');
 
           locationNameInput.value = item.name;
           latitudeInput.value = item.lat;
