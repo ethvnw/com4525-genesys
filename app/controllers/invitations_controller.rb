@@ -9,6 +9,7 @@ class InvitationsController < Devise::InvitationsController
   def create
     user = User.new(invite_params)
     user.valid?
+    user.valid_invite? # invitation-specific validation
     invitation_errors = user.errors.messages.slice(:email, :user_role) # Only validate email and user role
 
     if invitation_errors.any?

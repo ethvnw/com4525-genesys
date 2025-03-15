@@ -71,8 +71,6 @@ class User < ApplicationRecord
     maximum: 20,
     message: "must be between 6 and 20 characters"
 
-  # validates :user_role, presence: true
-
   has_one_attached :avatar
   validates :avatar,
     content_type: ["image/png", "image/jpeg"],
@@ -96,6 +94,12 @@ class User < ApplicationRecord
 
   def set_default_role
     self.user_role ||= self.class.user_roles[:member]
+  end
+
+  def valid_invite?
+    unless user_role.present? && user_roles.include?(user_role)
+      errors.add(:user_role, "must be either 'Admin' or 'Reporter'")
+    end
   end
 
   # Attribute called login to allow users to log in with either their username or email
