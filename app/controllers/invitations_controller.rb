@@ -17,7 +17,7 @@ class InvitationsController < Devise::InvitationsController
       session[:user_data] = user.attributes.slice("email", "user_role")
     else
       user.invite!
-      flash[:notice] = "Invitation sent successfully to #{resource.email}."
+      flash[:notice] = "Invitation sent successfully to #{user.email}."
       session.delete(:user_data)
     end
 

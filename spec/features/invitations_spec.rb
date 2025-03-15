@@ -37,7 +37,7 @@ RSpec.feature("Invitations") do
       fill_in("Email address", with: admin.email)
       select("Admin", from: "user_user_role")
       click_button("Send Invitation")
-      within("#toast-list .text-bg-danger") do
+      within("#user_email+.invalid-feedback") do
         expect(page).to(have_content("Email has already been taken"))
       end
     end
