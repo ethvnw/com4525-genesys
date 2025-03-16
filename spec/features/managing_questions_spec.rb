@@ -65,80 +65,69 @@ RSpec.feature("Managing questions") do
     end
 
     specify "Hidden/visible questions will appear on the correct half of the dashboard" do
-      hidden_question = create(:question, question: "A hidden question", is_hidden: true)
-      visible_question = create(:question, question: "A visible question", is_hidden: false)
+      create(:hidden_question)
+      create(:question)
+
       login_as(admin, scope: :user)
       visit manage_admin_questions_path
+
       expect(page).to(have_css("#hidden-items"))
       expect(page).to(have_css("#visible-items"))
       within("#hidden-items") do
-        expect(page).to(have_content(hidden_question.question))
+        expect(page).to(have_content("Mock hidden question"))
+        expect(page).not_to(have_content("Mock question"))
       end
       within("#visible-items") do
-        expect(page).to(have_content(visible_question.question))
+        expect(page).to(have_content("Mock question"))
+        expect(page).not_to(have_content("Mock hidden question"))
       end
     end
   end
 
   feature "Question Visibility" do
     specify "I can set a hidden question to visible" do
-      question = create(:question, question: "A hidden question", is_hidden: true)
+      question = create(:hidden_question)
+
       login_as(admin, scope: :user)
       visit manage_admin_questions_path
+
+      click_on "visibility-toggle-#{question.id}"
+
+      expect(Question.find(question.id).is_hidden).to(be(false))
       within("#visible-items") do
-        expect(page).not_to(have_content("A hidden question"))
-      end
-      within("#hidden-items") do
-        expect(page).to(have_content("A hidden question"))
-        find("#visibility-toggle-#{question.id}").click
-      end
-      # Capybara deals with the request weirdly, so the page is refereshed to reload the content
-      visit manage_admin_questions_path
-      within("#hidden-items") do
-        expect(page).not_to(have_content("A hidden question"))
-      end
-      within("#visible-items") do
-        expect(page).to(have_content("A hidden question"))
+        expect(page).to(have_content("Mock hidden question"))
       end
     end
 
     specify "I can set a visible question to hidden" do
-      question = create(:question, question: "A visible question", is_hidden: false)
+      question = create(:question)
+
       login_as(admin, scope: :user)
       visit manage_admin_questions_path
+
+      click_on "visibility-toggle-#{question.id}"
+      expect(Question.find(question.id).is_hidden).to(be(true))
       within("#hidden-items") do
-        expect(page).not_to(have_content("A visible question"))
-      end
-      within("#visible-items") do
-        expect(page).to(have_content("A visible question"))
-        find("#visibility-toggle-#{question.id}").click
-      end
-      # Capybara deals with the request weirdly, so the page is refereshed to reload the content
-      visit manage_admin_questions_path
-      within("#visible-items") do
-        expect(page).not_to(have_content("A visible question"))
-      end
-      within("#hidden-items") do
-        expect(page).to(have_content("A visible question"))
+        expect(page).to(have_content("Mock question"))
       end
     end
 
     specify "A visible question will appear on the FAQ page" do
-      create(:question, question: "A visible question", is_hidden: false)
+      create(:question)
       visit faq_path
-      expect(page).to(have_content("A visible question"))
+      expect(page).to(have_content("Mock question"))
     end
 
     specify "A hidden question will not appear on the FAQ page" do
-      create(:question, question: "A hidden question", is_hidden: true)
+      create(:hidden_question)
       visit faq_path
-      expect(page).not_to(have_content("A hidden question"))
+      expect(page).not_to(have_content("Mock hidden question"))
     end
   end
 
   feature "Answering questions" do
     specify "I can answer a question and it will show on the admin FAQ dashboard", js: true do
-      question = create(:question, question: "A question")
+      question = create(:question)
       login_as(admin, scope: :user)
       visit manage_admin_questions_path
       within("#visible-items") do
@@ -152,8 +141,8 @@ RSpec.feature("Managing questions") do
       end
     end
 
-    specify "I can answer a question and it will show on the FAQ page" do
-      question = create(:question, question: "A question", is_hidden: false)
+    specify "I can answer a question and it will show on the FAQ page", js: true do
+      question = create(:question)
       login_as(admin, scope: :user)
       visit manage_admin_questions_path
       within("#visible-items") do
@@ -162,18 +151,16 @@ RSpec.feature("Managing questions") do
       fill_in "answer_#{question.id}", with: "An answer"
       click_on "Submit Answer"
       visit faq_path
+      click_on "Mock question" # expand question
       expect(page).to(have_content("An answer"))
     end
 
-    specify "If a question is answered, the answer will automatically be on the edit modal" do
-      question = create(:question, question: "A question", answer: "An answer", is_hidden: false)
+    specify "If a question is answered, the answer will be prefilled in the form" do
+      question = create(:question, :with_answer)
       login_as(admin, scope: :user)
       visit manage_admin_questions_path
-      # Click on the answer button to make the modal appear
-      within("#visible-items") do
-        click_on "Answer"
-      end
-      within("#answerModal_" + question.id.to_s) do
+
+      within("#answer-form-#{question.id}") do
         expect(page).to(have_content(question.answer))
       end
     end
@@ -184,20 +171,16 @@ RSpec.feature("Managing questions") do
       login_as(admin, scope: :user)
     end
 
-    given!(:question1) { FactoryBot.create(:question) }
-    given!(:question2) { FactoryBot.create(:question, question: "OtherQuestion", order: 1) }
-    given!(:question3) do
-      FactoryBot.create(:question, question: "HiddenQuestion", is_hidden: true, order: 2)
-    end
+    given!(:question1) { FactoryBot.create(:question, order: 1) }
+    given!(:question2) { FactoryBot.create(:question, question: "OtherQuestion", order: 2) }
+    given!(:hidden_question) { FactoryBot.create(:hidden_question) }
 
-    scenario "I can move a question closer to the front so it appears before other questions on the faq page",
-      js: true do
+    scenario "I can move a question closer to the front so it appears before other questions on the faq page" do
       visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question2.id} .order-arrows") do
         find(".order-up-arrow").click
       end
-      click_on "Save Changes"
-      sleep_for_js
+
       visit faq_path
       within(:css, "#faq-container") do
         first_question = find("#accordion-0")
@@ -205,13 +188,12 @@ RSpec.feature("Managing questions") do
       end
     end
 
-    scenario "I can move a question closer to the end so it appears after other questions on the faq page", js: true do
+    scenario "I can move a question closer to the end so it appears after other questions on the faq page" do
       visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question1.id} .order-arrows") do
         find(".order-down-arrow").click
       end
-      click_on "Save Changes"
-      sleep_for_js
+
       visit faq_path
       within(:css, "#faq-container") do
         second_question = find("#accordion-1")
@@ -219,36 +201,24 @@ RSpec.feature("Managing questions") do
       end
     end
 
-    scenario "I cannot move the first question even closer to the front as there is no up arrow shown", js: true do
+    scenario "I cannot move the first question even closer to the front as there is no up arrow shown" do
       visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question1.id} .order-arrows") do
         expect(page).not_to(have_css(".order-up-arrow"))
       end
     end
 
-    scenario "I cannot move the last question even closer to the end as there is no down arrow", js: true do
+    scenario "I cannot move the last question even closer to the end as there is no down arrow" do
       visit manage_admin_questions_path
       within(:css, "#visible-items #item_#{question2.id} .order-arrows") do
         expect(page).not_to(have_css(".order-down-arrow"))
       end
     end
 
-    scenario "I cannot edit the order of a hidden question as there are no arrows present", js: true do
+    scenario "I cannot edit the order of a hidden question as there are no arrows present" do
       visit manage_admin_questions_path
-      within(:css, "#hidden-items #item_#{question3.id}") do
+      within(:css, "#hidden-items #item_#{hidden_question.id}") do
         expect(page).not_to(have_css(".order-arrows"))
-      end
-    end
-
-    scenario "I can discard changes to order by not clicking the 'Save Changes' button", js: true do
-      visit manage_admin_questions_path
-      within(:css, "#visible-items #item_#{question2.id} .order-arrows") do
-        find(".order-up-arrow").click
-      end
-      visit faq_path
-      within(:css, "#faq-container") do
-        first_question = find("#accordion-0")
-        expect(first_question).to(have_content(question1.question))
       end
     end
   end

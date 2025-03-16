@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module AdminManagement
+  ##
+  # Service class to update the order of questions or reviews
   class OrderUpdater < ItemUpdater
     def initialize(model, id, order_change)
       super(model, id)
