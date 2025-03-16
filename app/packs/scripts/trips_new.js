@@ -24,8 +24,6 @@ const map = L.map('map', {
 });
 map.addLayer(googleHybrid);
 
-let line = L.polyline([], { color: 'red' });
-
 /**
  * Update the location pin on the map with the new latitude and longitude.
  * Also updates the line between the start and end locations if both are set.
@@ -38,13 +36,6 @@ const updateLocationPin = (marker, lat, lng) => {
   marker.addTo(map);
   marker.bindPopup('Trip Location').openPopup();
   map.setView([lat, lng], 10);
-
-  if (startMarker.getLatLng().lat !== 0 && endMarker.getLatLng().lat !== 0) {
-    line.remove();
-    line = L.polyline([startMarker.getLatLng(), endMarker.getLatLng()], { color: 'red' });
-    line.addTo(map);
-    map.fitBounds(line.getBounds());
-  }
 };
 
 /**

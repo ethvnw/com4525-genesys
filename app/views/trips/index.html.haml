@@ -1,13 +1,9 @@
-// include scripts and links in my clipboard
-
-%h1.display-5.fw-bold.lh-1.mb-3
-  Create a new trip
-
-= render("trips/form", trip: @trip, errors: @errors)
-
 %section#faq-container.row.align-items-center.py-5
   %h2.text-center.text-lg-start.fw-bold
     = "All Trips (" + @trips.size.to_s + ")"
+    = link_to(new_trip_path, class: "btn btn-primary mx-2") do
+      %i.bi.bi-plus-circle &nbsp;
+      Create a new trip
   %table
     %tbody
       %th
@@ -18,6 +14,8 @@
         start-date
       %th
         end-date
+      %th
+        view
     - @trips.each_with_index do |trip, _index|
       %tr
         %td
@@ -28,3 +26,6 @@
           = trip.start_date
         %td
           = trip.end_date
+        %td
+          = link_to(trip_path(trip), class: "btn btn-primary mx-2") do
+            %i.bi.bi-eye
