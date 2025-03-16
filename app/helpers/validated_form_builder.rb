@@ -30,6 +30,18 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
     )
   end
 
+  def validated_datetime(attribute_name, error, element_options = {})
+    input_options = get_input_options(attribute_name, error, element_options)
+
+    build_input(
+      attribute_name,
+      error,
+      datetime_local_field(attribute_name, input_options),
+      get_hint_element(attribute_name, input_options),
+      element_options,
+    )
+  end
+
   private
 
   def get_input_options(attribute_name, error, element_options, additional_classes = "")
@@ -75,7 +87,11 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
       child_elements += hint_element
       child_elements += input_element
 
-      child_elements += @template.content_tag(:div, simple_format(error), class: "invalid-feedback")
+      child_elements += @template.content_tag(
+        :div,
+        simple_format(error, {}, wrapper_tag: "span"),
+        class: "invalid-feedback",
+      )
       child_elements += @template.content_tag(:div, "Looks Good!", class: "valid-feedback")
 
       child_elements
