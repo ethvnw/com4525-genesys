@@ -8,7 +8,7 @@ include ActionView::Helpers::TextHelper
 class ValidatedFormBuilder < SimpleForm::FormBuilder
   def validated_input(attribute_name, error, element_options = {})
     input_options = get_input_options(attribute_name, error, element_options)
-
+    puts input_field(attribute_name, input_options)
     build_input(
       attribute_name,
       error,

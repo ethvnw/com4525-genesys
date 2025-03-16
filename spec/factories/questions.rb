@@ -6,7 +6,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  answer             :text
-#  engagement_counter :integer
+#  engagement_counter :integer          default(0), not null
 #  is_hidden          :boolean          default(TRUE)
 #  order              :integer          default(-1), not null
 #  question           :string

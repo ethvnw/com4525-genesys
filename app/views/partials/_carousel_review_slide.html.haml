@@ -1,10 +1,11 @@
 .review-slide
   .card
-    .card-body
-      %p.card-text.fw-semibold.text-secondary= review_obj.content
-      %p.card-text.fw-bold= review_obj.name
-    .card-body.pt-0
-      %form{ "action": like_api_review_path(review_obj), method: "post" }
-        %button.btn.btn-secondary.fw-bold.review{ id: "review_#{review_obj.id}", "data-bs-toggle": "button" }
-          %span.like-count= review_obj.engagement_counter
-          %i.bi.bi-hand-thumbs-up
+    = turbo_frame_tag review_obj do
+      .card-body
+        %p.card-text.fw-semibold.text-secondary= review_obj.content
+        %p.card-text.fw-bold= review_obj.name
+      .card-body.pt-0
+        = form_with(url: like_api_review_path(review_obj), method: :post) do |f|
+          %button.btn.btn-secondary.fw-bold.review
+            %span.like-count= review_obj.engagement_counter
+            %i.bi{ class: session[:liked_reviews]&.include?(review_obj.id) ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-up" }

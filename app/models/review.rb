@@ -6,7 +6,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  content            :text
-#  engagement_counter :integer          default(0)
+#  engagement_counter :integer          default(0), not null
 #  is_hidden          :boolean          default(TRUE)
 #  name               :string(50)
 #  order              :integer          default(-1), not null

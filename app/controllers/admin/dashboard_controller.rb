@@ -4,7 +4,7 @@ module Admin
   # Dashboard controller
   class DashboardController < Admin::BaseController
     def index
-      @users = User.where.not(id: current_user.id).decorate
+      @users = User.all.order(id: :asc).decorate
       @registrations = Registration.all.order(created_at: :desc).decorate
 
       # Variables for invitation form

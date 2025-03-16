@@ -29,5 +29,5 @@ function buttonSetup() {
   });
 }
 
-buttonSetup();
+document.addEventListener('turbo:load', buttonSetup);
 document.addEventListener('turbo:frame-load', buttonSetup);
