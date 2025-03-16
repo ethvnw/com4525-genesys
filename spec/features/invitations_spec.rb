@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+gst # frozen_string_literal: true
+
 require "rails_helper"
 require "invitations_helper"
 
@@ -31,14 +33,51 @@ RSpec.feature("Invitations") do
     end
   end
 
-  feature "Submitting an invitation to an existing email address" do
+  feature "Submitting an invalid invitation" do
     specify "I cannot submit an invitation to a user that already exists" do
       # Send an invitation to an existing email address
       fill_in("Email address", with: admin.email)
       select("Admin", from: "user_user_role")
       click_button("Send Invitation")
+
       within("#user_email+.invalid-feedback") do
         expect(page).to(have_content("Email has already been taken"))
+      end
+    end
+
+    specify "I cannot submit an invitation to an invalid email" do
+      # Send an invitation to an existing email address
+      fill_in("Email address", with: "invalid")
+      select("Admin", from: "user_user_role")
+      click_button("Send Invitation")
+
+      within("#user_email+.invalid-feedback") do
+        expect(page).to(have_content("Email is invalid"))
+      end
+    end
+
+    specify "I cannot submit an invitation without selecting a role" do
+      # Send an invitation to an existing email address
+      fill_in("Email address", with: "valid@email.com")
+      click_button("Send Invitation")
+
+      within("#user_user_role+.invalid-feedback") do
+        expect(page).to(have_content("User role must be either 'Admin' or 'Reporter'"))
+      end
+    end
+
+    specify "The information that I have entered should remain in the form" do
+      # Send an invitation to an existing email address
+      fill_in("Email address", with: "invalid")
+      select("Admin", from: "user_user_role")
+      click_button("Send Invitation")
+
+      within("#user_email") do
+        expect(page).to(have_content("invalid"))
+      end
+
+      within("#user_user_role") do
+        expect(page).to(have_content("Reporter"))
       end
     end
   end

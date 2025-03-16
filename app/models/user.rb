@@ -96,6 +96,7 @@ class User < ApplicationRecord
     self.user_role ||= self.class.user_roles[:member]
   end
 
+  # Validates whether an invite is able to be sent (check whether role is given)
   def valid_invite?
     unless user_role.present? && User.user_roles.include?(user_role)
       errors.add(:user_role, "must be either 'Admin' or 'Reporter'")

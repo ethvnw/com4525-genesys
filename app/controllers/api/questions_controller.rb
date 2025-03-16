@@ -6,10 +6,6 @@ module Api
     def create
       question = Question.new(question_params)
 
-      # If you want to quickly test adding a question, set is_hidden to false so it automatically shows up on the FAQ
-      question.is_hidden = true
-      question.engagement_counter = 0
-
       if question.save
         session.delete(:question_data)
         redirect_to(faq_path, notice: "Your question has been submitted.")
