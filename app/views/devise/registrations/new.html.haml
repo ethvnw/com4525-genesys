@@ -6,8 +6,7 @@
                       builder: ValidatedFormBuilder,
                       as: resource_name,
                       url: registration_path(resource_name),
-                      is_form_submitted: resource.errors.present?,
-                      html: { data: { turbo_frame: "_top" } }) do |f|
+                      is_form_submitted: resource.errors.present?) do |f|
       .form-inputs
         = f.validated_input(:email,
                             get_formatted_errors(resource.errors.to_hash(true), :email),

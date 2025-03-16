@@ -2,8 +2,9 @@
 
 module AdminManagement
   ##
-  # Service class to update an item (a review or a question). Parent of OrderUpdater
-  # and VisibilityUpdater
+  # Service class to update an item (a review or a question).
+  #
+  # Parent of OrderUpdater and VisibilityUpdater
   class ItemUpdater < ApplicationService
     ##
     # @param [ApplicationRecord] model

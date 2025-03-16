@@ -23,7 +23,11 @@ const carouselConfig = {
   },
 };
 
-/* eslint-disable no-unused-vars */
-/* Carousels */
-const featuresCarousel = new Swiper('.features-carousel', carouselConfig);
-const reviewsCarousel = new Swiper('.reviews-carousel', carouselConfig);
+function carouselSetup() {
+  /* eslint-disable no-unused-vars */
+  /* Carousels */
+  const featuresCarousel = new Swiper('.features-carousel', carouselConfig);
+  const reviewsCarousel = new Swiper('.reviews-carousel', carouselConfig);
+}
+
+document.addEventListener('turbo:load', carouselSetup);
