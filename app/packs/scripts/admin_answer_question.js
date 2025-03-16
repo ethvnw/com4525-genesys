@@ -20,7 +20,7 @@ function enableAnswerForm(ev) {
 }
 
 function buttonSetup() {
-  const answerButtons = document.querySelectorAll('[data-question-id]');
+  const answerButtons = document.querySelectorAll('button[data-question-id]');
 
   answerButtons.forEach((answerButton) => {
     // Remove event listeners to prevent duplicate listeners for non-turbo reloaded buttons
