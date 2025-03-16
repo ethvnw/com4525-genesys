@@ -12,7 +12,7 @@ RSpec.feature("Login and Registrations") do
 
       fill_in "Email address or Username", with: user.email
       fill_in "Password", with: "GenesysModule#1"
-      click_button "Sign In"
+      click_button "Log In"
 
       expect(page).to(have_current_path(root_path))
       expect(page).to(have_content("Signed in successfully."))
@@ -23,7 +23,7 @@ RSpec.feature("Login and Registrations") do
 
       fill_in "Email address or Username", with: user.username
       fill_in "Password", with: "GenesysModule#1"
-      click_button "Sign In"
+      click_button "Log In"
 
       expect(page).to(have_current_path(root_path))
       expect(page).to(have_content("Signed in successfully."))
@@ -35,7 +35,7 @@ RSpec.feature("Login and Registrations") do
       visit new_user_session_path
       fill_in "Email address or Username", with: user.email
       fill_in "Password", with: "GenesysModule#1"
-      click_button "Sign In"
+      click_button "Log In"
       visit edit_user_registration_path
     end
 
@@ -72,7 +72,7 @@ RSpec.feature("Login and Registrations") do
       visit new_user_session_path
       fill_in "Email address or Username", with: "new_username"
       fill_in "Password", with: "GenesysModule#1"
-      click_button "Sign In"
+      click_button "Log In"
 
       expect(page).to(have_content("Signed in successfully."))
     end
