@@ -124,7 +124,7 @@ const endAutocomplete = createAutocomplete('#end-location-autocomplete', 'end');
  * Show the end location input if the plan type is a travel plan.
 */
 const updateEndLocationInput = () => {
-  const endLocationSearch = document.querySelector('#end-location-autocomplete');
+  const endLocationSearch = document.querySelector('#end-location-container');
   const endLocationInput = document.querySelector('#plan_end_location_name');
   const typeValue = typeDropdown.value;
 
