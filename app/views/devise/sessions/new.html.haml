@@ -1,15 +1,21 @@
 - content_for(:title, "Log In")
+- append_javascript_pack_tag("scriptpacks/login")
 
 .d-flex.flex-fill
   .row.w-100
-    .col-md-6.d-none.d-xl-flex.justify-content-center.align-items-center
-      -# TODO: Replace images and update transition interval
-      #carouselExample.carousel.carousel-fade.w-100{ data: { bs_ride: "carousel", bs_interval: "2000" } }
-        .carousel-inner
-          .carousel-item.active
-            = image_pack_tag("images/login_mobile_desktop.png", class: "d-block w-100 img-fluid")
-          .carousel-item
-            = image_pack_tag("images/roamio_explorer_brand_logo_d_grey.png", class: "d-block w-100 img-fluid")
+    .col-xl-6.d-none.d-xl-flex.justify-content-center.align-items-center.position-relative
+      .position-relative.pe-5.pb-5
+        = image_pack_tag("images/laptop.png", class: "d-block img-fluid")
+        #slideshow-container.background-container.position-absolute
+          #login-slideshow.bg-white
+            .login-slideshow-image.show
+              = image_pack_tag("images/placeholder_ios_screen.png", class: "d-block img-fluid screen")
+            .login-slideshow-image
+              = image_pack_tag("images/placeholder_ios_screen_2.png", class: "d-block img-fluid screen")
+            .login-slideshow-image
+              = image_pack_tag("images/placeholder_ios_screen_3.png", class: "d-block img-fluid screen")
+
+          = image_pack_tag("images/iphone11-frame.png", id: "iphone-frame", class: "d-block")
 
     .col-xl-6.d-flex.justify-content-center.align-items-center
       .card.login-card

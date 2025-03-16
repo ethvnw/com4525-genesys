@@ -1,0 +1,52 @@
+#slideshow-container {
+  isolation: isolate;
+  height: max-content;
+  width: max-content;
+
+  right: 10px;
+  bottom: 10px;
+
+  @media (min-width: 1400px) {
+    bottom: -10px;
+  }
+}
+
+#iphone-frame {
+  @media (min-width: 1200px) {
+    width: 150px;
+
+  }
+
+  @media (min-width: 1400px) {
+    width: 185px;
+  }
+}
+
+#login-slideshow {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  @media (min-width: 1200px) {
+    /* Slightly larger margin on right hand side to account for volume buttons */
+    margin: 8px 10px 8px 8px;
+  }
+
+  @media (min-width: 1400px) {
+    /* Slightly larger margin on right hand side to account for volume buttons */
+    margin: 10px 12px 10px 10px;
+  }
+}
+
+.login-slideshow-image {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+
+  &.show {
+    opacity: 1;
+  }
+}
