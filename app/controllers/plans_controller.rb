@@ -26,7 +26,7 @@ class PlansController < ApplicationController
       redirect_to(plans_path, notice: "Plan created successfully.")
       session.delete(:plan_data)
     else
-      flash[:errors] = @plan.errors.full_messages
+      flash[:errors] = @plan.errors.to_hash(true)
       session[:plan_data] =
         @plan.attributes.slice(
           "title",
@@ -55,7 +55,7 @@ class PlansController < ApplicationController
     if @plan.update(plan_params)
       redirect_to(plans_path, notice: "Plan updated successfully.")
     else
-      flash[:errors] = @plan.errors.full_messages
+      flash[:errors] = @plan.errors.to_hash(true)
       redirect_to(edit_plan_path(@plan))
     end
   end
