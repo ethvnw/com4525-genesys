@@ -129,7 +129,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_184137) do
     t.integer "engagement_counter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "order"
+    t.integer "order", default: -1, null: false
   end
 
   create_table "registrations", force: :cascade do |t|
@@ -151,7 +151,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_184137) do
 
   create_table "reviews", force: :cascade do |t|
     t.text "content"
-    t.integer "order"
+    t.integer "order", default: -1, null: false
     t.boolean "is_hidden", default: true
     t.integer "engagement_counter", default: 0
     t.datetime "created_at", null: false
