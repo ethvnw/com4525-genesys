@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe("Sharing::TwitterSharer") do
   let(:feature) { build(:app_feature) }
 
-  it "Correctly formats the feature details as a twitter sharing link" do
+  it "Correctly formats the feature details as a twitter sharing link", vcr: true do
     twitter = Sharing::TwitterSharer.call(feature)
 
     encoded_feature_name = ERB::Util.url_encode(feature.name.to_s)

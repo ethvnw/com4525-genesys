@@ -12,7 +12,7 @@ RSpec.feature("Visiting landing page") do
   end
 
   feature "landing page visit geolocation" do
-    specify "When visiting the landing page with a geocodable IP, the visit location is tracked" do
+    specify "When visiting the landing page with a geocodable IP, the visit location is tracked", vcr: true do
       ENV["TEST_IP_ADDR"] = "185.156.172.142" # IP address in Amsterdam
       visit root_path
 

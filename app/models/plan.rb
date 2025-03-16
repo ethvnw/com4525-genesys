@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+# Validates the plan's end location name if the plan type is a travel plan
+class PlanValidator < ActiveModel::Validator
+  def validate(record)
+    unless record.plan_type.blank?
+      unless record.plan_type.starts_with?("travel_by")
+        record.end_location_name = nil
+        record.end_location_latitude = nil
+        record.end_location_longitude = nil
+      end
+
+      if record.plan_type.starts_with?("travel_by") && record.end_location_name.blank?
+        record.errors.add(:end_location_name, "must be present for travel plans")
+      end
+    end
+  end
+end
+
 # == Schema Information
 #
 # Table name: plans
@@ -9,12 +26,12 @@
 #  end_location_latitude    :decimal(, )
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
+#  plan_type                :integer          not null
 #  start_date               :datetime
 #  start_location_latitude  :decimal(, )
 #  start_location_longitude :decimal(, )
 #  start_location_name      :string
 #  title                    :string           not null
-#  type                     :integer          not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  trip_id                  :bigint
@@ -29,7 +46,23 @@ class Plan < ApplicationRecord
   has_many :ticket_links, dependent: :destroy
   has_many :scannable_tickets, dependent: :destroy
 
-  enum type: [:sightseeing]
+  enum plan_type: {
+    clubbing: 0,
+    live_music: 1,
+    restaurant: 2,
+    sport_event: 3,
+    travel_by_boat: 4,
+    travel_by_bus: 5,
+    travel_by_car: 6,
+    travel_by_foot: 7,
+    travel_by_plane: 8,
+    travel_by_train: 9,
+    other: 10,
+  }
 
-  validates :type, inclusion: { in: types }
+  validates :plan_type, inclusion: { in: plan_types.keys }
+  validates :title, presence: true, length: { maximum: 250 }
+  validates :start_location_name, :start_date, presence: true
+  validates_with PlanValidator
+  validates_with DateValidator
 end
