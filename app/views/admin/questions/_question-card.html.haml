@@ -1,7 +1,0 @@
-.d-flex.flex-column.gap-2.mb-4{ id: (hidden ? "hidden-items" : "visible-items") }
-  - items.each do |question|
-    = render("partials/admin/admin_item_card",
-             type: "question",
-      item: question,
-      content: question.question,
-      name: question.answer)

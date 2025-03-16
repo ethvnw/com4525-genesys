@@ -15,10 +15,6 @@ body {
     flex-direction: column;
 }
 
-.item:first-child .order-up-arrow, .item:last-child .order-down-arrow {
-    visibility: hidden;
-}
-
 #hidden-reviews .review {
     background-color: $gray-200;
 }
@@ -178,4 +174,8 @@ footer {
 
 .flex-grow {
     flex: 1 0 auto;
+}
+
+.flex-grow-evenly {
+    flex: 1 1 0;
 }
