@@ -13,6 +13,16 @@ if ENV["clear_first"]
   DatabaseCleaner.clean_with(:truncation)
 end
 
+Trip.create!(
+  title: "Trip to Paris",
+  description: "A trip to Paris, France.",
+  start_date: Time.zone.now + 1.day,
+  end_date: Time.zone.now + 5.days,
+  location_name: "Paris, France",
+  location_latitude: 48.8566,
+  location_longitude: 2.3522,
+) unless Trip.exists?(title: "Trip to Paris")
+
 User.create!(
   email: "admin@genesys.com",
   username: "admin1",

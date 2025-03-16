@@ -1,29 +1,44 @@
 - content_for(:title, "Log In")
+- append_javascript_pack_tag("scriptpacks/login")
 
-.d-flex.flex-fill.justify-content-center.align-items-center
-  .card.login-card
-    .card-body
-      .container
-        .d-flex.flex-column.align-items-center
-          = link_to("/", class: "mt-4") do
-            = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 40)
-          %h2.fw-bold.text-primary.mt-2
-            Sign In
+.d-flex.flex-fill.justify-content-center
+  .row.w-100
+    .col-xl-6.d-none.d-xl-flex.justify-content-center.align-items-center.position-relative
+      .position-relative.pe-5.pb-5
+        = image_pack_tag("images/laptop.png", class: "d-block img-fluid")
+        #slideshow-container.background-container.position-absolute
+          #login-slideshow.bg-white
+            .login-slideshow-image.show
+              = image_pack_tag("images/placeholder_ios_screen.png", class: "d-block img-fluid screen")
+            .login-slideshow-image
+              = image_pack_tag("images/placeholder_ios_screen_2.png", class: "d-block img-fluid screen")
+            .login-slideshow-image
+              = image_pack_tag("images/placeholder_ios_screen_3.png", class: "d-block img-fluid screen")
 
-      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .form-inputs.py-2
-          = f.input(:login,
-                    required: false,
-                    autofocus: true,
-                    input_html: { placeholder: "Email address or Username", class: "mb-3" },
-                    label: false)
-          = f.input(:password,
-                    required: false,
-                    input_html: { placeholder: "Password", class: "mb-3", autocomplete: "new-password" },
-                    label: false)
-        .form-actions.d-flex.justify-content-end
-          = f.button(:submit,
-                     "Sign In",
-                     class: "btn fw-bold btn-primary")
-      .d-flex.flex-column
-        = render("devise/shared/links")
+          = image_pack_tag("images/iphone11-frame.png", id: "iphone-frame", class: "d-block")
+
+    .col-xl-6.d-flex.justify-content-center.align-items-center
+      .card.login-card
+        .card-body
+          .container
+            .d-flex.flex-column.align-items-center.pb-4
+              = link_to("/", class: "mt-4") do
+                = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 40)
+
+          = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+            .form-inputs.py-2
+              = f.input(:login,
+                        required: false,
+                        autofocus: true,
+                        input_html: { placeholder: "Email address or Username", class: "mb-3" },
+                        label: false)
+              = f.input(:password,
+                        required: false,
+                        input_html: { placeholder: "Password", class: "mb-3", autocomplete: "new-password" },
+                        label: false)
+            .form-actions
+              = f.button(:submit,
+                         "Log In",
+                         class: "btn btn-sm fw-bold btn-primary w-100")
+          .d-flex.flex-column
+            = render("devise/shared/links")
