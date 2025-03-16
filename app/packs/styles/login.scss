@@ -1,0 +1,63 @@
+@import "twitter_bootstrap";
+
+#slideshow-container {
+  isolation: isolate;
+  height: max-content;
+  width: max-content;
+  right: 10px;
+  bottom: 10px;
+
+  @include media-breakpoint-up(xxl) {
+    bottom: -10px;
+  }
+}
+
+  .login-card {
+    border-width: 0 !important;
+  }
+
+
+@include media-breakpoint-up(md) {
+  .login-card {
+    border-width: $border-width !important;
+  }
+}
+
+#iphone-frame {
+  @include media-breakpoint-up(xl) {
+    width: 150px;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    width: 185px;
+  }
+}
+
+#login-slideshow {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  @include media-breakpoint-up(xl) {
+    /* Slightly larger margin on right hand side to account for volume buttons */
+    margin: 8px 10px 8px 8px;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    /* Slightly larger margin on right hand side to account for volume buttons */
+    margin: 10px 12px 10px 10px;
+  }
+}
+
+.login-slideshow-image {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+
+  &.show {
+    opacity: 1;
+  }
+}
