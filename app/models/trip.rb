@@ -22,4 +22,16 @@ class Trip < ApplicationRecord
   has_many :ticket_links, through: :plans
   has_many :trip_memberships, dependent: :destroy
   has_many :users, through: :trip_memberships
+
+  def format_date(date)
+    date.strftime("%d/%m/%Y")
+  end
+
+  def formatted_start_date
+    format_date(start_date)
+  end
+
+  def formatted_end_date
+    format_date(end_date)
+  end
 end
