@@ -2,7 +2,13 @@
 
 # A basic controller from the template app
 class PagesController < ApplicationController
-  def home
+  layout "user", only: [:home, :trips]
+  def landing
+    if user_signed_in?
+      redirect_to(home_path)
+      return
+    end
+
     @script_packs = ["home"]
 
     # Record the visit
@@ -28,5 +34,12 @@ class PagesController < ApplicationController
     end
     @errors = flash[:errors]
     @questions = Question.where.not(is_hidden: true).order(order: :asc)
+  end
+
+  def home
+    @inbox_count = 1
+  end
+
+  def trips
   end
 end

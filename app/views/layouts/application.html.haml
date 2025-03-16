@@ -1,46 +1,10 @@
 %html{ lang: "en-GB" }
   %head
-    %title Roamio
-
-    %meta{ "http-equiv": "content-type", content: "text/html; charset=utf-8" }
-    %meta{ "http-equiv": "X-UA-Compatible", content: "IE=edge" }
-    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, shrink-to-fit=no" }
-
-    - if content_for(:description)
-      %meta{ content: content_for(:description), name: "description" }
-
-    %title= ["Roamio", content_for(:title)].compact.join(" - ")
-
-    = csrf_meta_tags
-    = csp_meta_tag
-
-    -# Allows us to separate scripts/styles out into multiple packs, and only load them when required.
-    = stylesheet_pack_tag("stylepacks/application", *get_style_paths(@style_packs), media: "all")
-    = javascript_pack_tag("scriptpacks/application", *get_script_paths(@script_packs))
-
-    %link{ rel: "preconnect", href: "https://rsms.me/" }
-    %link{ rel: "stylesheet", href: "https://rsms.me/inter/inter.css" }
-
-    -# Google fonts
-    %link{ rel: "preconnect", href: "https://fonts.googleapis.com" }
-    %link{ rel: "preconnect", href: "https://fonts.gstatic.com" }
-    %link{ rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" }
-
-    -# Favicon
-    %link{ rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" }
-    %link{ rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" }
-    %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" }
-    %link{ rel: "manifest", href: "/site.webmanifest" }
+    = render("layouts/head", style_packs: @style_packs, script_packs: @script_packs)
 
   %body
     -# Render any necessary toasts
-    #toast-list.toast-container.top-0.start-50.translate-middle-x.mt-2.d-flex.flex-column.align-items-center
-      - flash[:notifications].each do |notification|
-        = render("partials/toast",
-                 message: notification[:message],
-                 notification_type: notification[:notification_type])
-
-    - flash.discard(:notifications)
+    = render("layouts/toasts")
 
     -# Don't show navigation bar on sign in page
     - unless sign_in_page?
@@ -55,7 +19,7 @@
           = link_to(root_path, class: "mt-4") do
             = image_pack_tag("images/roamio_brand_icon_l_grey.png", height: 40)
           %p.text-secondary.mt-2
-            &copy; 2024 Roamio & Genesys Team 02. All rights reserved
+            &copy; 2025 Roamio & Genesys Team 02. All rights reserved
           %hr
 
     #js-variables{ data: @js_data || flash[:js_data] || {} }
