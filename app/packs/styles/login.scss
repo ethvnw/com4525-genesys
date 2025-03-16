@@ -2,7 +2,6 @@
   isolation: isolate;
   height: max-content;
   width: max-content;
-
   right: 10px;
   bottom: 10px;
 
@@ -14,7 +13,6 @@
 #iphone-frame {
   @media (min-width: 1200px) {
     width: 150px;
-
   }
 
   @media (min-width: 1400px) {
