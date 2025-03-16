@@ -1,3 +1,5 @@
+@import "twitter_bootstrap";
+
 #slideshow-container {
   isolation: isolate;
   height: max-content;
@@ -5,17 +7,17 @@
   right: 10px;
   bottom: 10px;
 
-  @media (min-width: 1400px) {
+  @include media-breakpoint-up(xxl) {
     bottom: -10px;
   }
 }
 
 #iphone-frame {
-  @media (min-width: 1200px) {
+  @include media-breakpoint-up(xl) {
     width: 150px;
   }
 
-  @media (min-width: 1400px) {
+  @include media-breakpoint-up(xxl) {
     width: 185px;
   }
 }
@@ -28,12 +30,12 @@
   left: 0;
   right: 0;
 
-  @media (min-width: 1200px) {
+  @include media-breakpoint-up(xl) {
     /* Slightly larger margin on right hand side to account for volume buttons */
     margin: 8px 10px 8px 8px;
   }
 
-  @media (min-width: 1400px) {
+  @include media-breakpoint-up(xxl) {
     /* Slightly larger margin on right hand side to account for volume buttons */
     margin: 10px 12px 10px 10px;
   }
