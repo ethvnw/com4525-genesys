@@ -29,16 +29,4 @@ class PagesController < ApplicationController
     @errors = flash[:errors]
     @questions = Question.where.not(is_hidden: true).order(order: :asc)
   end
-
-  def trip_test
-    @script_packs = ["trips"]
-    @trip = if session[:trip_data]
-      Trip.new(session[:trip_data])
-    else
-      Trip.new
-    end
-
-    @errors = flash[:errors]
-    @trips = Trip.all
-  end
 end
