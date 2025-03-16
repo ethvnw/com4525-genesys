@@ -12,9 +12,9 @@ Rails.application.configure do
     # Without :data, slider arrows aren't shown properly on Firefox but are on Chrome
     policy.font_src(:self, :data, "https://fonts.gstatic.com", "https://rsms.me")
     policy.style_src(:self, "https://fonts.googleapis.com", "https://rsms.me", "https://unpkg.com")
-    policy.img_src(:self, :data, "https://api.dicebear.com")
+    policy.img_src(:self, :data, "http://*.google.com", "https://unpkg.com", "https://api.dicebear.com")
     policy.object_src(:none)
-    policy.script_src(:self)
+    policy.script_src(:self, "http://*.google.com")
     policy.manifest_src(:self)
 
     policy.block_all_mixed_content(true)
@@ -22,7 +22,7 @@ Rails.application.configure do
     connect_src = [:self]
     if Rails.env.development?
       # Allow bin/webpack-dev-server to connect via websockets in development
-      connect_src += ["http://localhost:3035", "ws://localhost:3035"]
+      connect_src += ["http://localhost:3035", "ws://localhost:3035", "https://photon.komoot.io"]
     end
 
     policy.connect_src(*connect_src)
