@@ -12,6 +12,17 @@
   }
 }
 
+  .login-card {
+    border-width: 0 !important;
+  }
+
+
+@include media-breakpoint-up(md) {
+  .login-card {
+    border-width: $border-width !important;
+  }
+}
+
 #iphone-frame {
   @include media-breakpoint-up(xl) {
     width: 150px;
