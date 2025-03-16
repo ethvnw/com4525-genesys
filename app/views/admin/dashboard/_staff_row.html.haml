@@ -1,0 +1,14 @@
+%tr
+  %th{ scope: "row" }= user.id
+  %td= user.email
+  %td= user.show_role
+  %td.text-center
+    - if user.invitation_accepted?
+      %i.bi.bi-check-circle
+    - else
+      %i.bi.bi-x-circle
+  %td
+    - if user.you?
+      (It's you!)
+    - else
+      = link_to("View Account", edit_admin_staff_path(user))

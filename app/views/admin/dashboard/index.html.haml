@@ -20,27 +20,7 @@
   %i.bi.bi-person-fill-add &nbsp;
   Create Staff Account
 
-= turbo_frame_tag("new_user") do
-  = form_with(model: @user,
-              url: invitation_path(:user),
-              method: :post,
-              builder: ValidatedFormBuilder,
-              is_form_submitted: @errors.present?,
-              html: { id: "new_user", novalidate: true },
-              class: "mt-0 row g-3 align-items-top") do |f|
-    .col-12.col-sm-8
-      = f.validated_input(:email,
-                          get_formatted_errors(@errors, :email),
-                          placeholder: "Email address")
-    .col-12.col-sm-4
-      = f.validated_select(:user_role,
-                           options_for_select(User.user_roles.values, selected: @user.user_role&.titleize),
-                           get_formatted_errors(@errors, :user_role),
-                           include_blank: "Role")
-    .form-actions
-      = f.submit("Send Invitation", class: "btn btn-primary")
-  %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
-  - flash.discard(:notifications)
+= render("admin/dashboard/invite_form", user: @user, errors: @errors)
 
 %hr.mt-3
 %h4.fw-semibold.mt-3
@@ -56,19 +36,9 @@
         %th{ scope: "col" } User Role
         %th.text-center{ scope: "col" } Invitation Accepted
         %th{ scope: "col" }
-    %tbody
-      - @users.each_with_index do |user, index|
-        %tr
-          %th{ scope: "row" }= index + 1
-          %td= user.email
-          %td= user.show_role
-          %td.text-center
-            - if user.invitation_accepted?
-              %i.bi.bi-check-circle
-            - else
-              %i.bi.bi-x-circle
-          %td
-            = link_to("View Account", edit_admin_staff_path(user))
+    %tbody#staff-table-body
+      - @users.each do |user|
+        = render("admin/dashboard/staff_row", user: user)
 
 %hr.mt-3
 %h4.fw-semibold.mt-3

@@ -3,12 +3,19 @@
 module AdminManagement
   ##
   # Service class to update the order of questions or reviews
+  #
+  # Params:
+  # [Review || Question] model - the model class to use
+  # [String] id - the ID of the row that should have its order updated
+  # [Integer] order_change the direction in which to change order (+1 or -1)
   class OrderUpdater < ItemUpdater
     def initialize(model, id, order_change)
       super(model, id)
       @order_change = order_change
     end
 
+    ##
+    # test
     def call
       # Get sign of order change & find question to swap with
       order_change_sign = @order_change >= 0 ? 1 : -1

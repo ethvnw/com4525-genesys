@@ -126,7 +126,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_184137) do
     t.string "question"
     t.text "answer"
     t.boolean "is_hidden", default: true
-    t.integer "engagement_counter"
+    t.integer "engagement_counter", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order", default: -1, null: false
@@ -153,7 +153,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_184137) do
     t.text "content"
     t.integer "order", default: -1, null: false
     t.boolean "is_hidden", default: true
-    t.integer "engagement_counter", default: 0
+    t.integer "engagement_counter", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", limit: 50

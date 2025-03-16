@@ -18,4 +18,8 @@ class UserDecorator < ApplicationDecorator
   def show_role
     object.user_role.present? ? User.user_roles[object.user_role] : ""
   end
+
+  def you?
+    h.current_user.id == object.id
+  end
 end
