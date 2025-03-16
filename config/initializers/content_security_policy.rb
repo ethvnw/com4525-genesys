@@ -6,23 +6,25 @@
 # For further information see the following documentation
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 
-# Rails.application.configure do
-#   config.content_security_policy do |policy|
-#     policy.default_src :self, :https
-#     policy.font_src    :self, :https, :data
-#     policy.img_src     :self, :https, :data
-#     policy.object_src  :none
-#     policy.script_src  :self, :https
-#     policy.style_src   :self, :https
-#     # Specify URI for violation reports
-#     # policy.report_uri "/csp-violation-report-endpoint"
-#   end
-#
-#   # Generate session nonces for permitted importmap and inline scripts
-#   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-#   config.content_security_policy_nonce_directives = %w(script-src)
-#
-#   # Report CSP violations to a specified URI. See:
-#   # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only
-#   # config.content_security_policy_report_only = true
-# end
+Rails.application.configure do
+  config.content_security_policy do |policy|
+    policy.default_src(:none)
+    # Without :data, slider arrows aren't shown properly on Firefox but are on Chrome
+    policy.font_src(:self, :data, "https://fonts.gstatic.com", "https://rsms.me")
+    policy.style_src(:self, "https://fonts.googleapis.com", "https://rsms.me", "https://unpkg.com")
+    policy.img_src(:self, :data, "https://api.dicebear.com")
+    policy.object_src(:none)
+    policy.script_src(:self)
+    policy.manifest_src(:self)
+
+    policy.block_all_mixed_content(true)
+
+    connect_src = [:self]
+    if Rails.env.development?
+      # Allow bin/webpack-dev-server to connect via websockets in development
+      connect_src += ["http://localhost:3035", "ws://localhost:3035"]
+    end
+
+    policy.connect_src(*connect_src)
+  end
+end
