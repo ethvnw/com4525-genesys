@@ -19,10 +19,10 @@ Rails.application.configure do
 
     policy.block_all_mixed_content(true)
 
-    connect_src = [:self]
+    connect_src = [:self, "https://photon.komoot.io"]
     if Rails.env.development?
       # Allow bin/webpack-dev-server to connect via websockets in development
-      connect_src += ["http://localhost:3035", "ws://localhost:3035", "https://photon.komoot.io"]
+      connect_src += ["http://localhost:3035", "ws://localhost:3035"]
     end
 
     policy.connect_src(*connect_src)
