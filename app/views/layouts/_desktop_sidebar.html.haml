@@ -1,0 +1,25 @@
+#sidebar.d-flex.flex-column.flex-shrink-0.pb-3.px-lg-3.bg-light
+  .sticky-top.pt-3
+    = link_to(root_path, class: "navbar-brand px-3") do
+      = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 24)
+    %hr
+    %ul.nav.nav-pills.nav-flush.flex-column
+      %li.nav-item
+        = render("partials/navbar_user_dropdown")
+      %li.nav-item
+        = link_to(root_path, class: "nav-link") do
+          .position-relative
+            %i.bi.bi-inbox
+            - if inbox_count&.nonzero?
+              .position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.text-bg-danger
+                = inbox_count
+          %span
+            Inbox
+          - if inbox_count&.nonzero?
+            .d-none.d-lg-flex.ms-auto.badge.rounded-pill.text-bg-danger
+              = inbox_count
+    %hr
+    %ul.nav.nav-pills.nav-flush.flex-column
+      = navbar_link_to("Home", "bi-house", home_path)
+      = navbar_link_to("Add", "bi-plus-square", root_path)
+      = navbar_link_to("Trips", "bi-map", trips_path)
