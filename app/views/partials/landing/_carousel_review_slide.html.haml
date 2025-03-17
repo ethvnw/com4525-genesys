@@ -1,11 +1,9 @@
 .review-slide
   .card
-    = turbo_frame_tag review_obj do
+    = turbo_frame_tag(review_obj) do
       .card-body
         %p.card-text.fw-semibold.text-secondary= review_obj.content
         %p.card-text.fw-bold= review_obj.name
       .card-body.pt-0
-        = form_with(url: like_api_review_path(review_obj), method: :post) do |f|
-          %button.btn.btn-secondary.fw-bold.review
-            %span.like-count= review_obj.engagement_counter
-            %i.bi{ class: session[:liked_reviews]&.include?(review_obj.id) ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-up" }
+        = form_with(url: like_api_review_path(review_obj), method: :post) do |_f|
+          = render("reviews/like_button", review: review_obj)

@@ -3,44 +3,48 @@
 module Api
   # Handles the creation of reviews
   class ReviewsController < ApplicationController
+    include Streamable
+    include AdminItemManageable
+
+    before_action :set_instance_variables
+    attr_reader :model, :type, :path
+
     def create
       review = Review.new(review_params)
 
-      respond_to do |format|
-        if review.save
-          session.delete(:review_data)
-          format.turbo_stream do
-            flash[:notice] = "Thank you for your review!"
-            render(turbo_stream: turbo_stream.action(:redirect, root_path))
-          end
-        else
-          flash[:errors] = review.errors.to_hash(true)
-          session[:review_data] = review.attributes.slice("name", "content")
-          @review = if session[:review_data]
-            Review.new(session[:review_data])
-          else
-            Review.new
-          end
-          @errors = flash[:errors]
-          format.html { render("reviews/new", status: :unprocessable_entity) }
-        end
+      if review.save
+        session.delete(:review_data)
+
+        stream_response(
+          streams: turbo_stream.update(
+            "new_review",
+            partial: "reviews/form",
+            locals: { review: Review.new, errors: nil },
+          ),
+          message: { content: "Review submitted. Thanks for helping to improve Roamio!", type: "success" },
+          redirect_path: root_path,
+        )
+      else
+        flash[:errors] = review.errors.to_hash(true)
+        session[:review_data] = review.attributes.slice("name", "content")
+
+        stream_response(
+          streams: turbo_stream.replace(
+            "new_review",
+            partial: "reviews/form",
+            locals: { review: review, errors: review.errors.to_hash(true) },
+          ),
+          redirect_path: root_path,
+        )
       end
     end
 
     def visibility
-      if AdminManagement::VisibilityUpdater.call(Review, params[:id])
-        redirect_to(manage_admin_reviews_path)
-      else
-        redirect_to(manage_admin_reviews_path, alert: "An error occurred while trying to update review visibility.")
-      end
+      update_visibility
     end
 
     def order
-      if AdminManagement::OrderUpdater.call(Review, params[:id], params[:order_change].to_i)
-        redirect_to(manage_admin_reviews_path)
-      else
-        redirect_to(manage_admin_reviews_path, alert: "An error occurred while trying to update review order.")
-      end
+      update_order
     end
 
     def like
@@ -48,18 +52,30 @@ module Api
 
       if review.nil?
         flash[:alert] = "An error occurred while trying to like review."
-      elsif session[:liked_reviews]&.include?(review.id)
-        review.decrement!(:engagement_counter)
-        session[:liked_reviews].delete(review.id)
-      else
-        review.increment!(:engagement_counter)
-        session[:liked_reviews] ||= []
-        session[:liked_reviews] << review.id
-      end
 
-      respond_to do |format|
-        @review = review
-        format.html { render("reviews/show") }
+        stream_response(
+          message: { content: "An error occurred while trying to like review.", type: "danger" },
+          redirect_path: root_path,
+        )
+      else
+        if session[:liked_reviews]&.include?(review.id)
+          review.decrement!(:engagement_counter)
+          session[:liked_reviews].delete(review.id)
+        else
+          review.increment!(:engagement_counter)
+          session[:liked_reviews] ||= []
+          session[:liked_reviews] << review.id
+        end
+
+        # Replace only the review like button
+        stream_response(
+          streams: turbo_stream.replace(
+            "like-review-#{review.id}",
+            partial: "reviews/like_button",
+            locals: { review: review },
+          ),
+          redirect_path: root_path,
+        )
       end
     end
 
@@ -67,6 +83,12 @@ module Api
 
     def review_params
       params.require(:review).permit(:content, :name)
+    end
+
+    def set_instance_variables
+      @model = Review
+      @type = "review"
+      @path = Rails.application.routes.url_helpers.manage_admin_reviews_path
     end
   end
 end

@@ -26,21 +26,21 @@ class InvitationsController < Devise::InvitationsController
         session.delete(:user_data)
         format.turbo_stream do
           render(turbo_stream: [
+            # Update invitation form
+            turbo_stream.update(
+              "new_user",
+              partial: "admin/dashboard/invite_form",
+              locals: { user: User.new, errors: nil },
+            ),
+            # Then add new user to staff table
             turbo_stream.append(
               "staff-table-body",
               partial: "admin/dashboard/staff_row",
               locals: { user: user.decorate },
             ),
-            turbo_stream.append(
-              "toast-list",
-              partial: "partials/toast",
-              locals: {
-                notification_type: "success",
-                message: "Invitation sent successfully to #{user.email}.",
-              },
-            ),
+            # Then send success message as toast
+            Turbo::Toaster.call(turbo_stream, "Invitation sent successfully to #{user.email}.", "success"),
           ])
-          format.html { redirect_to(admin_dashboard_path) }
         end
       end
     end

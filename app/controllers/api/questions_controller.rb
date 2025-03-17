@@ -3,41 +3,66 @@
 module Api
   # Handles the creation of questions
   class QuestionsController < ApplicationController
+    include Streamable
+    include AdminItemManageable
+
+    before_action :set_instance_variables
+    attr_reader :model, :type, :path
+
     def create
       question = Question.new(question_params)
 
       if question.save
         session.delete(:question_data)
-        redirect_to(faq_path, notice: "Your question has been submitted.")
+
+        stream_response(
+          streams: turbo_stream.update(
+            "new_question",
+            partial: "questions/form",
+            locals: { question: Question.new, errors: nil },
+          ),
+          message: { content: "Your question has been submitted.", type: "success" },
+          redirect_path: faq_path,
+        )
       else
         flash[:errors] = question.errors.to_hash(true)
         session[:question_data] = question.attributes.slice("question")
-        redirect_to(faq_path)
-      end
-    end
 
-    def visibility
-      if AdminManagement::VisibilityUpdater.call(Question, params[:id])
-        redirect_to(manage_admin_questions_path)
-      else
-        redirect_to(manage_admin_questions_path, alert: "An error occurred while trying to update question visibility.")
-      end
-    end
-
-    def order
-      if AdminManagement::OrderUpdater.call(Question, params[:id], params[:order_change].to_i)
-        redirect_to(manage_admin_questions_path)
-      else
-        redirect_to(manage_admin_questions_path, alert: "An error occurred while trying to update question order.")
+        stream_response(
+          streams: turbo_stream.replace(
+            "new_question",
+            partial: "questions/form",
+            locals: { question: question, errors: question.errors.to_hash(true) },
+          ),
+          redirect_path: faq_path,
+        )
       end
     end
 
     def answer
       question = Question.find(params[:id])
-      # Update the answer for the question and respond depending on if an error occurred
-      if question.update(answer: params[:answer])
-        redirect_to(manage_admin_questions_path, notice: "Answer saved successfully.")
+
+      if question&.update(answer: params[:answer])
+        stream_response(
+          streams: turbo_stream.replace(
+            "answer-form-#{question.id}",
+            partial: "questions/answer_form",
+            locals: { item: question.decorate },
+          ),
+          message: { content: "Answer saved successfully.", type: "success" },
+          redirect_path: manage_admin_questions_path,
+        )
+      else
+        admin_item_stream_error_response("An error occurred while trying to update question answer.")
       end
+    end
+
+    def visibility
+      update_visibility
+    end
+
+    def order
+      update_order
     end
 
     def click
@@ -67,6 +92,12 @@ module Api
     # @return [Boolean] true if current user can click, else false
     def user_can_click?(question_id)
       Question.exists?(id: question_id) && !session[:questions_clicked]&.include?(question_id)
+    end
+
+    def set_instance_variables
+      @model = Question
+      @type = "question"
+      @path = Rails.application.routes.url_helpers.manage_admin_questions_path
     end
   end
 end
