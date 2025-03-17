@@ -4,7 +4,7 @@
 class PagesController < ApplicationController
   layout "user", only: [:home, :trips]
   def landing
-    @script_packs = ["home"]
+    @script_packs = ["landing"]
 
     # Record the visit
     landing_page_vist = LandingPageVisit.new
