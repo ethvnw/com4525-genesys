@@ -26,21 +26,20 @@ class TripsController < ApplicationController
 
     if @trip.save
       session.delete(:trip_data)
-      redirect_to(trip_test_path, notice: "Your trip has been submitted.")
+      # Next, a TripMembership is created between the current logged in user and the new trip
+      @membership = TripMembership.new
+      @membership.trip_id = @trip.id
+      @membership.user_id = @current_user.id
+      # It is assumed that the creator of a trip accepts the invite.
+      @membership.is_invite_accepted = true
+      @membership.user_display_name = "TODO" # TODO, fill in username when Kush's changes are merged in !!
+      @membership.save
+      redirect_to(trips_path, notice: "Your trip has been submitted.")
     else
       flash[:errors] = @trip.errors.full_messages
       session[:trip_data] = @trip.attributes.slice("trip")
-      redirect_to(trip_test_path)
+      redirect_to(trips_path)
     end
-
-    # Next, a TripMembership is created between the current logged in user and the new trip
-    @membership = TripMembership.new
-    @membership.trip_id = @trip.id
-    @membership.user_id = @current_user.id
-    # Assumed that the creator of a trip accepts the invite.
-    @membership.is_invite_accepted = true
-    @membership.user_display_name = "TODO" # TODO, fill in username when Kush's changes are merged in !!
-    @membership.save
   end
 
   def edit
