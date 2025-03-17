@@ -1,0 +1,19 @@
+= form_with(url: answer_api_question_path(item),
+            method: :post,
+            builder: ValidatedFormBuilder,
+            id: "answer-form-#{item.id}",
+            class: "mb-0 flex-grow") do |f|
+  = f.validated_input(:answer,
+                      nil,
+                      as: :text,
+                      disabled: true,
+                      value: item.subcontent,
+                      placeholder: "[Unanswered]",
+                      id: "answer_#{item.id}",
+                      class: "card-text fw-bold",
+                      input_class: "form-control-plaintext fw-bold text-secondary resize-none pe-auto",
+                      data: { default_value: item.subcontent })
+  = button_tag(type: "submit", class: "btn btn-secondary fw-bold d-none mt-3") do
+    %i.bi.bi-send-fill
+    &nbsp;
+    Submit Answer

@@ -15,7 +15,7 @@ function enableAnswerForm(ev) {
     textarea.value = '';
   }
 
-  textarea.value = textarea.dataset.defaultValue;
+  textarea.value = textarea.dataset.defaultValue || '';
   submitButton.classList.toggle('d-none');
 }
 

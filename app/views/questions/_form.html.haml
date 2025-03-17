@@ -1,5 +1,4 @@
-%h4.text-center.text-lg-start.fw-bold.mt-5
-  Got a question? Submit it here!
+- puts errors
 
 = turbo_frame_tag(question) do
   = simple_form_for([:api, question],
@@ -17,6 +16,3 @@
         %i.bi.bi-send-fill
         &nbsp;
         Submit Question
-
-  %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
-  - flash.discard(:notifications)
