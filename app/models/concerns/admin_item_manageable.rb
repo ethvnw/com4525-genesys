@@ -23,16 +23,23 @@ module AdminItemManageable
     end
 
     def admin_item_stream_success_response
+      visible_items = model.visible
+      hidden_items = model.hidden
       stream_response(
-        streams: turbo_stream.replace(
-          "admin-#{type}s",
-          partial: "partials/admin/admin_item_turbo_frame",
-          locals: {
-            type: type,
-            visible_items: model.visible.decorate,
-            hidden_items: model.hidden.decorate,
-          },
-        ),
+        streams: [
+          turbo_stream.update("visible-count", visible_items.count),
+          turbo_stream.update("hidden-count", hidden_items.count),
+          turbo_stream.update(
+            "visible-items",
+            partial: "partials/admin/admin_item_list",
+            locals: { items: visible_items.decorate },
+          ),
+          turbo_stream.update(
+            "hidden-items",
+            partial: "partials/admin/admin_item_list",
+            locals: { items: hidden_items.decorate },
+          ),
+        ],
         redirect_path: path,
       )
     end
