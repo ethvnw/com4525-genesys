@@ -19,15 +19,22 @@ function enableAnswerForm(ev) {
   submitButton.classList.toggle('d-none');
 }
 
-function buttonSetup() {
-  const answerButtons = document.querySelectorAll('button[data-question-id]');
-
-  answerButtons.forEach((answerButton) => {
-    // Remove event listeners to prevent duplicate listeners for non-turbo reloaded buttons
-    answerButton.removeEventListener('click', enableAnswerForm);
-    answerButton.addEventListener('click', enableAnswerForm);
+function buttonSetup(records) {
+  records?.forEach((record) => {
+    record.addedNodes.forEach((questionCard) => {
+      if (questionCard.nodeType === Node.ELEMENT_NODE) {
+        questionCard.querySelector('[data-question-id]').addEventListener('click', enableAnswerForm);
+      }
+    });
   });
 }
 
-document.addEventListener('turbo:load', buttonSetup);
-document.addEventListener('turbo:frame-load', buttonSetup);
+// Initial setup
+document.querySelectorAll('[data-question-id]').forEach(((button) => {
+  button.addEventListener('click', enableAnswerForm);
+}));
+
+// MutationObserver to catch any changes from turbo streams
+const questionObserver = new MutationObserver(buttonSetup);
+questionObserver.observe(document.getElementById('visible-items'), { childList: true });
+questionObserver.observe(document.getElementById('hidden-items'), { childList: true });
