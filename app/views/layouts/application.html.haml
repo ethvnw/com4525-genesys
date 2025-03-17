@@ -13,14 +13,8 @@
     %main.container.d-flex.flex-column.flex-fill
       = yield
 
-    %footer.bg-primary
-      .container
-        .d-flex.flex-column
-          = link_to(root_path, class: "mt-4") do
-            = image_pack_tag("images/roamio_brand_icon_l_grey.png", height: 40)
-          %p.text-secondary.mt-2
-            &copy; 2025 Roamio & Genesys Team 02. All rights reserved
-          %hr
+    -# Render footer
+    = render("partials/layouts/footer")
 
     #js-variables{ data: @js_data || flash[:js_data] || {} }
     - flash.discard(:js_data) # Discard flash messages after use to prevent them from being shown twice
