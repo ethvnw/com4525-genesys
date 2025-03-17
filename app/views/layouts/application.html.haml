@@ -1,14 +1,14 @@
 %html{ lang: "en-GB" }
   %head
-    = render("layouts/head", style_packs: @style_packs, script_packs: @script_packs)
+    = render("partials/layouts/head", style_packs: @style_packs, script_packs: @script_packs)
 
   %body
     -# Render any necessary toasts
-    = render("layouts/toasts")
+    = render("partials/layouts/toasts")
 
     -# Don't show navigation bar on sign in page
     - unless sign_in_page?
-      = render("partials/navbar")
+      = render("partials/layouts/navbar")
 
     %main.container.d-flex.flex-column.flex-fill
       = yield

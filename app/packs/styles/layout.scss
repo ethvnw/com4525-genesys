@@ -34,7 +34,7 @@ main {
         @extend .overflow-hidden;
         @extend .flex-fill;
         @extend .w-100;
-        z-index: -1;
+        z-index: 1;
     }
 }
 

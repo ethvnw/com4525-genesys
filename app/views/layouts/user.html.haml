@@ -1,15 +1,15 @@
 %html{ lang: "en-GB" }
   %head
-    = render("layouts/head", style_packs: @style_packs, script_packs: @script_packs)
+    = render("partials/layouts/head", style_packs: @style_packs, script_packs: @script_packs)
 
   %body
     -# Render any necessary toasts
-    = render("layouts/toasts")
+    = render("partials/layouts/toasts")
 
     %main
-      = render("layouts/desktop_sidebar", inbox_count: @inbox_count)
+      = render("partials/layouts/desktop_navigation", inbox_count: @inbox_count)
       #content.d-flex.flex-column.flex-fill
-        = render("layouts/mobile_navigation", inbox_count: @inbox_count)
+        = render("partials/layouts/mobile_navigation", inbox_count: @inbox_count)
         %footer.border-top
           .container
             .d-flex.flex-column
