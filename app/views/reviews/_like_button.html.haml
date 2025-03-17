@@ -1,0 +1,3 @@
+%button.btn.btn-secondary.fw-bold.review{ id: "like-review-#{review.id}" }
+  %span.like-count= review.engagement_counter
+  %i.bi{ class: session[:liked_reviews]&.include?(review.id) ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-up" }
