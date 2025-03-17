@@ -1,0 +1,52 @@
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+
+// .aa prefix is for the algolia autocomplete input, used for geolocation
+
+.aa-Autocomplete {
+  padding: 0;
+  border: none;
+  border-radius: none;
+}
+
+.aa-Input {
+  padding: 0;
+  font-size: 16px;
+}
+
+.aa-DetachedSearchButtonPlaceholder {
+  color: #595c5f;
+  opacity: 1;
+}
+
+.aa-SubmitIcon {
+  color: #000000;
+}
+
+.aa-Item {
+  background-color: white;
+  cursor: pointer;
+}
+
+.aa-Item:hover {
+  background-color: #f8f9fa;
+}
+
+.aa-DetachedSearchButton {
+  @extend .form-control;
+  color: #212529;
+  padding: 0;
+  display: flex;
+  font-weight: 600;
+}
+
+// form-control-btn is used for buttons that look like text inputs (e.g. date range picker)
+.form-control-btn{
+  @extend .form-control, .fw-semibold, .text-start;
+  color: #595c5f;
+}
+
+.form-control-btn-selected{
+  @extend .form-control-btn;
+  color: #212529;
+}

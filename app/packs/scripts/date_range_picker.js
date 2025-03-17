@@ -2,6 +2,7 @@ import '@popperjs/core';
 import { TempusDominus } from '@eonasdan/tempus-dominus';
 
 const datetimepickerElement = document.getElementById('datetimepicker1');
+const datetimepickerInput = document.getElementById('datetimepicker1-input');
 const startDateElement = document.getElementById('start_date');
 const endDateElement = document.getElementById('end_date');
 
@@ -36,11 +37,18 @@ const datetimepicker = new TempusDominus(datetimepickerElement, {
 
 });
 
-// Helper function to format date for datetime-local input.
+// Helper functions to format date for datetime-local input.
 function formatDateForInput(date) {
   if (!date) return '';
   const d = new Date(date);
   return d.toISOString().slice(0, 16); // Extract YYYY-MM-DDTHH:mm (16 chars).
+}
+
+function formatDateForButton(date) {
+  if (!date) return '';
+  const d = new Date(date);
+  // Extract "DD/MM/YYYY HH:mm"
+  return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
 }
 
 // Listen for changes in the date range picker
@@ -52,8 +60,14 @@ datetimepickerElement.addEventListener('change.td', () => {
   if (dates.length === 2) {
     startDateElement.value = formatDateForInput(dates[0]);
     endDateElement.value = formatDateForInput(dates[1]);
+    datetimepickerInput.value = `${formatDateForButton(dates[0])} - ${formatDateForButton(dates[1])}`;
+    datetimepickerInput.classList.remove('form-control-btn');
+    datetimepickerInput.classList.add('form-control-btn-selected');
   } else {
     startDateElement.value = '';
     endDateElement.value = '';
+    datetimepickerInput.value = 'Input the date range...';
+    datetimepickerInput.classList.add('form-control-btn');
+    datetimepickerInput.classList.remove('form-control-btn-selected');
   }
 });

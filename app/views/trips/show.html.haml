@@ -8,6 +8,10 @@
   %p.mb-3
     = "From " + @trip.formatted_start_date + " to " + @trip.formatted_end_date
 
+  = link_to(new_plan_path, class: "btn btn-info mx-2") do
+    %i.bi.bi-plus-circle &nbsp;
+    Add a new plan
+
   = link_to(edit_trip_path(@trip), class: "btn btn-primary mx-2") do
     %i.bi.bi-pencil &nbsp;
     Edit this trip

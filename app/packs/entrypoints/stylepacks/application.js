@@ -13,8 +13,7 @@ import '../../styles/toast-utils.scss';
 import '../../styles/plans.scss';
 import 'leaflet/dist/leaflet.css';
 import '@algolia/autocomplete-theme-classic';
-import '../../styles/custom-autocomplete.scss';
-
 import '@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css';
+import '../../styles/forms.scss';
 
 require.context('../../images', true);
