@@ -4,11 +4,6 @@
 class PagesController < ApplicationController
   layout "user", only: [:home, :trips]
   def landing
-    if user_signed_in?
-      redirect_to(home_path)
-      return
-    end
-
     @script_packs = ["home"]
 
     # Record the visit
@@ -37,9 +32,11 @@ class PagesController < ApplicationController
   end
 
   def home
+    authenticate_user!
     @inbox_count = 1
   end
 
   def trips
+    authenticate_user!
   end
 end

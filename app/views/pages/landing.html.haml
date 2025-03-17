@@ -30,7 +30,7 @@
       - if @app_features.present?
         - @app_features.each do |app_feature|
           .swiper-slide.d-flex.justify-content-center
-            = render("partials/carousel_app_feature_slide",
+            = render("partials/landing/carousel_app_feature_slide",
                      app_feature_obj: app_feature)
     .swiper-button-prev
     .swiper-button-next
@@ -54,7 +54,7 @@
     .swiper-wrapper
       - @reviews.each do |review|
         .swiper-slide.d-flex.justify-content-center
-          = render("partials/carousel_review_slide",
+          = render("partials/landing/carousel_review_slide",
                    review_obj: review)
     .swiper-button-prev
     .swiper-button-next
@@ -63,4 +63,4 @@
     Enjoy using Roamio? Leave a review
   = render("reviews/form", review: @review, errors: @errors)
 
-= render("partials/feature_social_share_offcanvas")
+= render("partials/landing/feature_social_share_offcanvas")

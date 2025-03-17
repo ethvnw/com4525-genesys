@@ -2,7 +2,7 @@
   %h1.fw-bold.display-6 Pricing
   - @subscription_tiers.each do |tier|
     .col-lg-4
-      = render("partials/subscription_card", tier: tier.decorate)
+      = render("partials/landing/subscription_card", tier: tier.decorate)
   %h6.text-center.fw-semibold Enjoy flexible payment options
   .d-flex.justify-content-center.gap-3.mb-3
     = image_pack_tag("images/payment_logos/visa.svg", class: "img-thumbnail payment-vendor-thumbnail")

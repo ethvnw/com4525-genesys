@@ -1,4 +1,4 @@
-%nav#topbar.navbar.d-sm-none.border-bottom.fixed-top.px-3
+%nav#topbar.navbar.d-sm-none.border-bottom.sticky-top.px-3
   .col.d-flex.justify-content-start
     = link_to(root_path, class: "nav-link") do
       .position-relative
@@ -10,8 +10,8 @@
     = link_to(root_path) do
       = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 36)
   .col.d-flex.justify-content-end
-    = render("partials/navbar_user_dropdown")
-.container
+    = render("partials/layouts/navbar_user_dropdown")
+.container.pt-3
   = yield
 %nav#bottombar.navbar.d-sm-none.bg-light.border-top.fixed-bottom.px-3
   %ul.nav.w-100

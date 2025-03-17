@@ -2,6 +2,7 @@
 
 # Handles the creation of plans
 class PlansController < ApplicationController
+  layout "user"
   before_action :authenticate_user!
 
   def index
