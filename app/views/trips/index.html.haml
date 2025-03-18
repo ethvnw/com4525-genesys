@@ -23,9 +23,9 @@
         %td
           = trip.description
         %td
-          = trip.start_date
+          = trip.formatted_start_date
         %td
-          = trip.end_date
+          = trip.formatted_end_date
         %td
           = link_to(trip_path(trip), class: "btn btn-primary mx-2") do
             %i.bi.bi-eye
