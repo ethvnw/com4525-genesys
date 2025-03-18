@@ -13,7 +13,9 @@ function showToasts(records) {
   });
 }
 
-showToasts();
+// Fire showToasts once on initial pageload with a dummy mutation record, to show prerendered toasts
+showToasts([{ addedNodes: Array.from(document.getElementById('toast-list').children) }]);
+
 // Use mutation observer to listen to changes in toast list
 // e.g. new toasts being added by turbo streams
 const toastObserver = new MutationObserver(showToasts);
