@@ -62,7 +62,7 @@ class TripsController < ApplicationController
 
   def show
     @trip = Trip.find(params[:id]).decorate
-    @photo = Unsplash::Photo.search(@trip.location_name).first
+    @photo = Unsplash::Photo.search(@trip.location_name.split(",", 2).first).first
     @photo_url = @photo.urls["regular"]
     puts @photo_url
   end
