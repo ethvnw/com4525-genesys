@@ -73,5 +73,44 @@ RSpec.feature("Managing trips") do
       click_on "Create Trip"
       expect(page).to(have_content("Description is too long (maximum is 500 characters)"))
     end
+
+    scenario "I cannot create a trip with no date range", js: true, vcr: true do
+      visit new_trip_path
+      fill_in "trip_title", with: "title of plan"
+      fill_in "trip_description", with: "description of plan"
+      find(".aa-DetachedSearchButton", wait: 3).click
+      find(".aa-Input", wait: 3).set("England")
+      sleep 3
+      find_all(".aa-Item").first.click
+      click_on "Create Trip"
+      expect(page).to(have_content("Date range can't be blank"))
+    end
+
+    scenario "I cannot create a trip with no location", js: true, vcr: true do
+      visit new_trip_path
+      fill_in "trip_title", with: "title of plan"
+      fill_in "trip_description", with: "description of plan"
+      find("#datetimepicker1-input").click
+      find("div[data-value='#{start_date}']").click
+      find("div[data-value='#{end_date}']").click
+      click_on "Create Trip"
+      expect(page).to(have_content("Location can't be blank"))
+    end
+
+    scenario "I can create a trip and see it displayed", js: true, vcr: true do
+      visit new_trip_path
+      fill_in "trip_title", with: "title of plan"
+      fill_in "trip_description", with: "description of plan"
+      find(".aa-DetachedSearchButton", wait: 3).click
+      find(".aa-Input", wait: 3).set("England")
+      sleep 3
+      find_all(".aa-Item").first.click
+      find("#datetimepicker1-input").click
+      find("div[data-value='#{start_date}']").click
+      find("div[data-value='#{end_date}']").click
+      click_on "Create Trip"
+      expect(page).to(have_content("title of plan"))
+      expect(page).to(have_content("description of plan"))
+    end
   end
 end
