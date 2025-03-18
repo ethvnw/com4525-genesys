@@ -6,7 +6,7 @@ class TripsController < ApplicationController
 
   def index
     @script_packs = ["trips"]
-    @trips = Trip.all
+    @trips = Trip.all.decorate
   end
 
   def new
@@ -61,6 +61,6 @@ class TripsController < ApplicationController
   end
 
   def show
-    @trip = Trip.find(params[:id])
+    @trip = Trip.find(params[:id]).decorate
   end
 end
