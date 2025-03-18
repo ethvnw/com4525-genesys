@@ -19,6 +19,9 @@ Rails.application.configure do
 
     policy.block_all_mixed_content(true)
 
+    # Allow images from Unsplash
+    policy.img_src(:self, :https, "https://images.unsplash.com")
+
     connect_src = [:self, "https://photon.komoot.io"]
     if Rails.env.development?
       # Allow bin/webpack-dev-server to connect via websockets in development
