@@ -22,4 +22,38 @@ class Trip < ApplicationRecord
   has_many :ticket_links, through: :plans
   has_many :trip_memberships, dependent: :destroy
   has_many :users, through: :trip_memberships
+
+  # Validations for the trip attributes
+  validates :title, presence: true, length: { maximum: 100 }
+  validates :description, presence: true, length: { maximum: 500 }
+  validate :date_range_cant_be_blank
+  validate :start_date_is_in_the_future
+  validate :end_date_is_after_start_date
+  validate :location_cant_be_blank
+
+  private
+
+  def date_range_cant_be_blank
+    if start_date.blank? || end_date.blank?
+      errors.add(:base, "Date range can't be blank")
+    end
+  end
+
+  def start_date_is_in_the_future
+    if start_date.present? && start_date < Date.today
+      errors.add(:base, "Start date must be in the future")
+    end
+  end
+
+  def end_date_is_after_start_date
+    if end_date.present? && end_date < start_date
+      errors.add(:base, "End date must be after the start date")
+    end
+  end
+
+  def location_cant_be_blank
+    if location_name.blank? || location_latitude.blank? || location_longitude.blank?
+      errors.add(:base, "Location can't be blank")
+    end
+  end
 end

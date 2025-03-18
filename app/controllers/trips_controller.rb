@@ -38,7 +38,7 @@ class TripsController < ApplicationController
     else
       flash[:errors] = @trip.errors.full_messages
       session[:trip_data] = @trip.attributes.slice("trip")
-      redirect_to(trips_path)
+      redirect_to(new_trip_path)
     end
   end
 
