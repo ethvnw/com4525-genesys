@@ -19,13 +19,13 @@
   // The start_date and end_date are hidden fields, updated in the background by the date range picker
   = f.input(:start_date,
             as: :string,
-            input_html: { class: "d-none", type: "datetime-local", id: "start_date" },
+            input_html: { class: "d-none", type: "datetime-local", id: "start_date_input" },
             label: false,
             placeholder: "Enter the trip start date...")
 
   = f.input(:end_date,
             as: :string,
-            input_html: { class: "d-none", type: "datetime-local", id: "end_date" },
+            input_html: { class: "d-none", type: "datetime-local", id: "end_date_input" },
             label: false,
             placeholder: "Enter the trip end date...")
 
