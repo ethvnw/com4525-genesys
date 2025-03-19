@@ -13,12 +13,3 @@ if (latitude && longitude) {
   tripAutocomplete.setQuery(locationName);
   updateLocationPin(startMarker, latitude, longitude);
 }
-
-const startDate = document.getElementById('start_date_input').getAttribute('value');
-const endDate = document.getElementById('end_date_input').getAttribute('value');
-
-// Set the start and end date values into the date range picker
-if (startDate && endDate) {
-  const dateRangePicker = document.getElementById('datetimepicker1');
-  dateRangePicker.defaultDate = new Date(startDate);
-}
