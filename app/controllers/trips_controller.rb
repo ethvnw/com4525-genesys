@@ -55,9 +55,6 @@ class TripsController < ApplicationController
 
   def update
     @trip = Trip.find(params[:id])
-    puts "TRIP DETAILS (update)"
-    puts @trip
-    puts trip_params
     if @trip.update(trip_params)
       redirect_to(trip_path, notice: "Trip updated successfully.")
     else
