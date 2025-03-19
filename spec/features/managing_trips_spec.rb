@@ -109,6 +109,7 @@ RSpec.feature("Managing trips") do
       click_on "Create Trip"
       expect(page).to(have_content("Location can't be blank"))
     end
+  end
 
   #   scenario "I can create a trip and see it displayed", js: true, vcr: true do
   #     visit new_trip_path
