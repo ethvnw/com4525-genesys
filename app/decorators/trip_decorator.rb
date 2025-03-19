@@ -15,4 +15,8 @@ class TripDecorator < ApplicationDecorator
   def formatted_end_date
     format_date(end_date)
   end
+
+  def formatted_date_range
+    start_date.strftime("%d") + " - " + end_date.strftime("%d %b")
+  end
 end

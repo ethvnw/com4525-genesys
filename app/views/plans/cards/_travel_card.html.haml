@@ -1,11 +1,10 @@
-%section.p-3.rounded.mb-2.bg-primary
-  = render("plans/cards/card_header", plan: plan)
+%section.p-3.rounded.mb-2.bg-primary.flex-grow-1
+  = render("plans/cards/card_header", trip: trip, plan: plan)
 
   -# Start location and date
   .row.align-items-center.mb-3
     .col
       %h4.mb-0.max-height-2-lines= plan.start_location_name
-      %p.mb-0.text-white-50= plan.start_date.strftime("%H:%M")
 
     -# Travel icon
     .col-auto.px-4
@@ -15,7 +14,6 @@
     -# End location and date
     .col
       %h4.mb-0.text-end.max-height-2-lines= plan.end_location_name
-      %p.mb-0.text-end.text-white-50= plan.formatted_end_date
 
   -# Company name
   .d-flex.gap-3.align-items-center
