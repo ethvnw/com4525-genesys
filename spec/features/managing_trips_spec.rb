@@ -161,8 +161,9 @@ RSpec.feature("Managing trips") do
   feature "Deleting a trip" do
     given!(:trip) { FactoryBot.create(:trip) }
 
-    scenario "I can delete a trip and no longer see it on my list of trips", js: true, vcr: true do
+    scenario "I can delete a trip and no longer see it on my list of trips" do
       visit trip_path(trip)
+      expect(page).to(have_content(trip.title))
       click_on "Settings"
       click_on "Delete trip"
       expect(page).not_to(have_content(trip.title))

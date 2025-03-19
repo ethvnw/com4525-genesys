@@ -230,6 +230,7 @@ RSpec.feature("Managing plans") do
 
     scenario "I can delete a plan and see it removed from the plans index page" do
       visit trip_plans_path(plan.trip_id)
+      expect(page).to(have_content(plan.start_location_name))
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
         click_on "Delete plan"
