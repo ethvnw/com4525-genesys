@@ -1,4 +1,7 @@
-.mb-4
+.mb-4.d-flex.justify-content-between
+  = link_to(new_trip_path, class: "btn btn-primary") do
+    %i.bi.bi-plus-circle &nbsp;
+    Create Trip
   %button.btn.btn-light
     %i.bi.bi-chevron-down &nbsp;
     Sort by
