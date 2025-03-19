@@ -9,11 +9,9 @@ Rails.application.routes.draw do
 
   get :faq, to: "pages#faq"
 
-  resources :trips
-
-  resources :trips
-
-  resources :plans
+  resources :trips do
+    resources :plans
+  end
 
   resources :subscriptions, only: [:new] do
     collection do

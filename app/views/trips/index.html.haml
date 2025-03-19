@@ -1,31 +1,12 @@
-%section#faq-container.row.align-items-center.py-5
-  %h2.text-center.text-lg-start.fw-bold
-    = "All Trips (" + @trips.size.to_s + ")"
-    = link_to(new_trip_path, class: "btn btn-primary mx-2") do
-      %i.bi.bi-plus-circle &nbsp;
-      Create a new trip
-  %table
-    %tbody
-      %th
-        title
-      %th
-        description
-      %th
-        start-date
-      %th
-        end-date
-      %th
-        view
-    - @trips.each_with_index do |trip, _index|
-      %tr
-        %td
-          = trip.title
-        %td
-          = trip.description
-        %td
-          = trip.formatted_start_date
-        %td
-          = trip.formatted_end_date
-        %td
-          = link_to(trip_path(trip), class: "btn btn-primary mx-2") do
-            %i.bi.bi-eye
+.mb-4
+  %button.btn.btn-light
+    %i.bi.bi-chevron-down &nbsp;
+    Sort by
+
+- @trips.each_with_index do |trip|
+  = link_to(trip_path(trip), class: "link-underline link-underline-opacity-0 mb-4 link-body-emphasis") do
+    %section.trip-card.d-flex.flex-column.justify-content-end.p-2.rounded-3.border
+      %h2.mb-0.fw-bold
+        = trip.title
+      %p.mb-0
+        = trip.formatted_date_range

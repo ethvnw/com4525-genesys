@@ -5,8 +5,13 @@ class TripsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @script_packs = ["trips"]
+    # TODO: - only show trips that the user is a memmber of (use TripMemberships in db)
     @trips = Trip.all.decorate
+    @photo_urls = {}
+    @trips.each do |trip|
+      photo = Unsplash::Photo.search(trip.location_name.split(",", 2).first).first
+      @photo_urls[trip.id] = photo.urls["regular"]
+    end
   end
 
   def new
@@ -32,7 +37,7 @@ class TripsController < ApplicationController
       @membership.user_id = @current_user.id
       # It is assumed that the creator of a trip accepts the invite.
       @membership.is_invite_accepted = true
-      @membership.user_display_name = "TODO" # TODO, fill in username when Kush's changes are merged in !!
+      @membership.user_display_name = @current_user.username
       @membership.save
       redirect_to(trips_path, notice: "Your trip has been submitted.")
     else
@@ -48,6 +53,31 @@ class TripsController < ApplicationController
     @errors = flash[:errors]
   end
 
+  def update
+    @trip = Trip.find(params[:id])
+    puts "TRIP DETAILS (update)"
+    puts @trip
+    puts trip_params
+    if @trip.update(trip_params)
+      redirect_to(trip_path, notice: "Trip updated successfully.")
+    else
+      flash[:errors] = @trip.errors.full_messages
+      redirect_to(edit_trip_path(@trip))
+    end
+  end
+
+  def destroy
+    @trip = Trip.find(params[:id])
+    @trip.destroy
+    redirect_to(trips_path, notice: "Trip deleted successfully.")
+  end
+
+  def show
+    redirect_to(trip_plans_path(params[:id]))
+  end
+
+  private
+
   def trip_params
     params.require(:trip).permit(
       :title,
@@ -58,12 +88,5 @@ class TripsController < ApplicationController
       :location_latitude,
       :location_longitude,
     )
-  end
-
-  def show
-    @trip = Trip.find(params[:id]).decorate
-    @photo = Unsplash::Photo.search(@trip.location_name.split(",", 2).first).first
-    @photo_url = @photo.urls["regular"]
-    puts @photo_url
   end
 end

@@ -5,6 +5,7 @@ require "webmock/rspec"
 
 RSpec.feature("Managing plans") do
   let(:user) { create(:user) }
+  let(:trip) { FactoryBot.create(:trip) }
 
   before do
     login_as(user, scope: :user)
@@ -13,7 +14,7 @@ RSpec.feature("Managing plans") do
 
   feature "Creating plans" do
     scenario "I cannot create a plan with no title", js: true, vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
       find(".aa-Input", wait: 3).set("England")
@@ -25,7 +26,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I cannot create a plan with a title that is too long (>250 characters)", js: true, vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a" * 300
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -38,7 +39,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I cannot create a plan with no provided plan type", js: true, vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a"
       find(".aa-DetachedSearchButton", wait: 3).click
       find(".aa-Input", wait: 3).set("England")
@@ -50,7 +51,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I cannot create a plan with no start location" do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       fill_in "plan_start_date", with: Time.current + 1.day
@@ -59,7 +60,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I cannot create a plan with no start date", js: true, vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -71,7 +72,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I cannot create a plan with a start date after the end date", js: true, vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -85,7 +86,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I cannot create a plan with a start date prior to the current time", js: true, vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -98,7 +99,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I cannot create a plan with no end location if it is a travel plan", js: true, vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Travel By Plane", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -112,16 +113,14 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I can input an end location if I choose a travel plan", js: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       select "Travel By Plane", from: "plan_plan_type"
       sleep_for_js
       expect(find("#end-location-autocomplete", visible: :all)).to(be_visible)
     end
 
-    given!(:trip) { FactoryBot.create(:trip) }
-
     scenario "I can create a plan and see its information on the plans index page", js: true, vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -130,7 +129,7 @@ RSpec.feature("Managing plans") do
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
-      visit plans_path
+      visit trip_plans_path(trip)
       expect(page).to(have_content("Test Title"))
       expect(page).to(have_content("Other"))
       expect(page).to(have_content("England"))
@@ -140,7 +139,7 @@ RSpec.feature("Managing plans") do
     scenario "I can create 2 plans within the same day and see their information on the plans index page",
       js: true,
       vcr: true do
-      visit new_plan_path
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -149,8 +148,8 @@ RSpec.feature("Managing plans") do
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
-      visit new_plan_path
 
+      visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -159,12 +158,11 @@ RSpec.feature("Managing plans") do
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day + 2.hours
       click_on "Save"
-      visit plans_path
 
-      # 1 for the date title, 2 for each plan
-      expect(page).to(have_selector("h4", count: 3))
-      expect(page).to(have_selector("h4.my-3.border-bottom", count: 1))
+      visit trip_plans_path(trip)
       expect(page).to(have_selector("h4.fw-bold.mb-0.max-height-2-lines", count: 2))
+      expect(page).to(have_content("England"))
+      expect(page).to(have_content("Brazil"))
     end
   end
 
@@ -172,10 +170,10 @@ RSpec.feature("Managing plans") do
     given!(:plan) { FactoryBot.create(:plan) }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true, vcr: true do
-      visit plans_path
-      within(:css, "section .dropdown") do
+      visit trip_plans_path(plan.trip_id)
+      within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Edit"
+        click_on "Edit plan"
       end
 
       find(".aa-DetachedSearchButton", wait: 3).click
@@ -187,10 +185,10 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I can edit the type of plan" do
-      visit plans_path
-      within(:css, "section .dropdown") do
+      visit trip_plans_path(plan.trip_id)
+      within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Edit"
+        click_on "Edit plan"
       end
 
       select "Restaurant", from: "plan_plan_type"
@@ -199,10 +197,10 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "If I edit a plan and remove the title, I see an error message" do
-      visit plans_path
-      within(:css, "section .dropdown") do
+      visit trip_plans_path(plan.trip_id)
+      within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Edit"
+        click_on "Edit plan"
       end
 
       fill_in "plan_title", with: ""
@@ -211,10 +209,10 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "If I change the plan type to not a travel plan, the end location is removed", js: true do
-      visit plans_path
-      within(:css, "section .dropdown") do
+      visit trip_plans_path(plan.trip_id)
+      within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Edit"
+        click_on "Edit plan"
       end
 
       sleep_for_js
@@ -231,10 +229,10 @@ RSpec.feature("Managing plans") do
     given!(:plan) { FactoryBot.create(:plan) }
 
     scenario "I can delete a plan and see it removed from the plans index page" do
-      visit plans_path
-      within(:css, "section .dropdown") do
+      visit trip_plans_path(plan.trip_id)
+      within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Delete"
+        click_on "Delete plan"
       end
       expect(page).not_to(have_content(plan.start_location_name))
     end

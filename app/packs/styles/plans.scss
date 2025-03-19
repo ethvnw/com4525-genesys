@@ -18,3 +18,11 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+.collapse-btn i{
+  transition: transform 0.2s linear;
+}
+
+.collapse-btn.collapsed i {
+  transform: rotate(180deg);
+}
