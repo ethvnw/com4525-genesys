@@ -5,6 +5,10 @@
     %p.mb-0.fs-5.text-primary= @trip.description
 
   .d-flex.justify-content-center.gap-2.align-self-start
+    = link_to(trips_path, class: "btn btn-light") do
+      %i.bi.bi-arrow-left &nbsp;
+      All Trips
+
     = link_to(new_trip_plan_path(@trip), class: "btn btn-primary py-2") do
       %i.bi.bi-plus-circle &nbsp
       Add Plan
