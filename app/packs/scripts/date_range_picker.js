@@ -3,14 +3,18 @@ import { TempusDominus } from '@eonasdan/tempus-dominus';
 
 const datetimepickerElement = document.getElementById('datetimepicker1');
 const datetimepickerInput = document.getElementById('datetimepicker1-input');
-const startDateElement = document.getElementById('start_date');
-const endDateElement = document.getElementById('end_date');
+const startDateElement = document.getElementById('start_date_input');
+const endDateElement = document.getElementById('end_date_input');
+
+// Get preset dates from the hidden inputs (for edit form)
+const presetStartDate = startDateElement.getAttribute('value');
+const presetEndDate = endDateElement.getAttribute('value');
 
 const datetimepicker = new TempusDominus(datetimepickerElement, {
   dateRange: true,
   useCurrent: false, // Do not automatically pick today as the first date in the range
-  restrictions: {
-    minDate: new Date(), // Cannot set a trip to be in the past
+  restrictions: { // Minimum date is either today or the start date in the hidden input
+    minDate: presetStartDate ? new Date(presetStartDate) : new Date(),
   },
   display: {
     theme: 'light', // Force light theme as it looks better with the Roamio theme
@@ -71,3 +75,11 @@ datetimepickerElement.addEventListener('change.td', () => {
     datetimepickerInput.classList.remove('form-control-btn-selected');
   }
 });
+
+// If there are preset dates, set the input field button to show them.
+// This is for the edit form.
+if (presetStartDate && presetEndDate) {
+  datetimepickerInput.value = `${formatDateForButton(new Date(presetStartDate))} - ${formatDateForButton(new Date(presetEndDate))}`;
+  datetimepickerInput.classList.remove('form-control-btn');
+  datetimepickerInput.classList.add('form-control-btn-selected');
+}

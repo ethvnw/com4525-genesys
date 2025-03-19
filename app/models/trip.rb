@@ -27,8 +27,6 @@ class Trip < ApplicationRecord
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, presence: true, length: { maximum: 500 }
   validate :date_range_cant_be_blank
-  validate :start_date_is_in_the_future
-  validate :end_date_is_after_start_date
   validate :location_cant_be_blank
 
   private
@@ -36,18 +34,6 @@ class Trip < ApplicationRecord
   def date_range_cant_be_blank
     if start_date.blank? || end_date.blank?
       errors.add(:base, "Date range can't be blank")
-    end
-  end
-
-  def start_date_is_in_the_future
-    if start_date.present? && start_date < Date.today
-      errors.add(:base, "Start date must be in the future")
-    end
-  end
-
-  def end_date_is_after_start_date
-    if end_date.present? && end_date < start_date
-      errors.add(:base, "End date must be after the start date")
     end
   end
 
