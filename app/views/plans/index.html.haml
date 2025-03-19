@@ -2,6 +2,7 @@
   .d-flex.flex-column
     %h1.mb-0.fw-bold= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
+    %p.mb-0.fs-5.text-primary= @trip.description
 
   .d-flex.justify-content-center.gap-2.align-self-start
     = link_to(new_trip_plan_path(@trip), class: "btn btn-primary py-2") do
