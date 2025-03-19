@@ -8,8 +8,13 @@
 
 - @trips.each_with_index do |trip|
   = link_to(trip_path(trip), class: "link-underline link-underline-opacity-0 mb-4 link-body-emphasis") do
-    %section.trip-card.d-flex.flex-column.justify-content-end.p-2.rounded-3.border
-      %h2.mb-0.fw-bold
-        = trip.title
-      %p.mb-0
-        = trip.formatted_date_range
+    %section.trip-card.d-flex.flex-column.justify-content-end.rounded-3.border.position-relative
+      = image_tag(@photo_urls[trip.id],
+                  class: "w-100 h-100 object-fit-cover position-absolute top-0 start-0 rounded-3 z-n1")
+      .overlay.w-100.h-100.position-absolute.top-0.start-0.rounded-3.z-n1
+
+      .text-light.p-2.rounded-bottom-3
+        %h2.mb-0.fw-bold
+          = trip.title
+        %p.mb-0.fw-semibold
+          = trip.formatted_date_range
