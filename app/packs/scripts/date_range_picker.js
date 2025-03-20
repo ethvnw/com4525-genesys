@@ -89,10 +89,12 @@ datetimepickerElement.addEventListener('change.td', () => {
 // If there are preset dates, set the input field button to show them.
 // This is for the edit form.
 if (presetStartDate && presetEndDate) {
-  datetimepickerInput.value = `${formatDateForButton(new Date(presetStartDate))} - ${formatDateForButton(new Date(presetEndDate))}`;
+  // For Safari compatibility, the spaces are replaced for dates for compaitibility with WebKit.
+  // This cannot be done during definition of preset...Date as it breaks the date parsing in js.
+  datetimepickerInput.value = `${formatDateForButton(new Date(presetStartDate.replace(/-/g, '/')))} - ${formatDateForButton(new Date(presetEndDate.replace(/-/g, '/')))}`;
   datetimepickerInput.classList.remove('form-control-btn');
   datetimepickerInput.classList.add('form-control-btn-selected');
   // The dates have to be formatted from the ruby standard to rails to be valid inputs
-  startDateElement.value = formatDateForJS(new Date(presetStartDate));
-  endDateElement.value = formatDateForJS(new Date(presetEndDate));
+  startDateElement.value = formatDateForJS(new Date(presetStartDate.replace(/-/g, '/')));
+  endDateElement.value = formatDateForJS(new Date(presetEndDate.replace(/-/g, '/')));
 }
