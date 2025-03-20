@@ -5,11 +5,11 @@
 @import "twitter_bootstrap";
 
 html {
-    min-height: 100%;
+    min-height: calc(100% + env(safe-area-inset-top));
 }
 
 body {
-    min-height: 100vh;
+    min-height: calc(100% + env(safe-area-inset-top));
     display: flex;
     flex-direction: column;
 }
@@ -88,7 +88,7 @@ main {
 #topbar {
     background-color: $body-bg;
     // IOS Safe Area
-    padding-top: max( $navbar-padding-y, env(safe-area-inset-top) );
+    padding-top: calc( $navbar-padding-y + env(safe-area-inset-top) );
 
     img {
         height: 40px;
@@ -151,3 +151,10 @@ main {
     }
 }
 
+#landing-topbar {
+    padding-top: calc( $navbar-padding-y + env(safe-area-inset-top) );
+}
+
+footer {
+    padding-bottom: env(safe-area-inset-bottom);
+}
