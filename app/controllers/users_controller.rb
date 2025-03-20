@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Handles updating user avatar
+# Handles user information
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
@@ -11,10 +11,15 @@ class UsersController < ApplicationController
   end
 
   def update_avatar
-    if current_user.update(avatar_params)
-      redirect_to(edit_user_registration_path, notice: "Profile photo updated successfully.")
+    # Check that an avatar has been uploaded for saving
+    if params[:user] && params[:user][:avatar].present?
+      if current_user.update(avatar_params)
+        redirect_to(edit_user_registration_path, notice: "Profile photo updated successfully.")
+      else
+        redirect_to(edit_user_registration_path, alert: "Failed to update Profile photo.")
+      end
     else
-      redirect_to(edit_user_registration_path, alert: "Failed to update profile photo.")
+      redirect_to(edit_user_registration_path, alert: "No profile photo uploaded.")
     end
   end
 
