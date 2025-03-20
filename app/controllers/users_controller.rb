@@ -7,25 +7,30 @@ class UsersController < ApplicationController
   def destroy_avatar
     user = User.find(params[:id])
     user.avatar.purge_later
-    redirect_to(edit_user_registration_path, notice: "Profile photo successfully removed.")
+    redirect_to(edit_user_registration_path, notice: "Avatar successfully removed.")
   end
 
   def update_avatar
-    # Check that an avatar has been uploaded for saving
-    if params[:user] && params[:user][:avatar].present?
+    if avatar_uploaded?
       if current_user.update(avatar_params)
-        redirect_to(edit_user_registration_path, notice: "Profile photo updated successfully.")
+        flash[:notice] = "Avatar updated successfully."
       else
-        redirect_to(edit_user_registration_path, alert: "Failed to update Profile photo.")
+        flash[:alert] = current_user.errors.full_messages.to_sentence
       end
     else
-      redirect_to(edit_user_registration_path, alert: "No profile photo uploaded.")
+      flash[:alert] = "No avatar photo uploaded."
     end
+
+    redirect_to(edit_user_registration_path)
   end
 
   private
 
   def avatar_params
     params.require(:user).permit(:avatar)
+  end
+
+  def avatar_uploaded?
+    params[:user] && params[:user][:avatar].present?
   end
 end
