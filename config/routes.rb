@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   root "pages#home"
 
   get :faq, to: "pages#faq"
-  get :trip_test, to: "pages#trip_test"
 
   resources :trips do
     resources :plans
