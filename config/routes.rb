@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :users, only: [] do
     member do
       delete :destroy_avatar
+      patch :update_avatar
     end
   end
 

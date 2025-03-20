@@ -57,7 +57,7 @@
 
     -# Don't show navigation bar on sign in page
     - unless sign_in_page?
-      = render("partials/navbar")
+      = render("partials/navbar", current_user: @current_user)
 
     %main.container.d-flex.flex-column.flex-fill
       = yield

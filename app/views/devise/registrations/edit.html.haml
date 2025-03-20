@@ -1,19 +1,28 @@
 %h2 Edit #{resource_name.to_s.humanize}
 
-- if @current_user.avatar.attached?
-  = image_tag(@current_user.avatar)
-  = button_to("Remove Avatar",
-              destroy_avatar_user_path(@current_user),
-              method: :delete,
-              data: { confirm: "Are you sure you want to remove your avatar?" })
+%hr
 
+%h5 Profile Photo
+- if @current_user.avatar.attached?
+  = image_tag(@current_user.avatar, height: 100, width: 100)
+
+= form_for(@current_user, url: update_avatar_user_path(@current_user), method: :patch, html: { multipart: true }) do |f|
+  = f.label(:avatar, "Profile Photo")
+  = f.file_field(:avatar)
+  = f.submit("Save")
+
+= button_to("Remove Profile Photo",
+            destroy_avatar_user_path(@current_user),
+            method: :delete,
+            data: { confirm: "Are you sure you want to remove your profile photo?" })
+
+%hr
+
+%h5 Personal Details
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = f.error_notification
 
   .form-inputs
-    = f.label("Profile Photo")
-    = f.file_field(:avatar)
-
     = f.input(:email,
               required: true,
               autofocus: true)
