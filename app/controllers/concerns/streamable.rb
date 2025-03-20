@@ -10,7 +10,6 @@ module Streamable
       respond_to do |format|
         format.turbo_stream do
           streams = Array(options[:streams])
-
           if options[:message]
             streams << turbo_toast(options[:message][:content], options[:message][:type])
           end
@@ -19,13 +18,21 @@ module Streamable
         end
 
         format.html do
-          if options[:message]
-            flash_type = options[:message][:type] == "danger" ? :alert : :notice
-            flash[flash_type] = options[:message][:content]
-          end
+          create_flash_message(options[:message])
           redirect_to(options[:redirect_path])
         end
       end
+    end
+
+    def turbo_redirect_to(redirect_path, message = nil)
+      create_flash_message(message)
+      stream_response(
+        streams: turbo_stream.action(
+          "redirect",
+          redirect_path,
+        ),
+        redirect_path: redirect_path,
+      )
     end
 
     def turbo_toast(message, notification_type)
@@ -37,6 +44,17 @@ module Streamable
           message: message,
         },
       )
+    end
+
+    def create_flash_message(message)
+      if message
+        flash_type = message[:type] == "danger" ? :alert : :notice
+        flash[flash_type] = message[:content]
+      end
+    end
+
+    def turbo_stream_request?
+      formats.any?(:turbo_stream)
     end
   end
 end

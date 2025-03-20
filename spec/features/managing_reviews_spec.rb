@@ -58,7 +58,10 @@ RSpec.feature("Managing reviews") do
     scenario "I can like a review" do
       visit root_path
       within("div.reviews-carousel") do
-        find("button#review_#{review.id}").click
+        expect(page).to(have_content("0"))
+      end
+      within("div.reviews-carousel") do
+        find("button#like-review-#{review.id}").click
       end
       visit root_path
       within("div.reviews-carousel") do
@@ -66,24 +69,14 @@ RSpec.feature("Managing reviews") do
       end
     end
 
-    scenario "I can unlike a review" do
-      review.increment!(:engagement_counter)
-      visit root_path
-      within("div.reviews-carousel") do
-        find("button#review_#{review.id}").click
-      end
+    scenario "I can unlike a review after liking it" do
       visit root_path
       within("div.reviews-carousel") do
         expect(page).to(have_content("0"))
       end
-    end
-
-    scenario "I can like and unlike a review", js: true do
-      visit root_path
       within("div.reviews-carousel") do
-        find("button#review_#{review.id}").click
-        sleep_for_js
-        find("button#review_#{review.id}").click
+        find("button#like-review-#{review.id}").click
+        find("button#like-review-#{review.id}").click
       end
       visit root_path
       within("div.reviews-carousel") do

@@ -25,7 +25,4 @@
     .form-actions.mt-4.d-flex.justify-content-end.gap-2
       = f.button(:submit, "Reset Password", class: "btn-primary px-4")
 
-    %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
-    - flash.discard(:notifications)
-
   = render("devise/shared/links")

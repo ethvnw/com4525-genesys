@@ -16,7 +16,7 @@ module Api
         session.delete(:review_data)
 
         stream_response(
-          streams: turbo_stream.update(
+          streams: turbo_stream.replace(
             "new_review",
             partial: "reviews/form",
             locals: { review: Review.new, errors: nil },
@@ -34,7 +34,7 @@ module Api
             partial: "reviews/form",
             locals: { review: review, errors: review.errors.to_hash(true) },
           ),
-          redirect_path: root_path,
+          redirect_path: root_path(anchor: "new_review"),
         )
       end
     end
@@ -55,7 +55,7 @@ module Api
 
         stream_response(
           message: { content: "An error occurred while trying to like review.", type: "danger" },
-          redirect_path: root_path,
+          redirect_path: root_path(anchor: "reviews-carousel"),
         )
       else
         if session[:liked_reviews]&.include?(review.id)
@@ -74,7 +74,7 @@ module Api
             partial: "reviews/like_button",
             locals: { review: review },
           ),
-          redirect_path: root_path,
+          redirect_path: root_path(anchor: "reviews-carousel"),
         )
       end
     end

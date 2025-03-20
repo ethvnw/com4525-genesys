@@ -13,10 +13,15 @@ function showToasts(records) {
   });
 }
 
-// Fire showToasts once on initial pageload with a dummy mutation record, to show prerendered toasts
-showToasts([{ addedNodes: Array.from(document.getElementById('toast-list').children) }]);
+// Add event listener for turbo:load to set up toasts both on initial pageload,
+// as well as on turbo pageloads
+document.addEventListener('turbo:load', () => {
+  // Fire showToasts once on initial pageload with a dummy mutation record,
+  // to show prerendered toasts
+  showToasts([{ addedNodes: Array.from(document.getElementById('toast-list').children) }]);
 
-// Use mutation observer to listen to changes in toast list
-// e.g. new toasts being added by turbo streams
-const toastObserver = new MutationObserver(showToasts);
-toastObserver.observe(document.getElementById('toast-list'), { childList: true });
+  // Use mutation observer to listen to changes in toast list
+  // e.g. new toasts being added by turbo streams
+  const toastObserver = new MutationObserver(showToasts);
+  toastObserver.observe(document.getElementById('toast-list'), { childList: true });
+});
