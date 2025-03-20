@@ -6,6 +6,7 @@
 
 html {
     min-height: calc(100% + env(safe-area-inset-top));
+    overscroll-behavior: none;
 }
 
 body {
@@ -31,7 +32,6 @@ main {
     @extend .flex-fill;
 
     .container {
-        @extend .overflow-hidden;
         @extend .flex-fill;
         @extend .w-100;
         z-index: 1;
