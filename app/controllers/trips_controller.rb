@@ -42,7 +42,16 @@ class TripsController < ApplicationController
       redirect_to(trips_path, notice: "Your trip has been submitted.")
     else
       flash[:errors] = @trip.errors.full_messages
-      session[:trip_data] = @trip.attributes.slice("trip")
+      session[:trip_data] =
+      @trip.attributes.slice(
+        "title",
+        "description",
+        "start_date",
+        "end_date",
+        "location_name",
+        "location_latitude",
+        "location_longitude",
+      )
       redirect_to(new_trip_path)
     end
   end
