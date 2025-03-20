@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   root "pages#landing"
 
   get :home, to: "pages#home"
-  get :trips, to: "pages#trips"
 
   get :faq, to: "pages#faq"
 
