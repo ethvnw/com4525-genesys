@@ -3,6 +3,9 @@
 # A basic controller from the template app
 class PagesController < ApplicationController
   layout "user", only: [:home, :trips]
+  before_action :authorize_members_access, only: [:landing, :faq]
+  before_action :authenticate_user!, only: :home
+
   def landing
     @script_packs = ["landing"]
 
@@ -32,11 +35,6 @@ class PagesController < ApplicationController
   end
 
   def home
-    authenticate_user!
-    @inbox_count = 1
-  end
-
-  def trips
-    authenticate_user!
+    @inbox_count = 0
   end
 end

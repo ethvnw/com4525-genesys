@@ -68,4 +68,12 @@ class ApplicationController < ActionController::Base
       flash.discard(:notice)
     end
   end
+
+  def authorize_members_access
+    authorize!(:access, :landing)
+    authorize!(:access, :faq)
+    authorize!(:access, :subscription)
+  rescue CanCan::AccessDenied
+    redirect_to(home_path)
+  end
 end
