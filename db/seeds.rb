@@ -32,6 +32,16 @@ User.create!(
   invitation_accepted_at: Time.zone.now,
 ) unless User.exists?(email: "admin@genesys.com")
 
+TripMembership.create!(
+  trip_id: Trip.find_by(title: "Trip to Paris").id,
+  user_id: User.find_by(email: "admin@genesys.com").id,
+  is_invite_accepted: true,
+  user_display_name: "admin1",
+) unless TripMembership.exists?(
+  trip_id: Trip.find_by(title: "Trip to Paris").id,
+  user_id: User.find_by(email: "admin@genesys.com").id,
+)
+
 User.create!(
   email: "reporter@genesys.com",
   username: "reporter1",

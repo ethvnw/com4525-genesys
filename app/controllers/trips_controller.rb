@@ -6,7 +6,7 @@ class TripsController < ApplicationController
 
   def index
     # TODO: - only show trips that the user is a memmber of (use TripMemberships in db)
-    @trips = Trip.all.decorate
+    @trips = Trip.where(id: TripMembership.where(user_id: @current_user.id).pluck(:trip_id)).decorate
     @photo_urls = {}
     @trips.each do |trip|
       photo = Unsplash::Photo.search(trip.location_name.split(",", 2).first).first
@@ -43,15 +43,15 @@ class TripsController < ApplicationController
     else
       flash[:errors] = @trip.errors.full_messages
       session[:trip_data] =
-      @trip.attributes.slice(
-        "title",
-        "description",
-        "start_date",
-        "end_date",
-        "location_name",
-        "location_latitude",
-        "location_longitude",
-      )
+        @trip.attributes.slice(
+          "title",
+          "description",
+          "start_date",
+          "end_date",
+          "location_name",
+          "location_latitude",
+          "location_longitude",
+        )
       redirect_to(new_trip_path)
     end
   end
