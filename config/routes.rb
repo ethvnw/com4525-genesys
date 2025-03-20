@@ -7,6 +7,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
+  resources :users, only: [] do
+    member do
+      delete :destroy_avatar
+    end
+  end
+
   get :faq, to: "pages#faq"
 
   resources :trips do

@@ -63,6 +63,9 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
+  # For testing the uploading of images
+  config.active_storage_service = :test
+
   ##########################################################################
   # All settings above this line are generated automatically by running    #
   # `rails new ...`                                                        #
