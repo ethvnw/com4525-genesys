@@ -1,0 +1,13 @@
+
+= simple_form_for([:api, registration],
+                  html: { class: "mb-0 d-flex gap-2 flex-column flex-lg-row align-items-start", "data-turbo": "true" },
+                  builder: ValidatedFormBuilder) do |f|
+  = f.hidden_field(:subscription_tier_id, value: subscription_tier_id)
+  = f.validated_input(:email,
+                      get_formatted_errors(errors, :email),
+                      placeholder: "Enter your email",
+                      required: true,
+                      class: "w-100")
+  = button_tag(type: "submit", class: "btn btn-primary text-nowrap fw-bold", style: "margin-top: 1.75rem") do
+    %i.bi.bi-bell &nbsp;
+    Notify Me

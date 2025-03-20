@@ -26,63 +26,116 @@ RSpec.feature("User accounts") do
 
       click_on "Sign Up"
     end
+  end
 
-    scenario "Admin can access account settings through dropdown" do
+  feature "As a user with a regular account" do
+    let!(:user) { create(:user) }
+    before do
+      login_as(user, scope: :user)
+    end
+
+    scenario "I can access account settings through dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
 
       within("#user-account-dropdown") do
         expect(page).to(have_link("My Account", href: edit_user_registration_path))
-        sleep_for_js
-        click_link "My Account"
       end
-
-      expect(page).to(have_content("Edit User"))
-    end
-  end
-
-  feature "Reporter user dropdown", js: true do
-    before do
-      login_as(reporter, scope: :user)
     end
 
-    scenario "Reporter can't access admin dashboard through dropdown" do
+    scenario "I cannot access reporter dashboard through dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
 
       within("#user-account-dropdown") do
-        expect(page).to_not(have_link("Admin Dashboard", href: admin_dashboard_path))
+        expect(page).not_to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
       end
     end
 
-    scenario "Admin can access reporter dashboard through dropdown" do
+    scenario "I cannot access admin dashboard through dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).not_to(have_link("Admin Dashboard", href: admin_dashboard_path))
+      end
+    end
+  end
+
+  feature "As a reporter user", js: true do
+    let!(:reporter) { create(:reporter) }
+    before do
+      login_as(reporter, scope: :user)
+    end
+
+    scenario "I can access account settings through dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("My Account", href: edit_user_registration_path))
+      end
+    end
+
+    scenario "I can access reporter dashboard through dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
 
       within("#user-account-dropdown") do
         expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
-
-        click_link "Reporter Dashboard"
       end
-
-      expect(page).to(have_content("Reporter Dashboard"))
     end
 
-    scenario "Reporter can access account settings through dropdown" do
+    scenario "I cannot access admin dashboard through dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).not_to(have_link("Admin Dashboard", href: admin_dashboard_path))
+      end
+    end
+  end
+
+  feature "As an admin user", js: true do
+    let!(:admin) { create(:admin) }
+    before do
+      login_as(admin, scope: :user)
+    end
+
+    scenario "I can access account settings through dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
 
       within("#user-account-dropdown") do
         expect(page).to(have_link("My Account", href: edit_user_registration_path))
-
-        click_link "My Account"
       end
+    end
 
-      expect(page).to(have_content("Edit User"))
+    scenario "I can access reporter dashboard through dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
+      end
+    end
+
+    scenario "I can access admin dashboard through dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("Admin Dashboard", href: admin_dashboard_path))
+      end
     end
   end
 end

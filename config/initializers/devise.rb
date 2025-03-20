@@ -361,6 +361,6 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   # ==> Configuration for Hotwire/Turbo (https://github.com/heartcombo/devise#hotwireturbo)
-  # config.responder.error_status = :found
+  # config.responder.error_status = :unprocessable_entity
   # config.responder.redirect_status = :see_other
 end

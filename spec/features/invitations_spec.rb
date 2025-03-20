@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-gst # frozen_string_literal: true
-
 require "rails_helper"
-require "invitations_helper"
 
 RSpec.feature("Invitations") do
   let(:admin) { create(:admin) }
@@ -71,14 +68,8 @@ RSpec.feature("Invitations") do
       fill_in("Email address", with: "invalid")
       select("Admin", from: "user_user_role")
       click_button("Send Invitation")
-
-      within("#user_email") do
-        expect(page).to(have_content("invalid"))
-      end
-
-      within("#user_user_role") do
-        expect(page).to(have_content("Reporter"))
-      end
+      expect(page).to(have_field("Email", with: "invalid"))
+      expect(page).to(have_field("User role", with: "Admin"))
     end
   end
 

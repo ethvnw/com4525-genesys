@@ -6,6 +6,11 @@
 def register_with_email(email: "test@example.com")
   fill_in("registration_email", with: email)
   click_on("Notify Me")
+
+  if js_true?
+    # Visit root path to trick capybara into waiting for database to update
+    visit(root_path)
+  end
 end
 
 ##

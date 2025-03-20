@@ -70,7 +70,6 @@ class LandingPageJourneyMiddleware
     end
 
     full_route = "#{route_info[:controller]}/#{route_info[:action]}"
-
     # Guard clause to catch all actions that we don't need analytics for
     unless ROUTES_TO_JOURNEY.key?(full_route)
       return
@@ -84,7 +83,7 @@ class LandingPageJourneyMiddleware
       interaction[:method] = env["QUERY_STRING"].sub("method=", "")
     end
 
-    if adding?(full_route, request.params)
+    if adding?(request.session, full_route, request.params)
       add_to_session(request.session, ROUTES_TO_JOURNEY[full_route], interaction)
     else
       remove_from_session(request.session, ROUTES_TO_JOURNEY[full_route], interaction)
@@ -93,11 +92,12 @@ class LandingPageJourneyMiddleware
 
   ##
   # Checks whether we are adding to the journey or not
+  # @param [Hash] user_session the user's session to check for liked reviews
   # @param [String] action the action that has been called
   # @param [Rack::Request] params the parameters that have been passed with the request
   # @return [bool] true if adding, otherwise false
-  def adding?(action, params)
-    action != LIKE_REVIEW_ROUTE || params["like"] == "true"
+  def adding?(user_session, action, params)
+    action != LIKE_REVIEW_ROUTE || !user_session[:liked_reviews]&.include?(params[:id])
   end
 
   ##

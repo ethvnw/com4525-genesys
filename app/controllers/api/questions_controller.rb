@@ -16,7 +16,7 @@ module Api
         session.delete(:question_data)
 
         stream_response(
-          streams: turbo_stream.update(
+          streams: turbo_stream.replace(
             "new_question",
             partial: "questions/form",
             locals: { question: Question.new, errors: nil },

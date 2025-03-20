@@ -1,23 +1,19 @@
 .col-lg-5.m-auto
   %h2.mt-3 Resend Unlock Instructions
 
-  = turbo_frame_tag(resource) do
-    = simple_form_for(resource,
-                      builder: ValidatedFormBuilder,
-                      as: resource_name,
-                      url: unlock_path(resource_name),
-                      is_form_submitted: resource.errors.present?,
-                      html: { method: :post, data: { turbo_frame: "_top" } }) do |f|
-      .form-inputs
-        = f.validated_input(:email,
-                            get_formatted_errors(resource.errors.to_hash(true), :email),
-                            required: true,
-                            autofocus: true)
+  = simple_form_for(resource,
+                    builder: ValidatedFormBuilder,
+                    as: resource_name,
+                    url: unlock_path(resource_name),
+                    is_form_submitted: resource.errors.present?,
+                    html: { method: :post }) do |f|
+    .form-inputs
+      = f.validated_input(:email,
+                          get_formatted_errors(resource.errors.to_hash(true), :email),
+                          required: true,
+                          autofocus: true)
 
-      .form-actions.mt-4.d-flex.justify-content-end.gap-2
-        = f.button(:submit, "Resend Unlock Instructions", class: "btn-primary px-4")
-
-      %div{ data: { "turbo-toast": true, "notifications": flash[:notifications].to_json } }
-      - flash.discard(:notifications)
+    .form-actions.mt-4.d-flex.justify-content-end.gap-2
+      = f.button(:submit, "Resend Unlock Instructions", class: "btn-primary px-4")
 
   = render("devise/shared/links")

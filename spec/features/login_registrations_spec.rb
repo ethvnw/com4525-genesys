@@ -32,10 +32,7 @@ RSpec.feature("Login and Registrations") do
 
   feature "Editing username" do
     before do
-      visit new_user_session_path
-      fill_in "Email address or Username", with: user.email
-      fill_in "Password", with: "GenesysModule#1"
-      click_button "Log In"
+      login_as(user, scope: :user)
       visit edit_user_registration_path
     end
 
@@ -52,7 +49,7 @@ RSpec.feature("Login and Registrations") do
       fill_in "Current password", with: "GenesysModule#1"
       click_button "Apply Changes"
 
-      expect(page).to(have_content("Your account has been updated successfully"))
+      expect(page).to(have_content("Account updated successfully"))
       expect(user.reload.username).to(eq("new_unique_username"))
     end
 
@@ -61,10 +58,9 @@ RSpec.feature("Login and Registrations") do
       fill_in "Current password", with: "GenesysModule#1"
       click_button "Apply Changes"
 
-      expect(page).to(have_content("Your account has been updated successfully"))
+      expect(page).to(have_content("Account updated successfully"))
 
       find("#user-account-dropdown .dropdown-toggle").click
-      sleep_for_js
       within("#user-account-dropdown") do
         click_link "Sign Out"
       end

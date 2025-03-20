@@ -2,6 +2,8 @@
 
 # Handles account creation invitations
 class InvitationsController < Devise::InvitationsController
+  include Streamable
+
   before_action :authorize_invitation, only: [:new, :create]
   before_action :update_sanitized_params, only: :update
   before_action :block_default_new_invitation_path
@@ -12,37 +14,39 @@ class InvitationsController < Devise::InvitationsController
     user.valid_invite? # invitation-specific validation
     invitation_errors = user.errors.messages.slice(:email, :user_role) # Only validate email and user role
 
-    respond_to do |format|
-      if invitation_errors.any?
-        format.html do
-          render(
+    if invitation_errors.any?
+      session[:user_data] = user.slice(:email, :user_role)
+      flash[:errors] = user.errors.to_hash(true)
+      stream_response(
+        streams: turbo_stream.replace(
+          "new_user",
+          partial: "admin/dashboard/invite_form",
+          locals: { user: user, errors: flash[:errors] },
+          status: :unprocessable_entity,
+        ),
+        redirect_path: admin_dashboard_path,
+      )
+    else
+      user.invite!
+      session.delete(:user_data)
+      stream_response(
+        streams: [
+          # Update invitation form
+          turbo_stream.replace(
+            "new_user",
             partial: "admin/dashboard/invite_form",
-            status: :unprocessable_entity,
-            locals: { user: user, errors: user.errors.to_hash(true) },
-          )
-        end
-      else
-        user.invite!
-        session.delete(:user_data)
-        format.turbo_stream do
-          render(turbo_stream: [
-            # Update invitation form
-            turbo_stream.update(
-              "new_user",
-              partial: "admin/dashboard/invite_form",
-              locals: { user: User.new, errors: nil },
-            ),
-            # Then add new user to staff table
-            turbo_stream.append(
-              "staff-table-body",
-              partial: "admin/dashboard/staff_row",
-              locals: { user: user.decorate },
-            ),
-            # Then send success message as toast
-            Turbo::Toaster.call(turbo_stream, "Invitation sent successfully to #{user.email}.", "success"),
-          ])
-        end
-      end
+            locals: { user: User.new, errors: nil },
+          ),
+          # Then add new user to staff table
+          turbo_stream.append(
+            "staff-table-body",
+            partial: "admin/dashboard/staff_row",
+            locals: { user: user.decorate },
+          ),
+        ],
+        message: { content: "Invitation sent successfully to #{user.email}.", type: "success" },
+        redirect_path: admin_dashboard_path,
+      )
     end
   end
 
