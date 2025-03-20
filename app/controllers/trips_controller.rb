@@ -5,7 +5,7 @@ class TripsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # TODO: - only show trips that the user is a memmber of (use TripMemberships in db)
+    # Only show trips that the user is a memmber of (use TripMemberships in db)
     @trips = Trip.where(id: TripMembership.where(user_id: @current_user.id).pluck(:trip_id)).decorate
     @photo_urls = {}
     @trips.each do |trip|
