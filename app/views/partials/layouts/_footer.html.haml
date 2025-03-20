@@ -6,7 +6,7 @@
       %small.text-secondary.my-2
         &copy; #{Date.today.year} Roamio & Genesys Team 02. All rights reserved &nbsp;
 
-        -# This is probably very unsecure, remove before deployment
+        -# Print development environment info
         - if Rails.env.development?
           %i.bi.bi-terminal
           Development Environment &nbsp;
