@@ -6,7 +6,6 @@ module Api
     include Streamable
     include AdminItemManageable
 
-    before_action :set_instance_variables
     attr_reader :model, :type, :path
 
     def create
@@ -40,11 +39,25 @@ module Api
     end
 
     def visibility
-      update_visibility
+      if AdminManagement::VisibilityUpdater.call(Review, params[:id])
+        admin_item_stream_success_response(Review.visible, Review.hidden, manage_admin_reviews_path)
+      else
+        admin_item_stream_error_response(
+          "An error occurred while trying to update review visibility.",
+          manage_admin_reviews_path,
+        )
+      end
     end
 
     def order
-      update_order
+      if AdminManagement::OrderUpdater.call(Review, params[:id], params[:order_change].to_i)
+        admin_item_stream_success_response(Review.visible, Review.hidden, manage_admin_reviews_path)
+      else
+        admin_item_stream_error_response(
+          "An error occurred while trying to update review order.",
+          manage_admin_reviews_path,
+        )
+      end
     end
 
     def like
@@ -83,12 +96,6 @@ module Api
 
     def review_params
       params.require(:review).permit(:content, :name)
-    end
-
-    def set_instance_variables
-      @model = Review
-      @type = "review"
-      @path = Rails.application.routes.url_helpers.manage_admin_reviews_path
     end
   end
 end
