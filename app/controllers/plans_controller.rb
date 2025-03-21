@@ -4,16 +4,6 @@
 class PlansController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-    @trip = Trip.find(params[:trip_id]).decorate
-    plans = Plan.where(trip: @trip).order(:start_date)
-
-    @plan_groups = plans.group_by { |plan| plan.start_date.to_date }
-    @plan_groups.each do |date, plans|
-      @plan_groups[date] = plans.map(&:decorate)
-    end
-  end
-
   def new
     @script_packs = ["plans"]
     @trip = Trip.find(params[:trip_id])
@@ -30,7 +20,7 @@ class PlansController < ApplicationController
     @plan = Plan.new(plan_params)
     @plan.trip = Trip.find(params[:trip_id])
     if @plan.save
-      redirect_to(trip_plans_path, notice: "Plan created successfully.")
+      redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
       session.delete(:plan_data)
     else
       flash[:errors] = @plan.errors.full_messages
@@ -61,7 +51,7 @@ class PlansController < ApplicationController
   def update
     @plan = Plan.find(params[:id])
     if @plan.update(plan_params)
-      redirect_to(trip_plans_path, notice: "Plan updated successfully.")
+      redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.")
     else
       flash[:errors] = @plan.errors.full_messages
       redirect_to(edit_trip_plan_path(@plan))
@@ -71,7 +61,7 @@ class PlansController < ApplicationController
   def destroy
     @plan = Plan.find(params[:id])
     @plan.destroy
-    redirect_back_or_to(trip_plans_path, notice: "Plan deleted successfully.")
+    redirect_back_or_to(trip_path(@plan.trip), notice: "Plan deleted successfully.")
   end
 
   private

@@ -129,7 +129,7 @@ RSpec.feature("Managing plans") do
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
-      visit trip_plans_path(trip)
+      visit trip_path(trip)
       expect(page).to(have_content("Test Title"))
       expect(page).to(have_content("Other"))
       expect(page).to(have_content("England"))
@@ -159,7 +159,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_start_date", with: Time.current + 1.day + 2.hours
       click_on "Save"
 
-      visit trip_plans_path(trip)
+      visit trip_path(trip)
       expect(page).to(have_selector("h4.fw-bold.mb-0.max-height-2-lines", count: 2))
       expect(page).to(have_content("England"))
       expect(page).to(have_content("Brazil"))
@@ -170,7 +170,7 @@ RSpec.feature("Managing plans") do
     given!(:plan) { FactoryBot.create(:plan) }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true, vcr: true do
-      visit trip_plans_path(plan.trip_id)
+      visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
         click_on "Edit plan"
@@ -185,7 +185,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I can edit the type of plan" do
-      visit trip_plans_path(plan.trip_id)
+      visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
         click_on "Edit plan"
@@ -197,7 +197,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "If I edit a plan and remove the title, I see an error message" do
-      visit trip_plans_path(plan.trip_id)
+      visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
         click_on "Edit plan"
@@ -209,7 +209,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "If I change the plan type to not a travel plan, the end location is removed", js: true do
-      visit trip_plans_path(plan.trip_id)
+      visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
         click_on "Edit plan"
@@ -229,7 +229,7 @@ RSpec.feature("Managing plans") do
     given!(:plan) { FactoryBot.create(:plan) }
 
     scenario "I can delete a plan and see it removed from the plans index page" do
-      visit trip_plans_path(plan.trip_id)
+      visit trip_path(plan.trip_id)
       expect(page).to(have_content(plan.start_location_name))
       within(:css, "section #plan-settings.dropdown") do
         find("button").click

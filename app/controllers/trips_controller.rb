@@ -5,7 +5,7 @@ class TripsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # Only show trips that the user is a memmber of (use TripMemberships in db)
+    # Only show trips that the user is a member of (use TripMemberships in db)
     @trips = Trip.where(id: TripMembership.where(user_id: @current_user.id).pluck(:trip_id)).decorate
     @photo_urls = {}
     @trips.each do |trip|
@@ -79,7 +79,12 @@ class TripsController < ApplicationController
   end
 
   def show
-    redirect_to(trip_plans_path(params[:id]))
+    @trip = Trip.find(params[:id]).decorate
+    plans = @trip.plans.order(:start_date)
+    @plan_groups = plans.group_by { |plan| plan.start_date.to_date }
+    @plan_groups.each do |date, plans|
+      @plan_groups[date] = plans.map(&:decorate)
+    end
   end
 
   private
