@@ -79,14 +79,20 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
   def build_input(attribute_name, error, input_element, hint_element, element_options)
     # Parse input ID with Nokogiri to add as "for" attribute on label
     input_id = Nokogiri::HTML5.fragment(input_element).children[0]["id"]
+    label_text = element_options.fetch(:label, attribute_name)
+
+    # Unless label option is explicitly set to nil, set label text
+    label_element = label_text.nil? ? nil : label(label_text, class: "mb-1", for: input_id)
 
     @template.content_tag(:div, class: "#{element_options[:class]} d-flex flex-column mb-3") do
-      # Use label from options if one is defined, with attribute name as default
-      child_elements = label(element_options.fetch(:label, attribute_name), class: "mb-1", for: input_id)
+      child_elements = ActiveSupport::SafeBuffer.new
 
+      child_elements += label_element
       child_elements += hint_element
+
       child_elements += input_element
 
+      # Create & add feedback tags
       child_elements += @template.content_tag(
         :div,
         simple_format(error, {}, wrapper_tag: "span"),

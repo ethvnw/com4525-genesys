@@ -1,0 +1,18 @@
+= simple_form_for(user,
+                  url: api_staff_path(user),
+                  builder: ValidatedFormBuilder,
+                  is_form_submitted: errors.present?,
+                  html: { "data-turbo": "true" }) do |f|
+  .form-inputs
+    .row.align-items-center
+      .col-auto.mb-3
+        %span.fw-bold Privileges:
+      .col
+        = f.validated_select(:user_role,
+                             options_for_select(User.user_roles.values, selected: user.user_role&.titleize),
+                             get_formatted_errors(errors, :user_role),
+                             label: nil)
+
+  .form-actions.mt-3
+    = button_tag(type: "submit", class: "btn btn-primary d-flex justify-content-end") do
+      Save Changes
