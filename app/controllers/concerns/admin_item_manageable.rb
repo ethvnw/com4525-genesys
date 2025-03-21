@@ -6,25 +6,7 @@ module AdminItemManageable
   extend ActiveSupport::Concern
 
   included do
-    def update_visibility
-      if AdminManagement::VisibilityUpdater.call(model, params[:id])
-        admin_item_stream_success_response
-      else
-        admin_item_stream_error_response("An error occurred while trying to update question visibility.")
-      end
-    end
-
-    def update_order
-      if AdminManagement::OrderUpdater.call(model, params[:id], params[:order_change].to_i)
-        admin_item_stream_success_response
-      else
-        admin_item_stream_error_response("An error occurred while trying to update question order.")
-      end
-    end
-
-    def admin_item_stream_success_response
-      visible_items = model.visible
-      hidden_items = model.hidden
+    def admin_item_stream_success_response(visible_items, hidden_items, fallback_path)
       stream_response(
         streams: [
           turbo_stream.update("visible-count", visible_items.count),
@@ -40,14 +22,14 @@ module AdminItemManageable
             locals: { items: hidden_items.decorate },
           ),
         ],
-        redirect_path: path,
+        redirect_path: fallback_path,
       )
     end
 
-    def admin_item_stream_error_response(message)
+    def admin_item_stream_error_response(message, fallback_path)
       stream_response(
         message: { content: message, type: "danger" },
-        redirect_path: path,
+        redirect_path: fallback_path,
       )
     end
   end

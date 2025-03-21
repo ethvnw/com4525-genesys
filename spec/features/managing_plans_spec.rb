@@ -132,7 +132,7 @@ RSpec.feature("Managing plans") do
       js: true,
       vcr: true do
       visit new_trip_plan_path(trip)
-      fill_in "Title", with: "Test Title"
+      fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton").click
       find(".aa-Input").set("England")
@@ -142,7 +142,7 @@ RSpec.feature("Managing plans") do
       click_on "Save"
 
       visit new_trip_plan_path(trip)
-      fill_in "Title", with: "Test Title 2"
+      fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton").click
       find(".aa-Input").set("Brazil")

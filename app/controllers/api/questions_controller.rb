@@ -6,7 +6,6 @@ module Api
     include Streamable
     include AdminItemManageable
 
-    before_action :set_instance_variables
     attr_reader :model, :type, :path
 
     def create
@@ -58,11 +57,25 @@ module Api
     end
 
     def visibility
-      update_visibility
+      if AdminManagement::VisibilityUpdater.call(Question, params[:id])
+        admin_item_stream_success_response(Question.visible, Question.hidden, manage_admin_questions_path)
+      else
+        admin_item_stream_error_response(
+          "An error occurred while trying to update question visibility.",
+          manage_admin_questions_path,
+        )
+      end
     end
 
     def order
-      update_order
+      if AdminManagement::OrderUpdater.call(Question, params[:id], params[:order_change].to_i)
+        admin_item_stream_success_response(Question.visible, Question.hidden, manage_admin_questions_path)
+      else
+        admin_item_stream_error_response(
+          "An error occurred while trying to update question order.",
+          manage_admin_questions_path,
+        )
+      end
     end
 
     def click
@@ -92,12 +105,6 @@ module Api
     # @return [Boolean] true if current user can click, else false
     def user_can_click?(question_id)
       Question.exists?(id: question_id) && !session[:questions_clicked]&.include?(question_id)
-    end
-
-    def set_instance_variables
-      @model = Question
-      @type = "question"
-      @path = Rails.application.routes.url_helpers.manage_admin_questions_path
     end
   end
 end
