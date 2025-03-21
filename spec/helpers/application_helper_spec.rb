@@ -56,4 +56,42 @@ RSpec.describe(ApplicationHelper, type: :helper) do
       end
     end
   end
+
+  describe "#navbar_link_to" do
+    let(:name) { "Home" }
+    let(:icon) { "bi-house" }
+    let(:path) { "/home" }
+
+    context "when the current page matches the provided path" do
+      it "generates an active link with filled icon" do
+        # Mock the function call to current_page?
+        allow(helper).to(receive(:current_page?).with(path).and_return(true))
+
+        # Get the result of the method
+        result = helper.navbar_link_to(name, icon, path)
+
+        # Check each of the HTML tags
+        expect(result).to(have_selector("li.nav-item"))
+        expect(result).to(have_selector("a.nav-link.active[href='/home']"))
+        expect(result).to(have_selector("i.bi-house-fill.bi"))
+        expect(result).to(have_selector("span", text: "Home"))
+      end
+    end
+
+    context "when the current page does not match provided the path" do
+      it "generates a non-active link with regular icon" do
+        # Mock the function call to current_page?
+        allow(helper).to(receive(:current_page?).with(path).and_return(false))
+
+        # Get the result of the method
+        result = helper.navbar_link_to(name, icon, path)
+
+        # Check each of the HTML tags
+        expect(result).to(have_selector("li.nav-item"))
+        expect(result).to(have_selector("a.nav-link[href='/home']"))
+        expect(result).to(have_selector("i.bi-house.bi"))
+        expect(result).to(have_selector("span", text: "Home"))
+      end
+    end
+  end
 end
