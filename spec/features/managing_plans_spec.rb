@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "webmock/rspec"
 
 RSpec.feature("Managing plans") do
   let(:user) { create(:user) }
@@ -9,41 +8,39 @@ RSpec.feature("Managing plans") do
 
   before do
     login_as(user, scope: :user)
-    travel_to Time.parse("2025-01-10 1:30:00")
+    travel_to(Time.parse("2025-01-10 1:30:00"))
+    stub_photon_api
   end
 
   feature "Creating plans" do
-    scenario "I cannot create a plan with no title", js: true, vcr: true do
+    scenario "I cannot create a plan with no title", js: true do
       visit new_trip_plan_path(trip)
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
       expect(page).to(have_content("Title can't be blank"))
     end
 
-    scenario "I cannot create a plan with a title that is too long (>250 characters)", js: true, vcr: true do
+    scenario "I cannot create a plan with a title that is too long (>250 characters)", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a" * 300
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
       expect(page).to(have_content("Title is too long (maximum is 250 characters)"))
     end
 
-    scenario "I cannot create a plan with no provided plan type", js: true, vcr: true do
+    scenario "I cannot create a plan with no provided plan type", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
@@ -59,25 +56,23 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start location name can't be blank"))
     end
 
-    scenario "I cannot create a plan with no start date", js: true, vcr: true do
+    scenario "I cannot create a plan with no start date", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       click_on "Save"
       expect(page).to(have_content("Start date can't be blank"))
     end
 
-    scenario "I cannot create a plan with a start date after the end date", js: true, vcr: true do
+    scenario "I cannot create a plan with a start date after the end date", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 2.days
       fill_in "plan_end_date", with: Time.current + 1.day
@@ -85,26 +80,24 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start date cannot be after end date"))
     end
 
-    scenario "I cannot create a plan with a start date prior to the current time", js: true, vcr: true do
+    scenario "I cannot create a plan with a start date prior to the current time", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current - 1.day
       click_on "Save"
       expect(page).to(have_content("Start date cannot be in the past"))
     end
 
-    scenario "I cannot create a plan with no end location if it is a travel plan", js: true, vcr: true do
+    scenario "I cannot create a plan with no end location if it is a travel plan", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Travel By Plane", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       fill_in "plan_end_date", with: Time.current + 2.days
@@ -119,13 +112,12 @@ RSpec.feature("Managing plans") do
       expect(find("#end-location-autocomplete", visible: :all)).to(be_visible)
     end
 
-    scenario "I can create a plan and see its information on the plans index page", js: true, vcr: true do
+    scenario "I can create a plan and see its information on the plans index page", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
@@ -142,9 +134,8 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
@@ -152,9 +143,8 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("Brazil")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("Brazil")
       find_all(".aa-Item").first.click
       fill_in "plan_start_date", with: Time.current + 1.day + 2.hours
       click_on "Save"
@@ -169,16 +159,15 @@ RSpec.feature("Managing plans") do
   feature "Edit a plan" do
     given!(:plan) { FactoryBot.create(:plan) }
 
-    scenario "I can edit the start location of a plan and see it on the plan page", js: true, vcr: true do
+    scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
         click_on "Edit plan"
       end
 
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("Brazil")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("Brazil")
       find_all(".aa-Item").first.click
       click_on "Save"
       expect(page).not_to(have_content("England"))

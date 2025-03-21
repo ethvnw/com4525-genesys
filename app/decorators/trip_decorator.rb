@@ -12,8 +12,22 @@ class TripDecorator < ApplicationDecorator
     format_date_slashes(end_date)
   end
 
-  # Formats the date range to the format (dd - dd mmm: e.g. 01 - 05 Jan)
+  # Formats the start date to the formats:
+  # - "dd" for the same month and year
+  # - "dd mmm" for the same year
+  # - "dd mmm yyyy  for different years
+  # - end date is always formatted as "dd mmm yyyy"
   def formatted_date_range
-    start_date.strftime("%d") + " - " + end_date.strftime("%d %b")
+    start_date_format = if start_date.year == end_date.year
+      if start_date.month == end_date.month
+        "%d"
+      else
+        "%d %b"
+      end
+    else
+      "%d %b %Y"
+    end
+
+    start_date.strftime(start_date_format) + " - " + end_date.strftime("%d %b %Y")
   end
 end

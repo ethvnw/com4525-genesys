@@ -14,9 +14,9 @@ http_interactions:
       User-Agent:
       - Ruby
       Sentry-Trace:
-      - ef2e495b6afb412780e6e9e1d69689a2-7fd3701fda7f48fc
+      - 2bd01303c1df45d69801332d50c006ae-2956a852300d4c7a
       Baggage:
-      - sentry-trace_id=ef2e495b6afb412780e6e9e1d69689a2,sentry-environment=test
+      - sentry-trace_id=2bd01303c1df45d69801332d50c006ae,sentry-environment=test
   response:
     status:
       code: 200
@@ -27,7 +27,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Wed, 12 Mar 2025 14:19:38 GMT
+      - Fri, 21 Mar 2025 18:50:46 GMT
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Vary:
@@ -58,10 +58,10 @@ http_interactions:
           "timezone": "Europe/Amsterdam",
           "readme": "https://ipinfo.io/missingauth"
         }
-  recorded_at: Wed, 12 Mar 2025 14:19:38 GMT
+  recorded_at: Fri, 21 Mar 2025 18:50:47 GMT
 - request:
     method: get
-    uri: http://ipinfo.io/185.156.172.142/geo
+    uri: http://ipinfo.io/210.138.184.59/geo
     body:
       encoding: US-ASCII
       string: ''
@@ -73,9 +73,9 @@ http_interactions:
       User-Agent:
       - Ruby
       Sentry-Trace:
-      - e11d3a135b064e7489431424f7979f82-3c1e3c5e1c204b41
+      - 05fcc8738ece4711804f403540bee05c-eba5e101c45e43bd
       Baggage:
-      - sentry-trace_id=e11d3a135b064e7489431424f7979f82,sentry-environment=test
+      - sentry-trace_id=05fcc8738ece4711804f403540bee05c,sentry-environment=test
   response:
     status:
       code: 200
@@ -86,7 +86,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Wed, 12 Mar 2025 14:19:38 GMT
+      - Fri, 21 Mar 2025 18:50:46 GMT
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Vary:
@@ -98,7 +98,7 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       Content-Length:
-      - '261'
+      - '318'
       Via:
       - 1.1 google
       Strict-Transport-Security:
@@ -107,20 +107,21 @@ http_interactions:
       encoding: ASCII-8BIT
       string: |-
         {
-          "ip": "185.156.172.142",
-          "city": "Amsterdam",
-          "region": "North Holland",
-          "country": "NL",
-          "loc": "52.3068,4.9453",
-          "org": "AS9009 M247 Europe SRL",
-          "postal": "1101",
-          "timezone": "Europe/Amsterdam",
+          "ip": "210.138.184.59",
+          "hostname": "59.184.138.210.rev.iijgio.jp",
+          "city": "Asagaya-minami",
+          "region": "Tokyo",
+          "country": "JP",
+          "loc": "35.7021,139.6375",
+          "org": "AS2497 Internet Initiative Japan Inc.",
+          "postal": "166-0000",
+          "timezone": "Asia/Tokyo",
           "readme": "https://ipinfo.io/missingauth"
         }
-  recorded_at: Wed, 12 Mar 2025 14:19:38 GMT
+  recorded_at: Fri, 21 Mar 2025 18:50:47 GMT
 - request:
     method: get
-    uri: http://ipinfo.io/185.156.172.142/geo
+    uri: http://ipinfo.io/178.238.11.6/geo
     body:
       encoding: US-ASCII
       string: ''
@@ -132,9 +133,9 @@ http_interactions:
       User-Agent:
       - Ruby
       Sentry-Trace:
-      - f334a5ae55d5422fb426534c655bd4dc-52eec45b760e4a9f
+      - 731243c8684947de9c87ca6ed2ef345b-c5b6f933126f41bf
       Baggage:
-      - sentry-trace_id=f334a5ae55d5422fb426534c655bd4dc,sentry-environment=test
+      - sentry-trace_id=731243c8684947de9c87ca6ed2ef345b,sentry-environment=test
   response:
     status:
       code: 200
@@ -145,7 +146,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Wed, 12 Mar 2025 14:19:38 GMT
+      - Fri, 21 Mar 2025 18:50:47 GMT
       Referrer-Policy:
       - strict-origin-when-cross-origin
       Vary:
@@ -157,7 +158,7 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       Content-Length:
-      - '261'
+      - '241'
       Via:
       - 1.1 google
       Strict-Transport-Security:
@@ -166,15 +167,15 @@ http_interactions:
       encoding: ASCII-8BIT
       string: |-
         {
-          "ip": "185.156.172.142",
-          "city": "Amsterdam",
-          "region": "North Holland",
-          "country": "NL",
-          "loc": "52.3068,4.9453",
-          "org": "AS9009 M247 Europe SRL",
-          "postal": "1101",
-          "timezone": "Europe/Amsterdam",
+          "ip": "178.238.11.6",
+          "city": "London",
+          "region": "England",
+          "country": "GB",
+          "loc": "51.5085,-0.1257",
+          "org": "AS62240 Clouvider",
+          "postal": "E1W",
+          "timezone": "Europe/London",
           "readme": "https://ipinfo.io/missingauth"
         }
-  recorded_at: Wed, 12 Mar 2025 14:19:39 GMT
+  recorded_at: Fri, 21 Mar 2025 18:50:47 GMT
 recorded_with: VCR 6.3.1
