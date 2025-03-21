@@ -15,26 +15,26 @@
 }
 
 .aa-DetachedSearchButtonPlaceholder {
-  color: #595c5f;
+  color: $input-placeholder-color;
   opacity: 1;
 }
 
 .aa-SubmitIcon {
-  color: #000000;
+  color: $body-color;
 }
 
 .aa-Item {
-  background-color: white;
+  background-color: $body-bg;
   cursor: pointer;
 }
 
 .aa-Item:hover {
-  background-color: #f8f9fa;
+  background-color: darken($body-bg, 5%);
 }
 
 .aa-DetachedSearchButton {
   @extend .form-control;
-  color: #212529;
+  color: $body-color;
   padding: 0;
   display: flex;
   font-weight: 600;
@@ -43,10 +43,10 @@
 // form-control-btn is used for buttons that look like text inputs (e.g. date range picker)
 .form-control-btn{
   @extend .form-control, .fw-semibold, .text-start;
-  color: #595c5f;
+  color: $input-placeholder-color;
 }
 
 .form-control-btn-selected{
   @extend .form-control-btn;
-  color: #212529;
+  color: $body-color;
 }

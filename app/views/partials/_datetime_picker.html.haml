@@ -3,13 +3,13 @@
 // To use:
 //         1) The form must include a hidden start_date and end_date text field,
 //         2) The date_range_picker.js file must be loaded
-#html-target.col-sm-12{ data: { controller: "datetimepicker" } }
-  #datetimepicker1.input-group.log-event{
+#datetimepicker-target.col-sm-12{ data: { controller: "datetimepicker" } }
+  #datetimepicker-element.input-group.log-event{
     "data-td-target-input" => "nearest",
     "data-td-target-toggle" => "nearest",
   }
-    %input#datetimepicker1-input.form-control-btn.my-1{
-      "data-td-target" => "#datetimepicker1",
+    %input#datetimepicker-input.form-control-btn.my-1{
+      "data-td-target" => "#datetimepicker-element",
       "data-td-toggle" => "datetimepicker",
       type: "button",
       value: "Input the date range...",

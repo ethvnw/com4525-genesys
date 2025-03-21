@@ -1,8 +1,8 @@
 import '@popperjs/core';
 import { TempusDominus } from '@eonasdan/tempus-dominus';
 
-const datetimepickerElement = document.getElementById('datetimepicker1');
-const datetimepickerInput = document.getElementById('datetimepicker1-input');
+const datetimepickerElement = document.getElementById('datetimepicker-element');
+const datetimepickerInput = document.getElementById('datetimepicker-input');
 const startDateElement = document.getElementById('start_date_input');
 const endDateElement = document.getElementById('end_date_input');
 
@@ -62,7 +62,13 @@ function formatDateForButton(date) {
   if (!date) return '';
   const d = new Date(date);
   // Extract "DD/MM/YYYY HH:mm"
-  return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+  // Zero-pad day and month
+  const day = String(d.getDate()).padStart(2, '0');
+  // Month is +1 as js 0-indexes months
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  return `${day}/${month}/${d.getFullYear()} ${hours}:${minutes}`;
 }
 
 // Listen for changes in the date range picker
