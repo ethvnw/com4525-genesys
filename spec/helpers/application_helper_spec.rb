@@ -56,4 +56,9 @@ RSpec.describe(ApplicationHelper, type: :helper) do
       end
     end
   end
+
+  # Helper method to format dates like JavaScript defualt
+  def to_js_date(date)
+    date.strftime("%-d/%-m/%Y %-H:%M") # `-d` and `-m` omit leading zeros
+  end
 end
