@@ -13,7 +13,7 @@ if ENV["clear_first"]
   DatabaseCleaner.clean_with(:truncation)
 end
 
-Trip.create!(
+trip = Trip.find_or_create_by!(
   title: "Trip to Paris",
   description: "A trip to Paris, France.",
   start_date: Time.zone.now + 1.day,
@@ -21,7 +21,16 @@ Trip.create!(
   location_name: "Paris, France",
   location_latitude: 48.8566,
   location_longitude: 2.3522,
-) unless Trip.exists?(title: "Trip to Paris")
+)
+
+# Attach the local image if not already attached
+unless trip.image.attached?
+  trip.image.attach(
+    io: File.open(Rails.root.join("db", "seed_images", "paris.jpg")),
+    filename: "paris.jpg",
+    content_type: "image/jpeg",
+  )
+end
 
 User.create!(
   email: "admin@genesys.com",
