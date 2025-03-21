@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
+# open-uri allows for opening URLs as files (downloading)
+require "open-uri"
 # Handles the creation of trips
 class TripsController < ApplicationController
   before_action :authenticate_user!
 
   def index
     # Only show trips that the user is a member of (use TripMemberships in db)
-    @trips = Trip.where(id: TripMembership.where(user_id: @current_user.id).pluck(:trip_id)).decorate
-    @photo_urls = {}
-    @trips.each do |trip|
-      photo = Unsplash::Photo.search(trip.location_name.split(",", 2).first).first
-      @photo_urls[trip.id] = photo.urls["regular"]
-    end
+    @trips = @current_user.trips.decorate
   end
 
   def new
@@ -30,6 +27,19 @@ class TripsController < ApplicationController
     @trip = Trip.new(trip_params)
 
     if @trip.save
+      # Find a photo from Unsplash based on the location name
+      photo = Unsplash::Photo.search(@trip.location_name.split(",", 2).first).first
+      if photo
+        image_url = photo.urls["regular"]
+        # Download the image
+        downloaded_image = URI.open(image_url)
+        # Attach the image to the trip
+        @trip.image.attach(
+          io: downloaded_image,
+          filename: "unsplash_#{@trip.location_name}.jpg",
+          content_type: downloaded_image.content_type,
+        )
+      end
       session.delete(:trip_data)
       # Next, a TripMembership is created between the current logged in user and the new trip
       @membership = TripMembership.new
