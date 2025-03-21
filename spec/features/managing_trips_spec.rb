@@ -152,8 +152,8 @@ RSpec.feature("Managing trips") do
       # Then, the values for the start and end date are formatted and compared to the datetimepicker button.
       # The button uses one-index months, so those months are referenced.
       datetime_button = find("#datetimepicker-input")[:value]
-      expect(datetime_button).to(have_content(Time.parse(start_date_one_index).strftime("%-d/%-m/%Y")))
-      expect(datetime_button).to(have_content(Time.parse(end_date_one_index).strftime("%-d/%-m/%Y")))
+      expect(datetime_button).to(have_content(Time.parse(start_date_one_index).strftime("%d/%m/%Y")))
+      expect(datetime_button).to(have_content(Time.parse(end_date_one_index).strftime("%d/%m/%Y")))
       # The error message should be displayed
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
     end
@@ -176,8 +176,8 @@ RSpec.feature("Managing trips") do
       # Datetimepicker-input is the date range button, expect it to have "start_date - end_date"
       # Multiple variables are assigned to keep within rubocop line limits.
       datetime_button = find("#datetimepicker-input")[:value]
-      formatted_start_date = trip.start_date.strftime("%-d/%-m/%Y %-H:%-M")
-      formatted_end_date = trip.end_date.strftime("%-d/%-m/%Y %-H:%-M")
+      formatted_start_date = trip.start_date.strftime("%d/%m/%Y %-H:%-M")
+      formatted_end_date = trip.end_date.strftime("%d/%m/%Y %-H:%-M")
       datetime_value = "#{formatted_start_date} - #{formatted_end_date}"
       expect(datetime_button).to(eq(datetime_value))
     end

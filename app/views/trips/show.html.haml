@@ -62,6 +62,6 @@
           %p.mb-0.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
 
           - if plan.plan_type.starts_with?("travel_")
-            = render("plans/cards/travel_card", trip: @trip, plan: plan)
+            = render("partials/plans/travel_card", trip: @trip, plan: plan)
           - else
-            = render("plans/cards/event_card", trip: @trip, plan: plan)
+            = render("partials/plans/event_card", trip: @trip, plan: plan)
