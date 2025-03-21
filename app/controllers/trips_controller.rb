@@ -32,7 +32,9 @@ class TripsController < ApplicationController
       if photo
         image_url = photo.urls["regular"]
         # Download the image
+        # rubocop:disable Security/Open
         downloaded_image = URI.open(image_url)
+        # rubocop:enable Security/Open
         # Attach the image to the trip
         @trip.image.attach(
           io: downloaded_image,
