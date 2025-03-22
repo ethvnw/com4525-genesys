@@ -12,7 +12,7 @@ Rails.application.configure do
     # Without :data, slider arrows aren't shown properly on Firefox but are on Chrome
     policy.font_src(:self, :data, "https://fonts.gstatic.com", "https://rsms.me")
     policy.style_src(:self, "https://fonts.googleapis.com", "https://rsms.me", "https://unpkg.com")
-    policy.img_src(:self, :data, "http://*.google.com", "https://unpkg.com", "https://api.dicebear.com")
+    policy.img_src(:self, :data, "http://*.google.com", "https://unpkg.com", "https://api.dicebear.com", "https://images.unsplash.com")
     policy.object_src(:none)
     policy.script_src(:self, "http://*.google.com")
     policy.manifest_src(:self)

@@ -17,11 +17,12 @@
 #
 FactoryBot.define do
   ##
-  # No start/end times set - when testing, use travel_to to set time for a specific test,
-  # and specify the dates when using the factory.
   factory :trip do
     title { "Mock Trip" }
     description { "Mock Trip Description" }
+
+    start_date { Time.current }
+    end_date { Time.current + 1.day }
 
     location_name { "The Peak District" }
     location_latitude { 53.3673 }

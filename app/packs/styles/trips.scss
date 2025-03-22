@@ -1,0 +1,14 @@
+.trip-card {
+  height: 12rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.trip-card:hover {
+  transform: scale(1.03);
+  box-shadow: 3px 1px 5px 1px rgba(0, 0, 0, 0.2);
+  opacity: 90%;
+}
+
+.overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0) 45%);
+}

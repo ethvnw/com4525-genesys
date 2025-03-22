@@ -38,7 +38,6 @@ FactoryBot.define do
     end_location_name { "Kinder Scout, Peak District, UK" }
     end_location_latitude { 53.3849 }
     end_location_longitude { 1.8734 }
-
     association :trip
   end
 end
