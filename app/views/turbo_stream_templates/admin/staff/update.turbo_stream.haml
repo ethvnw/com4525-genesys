@@ -1,0 +1,3 @@
+= turbo_stream.replace("edit_user_#{@user.id}",
+                       partial: "admin/staff/edit",
+                       locals: { user: @user, errors: flash[:errors] })

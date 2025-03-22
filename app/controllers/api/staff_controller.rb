@@ -6,30 +6,23 @@ module Api
     include Streamable
 
     def update
-      user = User.find(params[:id])
-      if user.update(user_params)
+      @user = User.find(params[:id])
+      if @user.update(user_params)
         turbo_redirect_to(
           admin_dashboard_path,
-          { content: "#{user.email} updated successfully.", type: "success" },
+          { content: "#{@user.email} updated successfully.", type: "success" },
         )
       else
         flash[:edited_data] = user_params.slice("user_role")
-        flash[:errors] = user.errors.to_hash(true)
-        stream_response(
-          streams: turbo_stream.replace(
-            "edit_user_#{user.id}",
-            partial: "admin/staff/edit",
-            locals: { user: user, errors: flash[:errors] },
-          ),
-          redirect_path: edit_admin_staff_path(id: user.id),
-        )
+        flash[:errors] = @user.errors.to_hash(true)
+        stream_response("admin/staff/update", edit_admin_staff_path(id: @user.id))
       end
     end
 
     def destroy
-      @user = User.find(params[:id])
-      if @user.destroy
-        redirect_to(admin_dashboard_path, notice: "Access removed for #{@user.email}")
+      user = User.find(params[:id])
+      if user.destroy
+        turbo_redirect_to(admin_dashboard_path, { content: "Access removed for #{user.email}", type: "success" })
       end
     end
 
