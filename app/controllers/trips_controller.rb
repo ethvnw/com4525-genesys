@@ -2,6 +2,9 @@
 
 # open-uri allows for opening URLs as files (downloading)
 require "open-uri"
+# uri is used here to encode location names for filenames
+require "uri"
+
 # Handles the creation of trips
 class TripsController < ApplicationController
   before_action :authenticate_user!
@@ -32,25 +35,25 @@ class TripsController < ApplicationController
       if photo
         image_url = photo.urls["regular"]
         # Download the image
-        # rubocop:disable Security/Open
-        downloaded_image = URI.open(image_url)
-        # rubocop:enable Security/Open
+        downloaded_image = URI.parse(image_url).open
         # Attach the image to the trip
         @trip.image.attach(
           io: downloaded_image,
-          filename: "unsplash_#{@trip.location_name}.jpg",
+          # Encode it to prevent special characters in the filename
+          filename: "unsplash_#{URI.encode_www_form_component(@trip.location_name)}.jpg",
           content_type: downloaded_image.content_type,
         )
+
       end
       session.delete(:trip_data)
       # Next, a TripMembership is created between the current logged in user and the new trip
-      @membership = TripMembership.new
-      @membership.trip_id = @trip.id
-      @membership.user_id = @current_user.id
+      membership = TripMembership.new
+      membership.trip_id = @trip.id
+      membership.user_id = current_user.id
       # It is assumed that the creator of a trip accepts the invite.
-      @membership.is_invite_accepted = true
-      @membership.user_display_name = @current_user.username
-      @membership.save
+      membership.is_invite_accepted = true
+      membership.user_display_name = current_user.username
+      membership.save
       redirect_to(trips_path, notice: "Your trip has been submitted.")
     else
       flash[:errors] = @trip.errors.full_messages
@@ -92,11 +95,8 @@ class TripsController < ApplicationController
 
   def show
     @trip = Trip.find(params[:id]).decorate
-    plans = @trip.plans.order(:start_date)
+    plans = @trip.plans.order(:start_date).decorate
     @plan_groups = plans.group_by { |plan| plan.start_date.to_date }
-    @plan_groups.each do |date, plans|
-      @plan_groups[date] = plans.map(&:decorate)
-    end
   end
 
   private

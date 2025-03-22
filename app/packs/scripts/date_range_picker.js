@@ -61,14 +61,7 @@ function formatDateForJS(date) {
 function formatDateForButton(date) {
   if (!date) return '';
   const d = new Date(date);
-  // Extract "DD/MM/YYYY HH:mm"
-  // Zero-pad day and month
-  const day = String(d.getDate()).padStart(2, '0');
-  // Month is +1 as js 0-indexes months
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const hours = String(d.getHours()).padStart(2, '0');
-  const minutes = String(d.getMinutes()).padStart(2, '0');
-  return `${day}/${month}/${d.getFullYear()} ${hours}:${minutes}`;
+  return d.toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' });
 }
 
 // Listen for changes in the date range picker
@@ -97,10 +90,14 @@ datetimepickerElement.addEventListener('change.td', () => {
 if (presetStartDate && presetEndDate) {
   // For Safari compatibility, the spaces are replaced for dates for compaitibility with WebKit.
   // This cannot be done during definition of preset...Date as it breaks the date parsing in js.
-  datetimepickerInput.value = `${formatDateForButton(new Date(presetStartDate.replace(/-/g, '/')))} - ${formatDateForButton(new Date(presetEndDate.replace(/-/g, '/')))}`;
+  const dashReplacedStartDate = new Date(presetStartDate.replace(/-/g, '/'));
+  const dashReplacedEndDate = new Date(presetEndDate.replace(/-/g, '/'));
+
+  datetimepickerInput.value = `${formatDateForButton(dashReplacedStartDate)} - ${formatDateForButton(dashReplacedEndDate)}`;
   datetimepickerInput.classList.remove('form-control-btn');
   datetimepickerInput.classList.add('form-control-btn-selected');
+
   // The dates have to be formatted from the ruby standard to rails to be valid inputs
-  startDateElement.value = formatDateForJS(new Date(presetStartDate.replace(/-/g, '/')));
-  endDateElement.value = formatDateForJS(new Date(presetEndDate.replace(/-/g, '/')));
+  startDateElement.value = formatDateForJS(dashReplacedStartDate);
+  endDateElement.value = formatDateForJS(dashReplacedEndDate);
 }
