@@ -1,12 +1,9 @@
-%section.p-3.rounded.mb-2.bg-danger-subtle
-  = render("plans/cards/card_header", plan: plan)
+%section.p-3.rounded.mb-2.bg-danger-subtle.flex-grow-1
+  = render("partials/plans/card_header", trip: trip, plan: plan)
 
   .mb-4
     %h4.fw-bold.mb-0.max-height-2-lines
       = plan.title
-
-    %p.mb-0.text-dark-emphasis
-      = plan.formatted_date_range
 
   -# Company name
   .d-flex.gap-3.align-items-center

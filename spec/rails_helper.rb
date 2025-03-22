@@ -44,6 +44,7 @@ RSpec.configure do |config|
   config.include(Warden::Test::Helpers)
   config.include(Rails.application.routes.url_helpers)
   config.include(Devise::Test::ControllerHelpers, type: :controller)
+  config.include(WebMockHelpers)
 
   # Allows us to travel to specific time periods
   config.include(ActiveSupport::Testing::TimeHelpers)

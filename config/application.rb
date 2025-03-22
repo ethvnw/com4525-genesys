@@ -13,6 +13,7 @@ require "action_mailer/railtie"
 require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
+require "ostruct"
 # require "action_cable/engine"
 
 # Require custom middleware
