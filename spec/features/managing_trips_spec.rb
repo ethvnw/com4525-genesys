@@ -21,11 +21,22 @@ RSpec.feature("Managing trips") do
   end
 
   # Create start and end date variables in yyyy-mm-dd format
-  let(:zero_index_month) { format("%02d", Time.current.strftime("%m").to_i - 1) }
-  let(:start_date) { "#{Time.current.year}-#{zero_index_month}-#{format("%02d", Time.current.day)}" }
-  let(:end_date) { "#{Time.current.year}-#{zero_index_month}-#{format("%02d", Time.current.day + 1)}" }
-  let(:start_date_one_index) { "#{Time.current.year}-#{Time.current.month}-#{format("%02d", Time.current.day)}" }
-  let(:end_date_one_index) { "#{Time.current.year}-#{Time.current.month}-#{format("%02d", Time.current.day + 1)}" }
+  let(:time) { Time.current }
+  let(:end_time) { time + 1.day }
+
+  # 0-indexed months are used for js input selection, as js DateTime objects are 0-indexed
+  let(:zero_index_month) { format("%02d", time.strftime("%m").to_i - 1) }
+  let(:zero_index_end_month) { format("%02d", end_time.strftime("%m").to_i - 1) }
+
+  let(:start_date) { "#{time.year}-#{zero_index_month}-#{format("%02d", time.day)}" }
+  let(:end_date) { "#{end_time.year}-#{zero_index_end_month}-#{format("%02d", end_time.day)}" }
+
+  # 1-indexed months are used for display purposes
+  let(:start_date_one_index) { time.strftime("%d/%m/%Y, %H:%M") }
+  let(:end_date_one_index) { end_time.strftime("%d/%m/%Y, %H:%M") }
+
+  # Potential issue, times might roll over during test execution, causing the test to fail
+  # Look into using Timecop to freeze time during tests in future
 
   feature "Creating a trip" do
     scenario "I cannot create a trip with no title", js: true, vcr: true do
@@ -150,10 +161,9 @@ RSpec.feature("Managing trips") do
         expect(page).to(have_content("England"))
       end
       # Then, the values for the start and end date are formatted and compared to the datetimepicker button.
-      # The button uses one-index months, so those months are referenced.
+      # During testing, the time is set to 00:00.
       datetime_button = find("#datetimepicker-input")[:value]
-      expect(datetime_button).to(have_content(Time.parse(start_date_one_index).strftime("%d/%m/%Y")))
-      expect(datetime_button).to(have_content(Time.parse(end_date_one_index).strftime("%d/%m/%Y")))
+      expect(datetime_button).to(have_content("#{start_date_one_index} - #{end_date_one_index}"))
       # The error message should be displayed
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
     end
@@ -174,12 +184,8 @@ RSpec.feature("Managing trips") do
         expect(page).to(have_content(trip.location_name))
       end
       # Datetimepicker-input is the date range button, expect it to have "start_date - end_date"
-      # Multiple variables are assigned to keep within rubocop line limits.
       datetime_button = find("#datetimepicker-input")[:value]
-      formatted_start_date = trip.start_date.strftime("%d/%m/%Y %-H:%-M")
-      formatted_end_date = trip.end_date.strftime("%d/%m/%Y %-H:%-M")
-      datetime_value = "#{formatted_start_date} - #{formatted_end_date}"
-      expect(datetime_button).to(eq(datetime_value))
+      expect(datetime_button).to(have_content("#{start_date_one_index} - #{end_date_one_index}"))
     end
 
     scenario "I can edit a trip and see the changes displayed", js: true, vcr: true do
