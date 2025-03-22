@@ -6,9 +6,17 @@
                   url: update_avatar_user_path(@current_user),
                   method: :patch,
                   html: { multipart: true }) do |f|
-  = f.label(:avatar, "Avatar")
-  = f.file_field(:avatar)
-  = f.submit("Save", class: "btn btn-primary")
+  .form-group
+    = f.label :avatar, "Avatar"
+    .custom-file-input-wrapper
+      // Original file input is hidden, so a custom button can be styled
+      = f.file_field :avatar, id: "avatar-input", class: "d-none"
+      %button#avatar-custom.btn.btn-secondary{ type: "button" }
+        Attach Avatar
+      %span#avatar-file-name No file selected
+
+    = f.submit "Save", class: "btn btn-primary"
+
 
 - if @current_user.avatar.attached?
   = button_to("Remove Avatar Photo",
