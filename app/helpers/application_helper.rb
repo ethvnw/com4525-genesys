@@ -52,4 +52,13 @@ module ApplicationHelper
       errors_for_key.join("\n")
     end
   end
+
+  def turbo_toast(message)
+    if message.present?
+      render(
+        partial: "turbo_stream_templates/turbo_toast",
+        locals: { notification_type: message[:type], message_content: message[:content] },
+      )
+    end
+  end
 end

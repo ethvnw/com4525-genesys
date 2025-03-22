@@ -9,44 +9,20 @@ class InvitationsController < Devise::InvitationsController
   before_action :block_default_new_invitation_path
 
   def create
-    user = User.new(invite_params)
-    user.valid?
-    user.valid_invite? # invitation-specific validation
-    invitation_errors = user.errors.messages.slice(:email, :user_role) # Only validate email and user role
+    @user = User.new(invite_params)
+    @user.valid?
+    @user.valid_invite? # invitation-specific validation
+    invitation_errors = @user.errors.messages.slice(:email, :user_role) # Only validate email and user role
 
     if invitation_errors.any?
-      session[:user_data] = user.slice(:email, :user_role)
-      flash[:errors] = user.errors.to_hash(true)
-      stream_response(
-        streams: turbo_stream.replace(
-          "new_user",
-          partial: "admin/dashboard/invite_form",
-          locals: { user: user, errors: flash[:errors] },
-          status: :unprocessable_entity,
-        ),
-        redirect_path: admin_dashboard_path,
-      )
+      session[:user_data] = @user.slice(:email, :user_role)
+      flash[:errors] = @user.errors.to_hash(true)
+      stream_response("admin/invitations/create_failure", admin_dashboard_path)
     else
-      user.invite!
+      @user.invite!
       session.delete(:user_data)
-      stream_response(
-        streams: [
-          # Update invitation form
-          turbo_stream.replace(
-            "new_user",
-            partial: "admin/dashboard/invite_form",
-            locals: { user: User.new, errors: nil },
-          ),
-          # Then add new user to staff table
-          turbo_stream.append(
-            "staff-table-body",
-            partial: "admin/dashboard/staff_row",
-            locals: { user: user.decorate },
-          ),
-        ],
-        message: { content: "Invitation sent successfully to #{user.email}.", type: "success" },
-        redirect_path: admin_dashboard_path,
-      )
+      message = { content: "Invitation sent successfully to #{@user.email}.", type: "success" }
+      stream_response("admin/invitations/create_success", admin_dashboard_path, message)
     end
   end
 

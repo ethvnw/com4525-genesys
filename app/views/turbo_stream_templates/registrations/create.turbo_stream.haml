@@ -1,0 +1,5 @@
+- locals = { registration: @registration, errors: flash[:errors], subscription_tier_id: @subscription_tier_id }
+
+= turbo_stream.replace("new_registration",
+                       partial: "subscriptions/form",
+                       locals: locals)

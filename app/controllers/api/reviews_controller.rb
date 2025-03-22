@@ -9,33 +9,22 @@ module Api
     attr_reader :model, :type, :path
 
     def create
-      review = Review.new(review_params)
+      @review = Review.new(review_params)
+      @review.save
+      flash[:errors] = @review.errors.to_hash(true)
+      message = nil
 
-      if review.save
+      if @review.persisted?
         session.delete(:review_data)
-
-        stream_response(
-          streams: turbo_stream.replace(
-            "new_review",
-            partial: "reviews/form",
-            locals: { review: Review.new, errors: nil },
-          ),
-          message: { content: "Review submitted. Thanks for helping to improve Roamio!", type: "success" },
-          redirect_path: root_path,
-        )
+        @review = Review.new
+        message = { content: "Review submitted. Thanks for helping to improve Roamio!", type: "success" }
+        redirect_path = root_path
       else
-        flash[:errors] = review.errors.to_hash(true)
-        session[:review_data] = review.attributes.slice("name", "content")
-
-        stream_response(
-          streams: turbo_stream.replace(
-            "new_review",
-            partial: "reviews/form",
-            locals: { review: review, errors: review.errors.to_hash(true) },
-          ),
-          redirect_path: root_path(anchor: "new_review"),
-        )
+        session[:review_data] = @review.attributes.slice("name", "content")
+        redirect_path = root_path(anchor: "new_review")
       end
+
+      stream_response("reviews/create", redirect_path, message)
     end
 
     def visibility
@@ -61,34 +50,23 @@ module Api
     end
 
     def like
-      review = Review.find(params[:id])
+      @review = Review.find(params[:id])
 
-      if review.nil?
-        flash[:alert] = "An error occurred while trying to like review."
-
-        stream_response(
-          message: { content: "An error occurred while trying to like review.", type: "danger" },
-          redirect_path: root_path(anchor: "reviews-carousel"),
-        )
+      if @review.nil?
+        message = { content: "An error occurred while trying to like review.", type: "danger" }
+        respond_with_toast(message, root_path(anchor: "reviews-carousel"))
       else
-        if session[:liked_reviews]&.include?(review.id)
-          review.decrement!(:engagement_counter)
-          session[:liked_reviews].delete(review.id)
+        if session[:liked_reviews]&.include?(@review.id)
+          @review.decrement!(:engagement_counter)
+          session[:liked_reviews].delete(@review.id)
         else
-          review.increment!(:engagement_counter)
+          @review.increment!(:engagement_counter)
           session[:liked_reviews] ||= []
-          session[:liked_reviews] << review.id
+          session[:liked_reviews] << @review.id
         end
 
         # Replace only the review like button
-        stream_response(
-          streams: turbo_stream.replace(
-            "like-review-#{review.id}",
-            partial: "reviews/like_button",
-            locals: { review: review },
-          ),
-          redirect_path: root_path(anchor: "reviews-carousel"),
-        )
+        stream_response("reviews/like", root_path(anchor: "reviews-carousel"))
       end
     end
 

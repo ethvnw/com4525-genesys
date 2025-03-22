@@ -39,14 +39,8 @@ class RegistrationsController < Devise::RegistrationsController
       flash[:sign_up_params] = sign_up_params.slice("email", "username")
       flash[:errors] = resource.errors.to_hash(true)
 
-      stream_response(
-        streams: turbo_stream.replace(
-          "new_user",
-          partial: "devise/registrations/new",
-          locals: { resource: resource, errors: flash[:errors] },
-        ),
-        redirect_path: new_user_registration_path,
-      )
+      @resource = resource
+      stream_response("devise/registrations/create", new_user_registration_path)
     end
   end
 
@@ -78,14 +72,8 @@ class RegistrationsController < Devise::RegistrationsController
       flash[:edited_data] = account_update_params.slice("email", "username")
       flash[:errors] = resource.errors.to_hash(true)
 
-      stream_response(
-        streams: turbo_stream.replace(
-          "edit_user",
-          partial: "devise/registrations/edit",
-          locals: { resource: resource, errors: flash[:errors] },
-        ),
-        redirect_path: edit_user_registration_path,
-      )
+      @resource = resource
+      stream_response("devise/registrations/update", edit_user_registration_path)
     end
   end
 end

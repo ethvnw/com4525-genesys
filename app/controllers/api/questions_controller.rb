@@ -9,50 +9,33 @@ module Api
     attr_reader :model, :type, :path
 
     def create
-      question = Question.new(question_params)
+      @question = Question.new(question_params)
+      @question.save
+      flash[:errors] = @question.errors.to_hash(true)
+      message = nil
 
-      if question.save
+      if question.persisted?
         session.delete(:question_data)
-
-        stream_response(
-          streams: turbo_stream.replace(
-            "new_question",
-            partial: "questions/form",
-            locals: { question: Question.new, errors: nil },
-          ),
-          message: { content: "Your question has been submitted.", type: "success" },
-          redirect_path: faq_path,
-        )
+        @question = Question.new
+        message = { content: "Your question has been submitted.", type: "success" }
       else
-        flash[:errors] = question.errors.to_hash(true)
-        session[:question_data] = question.attributes.slice("question")
-
-        stream_response(
-          streams: turbo_stream.replace(
-            "new_question",
-            partial: "questions/form",
-            locals: { question: question, errors: question.errors.to_hash(true) },
-          ),
-          redirect_path: faq_path,
-        )
+        session[:question_data] = @question.attributes.slice("question")
       end
+
+      stream_response("questions/create", faq_path, message)
     end
 
     def answer
-      question = Question.find(params[:id])
+      @question = Question.find(params[:id])
 
-      if question&.update(answer: params[:answer])
-        stream_response(
-          streams: turbo_stream.replace(
-            "answer-form-#{question.id}",
-            partial: "questions/answer_form",
-            locals: { item: question.decorate },
-          ),
-          message: { content: "Answer saved successfully.", type: "success" },
-          redirect_path: manage_admin_questions_path,
-        )
+      if @question&.update(answer: params[:answer])
+        message = { content: "Your answer has been submitted.", type: "success" }
+        stream_response("questions/answer", manage_admin_questions_path, message)
       else
-        admin_item_stream_error_response("An error occurred while trying to update question answer.")
+        admin_item_stream_error_response(
+          "An error occurred while trying to update question answer.",
+          manage_admin_questions_path,
+        )
       end
     end
 

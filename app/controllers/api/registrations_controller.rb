@@ -7,12 +7,12 @@ module Api
 
     # POST /api/registrations
     def create
-      registration = Registration.new(registration_params)
+      @registration = Registration.new(registration_params)
 
       # The geocoder gem won't work over localhost (as 'localhost' is not a geocodable IP), so use GB as default
-      registration.country_code = request.location&.country_code.presence || "GB"
-      if registration.save
-        Analytics::JourneySaver.call(registration.id, session[:journey])
+      @registration.country_code = request.location&.country_code.presence || "GB"
+      if @registration.save
+        Analytics::JourneySaver.call(@registration.id, session[:journey])
 
         # Reset session
         session.delete(:journey)
@@ -23,21 +23,11 @@ module Api
           { content: "Successfully registered. Keep an eye on your inbox for updates!", type: "success" },
         )
       else
-        flash[:errors] = registration.errors.to_hash(true)
-        session[:registration_data] = registration.attributes.slice("email")
+        flash[:errors] = @registration.errors.to_hash(true)
+        session[:registration_data] = @registration.attributes.slice("email")
 
-        stream_response(
-          streams: turbo_stream.replace(
-            "new_registration",
-            partial: "subscriptions/form",
-            locals: {
-              registration: registration,
-              errors: flash[:errors],
-              subscription_tier_id: registration_params[:subscription_tier_id],
-            },
-          ),
-          redirect_path: new_subscription_path(s_id: registration_params[:subscription_tier_id]),
-        )
+        @subscription_tier_id = registration_params[:subscription_tier_id]
+        stream_response("registrations/create", new_subscription_path(s_id: @subscription_tier_id))
       end
     end
 

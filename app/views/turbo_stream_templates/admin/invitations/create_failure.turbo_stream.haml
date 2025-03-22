@@ -1,0 +1,4 @@
+= turbo_stream.replace("new_user",
+                       partial: "admin/dashboard/invite_form",
+                       locals: { user: @user, errors: flash[:errors] },
+                       status: :unprocessable_entity)

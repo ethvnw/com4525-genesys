@@ -6,44 +6,40 @@ module Streamable
   extend ActiveSupport::Concern
 
   included do
-    def stream_response(options)
+    def stream_response(stream_template, redirect_path, message = nil)
       respond_to do |format|
         format.turbo_stream do
-          streams = Array(options[:streams])
-          if options[:message]
-            streams << turbo_toast(options[:message][:content], options[:message][:type])
-          end
-
-          render(turbo_stream: streams)
+          @message = message
+          render("turbo_stream_templates/#{stream_template}", layout: "turbo_stream")
         end
 
         format.html do
-          create_flash_message(options[:message])
-          redirect_to(options[:redirect_path])
+          create_flash_message(message)
+          redirect_to(redirect_path)
         end
       end
     end
 
     def turbo_redirect_to(redirect_path, message = nil)
+      @redirect_path = redirect_path
       create_flash_message(message)
-      stream_response(
-        streams: turbo_stream.action(
-          "redirect",
-          redirect_path,
-        ),
-        redirect_path: redirect_path,
-      )
+      stream_response("turbo_redirect", redirect_path)
     end
 
-    def turbo_toast(message, notification_type)
-      turbo_stream.append(
-        "toast-list",
-        partial: "partials/toast",
-        locals: {
-          notification_type: notification_type,
-          message: message,
-        },
-      )
+    def respond_with_toast(message, fallback_path)
+      respond_to do |format|
+        format.turbo_stream do
+          render(
+            partial: "turbo_stream_templates/turbo_toast",
+            locals: { notification_type: message[:type], message_content: message[:content] },
+          )
+        end
+
+        format.html do
+          create_flash_message(message)
+          redirect_to(fallback_path)
+        end
+      end
     end
 
     def create_flash_message(message)
@@ -51,10 +47,6 @@ module Streamable
         flash_type = message[:type] == "danger" ? :alert : :notice
         flash[flash_type] = message[:content]
       end
-    end
-
-    def turbo_stream_request?
-      formats.any?(:turbo_stream)
     end
   end
 end
