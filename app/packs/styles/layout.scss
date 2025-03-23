@@ -5,12 +5,12 @@
 @import "twitter_bootstrap";
 
 html {
-    min-height: calc(100% + env(safe-area-inset-top));
+    min-height: 100vh;
     //overscroll-behavior: none;
 }
 
 body {
-    min-height: calc(100% + env(safe-area-inset-top));
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
