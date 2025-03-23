@@ -13,18 +13,21 @@ customButton.addEventListener('click', () => {
 // Update the file name span when a file is selected
 browseButton.addEventListener('change', () => {
   if (browseButton.files.length > 0) {
-    // Make sure file is an image
-    if (browseButton.files[0].type.includes('image')) {
-      const file = browseButton.files[0].name;
-      fileNameSpan.textContent = file;
+    const file = browseButton.files[0];
+    const fileName = file.name.toLowerCase();
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+    if (validTypes.includes(file.type)) {
+      fileNameSpan.textContent = fileName;
+
       // Update the avatar preview
       const reader = new FileReader();
       reader.onload = (e) => {
         avatarPreview.src = e.target.result;
       };
-      reader.readAsDataURL(browseButton.files[0]);
+      reader.readAsDataURL(file);
     } else {
-      fileNameSpan.textContent = 'Invalid file type';
+      fileNameSpan.textContent = 'Invalid file type. Only JPG, JPEG, and PNG are allowed.';
     }
   } else {
     fileNameSpan.textContent = 'No files selected';
