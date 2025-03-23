@@ -7,8 +7,11 @@
                   method: :patch,
                   html: { multipart: true }) do |f|
   .form-group
-    = image_tag(current_user.avatar.attached? ? current_user.avatar : current_user.avatar_url, 
-                id: "avatar-preview", height: 100, width: 100, class: "rounded")
+    = image_tag(current_user.avatar.attached? ? current_user.avatar : current_user.avatar_url,
+                id: "avatar-preview",
+      height: 100,
+      width: 100,
+      class: "rounded")
     .my-2
       // Original file input is hidden, so a custom button can be styled
       = f.file_field(:avatar, id: "avatar-input", class: "d-none")
