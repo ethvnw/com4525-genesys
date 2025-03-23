@@ -7,10 +7,10 @@
     = render("partials/layouts/toasts")
 
     %main
-      -# Render naivgation for desktop
+      -# Render navigation for desktop
       = render("partials/layouts/desktop_navigation", inbox_count: @inbox_count)
       #content.d-flex.flex-column.flex-fill
-        -# Render naivgation for mobile
+        -# Render navigation for mobile
         = render("partials/layouts/mobile_navigation", inbox_count: @inbox_count)
         -# Render footer
         = render("partials/layouts/footer")
