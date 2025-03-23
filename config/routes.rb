@@ -11,7 +11,9 @@ Rails.application.routes.draw do
 
   get :faq, to: "pages#faq"
 
-  resources :plans
+  resources :trips do
+    resources :plans
+  end
 
   resources :subscriptions, only: [:new] do
     collection do
@@ -23,6 +25,8 @@ Rails.application.routes.draw do
     resources :staff, only: [:update, :destroy]
 
     resources :registrations, only: [:create]
+
+    resources :trips, only: [:create]
 
     resources :questions, only: [:create] do
       member do

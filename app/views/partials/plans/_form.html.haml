@@ -4,7 +4,7 @@
       - errors.each do |error|
         %li= error
 
-= simple_form_for(plan, html: { class: "d-flex flex-column gap-2" }) do |f|
+= simple_form_for([trip, plan], html: { class: "d-flex flex-column gap-2" }) do |f|
   = f.input(:title,
             input_html: { class: "fw-semibold" },
             label: false,

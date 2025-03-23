@@ -1,5 +1,3 @@
-%title Roamio
-
 %meta{ "http-equiv": "content-type", content: "text/html; charset=utf-8" }
 %meta{ "http-equiv": "X-UA-Compatible", content: "IE=edge" }
 %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover" }
@@ -18,13 +16,25 @@
 = javascript_pack_tag("scriptpacks/application", *get_script_paths(script_packs))
 
 %link{ rel: "preconnect", href: "https://rsms.me/" }
-%link{ rel: "stylesheet", href: "https://rsms.me/inter/inter.css" }
-%link{ rel: "stylesheet", href: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" }
+= stylesheet_link_tag("https://rsms.me/inter/inter.css",
+                      rel: "stylesheet",
+                      crossorigin: "anonymous",
+                      referrerpolicy: "no-referrer",
+                      integrity: "sha256-RtAceAf2SiTBsoU7dW7xXzovrN9KnwZur105wMmTVEE=")
+= stylesheet_link_tag("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+                      rel: "stylesheet",
+                      crossorigin: "anonymous",
+                      referrerpolicy: "no-referrer",
+                      integrity: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=")
 
 -# Google fonts
 %link{ rel: "preconnect", href: "https://fonts.googleapis.com" }
 %link{ rel: "preconnect", href: "https://fonts.gstatic.com" }
-%link{ rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" }
+= stylesheet_link_tag("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap",
+                      rel: "stylesheet",
+                      crossorigin: "anonymous",
+                      referrerpolicy: "no-referrer",
+                      integrity: "sha256-w1bUQYC2nOOk4+n3xFDSrhLVCTEWshky/PbrJZEnRL4=")
 
 -# Favicon
 %link{ rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" }
