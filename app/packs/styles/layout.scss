@@ -79,9 +79,22 @@ main {
         @extend .d-lg-none;
     }
 
-    #user-account-dropdown .dropdown-username {
-        @extend .d-none;
-        @extend .d-lg-flex;
+    #user-account-dropdown {
+    
+        .dropdown-username {
+            @extend .d-none;
+            @extend .d-lg-flex;
+        }
+
+        .nav-link img {
+            @extend .me-0;
+            @extend .me-lg-3;
+        }
+
+        .dropdown-toggle::after {
+            @extend .d-none;
+            @extend .d-lg-flex;           
+        }
     }
 }
 
