@@ -1,0 +1,4 @@
+%h2.text-break
+  Editing
+  = @trip.title
+= render("form", trip: @trip, errors: flash[:errors])

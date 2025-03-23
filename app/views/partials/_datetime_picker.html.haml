@@ -1,0 +1,16 @@
+// The date range picker using Tempus Dominus. The HAML here is from the example implementation
+// This isn't actually a part of the form, but instead updated the hidden fields above when a range is selected
+// To use:
+//         1) The form must include a hidden start_date and end_date text field,
+//         2) The date_range_picker.js file must be loaded
+#datetimepicker-target.col-sm-12{ data: { controller: "datetimepicker" } }
+  #datetimepicker-element.input-group.log-event{
+    "data-td-target-input" => "nearest",
+    "data-td-target-toggle" => "nearest",
+  }
+    %input#datetimepicker-input.form-control-btn.my-1{
+      "data-td-target" => "#datetimepicker-element",
+      "data-td-toggle" => "datetimepicker",
+      type: "button",
+      value: "Input the date range...",
+    }
