@@ -7,6 +7,8 @@ require "uri"
 
 # Handles the creation of trips
 class TripsController < ApplicationController
+  include Streamable
+
   layout "user"
   before_action :authenticate_user!
 
@@ -22,6 +24,7 @@ class TripsController < ApplicationController
     else
       Trip.new
     end
+    puts @trip.inspect
 
     @errors = flash[:errors]
   end
@@ -55,9 +58,10 @@ class TripsController < ApplicationController
       membership.is_invite_accepted = true
       membership.user_display_name = current_user.username
       membership.save
-      redirect_to(trips_path, notice: "Your trip has been submitted.")
+
+      turbo_redirect_to(trips_path, { content: "Your trip has been submitted.", type: "success" })
     else
-      flash[:errors] = @trip.errors.full_messages
+      flash[:errors] = @trip.errors.to_hash(true)
       session[:trip_data] =
         @trip.attributes.slice(
           "title",
@@ -68,7 +72,8 @@ class TripsController < ApplicationController
           "location_latitude",
           "location_longitude",
         )
-      redirect_to(new_trip_path)
+      puts @trip.inspect
+      stream_response("trips/create", new_trip_path)
     end
   end
 
@@ -83,8 +88,8 @@ class TripsController < ApplicationController
     if @trip.update(trip_params)
       redirect_to(trip_path, notice: "Trip updated successfully.")
     else
-      flash[:errors] = @trip.errors.full_messages
-      redirect_to(edit_trip_path(@trip))
+      flash[:errors] = @trip.errors.to_hash(true)
+      stream_response("trips/create", new_trip_path)
     end
   end
 

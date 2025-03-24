@@ -5,24 +5,11 @@
 import { autocomplete } from '@algolia/autocomplete-js';
 import '@algolia/autocomplete-theme-classic';
 import L from 'leaflet';
+import setupPicker from './date_range_picker';
 
-const startMarker = L.marker([0, 0]);
-const endMarker = L.marker([0, 0]);
-const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-  maxZoom: 20,
-  subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-});
-const map = L.map('map', {
-  center: [0, 0],
-  zoom: 1,
-  maxZoom: 20,
-  minZoom: 1,
-  maxBounds: [
-    [-90, -180],
-    [90, 180],
-  ],
-});
-map.addLayer(googleHybrid);
+let map;
+let startMarker;
+let endMarker;
 
 /**
  * Update the location pin on the map with the new latitude and longitude.
@@ -114,9 +101,44 @@ const createAutocomplete = (containerId, text) => autocomplete({
   },
 });
 
-const tripAutocomplete = createAutocomplete('#trip-location-autocomplete', 'trip');
+function setupTripForm() {
+  try {
+    setupPicker(); // Set up date picker
+  } catch (e) { /* nuh uh */ }
 
-export {
-  updateLocationPin, startMarker, endMarker,
-  tripAutocomplete,
-};
+  map = L.map('map', {
+    center: [0, 0],
+    zoom: 1,
+    maxZoom: 20,
+    minZoom: 1,
+    maxBounds: [
+      [-90, -180],
+      [90, 180],
+    ],
+  });
+  const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+  });
+  map.addLayer(googleHybrid);
+  startMarker = L.marker([0, 0]);
+  endMarker = L.marker([0, 0]);
+  const tripAutocomplete = createAutocomplete('#trip-location-autocomplete', 'trip');
+
+  const locationName = document.getElementById('location_name_input').value;
+  const latitude = parseFloat(document.getElementById('latitude_input').value);
+  const longitude = parseFloat(document.getElementById('longitude_input').value);
+
+  // Set the start and end location values if they are present.
+  if (latitude && longitude) {
+    tripAutocomplete.setQuery(locationName);
+    updateLocationPin(startMarker, latitude, longitude);
+  }
+}
+
+document.addEventListener('turbo:load', () => {
+  setupTripForm();
+
+  const tripFormObserver = new MutationObserver(setupTripForm);
+  tripFormObserver.observe(document.querySelector('#content .container'), { childList: true });
+});

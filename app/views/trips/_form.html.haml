@@ -1,31 +1,27 @@
-- unless errors.nil?
-  .alert.alert-danger
-    %ul.mb-0
-      - errors.each do |error|
-        %li= error
+= simple_form_for(trip,
+                  builder: ValidatedFormBuilder,
+                  is_form_submitted: errors.present?,
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
+  = f.validated_input(:title,
+                      get_formatted_errors(errors, :title),
+                      class: "fw-semibold",
+                      placeholder: "Enter the trip title...")
 
-= simple_form_for(trip, html: { class: "d-flex flex-column" }) do |f|
-  = f.input(:title,
-            as: :string,
-            input_html: { class: "fw-semibold my-1" },
-            label: false,
-            placeholder: "Enter the trip title...")
-
-  = f.input(:description,
-            as: :text,
-            input_html: { class: "fw-semibold my-1", rows: 3 },
-            label: false,
-            placeholder: "Enter the trip description...")
+  = f.validated_input(:description,
+                      get_formatted_errors(errors, :description),
+                      class: "fw-semibold",
+                      rows: 3,
+                      placeholder: "Enter the trip description...")
   // The start_date and end_date are hidden fields, updated in the background by the date range picker
   = f.input(:start_date,
             as: :string,
-            input_html: { class: "d-none", type: "datetime-local", id: "start_date_input" },
+            input_html: { class: "d-none", id: "start_date_input" },
             label: false,
             placeholder: "Enter the trip start date...")
 
   = f.input(:end_date,
             as: :string,
-            input_html: { class: "d-none", type: "datetime-local", id: "end_date_input" },
+            input_html: { class: "d-none", id: "end_date_input" },
             label: false,
             placeholder: "Enter the trip end date...")
 
