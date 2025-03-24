@@ -15,6 +15,4 @@
   = yield
 %nav#bottombar.navbar.d-sm-none.bg-light.border-top.fixed-bottom.px-3
   %ul.nav.w-100
-    = navbar_link_to("Home", "bi-house", home_path)
-    = navbar_link_to("Add", "bi-plus-square", root_path)
-    = navbar_link_to("Trips", "bi-map", root_path)
+    = render("partials/layouts/navigation_links")

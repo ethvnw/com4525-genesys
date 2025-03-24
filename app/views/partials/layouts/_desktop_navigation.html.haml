@@ -19,7 +19,5 @@
             .d-none.d-lg-flex.ms-auto.badge.rounded-pill.text-bg-danger
               = inbox_count
     %hr
-    %ul.nav.nav-pills.nav-flush.flex-column
-      = navbar_link_to("Home", "bi-house", home_path)
-      = navbar_link_to("Add", "bi-plus-square", root_path)
-      = navbar_link_to("Trips", "bi-map", root_path)
+    %ul#navigation-links.nav.nav-pills.nav-flush.flex-column
+      = render("partials/layouts/navigation_links")
