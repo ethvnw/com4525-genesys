@@ -72,7 +72,12 @@ class TripsController < ApplicationController
           "location_latitude",
           "location_longitude",
         )
-      puts @trip.inspect
+
+      # Merge the errors from start_date and end_date into the date error, as this is the one used by the date field
+      flash[:errors][:date] ||= []
+      flash[:errors][:date].concat(flash[:errors][:start_date]) if flash[:errors][:start_date]
+      flash[:errors][:date].concat(flash[:errors][:end_date]) if flash[:errors][:end_date]
+
       stream_response("trips/create", new_trip_path)
     end
   end

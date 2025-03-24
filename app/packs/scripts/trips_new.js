@@ -102,9 +102,7 @@ const createAutocomplete = (containerId, text) => autocomplete({
 });
 
 function setupTripForm() {
-  try {
-    setupPicker(); // Set up date picker
-  } catch (e) { /* nuh uh */ }
+  setupPicker(); // Set up date picker
 
   map = L.map('map', {
     center: [0, 0],

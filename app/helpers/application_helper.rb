@@ -44,6 +44,11 @@ module ApplicationHelper
     end
   end
 
+  ##
+  # Retrieves and formats error messages for a specific form field
+  # @param errors [Hash] the hash containing validation errors, generated with record.errors.to_hash(true)
+  # @param key [Symbol] the field key to get errors for
+  # @return [String, nil] joined error messages for the field (or nil if no errors)
   def get_formatted_errors(errors, key)
     errors ||= {}
     errors_for_key = errors[key]
@@ -53,12 +58,33 @@ module ApplicationHelper
     end
   end
 
+  ##
+  # Renders a Turbo Stream toast notification, if a message is present
+  # @param message [Hash] a message hash containing :type and :content
+  # @return [String, nil] rendered toast partial or nil if no message to render
   def turbo_toast(message)
     if message.present?
       render(
         partial: "turbo_stream_templates/turbo_toast",
         locals: { notification_type: message[:type], message_content: message[:content] },
       )
+    end
+  end
+
+  ##
+  # Determines the Bootstrap validation class based on field errors
+  # @param errors [Hash] the errors hash containing validation errors
+  # @param key [Symbol] the field key to check for errors
+  # @return [String, nil] 'is-invalid' if field has errors, 'is-valid' if errors exist but this field is valid,
+  #                       nil otherwise
+  def get_error_class_with(errors, key)
+    if errors.present?
+      if errors.include?(key) && errors[key].present?
+        puts "is-invalid"
+        "is-invalid"
+      else
+        "is-valid"
+      end
     end
   end
 end

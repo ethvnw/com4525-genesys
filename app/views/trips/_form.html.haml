@@ -12,20 +12,19 @@
                       class: "fw-semibold",
                       rows: 3,
                       placeholder: "Enter the trip description...")
+
   // The start_date and end_date are hidden fields, updated in the background by the date range picker
-  = f.input(:start_date,
-            as: :string,
-            input_html: { class: "d-none", id: "start_date_input" },
-            label: false,
-            placeholder: "Enter the trip start date...")
+  = f.hidden_field(:start_date,
+                   id: "start_date_input",
+                   label: false,
+                   placeholder: "Enter the trip start date...")
 
-  = f.input(:end_date,
-            as: :string,
-            input_html: { class: "d-none", id: "end_date_input" },
-            label: false,
-            placeholder: "Enter the trip end date...")
+  = f.hidden_field(:end_date,
+                   id: "end_date_input",
+                   label: false,
+                   placeholder: "Enter the trip end date...")
 
-  = render("partials/datetime_picker")
+  = render("partials/datetime_picker", errors: errors)
 
   #trip-location-autocomplete.my-1
 
@@ -37,17 +36,11 @@
             label: false,
             placeholder: "Enter the location name...")
 
-  = f.input(:location_latitude,
-            as: :string,
-            input_html: { class: "d-none", type: "number", step: "any", id: "latitude_input" },
-            label: false,
-            placeholder: "Enter the location latitude...")
+  = f.hidden_field(:location_latitude,
+                   id: "latitude_input")
 
-  = f.input(:location_longitude,
-            as: :string,
-            input_html: { class: "d-none", type: "number", step: "any", id: "longitude_input" },
-            label: false,
-            placeholder: "Enter the location longitude...")
+  = f.hidden_field(:location_longitude,
+                   id: "longitude_input")
 
   .d-flex.justify-content-end.mt-1
     = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do

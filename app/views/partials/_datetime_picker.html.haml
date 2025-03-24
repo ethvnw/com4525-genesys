@@ -13,4 +13,9 @@
       "data-td-toggle" => "datetimepicker",
       type: "button",
       value: "Input the date range...",
+      class: get_error_class_with(errors, :date),
     }
+    .invalid-feedback
+      = simple_format(get_formatted_errors(errors, :date), {}, wrapper_tag: "span")
+    .valid-feedback
+      Looks good!
