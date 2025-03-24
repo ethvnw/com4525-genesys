@@ -3,7 +3,7 @@
 %hr
 %h5 Avatar Image
 = simple_form_for(@current_user,
-                  url: update_avatar_user_path(@current_user),
+                  url: registration_avatar_path(@current_user),
                   method: :patch,
                   html: { multipart: true }) do |f|
   .form-group
@@ -23,7 +23,7 @@
 
 - if @current_user.avatar.attached?
   = button_to("Remove Avatar Photo",
-              destroy_avatar_user_path(@current_user),
+              registration_avatar_path(@current_user),
               method: :delete,
               data: { confirm: "Are you sure you want to remove your avatar photo?" },
               class: "btn btn-danger")
