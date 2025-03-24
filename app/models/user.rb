@@ -72,6 +72,11 @@ class User < ApplicationRecord
     message: "Must be between 6 and 20 characters"
 
   has_one_attached :avatar
+  validates :avatar,
+    content_type: ["image/png", "image/jpeg"],
+    size: { less_than: 5.megabytes },
+    dimension: { width: { min: 300, max: 1000 }, height: { min: 300, max: 1000 } }
+
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
 

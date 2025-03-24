@@ -4,9 +4,10 @@
     "data-bs-toggle": "dropdown",
     role: "button",
   }
-    = image_tag(current_user.avatar_url, height: 24, class: "rounded-circle me-2 me-lg-3")
+    = image_tag(current_user.decorate.avatar_or_default, height: 24, class: "rounded-circle me-2 me-lg-3")
     .dropdown-username
       = current_user.username
+
   .dropdown-menu.dropdown-menu-end
     %h6.dropdown-header.fw-semibold.text-secondary
       = current_user.email
