@@ -2,8 +2,12 @@
 
 # A basic controller from the template app
 class PagesController < ApplicationController
-  def home
-    @script_packs = ["home"]
+  layout "user", only: [:home]
+  before_action :authorize_members_access, only: [:landing, :faq]
+  before_action :authenticate_user!, only: :home
+
+  def landing
+    @script_packs = ["landing"]
 
     # Record the visit
     landing_page_vist = LandingPageVisit.new
@@ -28,5 +32,10 @@ class PagesController < ApplicationController
     end
     @errors = flash[:errors]
     @questions = Question.where.not(is_hidden: true).order(order: :asc)
+  end
+
+  def home
+    @inbox_count = 0
+    @errors = flash[:errors]
   end
 end

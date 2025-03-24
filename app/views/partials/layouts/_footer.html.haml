@@ -1,0 +1,23 @@
+%footer.border-top
+  .container
+    .d-flex.flex-column
+      = link_to(root_path, class: "mt-4") do
+        = image_pack_tag("images/roamio_brand_icon_l_grey.png", height: 24)
+      %small.text-secondary.my-2
+        &copy; #{Date.today.year} Roamio & Genesys Team 02. All rights reserved &nbsp;
+
+      %small.text-secondary.mb-2
+        -# Print development environment info
+        - if Rails.env.development?
+          %i.bi.bi-terminal
+          Development Environment &nbsp;
+          %i.bi.bi-git
+          = %x(git log --pretty=format:'%h' -n 1)
+          = %x(git branch --show-current)
+          &nbsp;
+          - if %x(git status --porcelain).present?
+            %i.bi.bi-cone-striped
+            Uncommited Changes
+          - else
+            %i.bi.bi-rocket-takeoff
+            Working Directory Clean

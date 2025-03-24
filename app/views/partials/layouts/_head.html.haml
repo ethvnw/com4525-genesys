@@ -1,0 +1,45 @@
+%meta{ "http-equiv": "content-type", content: "text/html; charset=utf-8" }
+%meta{ "http-equiv": "X-UA-Compatible", content: "IE=edge" }
+%meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover" }
+%meta{ name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
+%meta{ name: "apple-mobile-web-app-capable", content: "yes" }
+- if content_for(:description)
+  %meta{ content: content_for(:description), name: "description" }
+
+%title= ["Roamio", content_for(:title)].compact.join(" - ")
+
+= csrf_meta_tags
+= csp_meta_tag
+
+-# Allows us to separate scripts/styles out into multiple packs, and only load them when required.
+= stylesheet_pack_tag("stylepacks/application", *get_style_paths(style_packs), media: "all")
+= javascript_pack_tag("scriptpacks/application", *get_script_paths(script_packs))
+
+%link{ rel: "preconnect", href: "https://rsms.me/" }
+= stylesheet_link_tag("https://rsms.me/inter/inter.css",
+                      rel: "stylesheet",
+                      crossorigin: "anonymous",
+                      referrerpolicy: "no-referrer",
+                      integrity: "sha256-RtAceAf2SiTBsoU7dW7xXzovrN9KnwZur105wMmTVEE=")
+= stylesheet_link_tag("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+                      rel: "stylesheet",
+                      crossorigin: "anonymous",
+                      referrerpolicy: "no-referrer",
+                      integrity: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=")
+
+-# Google fonts
+%link{ rel: "preconnect", href: "https://fonts.googleapis.com" }
+%link{ rel: "preconnect", href: "https://fonts.gstatic.com" }
+= stylesheet_link_tag("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap",
+                      rel: "stylesheet",
+                      crossorigin: "anonymous",
+                      referrerpolicy: "no-referrer",
+                      integrity: "sha256-w1bUQYC2nOOk4+n3xFDSrhLVCTEWshky/PbrJZEnRL4=")
+
+-# Favicon
+%link{ rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" }
+%link{ rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" }
+%link{ rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" }
+%link{ rel: "manifest", href: "/site.webmanifest" }
+
+= render("partials/layouts/apple_splash")
