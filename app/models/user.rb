@@ -42,6 +42,7 @@
 #
 class User < ApplicationRecord
   before_save :downcase_username
+  before_save :set_default_role
   validate :password_complexity
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -57,7 +58,7 @@ class User < ApplicationRecord
     :pwned_password
 
   # User roles for RBAC
-  enum user_role: { reporter: "Reporter", admin: "Admin" }
+  enum user_role: { reporter: "Reporter", admin: "Admin", member: "Member" }
 
   # Ensuring username follows specific rules
   validates :username, presence: true, uniqueness: { case_sensitive: false }
@@ -89,6 +90,10 @@ class User < ApplicationRecord
     if encrypted_password_changed? && password !~ /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/
       errors.add(:password, "must contain upper and lower-case letters and numbers")
     end
+  end
+
+  def set_default_role
+    self.user_role ||= self.class.user_roles[:member]
   end
 
   # Attribute called login to allow users to log in with either their username or email

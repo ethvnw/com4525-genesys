@@ -1,10 +1,12 @@
 #user-account-dropdown.dropdown
-  %a.btn.btn-secondary.dropdown-toggle.fw-semibold.d-flex.align-items-center.justify-content-center{
+  %a.nav-link.d-flex.align-items-center.link-dark.text-decoration-none.dropdown-toggle{
+    "aria-expanded": "false",
     "data-bs-toggle": "dropdown",
     role: "button",
   }
-    Account
-    = image_tag(current_user.decorate.avatar_or_default, height: 40, class: "rounded mx-2")
+    = image_tag(current_user.decorate.avatar_or_default, height: 24, class: "rounded-circle me-2 me-lg-3")
+    .dropdown-username
+      = current_user.username
 
   .dropdown-menu.dropdown-menu-end
     %h6.dropdown-header.fw-semibold.text-secondary

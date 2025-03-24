@@ -27,4 +27,20 @@ module ApplicationHelper
       []
     end
   end
+
+  ##
+  # Generates a navbar link with an icon and text
+  # Highlights the link if the provied route matches the current route
+  # @param name [String] the text to display for the link
+  # @param icon [String] the Bootstrap icon class to use
+  # @param path [String] the route for the link
+  # @return [String] a Bootstrap HTML element containing the link
+  def navbar_link_to(name, icon, path)
+    content_tag(:li, class: "nav-item") do
+      link_to(path, class: "#{"active" if current_page?(path)} nav-link") do
+        concat(content_tag(:i, nil, class: "#{current_page?(path) ? "#{icon}-fill" : icon} bi"))
+        concat(content_tag(:span, name))
+      end
+    end
+  end
 end

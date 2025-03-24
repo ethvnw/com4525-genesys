@@ -19,12 +19,12 @@
 %section.container.mt-3
   %ul.timeline-with-icons
     - @landing_page_journey.each do |journey|
-      = render("partials/landing_page_journey_timeline_item",
+      = render("partials/admin/landing_page_journey_timeline_item",
                journey_title: journey.journey_title,
                journey_header: journey.journey_header,
                journey_date: journey.formatted_timestamp,
                journey_icon: journey.journey_icon)
-    = render("partials/landing_page_journey_timeline_item",
+    = render("partials/admin/landing_page_journey_timeline_item",
              journey_title: @registration.subscription_tier.name,
              journey_header: "Subscribed to Tier",
              journey_date: @registration.formatted_timestamp,

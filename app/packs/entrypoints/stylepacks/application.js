@@ -1,9 +1,8 @@
 import 'bootstrap-icons/font/bootstrap-icons';
 import '../../styles/variables.scss';
-import '../../styles/twitter_bootstrap.scss';
 import '../../styles/layout.scss';
 import 'swiper/swiper-bundle.css';
-import '../../styles/home.scss';
+import '../../styles/landing.scss';
 import '../../styles/login.scss';
 import '../../styles/social_share.scss';
 import '../../styles/pricing.scss';
@@ -16,5 +15,6 @@ import '@algolia/autocomplete-theme-classic';
 import '@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css';
 import '../../styles/forms.scss';
 import '../../styles/trips.scss';
+import '../../styles/twitter_bootstrap.scss';
 
 require.context('../../images', true);

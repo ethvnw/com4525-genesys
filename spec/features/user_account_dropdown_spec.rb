@@ -3,8 +3,9 @@
 require "rails_helper"
 
 RSpec.feature("User account dropdown") do
-  let!(:admin) { create(:admin) }
-  let!(:reporter) { create(:reporter) }
+  let!(:admin) { create(:admin, username: "lisacuddy") }
+  let!(:reporter) { create(:reporter, username: "gregoryhouse") }
+  let!(:member) { create(:user, username: "ericforeman") }
 
   feature "Admin user dropdown", js: true do
     before do
@@ -54,6 +55,28 @@ RSpec.feature("User account dropdown") do
 
       expect(page).to(have_content("Edit User"))
     end
+
+    scenario "Admin can sign out using dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("Sign Out", href: destroy_user_session_path))
+        sleep_for_js
+        click_link "Sign Out"
+      end
+
+      expect(page).to(have_content("Signed out successfully."))
+    end
+
+    scenario "Admin can see their username in dropdown" do
+      visit root_path
+
+      within("#user-account-dropdown .dropdown-username") do
+        expect(page).to(have_content("lisacuddy"))
+      end
+    end
   end
 
   feature "Reporter user dropdown", js: true do
@@ -71,7 +94,7 @@ RSpec.feature("User account dropdown") do
       end
     end
 
-    scenario "Admin can access reporter dashboard through dropdown" do
+    scenario "Reporter can access reporter dashboard through dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -97,6 +120,82 @@ RSpec.feature("User account dropdown") do
       end
 
       expect(page).to(have_content("Edit User"))
+    end
+
+    scenario "Reporter can sign out using dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("Sign Out", href: destroy_user_session_path))
+        sleep_for_js
+        click_link "Sign Out"
+      end
+
+      expect(page).to(have_content("Signed out successfully."))
+    end
+
+    scenario "Reporter can see their username in dropdown" do
+      visit root_path
+
+      within("#user-account-dropdown .dropdown-username") do
+        expect(page).to(have_content("gregoryhouse"))
+      end
+    end
+  end
+
+  feature "Member user dropdown", js: true do
+    before do
+      login_as(member, scope: :user)
+    end
+
+    scenario "Member can't access admin and reporter dashboards through dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+      sleep_for_js
+
+      within("#user-account-dropdown") do
+        expect(page).to_not(have_link("Admin Dashboard", href: admin_dashboard_path))
+        expect(page).to_not(have_link("Reporter Dashboard", href: reporter_dashboard_path))
+      end
+    end
+
+    scenario "Member can access account settings through dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("My Account", href: edit_user_registration_path))
+        sleep_for_js
+        click_link "My Account"
+      end
+
+      expect(page).to(have_content("Edit User"))
+    end
+
+    scenario "Member can sign out using dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("Sign Out", href: destroy_user_session_path))
+        sleep_for_js
+        click_link "Sign Out"
+      end
+
+      expect(page).to(have_content("Signed out successfully."))
+    end
+
+    scenario "Member can see their username in dropdown" do
+      visit root_path
+
+      within("#user-account-dropdown .dropdown-username") do
+        expect(page).to(have_content("ericforeman"))
+      end
     end
   end
 end

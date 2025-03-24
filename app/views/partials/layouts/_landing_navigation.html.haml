@@ -1,4 +1,4 @@
-%nav.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
+%nav#landing-topbar.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
   .container
     = link_to(root_path, class: "navbar-brand") do
       = image_pack_tag("images/roamio_brand_logo_d_grey.png", height: 40)
@@ -28,7 +28,8 @@
       .d-flex.ms-auto.gap-2.flex-column.flex-lg-row
         %hr.d-flex.d-lg-none.my-1
         - if user_signed_in?
-          = render("partials/navbar_user_dropdown", current_user: current_user)
+          = render("partials/layouts/navbar_user_dropdown", current_user: current_user)
+
         - else
           = link_to(new_user_session_path,
                     class: "btn btn-secondary fw-semibold d-flex justify-content-center",

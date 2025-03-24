@@ -14,7 +14,7 @@ RSpec.feature("Login and Registrations") do
       fill_in "Password", with: "GenesysModule#1"
       click_button "Log In"
 
-      expect(page).to(have_current_path(root_path))
+      expect(page).to(have_current_path(home_path))
       expect(page).to(have_content("Signed in successfully."))
     end
 
@@ -25,7 +25,7 @@ RSpec.feature("Login and Registrations") do
       fill_in "Password", with: "GenesysModule#1"
       click_button "Log In"
 
-      expect(page).to(have_current_path(root_path))
+      expect(page).to(have_current_path(home_path))
       expect(page).to(have_content("Signed in successfully."))
     end
   end
