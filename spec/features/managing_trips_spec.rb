@@ -154,7 +154,6 @@ RSpec.feature("Managing trips") do
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
       click_button "Create Trip"
-      save_page
       # Expect the form to be displayed with the title and description fields filled in
       expect(page).to(have_field("trip_title", with: "a" * 101))
       expect(page).to(have_field("trip_description", with: "description of plan"))
