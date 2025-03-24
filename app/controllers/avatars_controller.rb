@@ -1,16 +1,9 @@
 # frozen_string_literal: true
 
 # Handles user information
-class UsersController < ApplicationController
+class AvatarsController < ApplicationController
   before_action :authenticate_user!
-
-  def destroy_avatar
-    user = User.find(params[:id])
-    user.avatar.purge_later
-    redirect_to(edit_user_registration_path, notice: "Avatar successfully removed.")
-  end
-
-  def update_avatar
+  def update
     if avatar_uploaded?
       if current_user.update(avatar_params)
         flash[:notice] = "Avatar updated successfully."
@@ -22,6 +15,11 @@ class UsersController < ApplicationController
     end
 
     redirect_to(edit_user_registration_path)
+  end
+
+  def destroy
+    current_user.avatar.purge_later
+    redirect_to(edit_user_registration_path, notice: "Avatar successfully removed.")
   end
 
   private
