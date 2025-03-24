@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   # Permit username and email when signing up or updating details
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :email])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :email, :avatar])
   end
 
   def after_sign_in_path_for(resource)

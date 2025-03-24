@@ -6,6 +6,26 @@ RSpec.describe(UserDecorator, type: :decorator) do
   let(:user) { create(:user) }
   let(:decorated_user) { user.decorate }
 
+  describe "#avatar_or_default" do
+    context "when the user has an avatar attached" do
+      it "returns the avatar attached to the user" do
+        # Mock user should already have an avatar attached
+        expect(decorated_user.avatar_or_default).to(be_an_instance_of(ActiveStorage::Attached::One))
+        expect(user.avatar.filename.to_s).to(eq("mock_avatar.png"))
+      end
+    end
+
+    context "when the user does not have an avatar attached" do
+      before do
+        user.avatar.purge
+      end
+
+      it "returns the URL avatar version" do
+        expect(decorated_user.avatar_or_default).to(eq("https://api.dicebear.com/9.x/thumbs/svg?seed=#{user.id}"))
+      end
+    end
+  end
+
   describe "#user_avatar" do
     context "when id is present" do
       it "it returns an avatar" do
