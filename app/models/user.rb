@@ -71,8 +71,9 @@ class User < ApplicationRecord
     message: "Must be between 6 and 20 characters"
 
   has_one_attached :avatar
-  validate :avatar_content_type
-  validate :avatar_size
+  validates :avatar,
+    content_type: ["image/png", "image/jpeg"],
+    size: { less_than: 5.megabytes }
 
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
@@ -101,18 +102,6 @@ class User < ApplicationRecord
       where(conditions)
         .where(["lower(username) = :value OR lower(email) = :value", { value: login.downcase }])
         .first
-    end
-  end
-
-  def avatar_content_type
-    if avatar.attached? && !avatar.content_type.in?(["image/png", "image/jpg", "image/jpeg"])
-      errors.add(:avatar, "must be a PNG, JPG, or JPEG image")
-    end
-  end
-
-  def avatar_size
-    if avatar.attached? && avatar.byte_size > 5.megabytes
-      errors.add(:avatar, "filesize must be less than 5 MB")
     end
   end
 end
