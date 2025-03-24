@@ -2,7 +2,7 @@
 
 # A basic controller from the template app
 class PagesController < ApplicationController
-  layout "user", only: [:home, :trips]
+  layout "user", only: [:home]
   before_action :authorize_members_access, only: [:landing, :faq]
   before_action :authenticate_user!, only: :home
 

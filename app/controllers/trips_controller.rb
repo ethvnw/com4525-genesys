@@ -7,6 +7,7 @@ require "uri"
 
 # Handles the creation of trips
 class TripsController < ApplicationController
+  layout "user"
   before_action :authenticate_user!
 
   def index
