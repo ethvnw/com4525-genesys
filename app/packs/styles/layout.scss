@@ -1,7 +1,12 @@
 @import 'variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/variables';
+@import "twitter_bootstrap";
 
 html {
-    min-height: 100%;
+    min-height: 100vh;
+    //overscroll-behavior: none;
 }
 
 body {
@@ -20,4 +25,149 @@ body {
 
 .login-card {
   width: 30rem;
+}
+
+main {  
+    @extend .d-flex;
+    @extend .flex-fill;
+
+    .container {
+        @extend .flex-fill;
+        @extend .w-100;
+        z-index: 1;
+    }
+}
+
+#sidebar {
+    @extend .d-none;
+    @extend .d-sm-flex;
+    // IOS Safe Area
+    padding-left: env(safe-area-inset-left);
+
+    .nav i {
+        @extend .h4;
+        @extend .mb-0;
+    }
+
+    a.nav-link {
+        @extend .d-flex;
+        @extend .align-items-center;
+        @extend .justify-content-center;
+        @extend .rounded-0;
+        @extend .link-dark;
+        // Desktop lg
+        @extend .justify-content-lg-start;
+    }
+    
+    .nav span {
+        @extend .d-none;
+        // Desktop lg
+        @extend .d-lg-flex;
+        @extend .ms-lg-3;
+    }
+
+    .navbar-brand {
+        @extend .d-flex;
+        @extend .align-items-center;
+        @extend .justify-content-center;
+        // Desktop lg
+        @extend .justify-content-lg-start;
+    }
+
+    .position-relative .rounded-pill {
+        // Desktop lg
+        @extend .d-lg-none;
+    }
+
+    #user-account-dropdown {
+    
+        .dropdown-username {
+            @extend .d-none;
+            @extend .d-lg-flex;
+        }
+
+        .nav-link img {
+            @extend .me-0;
+            @extend .me-lg-3;
+        }
+
+        .dropdown-toggle::after {
+            @extend .d-none;
+            @extend .d-lg-flex;           
+        }
+    }
+}
+
+#topbar {
+    background-color: $body-bg;
+    // IOS Safe Area
+    padding-top: calc( $navbar-padding-y + env(safe-area-inset-top) );
+
+    img {
+        height: 40px;
+    }
+
+    #user-account-dropdown .dropdown-username {
+        @extend .d-none;
+    }
+}
+
+#bottombar {
+    // IOS Safe Area
+    padding-bottom: max( $navbar-padding-y, env(safe-area-inset-bottom) );
+
+    a.nav-link {
+        @extend .d-flex;
+        @extend .flex-column;
+        @extend .justify-content-center;
+        @extend .link-dark;
+        @extend .py-0;
+    }
+
+    .nav i {
+        @extend .h3;
+        @extend .text-center;
+    }
+
+    .nav small {
+        @extend .fw-bold;
+    }
+
+    .nav-item {
+        @extend .col;
+        @extend .d-flex;
+        @extend .justify-content-center;
+    }
+}
+
+#content footer {
+    @extend .d-none;
+    @extend .d-sm-flex;
+}
+
+#navbar-content {
+    #user-account-dropdown a {
+        @extend .justify-content-center;
+    }
+    #user-account-dropdown .dropdown-username {
+        @extend .fw-semibold;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    #sidebar {
+        width: $sidebar-lg-width;
+
+        a.nav-link {
+            border-radius: $nav-pills-border-radius !important;
+        }
+    }
+}
+
+#landing-topbar {
+    padding-top: calc( $navbar-padding-y + env(safe-area-inset-top) );
+}
+
+footer {
+    padding-bottom: env(safe-area-inset-bottom);
 }

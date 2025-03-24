@@ -42,6 +42,10 @@ class Ability
       can(:read, Registration)
     end
 
+    unless user.member?
+      can(:access, [:landing, :faq, :subscription])
+    end
+
     can(:read, SubscriptionTier)
     can(:read, Question, is_hidden: false)
     can(:read, Review, is_hidden: false)

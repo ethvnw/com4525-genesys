@@ -51,7 +51,7 @@ RSpec.feature("Managing trips") do
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
-      click_on "Create Trip"
+      click_button "Create Trip"
       expect(page).to(have_content("Title can't be blank"))
     end
 
@@ -66,7 +66,7 @@ RSpec.feature("Managing trips") do
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
-      click_on "Create Trip"
+      click_button "Create Trip"
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
     end
 
@@ -80,7 +80,7 @@ RSpec.feature("Managing trips") do
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
-      click_on "Create Trip"
+      click_button "Create Trip"
       expect(page).to(have_content("Description can't be blank"))
     end
 
@@ -95,7 +95,7 @@ RSpec.feature("Managing trips") do
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
-      click_on "Create Trip"
+      click_button "Create Trip"
       expect(page).to(have_content("Description is too long (maximum is 500 characters)"))
     end
 
@@ -107,7 +107,7 @@ RSpec.feature("Managing trips") do
       find(".aa-Input", wait: 3).set("England")
       sleep 3
       find_all(".aa-Item").first.click
-      click_on "Create Trip"
+      click_button "Create Trip"
       expect(page).to(have_content("Date range can't be blank"))
     end
 
@@ -118,7 +118,7 @@ RSpec.feature("Managing trips") do
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
-      click_on "Create Trip"
+      click_button "Create Trip"
       expect(page).to(have_content("Location can't be blank"))
     end
 
@@ -133,7 +133,7 @@ RSpec.feature("Managing trips") do
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
-      click_on "Create Trip"
+      click_button "Create Trip"
       # Expect the trip to be displayed on the page, identified by the title
       click_on "title of plan"
       # The trip details should be displayed, with the title and description
@@ -153,7 +153,7 @@ RSpec.feature("Managing trips") do
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
-      click_on "Create Trip"
+      click_button "Create Trip"
       # Expect the form to be displayed with the title and description fields filled in
       expect(page).to(have_field("trip_title", with: "a" * 101))
       expect(page).to(have_field("trip_description", with: "description of plan"))
@@ -195,7 +195,7 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Editing #{trip.title}"))
       fill_in "trip_title", with: "edited title"
       fill_in "trip_description", with: "edited description"
-      click_on "Create Trip"
+      click_button "Create Trip"
       # Trip title and description should be updated to the edited values
       expect(page).not_to(have_content(trip.title))
       expect(page).to(have_content("edited title"))
@@ -215,7 +215,7 @@ RSpec.feature("Managing trips") do
       click_on "Settings"
       click_on "Edit trip"
       fill_in "trip_title", with: ""
-      click_on "Create Trip"
+      click_button "Create Trip"
       expect(page).to(have_content("Title can't be blank"))
     end
   end

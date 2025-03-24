@@ -12,22 +12,22 @@
       %button.nav-link{ "data-bs-target": "#all-time-tab", "data-bs-toggle": "pill", type: "button" } All Time
   .tab-content
     #today-tab.tab-pane.show.active
-      = render("partials/reporter_dashboard_cards_tab",
+      = render("partials/reporter/reporter_dashboard_cards_tab",
                landing_page_visits: @landing_page_visits_today,
                registrations: @registrations_today,
                time_period: "Today")
     #week-tab.profile.tab-pane
-      = render("partials/reporter_dashboard_cards_tab",
+      = render("partials/reporter/reporter_dashboard_cards_tab",
                landing_page_visits:  @landing_page_visits_this_week,
                registrations: @registrations_this_week,
                time_period: "This Week")
     #month-tab.tab-pane
-      = render("partials/reporter_dashboard_cards_tab",
+      = render("partials/reporter/reporter_dashboard_cards_tab",
                landing_page_visits:  @landing_page_visits_this_month,
                registrations: @registrations_this_month,
                time_period: "This Month")
     #all-time-tab.tab-pane
-      = render("partials/reporter_dashboard_cards_tab",
+      = render("partials/reporter/reporter_dashboard_cards_tab",
                landing_page_visits: @landing_page_visits_all_time,
                registrations: @registrations_all_time,
                time_period: "All Time")
@@ -51,16 +51,16 @@
   .tab-content
     #landing-countries.tab-pane.show.active
       - if @landing_page_visits_by_country.blank?
-        = render("partials/reporter_dashboard_no_data")
+        = render("partials/reporter/reporter_dashboard_no_data")
       - else
-        = render("partials/reporter_dashboard_country_table",
+        = render("partials/reporter/reporter_dashboard_country_table",
                  table_header: ["Country", "Landing Page Visits"],
                  table_contents: @landing_page_visits_by_country)
     #registration-countries.tab-pane
       - if @registrations_by_country.blank?
-        = render("partials/reporter_dashboard_no_data")
+        = render("partials/reporter/reporter_dashboard_no_data")
       - else
-        = render("partials/reporter_dashboard_country_table",
+        = render("partials/reporter/reporter_dashboard_country_table",
                  table_header: ["Country", "Registrations"],
                  table_contents: @registrations_by_country)
   %hr.mt-3
@@ -83,15 +83,15 @@
   .tab-content
     #engagement-features.tab-pane.show.active
       - if @app_features_engagement.blank?
-        = render("partials/reporter_dashboard_no_data")
+        = render("partials/reporter/reporter_dashboard_no_data")
       - else
-        = render("partials/reporter_dashboard_table",
+        = render("partials/reporter/reporter_dashboard_table",
                  table_header: ["Feature Name", "Shares"],
                  table_contents: @app_features_engagement)
     #engagement-pricing.tab-pane
       - if @subscription_tiers_engagement.blank?
-        = render("partials/reporter_dashboard_no_data")
+        = render("partials/reporter/reporter_dashboard_no_data")
       - else
-        = render("partials/reporter_dashboard_table",
+        = render("partials/reporter/reporter_dashboard_table",
                  table_header: ["Pricing Tier", "Clicks"],
                  table_contents: @subscription_tiers_engagement)
