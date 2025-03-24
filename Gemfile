@@ -73,6 +73,7 @@ gem "annotate"
 gem "unsplash"
 
 gem "active_storage_validations"
+gem "ruby-vips"
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]

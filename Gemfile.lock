@@ -397,6 +397,9 @@ GEM
     rubocop-shopify (2.15.1)
       rubocop (~> 1.51)
     ruby-progressbar (1.13.0)
+    ruby-vips (2.2.3)
+      ffi (~> 1.12)
+      logger
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sanitize_email (2.0.8)
@@ -530,6 +533,7 @@ DEPENDENCIES
   rspec-rails
   rubocop (~> 1.68)
   rubocop-shopify
+  ruby-vips
   sanitize_email
   selenium-webdriver
   sentry-rails
