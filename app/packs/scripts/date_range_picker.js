@@ -21,7 +21,7 @@ function getEarlierDate(date1, date2) {
 }
 
 /**
- * Formats a date string into a format suitable for HTML datetime-local input
+ * Formats a date string into ISO8601 format (but ignoring timezone stuff)
  * @param {string|Date} date - The date to format
  * @returns {string} Formatted date string in YYYY-MM-DDThh:mm format
  */
@@ -123,12 +123,15 @@ export default function setupPicker() {
   // If there are preset dates, set the input field button to show them.
   // This is for the edit form.
   if (presetStartDate && presetEndDate) {
-    datetimepickerInput.value = `${formatDateForButton(presetStartDate)} - ${formatDateForButton(presetEndDate)}`;
+    const newStartDate = presetStartDate.replace(' ', 'T').split(' ')[0];
+    const newEndDate = presetEndDate.replace(' ', 'T').split(' ')[0];
+    console.log(presetStartDate);
+    console.log(newStartDate);
+    datetimepickerInput.value = `${formatDateForButton(newStartDate)} - ${formatDateForButton(newEndDate)}`;
     datetimepickerInput.classList.remove('form-control-btn');
     datetimepickerInput.classList.add('form-control-btn-selected');
 
-    // The dates have to be formatted from the ruby standard to rails to be valid inputs
-    startDateElement.value = formatDateForJS(presetStartDate);
-    endDateElement.value = formatDateForJS(presetEndDate);
+    startDateElement.value = formatDateForJS(newStartDate);
+    endDateElement.value = formatDateForJS(newEndDate);
   }
 }
