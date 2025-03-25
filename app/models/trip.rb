@@ -28,6 +28,7 @@ class Trip < ApplicationRecord
   validates :description, presence: true, length: { maximum: 500 }
   validate :date_range_cant_be_blank
   validate :location_cant_be_blank
+  validate :start_date_cant_be_in_the_past
   validates_with DateValidator
 
   private
@@ -44,9 +45,9 @@ class Trip < ApplicationRecord
     end
   end
 
-  def start_date_cannot_be_in_the_past
+  def start_date_cant_be_in_the_past
     if start_date.present? && start_date < Date.current
-      record.errors.add(:start_date, "cannot be in the past")
+      errors.add(:start_date, "cannot be in the past")
     end
   end
 end
