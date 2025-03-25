@@ -20,7 +20,7 @@
   %i.bi.bi-person-fill-add &nbsp;
   Create Staff Account
 
-= render("admin/dashboard/invite_form", user: @user, errors: @errors)
+= render("partials/admin/dashboard/invite_form", user: @user, errors: @errors)
 
 %hr.mt-3
 %h4.fw-semibold.mt-3
@@ -38,7 +38,7 @@
         %th{ scope: "col" }
     %tbody#staff-table-body
       - @users.each do |user|
-        = render("admin/dashboard/staff_row", user: user)
+        = render("partials/admin/dashboard/staff_row", user: user)
 
 %hr.mt-3
 %h4.fw-semibold.mt-3

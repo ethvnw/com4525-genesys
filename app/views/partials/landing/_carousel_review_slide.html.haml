@@ -7,4 +7,4 @@
       = form_with(url: like_api_review_path(review_obj),
                   method: :post,
                   html: { "data-turbo": "true" }) do |_f|
-        = render("reviews/like_button", review: review_obj)
+        = render("partials/reviews/like_button", review: review_obj)
