@@ -1,16 +1,12 @@
 = simple_form_for([:api, review],
                   builder: ValidatedFormBuilder,
-                  is_form_submitted: errors.present?,
+                  errors: errors,
                   html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
   = f.validated_input(:name,
-                      get_formatted_errors(errors, :name),
-                      class: "fw-semibold",
                       placeholder: "Enter your name...")
   = f.validated_input(:content,
-                      get_formatted_errors(errors, :content),
-                      class: "fw-semibold",
-                      rows: 3,
-                      placeholder: "Enter your review...")
+                      placeholder: "Enter your review...",
+                      rows: 5)
 
   .d-flex.justify-content-end
     = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do

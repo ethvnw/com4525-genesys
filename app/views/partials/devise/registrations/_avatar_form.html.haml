@@ -16,9 +16,9 @@
       %span#avatar-file-name No file selected
     = f.submit("Save", class: "btn btn-primary mt-1")
 
-  - if user.avatar.attached? && user.avatar.persisted?
-    = button_to("Remove Avatar Photo",
-                registration_avatar_path(user),
-                method: :delete,
-                form: { data: { turbo: "true", turbo_confirm: "Are you sure you want to remove your avatar photo?" } },
-                class: "btn btn-danger")
+- if user.avatar.attached? && user.avatar.persisted?
+  = button_to("Remove Avatar Photo",
+              registration_avatar_path(user),
+              method: :delete,
+              form: { data: { turbo: "true", turbo_confirm: "Are you sure you want to remove your avatar photo?" } },
+              class: "btn btn-danger")

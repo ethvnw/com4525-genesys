@@ -2,16 +2,12 @@
   %h2.mt-3 Forgot Your Password?
 
   = simple_form_for(resource,
-                    builder: ValidatedFormBuilder,
                     as: resource_name,
                     url: password_path(resource_name),
-                    is_form_submitted: resource.errors.present?,
+                    builder: ValidatedFormBuilder,
+                    errors: resource.errors.to_hash(true),
                     html: { method: :post }) do |f|
-    .form-inputs
-      = f.validated_input(:email,
-                          get_formatted_errors(resource.errors.to_hash(true), :email),
-                          required: true,
-                          autofocus: true)
+    = f.validated_input(:email)
 
     .form-actions.mt-4.d-flex.justify-content-end.gap-2
       = f.button(:submit, "Send me Password Reset Instructions", class: "btn-primary px-4")

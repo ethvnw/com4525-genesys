@@ -2,17 +2,15 @@
             url: invitation_path(:user),
             method: :post,
             builder: ValidatedFormBuilder,
-            is_form_submitted: errors.present?,
+            errors: errors,
             html: { id: "new_user", novalidate: true, "data-turbo": "true" },
             class: "mt-0 row g-3 align-items-top") do |f|
   .col-12.col-sm-8
     = f.validated_input(:email,
-                        get_formatted_errors(errors, :email),
                         placeholder: "Email address")
   .col-12.col-sm-4
     = f.validated_select(:user_role,
                          options_for_select(User.user_roles.values, selected: user.user_role&.titleize),
-                         get_formatted_errors(errors, :user_role),
                          include_blank: "Role")
   .form-actions
     = f.submit("Send Invitation", class: "btn btn-primary")
