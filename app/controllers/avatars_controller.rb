@@ -2,24 +2,26 @@
 
 # Handles user information
 class AvatarsController < ApplicationController
+  include Streamable
+
   before_action :authenticate_user!
   def update
-    if avatar_uploaded?
+    message = if avatar_uploaded?
       if current_user.update(avatar_params)
-        flash[:notice] = "Avatar updated successfully."
+        { content: "Avatar updated successfully.", type: "success" }
       else
-        flash[:alert] = current_user.errors.full_messages.to_sentence
+        { content: current_user.errors.full_messages.to_sentence, type: "danger" }
       end
     else
-      flash[:alert] = "No avatar photo uploaded."
+      { content: "No avatar photo uploaded.", type: "danger" }
     end
 
-    redirect_to(edit_user_registration_path)
+    turbo_redirect_to(edit_user_registration_path, message)
   end
 
   def destroy
     current_user.avatar.purge_later
-    redirect_to(edit_user_registration_path, notice: "Avatar successfully removed.")
+    turbo_redirect_to(edit_user_registration_path, { content: "Avatar successfully removed.", type: "success" })
   end
 
   private
