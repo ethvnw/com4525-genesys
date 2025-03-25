@@ -40,10 +40,10 @@ RSpec.describe(TripDecorator, type: :decorator) do
     end
 
     context "when start and end dates are in different years" do
-      let(:trip) { create(:trip, start_date: Time.zone.local(1999, 12, 30), end_date: Time.zone.local(2000, 1, 2)) }
+      let(:trip) { create(:trip, start_date: Time.zone.local(2000, 12, 30), end_date: Time.zone.local(2001, 1, 2)) }
 
       it "returns 'dd mmm yyyy - dd mmm yyyy'" do
-        expect(decorated_trip.formatted_date_range).to(eq("30 Dec 1999 - 02 Jan 2000"))
+        expect(decorated_trip.formatted_date_range).to(eq("30 Dec 2000 - 02 Jan 2001"))
       end
     end
   end
