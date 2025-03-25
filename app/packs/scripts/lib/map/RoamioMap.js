@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import { MAP_CONFIG, TILE_LAYER_CONFIG } from './map_config';
 
 /**
@@ -13,7 +14,8 @@ class _RoamioMap {
   }
 
   /**
-   * Creates a new Leaflet map instance and adds a tile layer with configurations predefined in map_config.js.
+   * Creates a new Leaflet map instance and adds a tile layer
+   * with configurations predefined in map_config.js.
    */
   initialise() {
     this.map = L.map(this.mapId, MAP_CONFIG);
@@ -32,6 +34,6 @@ function newRoamioMap(mapId) {
 }
 
 // Create and export singleton instance of RoamioMap
-const RoamioMap = newRoamioMap("map");
+const RoamioMap = newRoamioMap('map');
 export default RoamioMap;
 export { newRoamioMap };

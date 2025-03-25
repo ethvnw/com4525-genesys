@@ -59,7 +59,7 @@ class TripsController < ApplicationController
       membership.user_display_name = current_user.username
       membership.save
 
-      turbo_redirect_to(trips_path, { content: "Your trip has been submitted.", type: "success" })
+      redirect_to(trips_path, notice: "Your trip has been submitted.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
       session[:trip_data] =
@@ -94,7 +94,7 @@ class TripsController < ApplicationController
       redirect_to(trip_path, notice: "Trip updated successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
-      stream_response("trips/create", new_trip_path)
+      stream_response("trips/update", edit_trip_path(@trip))
     end
   end
 
