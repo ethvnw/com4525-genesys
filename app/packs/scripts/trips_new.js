@@ -6,134 +6,130 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import '@algolia/autocomplete-theme-classic';
 import L from 'leaflet';
 import setupPicker from './date_range_picker';
+import RoamioMap from './lib/map/RoamioMap';
 
-let map;
+// Constants
+const DEBOUNCE_MS = 300;
+
+// Required global variables
 let startMarker;
 let endMarker;
+let tripAutocomplete = null;
 
 /**
- * Update the location pin on the map with the new latitude and longitude.
- * Also updates the line between the start and end locations if both are set.
- * @param {L.marker} marker The marker to update
- * @param {float} lat The new latitude
- * @param {float} lng The new longitude
+ * Updates a location marker on the map and centres the view
+ * @param {L.Marker} marker - The marker to update
+ * @param {number} lat - The new latitude
+ * @param {number} lng - The new longitude
  */
 const updateLocationPin = (marker, lat, lng) => {
   marker.setLatLng([lat, lng]);
-  marker.addTo(map);
+  marker.addTo(RoamioMap.map);
   marker.bindPopup('Trip Location').openPopup();
   map.setView([lat, lng], 10);
 };
 
 /**
  * Debounce a promise returning function.
- * @param {*} fn The function to debounce
- * @param {*} time The time to debounce by
- * @returns {function} The debounced function
+ * @param {Function} fn - Function to debounce
+ * @param {number} time - Debounce delay in milliseconds
+ * @returns {Function} Debounced function
  */
 function debouncePromise(fn, time) {
   let timer;
-
   return function debounced(...args) {
-    if (timer) {
-      clearTimeout(timer); // Clear the timeout first if it's already defined.
-    }
-
+    clearTimeout(timer);
     return new Promise((resolve) => {
       timer = setTimeout(() => resolve(fn(...args)), time);
     });
   };
 }
 
-const DEBOUNCE_MS = 300;
-const debounced = debouncePromise((items) => Promise.resolve(items), DEBOUNCE_MS);
+const debouncedPromise = debouncePromise((items) => Promise.resolve(items), DEBOUNCE_MS);
 
 /**
- * Create an autocomplete object for a given container id and text.
- * @param {string} containerId The id of the container to create the autocomplete in
- * @param {string} text The text to display in the placeholder
- * @returns {object} The created autocomplete object
+ * Formats a place object into a displayable string
+ * @param {Object} place - Place object from Photon API
+ * @returns {string} Formatted location string
  */
-const createAutocomplete = (containerId, text) => autocomplete({
+function formatPlaceName(place) {
+  const { name, city, country } = place.properties;
+  return [name, city, country].filter(Boolean).join(', ');
+}
+
+/**
+ * Creates an autocomplete instance for location search
+ * @param {string} containerId - DOM element ID for the autocomplete container
+ * @param {'start' | 'end'} searchType - Type of location search
+ * @returns {Object} Autocomplete instance
+ */
+const createAutocomplete = (containerId, searchType) => autocomplete({
   container: containerId,
-  placeholder: `Search for a ${text} location`,
+  placeholder: `Search for a ${searchType} location`,
   detachedMediaQuery: '',
   stallThreshold: 700,
-  classNames: {
-    input: 'fw-bold',
-  },
+  classNames: { input: 'fw-bold' },
   getSources({ query }) {
-    return debounced([
-      {
-        sourceId: 'places',
-        getItems() {
-          return fetch(
-            `https://photon.komoot.io/api/?q=${query}&limit=5`,
-          ).then((response) => response.json())
-            .then((data) => data.features.map((place) => ({
-              name: [place.properties.name, place.properties.city, place.properties.country].filter(Boolean).join(', '),
-              lat: place.geometry.coordinates[1],
-              lng: place.geometry.coordinates[0],
-            })));
-        },
-        getItemInputValue({ item }) {
-          return item.name;
-        },
-        onSelect({ item }) {
-          // Update the values in the form input fields with the name and geolocation.
-          const locationNameInput = document.getElementById('location_name_input');
-          const latitudeInput = document.getElementById('latitude_input');
-          const longitudeInput = document.getElementById('longitude_input');
-
-          locationNameInput.value = item.name;
-          latitudeInput.value = item.lat;
-          longitudeInput.value = item.lng;
-
-          updateLocationPin(text === 'start' ? startMarker : endMarker, item.lat, item.lng);
-        },
-        templates: {
-          item({ item }) {
-            return item.name;
-          },
-        },
+    return debouncedPromise([{
+      sourceId: 'places',
+      getItems() {
+        return fetch(`https://photon.komoot.io/api/?q=${query}&limit=5`)
+          .then((response) => response.json())
+          .then((data) => data.features.map((place) => ({
+            name: formatPlaceName(place),
+            lat: place.geometry.coordinates[1],
+            lng: place.geometry.coordinates[0],
+          })));
       },
-    ]);
+      getItemInputValue: ({ item }) => item.name,
+      onSelect({ item }) {
+        const locationNameInput = document.getElementById('location_name_input');
+        const latitudeInput = document.getElementById('latitude_input');
+        const longitudeInput = document.getElementById('longitude_input');
+
+        locationNameInput.value = item.name;
+        latitudeInput.value = item.lat;
+        longitudeInput.value = item.lng;
+
+        const marker = searchType === 'start' ? startMarker : endMarker;
+        updateLocationPin(marker, item.lat, item.lng);
+      },
+      templates: {
+        item: ({ item }) => item.name,
+      },
+    }]);
   },
 });
 
+/**
+ * Initialises the trip form with map and location search functionality
+ */
 function setupTripForm() {
-  setupPicker(); // Set up date picker
+  setupPicker(false);
 
-  map = L.map('map', {
-    center: [0, 0],
-    zoom: 1,
-    maxZoom: 20,
-    minZoom: 1,
-    maxBounds: [
-      [-90, -180],
-      [90, 180],
-    ],
-  });
-  const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-    maxZoom: 20,
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-  });
-  map.addLayer(googleHybrid);
+  RoamioMap.initialise();
   startMarker = L.marker([0, 0]);
   endMarker = L.marker([0, 0]);
-  const tripAutocomplete = createAutocomplete('#trip-location-autocomplete', 'trip');
 
+  // Clean up and reinitialise autocomplete
+  // Algolia doesn't support multiple simultaneous instances
+  if (tripAutocomplete) {
+    tripAutocomplete.destroy();
+  }
+  tripAutocomplete = createAutocomplete('#trip-location-autocomplete', 'trip');
+
+  // Restore existing location if present
   const locationName = document.getElementById('location_name_input').value;
   const latitude = parseFloat(document.getElementById('latitude_input').value);
   const longitude = parseFloat(document.getElementById('longitude_input').value);
 
-  // Set the start and end location values if they are present.
   if (latitude && longitude) {
     tripAutocomplete.setQuery(locationName);
     updateLocationPin(startMarker, latitude, longitude);
   }
 }
 
+// Initialise form on page load and reinitialise on content updates
 document.addEventListener('turbo:load', () => {
   setupTripForm();
 

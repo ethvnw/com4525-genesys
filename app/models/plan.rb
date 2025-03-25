@@ -13,6 +13,10 @@ class PlanValidator < ActiveModel::Validator
       if record.plan_type.starts_with?("travel_by") && record.end_location_name.blank?
         record.errors.add(:end_location_name, "must be present for travel plans")
       end
+
+      if record.start_date.present? && record.start_date < Time.current.change(sec: 0)
+        record.errors.add(:start_date, "cannot be in the past")
+      end
     end
   end
 end
