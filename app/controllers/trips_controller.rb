@@ -24,7 +24,6 @@ class TripsController < ApplicationController
     else
       Trip.new
     end
-    puts @trip.inspect
 
     @errors = flash[:errors]
   end

@@ -38,7 +38,7 @@
 
     .d-flex.mt-4.justify-content-between.align-items-end.gap-4
       - if item.question?
-        = render("questions/answer_form", item: item)
+        = render("partials/questions/answer_form", item: item)
 
       - if item.review?
         %p.mb-0.card-text.fw-bold.text-secondary= item.subcontent

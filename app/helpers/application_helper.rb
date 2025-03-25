@@ -80,7 +80,6 @@ module ApplicationHelper
   def get_error_class_with(errors, key)
     if errors.present?
       if errors.include?(key) && errors[key].present?
-        puts "is-invalid"
         "is-invalid"
       else
         "is-valid"
