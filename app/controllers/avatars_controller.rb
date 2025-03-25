@@ -16,12 +16,16 @@ class AvatarsController < ApplicationController
       { content: "No avatar photo uploaded.", type: "danger" }
     end
 
-    turbo_redirect_to(edit_user_registration_path, message)
+    stream_response("avatars/update", edit_user_registration_path, message)
   end
 
   def destroy
     current_user.avatar.purge_later
-    turbo_redirect_to(edit_user_registration_path, { content: "Avatar successfully removed.", type: "success" })
+    stream_response(
+      "avatars/update",
+      edit_user_registration_path,
+      { content: "Avatar successfully removed.", type: "success" },
+    )
   end
 
   private

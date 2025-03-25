@@ -3,30 +3,8 @@
 
   %hr
   %h5 Avatar Image
-  = simple_form_for(@current_user,
-                    url: registration_avatar_path(@current_user),
-                    method: :patch,
-                    html: { multipart: true, "data-turbo": "true" }) do |f|
-    .form-group
-      = image_tag(current_user.avatar.attached? ? current_user.avatar : current_user.avatar_url,
-                  id: "avatar-preview",
-                  height: 100,
-                  width: 100,
-                  class: "rounded")
-      .my-2
-        // Original file input is hidden, so a custom button can be styled
-        = f.file_field(:avatar, id: "avatar-input", class: "d-none")
-        %button#avatar-custom.btn.btn-secondary{ type: "button" }
-          Attach Avatar
-        %span#avatar-file-name No file selected
-      = f.submit("Save", class: "btn btn-primary mt-1")
-
-  - if @current_user.avatar.attached?
-    = button_to("Remove Avatar Photo",
-                registration_avatar_path(@current_user),
-                method: :delete,
-                form: { data: { turbo: "true", turbo_confirm: "Are you sure you want to remove your avatar photo?" } },
-                class: "btn btn-danger")
+  #avatar-form-container
+    = render("partials/devise/registrations/avatar_form", user: @current_user)
   %hr
 
   %h5 Personal Details
