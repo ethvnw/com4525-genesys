@@ -4,6 +4,7 @@
 # Concern for controllers which should be able to manage reviews/questions in the admin dashboard
 module AdminItemManageable
   extend ActiveSupport::Concern
+  include Streamable
 
   included do
     def admin_item_stream_success_response(visible_items, hidden_items, fallback_path)
