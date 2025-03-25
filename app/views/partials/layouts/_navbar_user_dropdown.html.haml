@@ -4,7 +4,7 @@
     "data-bs-toggle": "dropdown",
     role: "button",
   }
-    = image_tag(current_user.decorate.avatar_or_default, height: 24, class: "rounded-circle me-2 me-lg-3")
+    = render("partials/layouts/user_avatar", user: current_user.decorate)
     .dropdown-username
       = current_user.username
 

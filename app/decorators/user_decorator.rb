@@ -15,7 +15,7 @@ class UserDecorator < ApplicationDecorator
   end
 
   def avatar_or_default
-    if object.avatar.attached?
+    if object.avatar.attached? && object.avatar.persisted?
       object.avatar
     else
       avatar_url
