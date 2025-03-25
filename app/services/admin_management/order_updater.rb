@@ -14,8 +14,6 @@ module AdminManagement
       @order_change = order_change
     end
 
-    ##
-    # test
     def call
       # Get sign of order change & find question to swap with
       order_change_sign = @order_change >= 0 ? 1 : -1
