@@ -167,6 +167,37 @@ RSpec.feature("Managing trips") do
       # The error message should be displayed
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
     end
+
+    scenario "When I revisit the trip creation page, previously-submitted information is preserved",
+      js: true,
+      vcr: true do
+      # Fill in the form with the required fields
+      visit new_trip_path
+      fill_in "trip_title", with: "a" * 101 # Title too long error
+      fill_in "trip_description", with: "description of plan"
+      find(".aa-DetachedSearchButton", wait: 3).click
+      find(".aa-Input", wait: 3).set("England")
+      sleep 3
+      find_all(".aa-Item").first.click
+      find("#datetimepicker-input").click
+      find("div[data-value='#{start_date}']").click
+      find("div[data-value='#{end_date}']").click
+      click_button "Create Trip"
+      sleep_for_js
+      visit root_path
+      visit new_trip_path
+
+      # Expect the form to be displayed with the title and description fields filled in
+      expect(page).to(have_field("trip_title", with: "a" * 101))
+      expect(page).to(have_field("trip_description", with: "description of plan"))
+      within ".aa-DetachedSearchButtonQuery" do
+        expect(page).to(have_content("England"))
+      end
+      # Then, the values for the start and end date are formatted and compared to the datetimepicker button.
+      # During testing, the time is set to 00:00.
+      datetime_button = find("#datetimepicker-input")[:value]
+      expect(datetime_button).to(have_content("#{start_date_one_index} - #{end_date_one_index}"))
+    end
   end
 
   feature "Editing a trip" do

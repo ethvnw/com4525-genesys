@@ -148,6 +148,7 @@ RSpec.feature("Managing plans") do
       find(".aa-Input").set("Brazil")
 
       find_all(".aa-Item").first.click
+      sleep_for_js
       fill_in "Start date", with: Time.current + 1.day + 2.hours
       click_on "Save"
 

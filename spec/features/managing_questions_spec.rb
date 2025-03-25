@@ -150,6 +150,7 @@ RSpec.feature("Managing questions") do
       end
       fill_in "answer_#{question.id}", with: "An answer"
       click_on "Submit Answer"
+      sleep_for_js
       visit faq_path
       click_on "Mock question" # expand question
       expect(page).to(have_content("An answer"))
