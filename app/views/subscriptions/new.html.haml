@@ -5,4 +5,7 @@
       We're working to make Roamio available for wider release.
       Register your interest, and you'll be the first to know!
     .mt-4.text-start
-      = render("partials/subscriptions/form", registration: @registration, errors: @errors, subscription_tier_id: params[:s_id])
+      = render("partials/subscriptions/form",
+               registration: @registration,
+               errors: @errors,
+               subscription_tier_id: params[:s_id])

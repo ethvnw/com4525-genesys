@@ -140,7 +140,7 @@ RSpec.feature("Managing plans") do
       find_all(".aa-Item").first.click
       fill_in "Start date", with: Time.current + 1.day
       click_on "Save"
-
+      sleep_for_js
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"

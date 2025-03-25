@@ -14,7 +14,7 @@ module Api
       flash[:errors] = @question.errors.to_hash(true)
       message = nil
 
-      if question.persisted?
+      if @question.persisted?
         session.delete(:question_data)
         @question = Question.new
         message = { content: "Your question has been submitted.", type: "success" }
