@@ -12,8 +12,10 @@
 = csp_meta_tag
 
 -# Allows us to separate scripts/styles out into multiple packs, and only load them when required.
-= stylesheet_pack_tag("stylepacks/application", *get_style_paths(style_packs), media: "all")
-= javascript_pack_tag("scriptpacks/application", *get_script_paths(script_packs))
+-# Dynamically remove stylesheets if turbo navigates to a page where they are not included.
+= stylesheet_pack_tag("stylepacks/application", *get_style_paths(style_packs), media: "all", "data-turbo-track": "dynamic")
+-# Reload page to reset JS context if turbo navigates to a page where scripts are different.
+= javascript_pack_tag("scriptpacks/application", *get_script_paths(script_packs), "data-turbo-track": "reload")
 
 %link{ rel: "preconnect", href: "https://rsms.me/" }
 = stylesheet_link_tag("https://rsms.me/inter/inter.css",

@@ -40,20 +40,22 @@ function formatDateForJS(date) {
 /**
  * Formats a date for display in the date range picker button
  * @param {string|Date} date - The date to format
+ * @param {boolean} withTime - Whether to display the time as well
  * @returns {string} Formatted date string using locale-specific format
  */
-function formatDateForButton(date) {
+function formatDateForButton(date, withTime) {
   if (!date) return '';
   const d = new Date(date);
-  return d.toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' });
+  return d.toLocaleString('en-GB', { dateStyle: 'short', timeStyle: withTime ? 'short' : undefined });
 }
 
 /**
  * Sets up the date range picker functionality
  * Initialises the Tempus Dominus date picker with custom configuration
  * and handles date selection events
+ * @param {boolean} allowTime - Whether to allow the datepicker to select the time as well
  */
-export default function setupPicker() {
+export default function setupPicker(allowTime) {
   const datetimepickerElement = document.getElementById('datetimepicker-element');
   const datetimepickerInput = document.getElementById('datetimepicker-input');
   const startDateElement = document.getElementById('start_date_input');
@@ -74,9 +76,16 @@ export default function setupPicker() {
       minDate: minDateValue,
     },
     display: {
+      buttons: {
+        today: true,
+        clear: true,
+        close: true,
+      },
+      components: {
+        clock: allowTime,
+      },
       theme: 'light', // Force light theme as it looks better with the Roamio theme
       icons: {
-        time: 'bi bi-clock',
         date: 'bi bi-calendar',
         up: 'bi bi-arrow-up',
         down: 'bi bi-arrow-down',
@@ -86,16 +95,10 @@ export default function setupPicker() {
         clear: 'bi bi-trash',
         close: 'bi bi-x',
       },
-      buttons: {
-        today: true,
-        clear: true,
-        close: true,
-      },
     },
     localization: {
       dayViewHeaderFormat: { year: 'numeric', month: 'long' },
     },
-
   });
 
   // Listen for changes in the date range picker
@@ -104,11 +107,22 @@ export default function setupPicker() {
     // ._dates is the variable Tempus Dominus uses to store the selected dates.
     // eslint-disable-next-line no-underscore-dangle
     const dates = datetimepicker.dates._dates;
-
     if (dates.length === 2) {
+      if (!allowTime) {
+        dates[0].setHours(0);
+        dates[0].setMinutes(0);
+        dates[0].setSeconds(0);
+        dates[0].setMilliseconds(0);
+
+        dates[1].setHours(23);
+        dates[1].setMinutes(59);
+        dates[1].setSeconds(59);
+        dates[1].setMilliseconds(999);
+      }
+
       startDateElement.value = formatDateForJS(dates[0]);
       endDateElement.value = formatDateForJS(dates[1]);
-      datetimepickerInput.value = `${formatDateForButton(dates[0])} - ${formatDateForButton(dates[1])}`;
+      datetimepickerInput.value = `${formatDateForButton(dates[0], allowTime)} - ${formatDateForButton(dates[1], allowTime)}`;
       datetimepickerInput.classList.remove('form-control-btn');
       datetimepickerInput.classList.add('form-control-btn-selected');
     } else {
@@ -125,8 +139,7 @@ export default function setupPicker() {
   if (presetStartDate && presetEndDate) {
     const newStartDate = presetStartDate.replace(' ', 'T').split(' ')[0];
     const newEndDate = presetEndDate.replace(' ', 'T').split(' ')[0];
-    console.log(presetStartDate);
-    console.log(newStartDate);
+
     datetimepickerInput.value = `${formatDateForButton(newStartDate)} - ${formatDateForButton(newEndDate)}`;
     datetimepickerInput.classList.remove('form-control-btn');
     datetimepickerInput.classList.add('form-control-btn-selected');

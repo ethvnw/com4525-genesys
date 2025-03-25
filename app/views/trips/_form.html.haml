@@ -26,15 +26,18 @@
 
   = render("partials/datetime_picker", errors: errors)
 
-  #trip-location-autocomplete.my-1
+  .d-flex.flex-column.mb-3
+    = f.label("Trip location", class: "fw-semibold", for: "#trip-location-autocomplete")
+    #trip-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :location) }
+    .invalid-feedback
+      = simple_format(get_formatted_errors(errors, :location), {}, wrapper_tag: "span")
+    .valid-feedback
+      Looks good!
 
   #map.my-1
 
-  = f.input(:location_name,
-            as: :text,
-            input_html: { class: "d-none", id: "location_name_input" },
-            label: false,
-            placeholder: "Enter the location name...")
+  = f.hidden_field(:location_name,
+                   id: "location_name_input")
 
   = f.hidden_field(:location_latitude,
                    id: "latitude_input")
