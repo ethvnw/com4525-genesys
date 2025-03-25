@@ -1,2 +1,5 @@
 = yield
 = turbo_toast(@message)
+-# Discard the flash[:errors] value after it has been used, to prevent it from
+  # being shown on the next page load
+- flash[:errors] = nil
