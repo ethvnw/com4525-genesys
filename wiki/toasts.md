@@ -30,28 +30,14 @@ to send as many notifications as you wish (they will stack automatically).
 
 ### Using turbo streams
 More sophisticated toasting can be achieved using 
-[Turbo streams](https://turbo.hotwired.dev/handbook/streams), by using the `append`
-action to add a toast to the toast list, which will then be detected & shown by
+[Turbo streams](https://turbo.hotwired.dev/handbook/streams), by adding a `messsage`
+parameter to one of the turbo helpers, which will then be detected & shown by
 the `MutationObserver`. See below for an example (from 
 [`controllers/invitations_controller`](../app/controllers/invitations_controller.rb)).
 
 ```ruby
-format.turbo_stream do
-  render(turbo_stream: [
-    # ...
-    # Other turbo stream actions (if any)
-    # ...
-    turbo_stream.append(
-      "toast-list",
-      partial: "partials/toast",
-      locals: {
-        notification_type: "success",
-        message: "Invitation sent successfully to #{user.email}.",
-      },
-    ),
-  ])
-  format.html { redirect_to(admin_dashboard_path) }
-end
+message = { content: "Invitation sent successfully to #{@user.email}.", type: "success" }
+stream_response("admin/invitations/create_success", admin_dashboard_path, message)
 ```
 
 ## From the client
