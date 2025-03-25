@@ -109,7 +109,7 @@ RSpec.feature("Registering Interest") do
 
       register_with_email
 
-      expect(FeatureShare.count).to(be_zero)
+      expect(ReviewLike.count).to(be_zero)
     end
   end
 
