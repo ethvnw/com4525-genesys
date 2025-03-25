@@ -32,8 +32,8 @@ RSpec.feature("Managing trips") do
   let(:end_date) { "#{end_time.year}-#{zero_index_end_month}-#{format("%02d", end_time.day)}" }
 
   # 1-indexed months are used for display purposes
-  let(:start_date_one_index) { time.strftime("%d/%m/%Y, %H:%M") }
-  let(:end_date_one_index) { end_time.strftime("%d/%m/%Y, %H:%M") }
+  let(:start_date_one_index) { time.strftime("%d/%m/%Y") }
+  let(:end_date_one_index) { end_time.strftime("%d/%m/%Y") }
 
   # Potential issue, times might roll over during test execution, causing the test to fail
   # Look into using Timecop to freeze time during tests in future
@@ -108,7 +108,7 @@ RSpec.feature("Managing trips") do
       sleep 3
       find_all(".aa-Item").first.click
       click_button "Create Trip"
-      expect(page).to(have_content("Date range can't be blank"))
+      expect(page).to(have_content("Date can't be blank"))
     end
 
     scenario "I cannot create a trip with no location", js: true, vcr: true do
