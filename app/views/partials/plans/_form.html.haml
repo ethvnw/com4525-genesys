@@ -1,7 +1,7 @@
 = simple_form_for([trip, plan],
                   builder: ValidatedFormBuilder,
                   is_form_submitted: errors.present?,
-                  html: { class: "d-flex flex-column gap-2" }) do |f|
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
   = f.validated_input(:title,
                       get_formatted_errors(errors, :title),
                       placeholder: "Enter the title of the plan...")
@@ -12,16 +12,20 @@
                        prompt: "Select plan type",
                        required: true)
 
-  %div
+  .d-flex.flex-column.mb-3
     = f.label("Start location", class: "mb-1", for: "#start-location-autocomplete")
-    #start-location-autocomplete.form-control-plaintext{ class: errors&.include?(:start_location_name) && "is-invalid" }
+    #start-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :start_location_name) }
     .invalid-feedback
       = simple_format(get_formatted_errors(errors, :start_location_name), {}, wrapper_tag: "span")
-  #end-location-container.d-none
-    = f.label("End location", class: "mb-1", for: "#start-location-autocomplete")
-    #end-location-autocomplete.form-control-plaintext{ class: errors&.include?(:end_location_name) && "is-invalid" }
+    .valid-feedback
+      Looks good!
+  #end-location-container.d-none.d-flex.flex-column.mb-3
+    = f.label("End location", class: "mb-1", for: "#end-location-autocomplete")
+    #end-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :end_location_name) }
     .invalid-feedback
       = simple_format(get_formatted_errors(errors, :end_location_name), {}, wrapper_tag: "span")
+    .valid-feedback
+      Looks good!
 
   #map
 
@@ -30,9 +34,15 @@
 
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 
-  = f.input(:start_location_name, as: :hidden)
-  = f.input(:end_location_name, as: :hidden)
-  = f.input(:start_location_latitude, as: :hidden)
-  = f.input(:start_location_longitude, as: :hidden)
-  = f.input(:end_location_latitude, as: :hidden)
-  = f.input(:end_location_longitude, as: :hidden)
+  = f.hidden_field(:start_location_name,
+                   id: "start_location_name_input")
+  = f.hidden_field(:end_location_name,
+                   id: "end_location_name_input")
+  = f.hidden_field(:start_location_latitude,
+                   id: "start_location_latitude_input")
+  = f.hidden_field(:start_location_longitude,
+                   id: "start_location_longitude_input")
+  = f.hidden_field(:end_location_latitude,
+                   id: "end_location_latitude_input")
+  = f.hidden_field(:end_location_longitude,
+                   id: "end_location_longitude_input")

@@ -37,13 +37,13 @@
   #map.my-1
 
   = f.hidden_field(:location_name,
-                   id: "location_name_input")
+                   id: "trip_location_name_input")
 
   = f.hidden_field(:location_latitude,
-                   id: "latitude_input")
+                   id: "trip_location_latitude_input")
 
   = f.hidden_field(:location_longitude,
-                   id: "longitude_input")
+                   id: "trip_location_longitude_input")
 
   .d-flex.justify-content-end.mt-1
     = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
