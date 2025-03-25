@@ -10,7 +10,6 @@
       .col
         = f.validated_select(:user_role,
                              options_for_select(User.user_roles.values, selected: user.user_role&.titleize),
-                             get_formatted_errors(errors, :user_role),
                              label: nil)
 
   .form-actions.mt-3

@@ -18,7 +18,6 @@
         value: "Input the date range...",
         class: get_error_class_with(errors, :date),
       }
-      .invalid-feedback
-        = simple_format(get_formatted_errors(errors, :date), {}, wrapper_tag: "span")
+      = form_error_message(errors, :date)
       .valid-feedback
         Looks good!

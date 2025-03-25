@@ -2,27 +2,24 @@
   %h2.mt-3 Set up your account
 
   = simple_form_for(resource,
-                    builder: ValidatedFormBuilder,
                     as: resource_name,
                     url: invitation_path(resource_name),
-                    is_form_submitted: resource.errors.present?,
+                    builder: ValidatedFormBuilder,
+                    errors: resource.errors.to_hash(true),
                     html: { method: :put }) do |f|
     .form-inputs
       = f.hidden_field(:invitation_token)
 
       = f.validated_input(:username,
-                          get_formatted_errors(resource.errors.to_hash(true), :username),
                           required: true,
                           autofocus: true)
 
       = f.validated_input(:password,
-                          get_formatted_errors(resource.errors.to_hash(true), :password),
                           label: "New Password",
                           required: false,
                           autocomplete: "new-password")
 
       = f.validated_input(:password_confirmation,
-                          get_formatted_errors(resource.errors.to_hash(true), :password_confirmation),
                           label: "New Password Confirmation",
                           required: false,
                           autocomplete: "new-password")

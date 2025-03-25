@@ -86,4 +86,18 @@ module ApplicationHelper
       end
     end
   end
+
+  ##
+  # Renders a form error message in a consistent manner
+  # @param errors [Hash] the hash containing validation errors, generated with record.errors.to_hash(true)
+  # @param key [Symbol] the field key to get errors for
+  # @return [String, nil] rendered error message or nil if no errors
+  def form_error_message(errors, key)
+    error = get_formatted_errors(errors, key)
+    if error.present?
+      content_tag(:div, class: "invalid-feedback") do
+        simple_format(error, {}, wrapper_tag: "span")
+      end
+    end
+  end
 end
