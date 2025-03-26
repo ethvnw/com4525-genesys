@@ -55,18 +55,26 @@ flash message.
 ### turbo_redirect_to
 
 A convenience method for handling Turbo Stream redirects, useful if you want
-a form to show errors on failure, and to redirect on success:
+a form to show errors on failure, and to redirect on success.
+
+Can be used as a drop-in replacement for `redirect_to`:
 
 ```ruby
 if @registration.save
   turbo_redirect_to(
     root_path,
-    { content: "Successfully registered. Keep an eye on your inbox for updates!", type: "success" },
+    notice: "Successfully registered. Keep an eye on your inbox for updates!"
   )
 else
   @subscription_tier_id = registration_params[:subscription_tier_id]
   stream_response("registrations/create", new_subscription_path(s_id: @subscription_tier_id))
 end
+```
+
+Or you can pass a custom message to access the full range of bootstrap toasts:
+
+```ruby
+turbo_redirect_to(admin_dashboard_path, { content: "Access removed for #{user.email}", type: "info" })
 ```
 
 ### respond_with_toast

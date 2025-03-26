@@ -67,7 +67,7 @@ RSpec.feature("Managing staff") do
 
       click_button("Remove Access")
 
-      within("#toast-list .text-bg-success") do
+      within("#toast-list .text-bg-info") do
         expect(page).to(have_content("Access removed for #{reporter.email}"))
       end
 

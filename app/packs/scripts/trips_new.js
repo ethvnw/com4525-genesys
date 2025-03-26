@@ -10,6 +10,13 @@ let tripAutocomplete = null;
  * Initialises the trip form with map and location search functionality
  */
 function setupTripForm() {
+  const locationInput = document.getElementById('trip_location_name_input');
+
+  // If we are not on the new trip page, return
+  if (!locationInput) {
+    return;
+  }
+
   setupPicker(false);
   RoamioMap.initialise();
 
@@ -21,7 +28,7 @@ function setupTripForm() {
   tripAutocomplete = createAutocomplete('#trip-location-autocomplete', 'trip');
 
   // Restore existing location if present
-  const locationName = document.getElementById('trip_location_name_input').value;
+  const locationName = locationInput.value;
   const latitude = parseFloat(document.getElementById('trip_location_latitude_input').value);
   const longitude = parseFloat(document.getElementById('trip_location_longitude_input').value);
 

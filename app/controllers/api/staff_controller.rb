@@ -8,10 +8,7 @@ module Api
     def update
       @user = User.find(params[:id])
       if @user.update(user_params)
-        turbo_redirect_to(
-          admin_dashboard_path,
-          { content: "#{@user.email} updated successfully.", type: "success" },
-        )
+        turbo_redirect_to(admin_dashboard_path, notice: "#{@user.email} updated successfully.")
       else
         flash[:edited_data] = user_params.slice("user_role")
         flash[:errors] = @user.errors.to_hash(true)
@@ -22,7 +19,10 @@ module Api
     def destroy
       user = User.find(params[:id])
       if user.destroy
-        turbo_redirect_to(admin_dashboard_path, { content: "Access removed for #{user.email}", type: "success" })
+        turbo_redirect_to(
+          admin_dashboard_path,
+          message: { content: "Access removed for #{user.email}", type: "info" },
+        )
       end
     end
 

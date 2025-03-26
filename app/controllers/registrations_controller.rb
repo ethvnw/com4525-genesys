@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Handles custom js loading for devise registrations
+# Overrides some devise methods to use turbo stream responses instead of default HTML ones
 class RegistrationsController < Devise::RegistrationsController
   include Streamable
 
@@ -31,7 +32,7 @@ class RegistrationsController < Devise::RegistrationsController
         location = after_inactive_sign_up_path_for(resource)
       end
 
-      turbo_redirect_to(location, { content: message, type: "success" })
+      turbo_redirect_to(location, notice: message)
     else
       clean_up_passwords(resource)
       set_minimum_password_length
@@ -61,10 +62,7 @@ class RegistrationsController < Devise::RegistrationsController
     updated = update_resource(resource, account_update_params)
 
     if updated
-      turbo_redirect_to(
-        after_sign_up_path_for(resource),
-        { content: "Account updated successfully.", type: "success" },
-      )
+      turbo_redirect_to(after_sign_up_path_for(resource), notice: "Account updated successfully.")
     else
       clean_up_passwords(resource)
       set_minimum_password_length

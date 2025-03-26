@@ -18,7 +18,7 @@
                       media: "all",
                       "data-turbo-track": "dynamic")
 -# Reload page to reset JS context if turbo navigates to a page where scripts are different.
-= javascript_pack_tag("scriptpacks/application", *get_script_paths(script_packs), "data-turbo-track": "reload")
+= javascript_pack_tag("scriptpacks/application", *get_script_paths(script_packs))
 
 %link{ rel: "preconnect", href: "https://rsms.me/" }
 = stylesheet_link_tag("https://rsms.me/inter/inter.css",

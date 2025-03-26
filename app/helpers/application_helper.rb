@@ -59,19 +59,6 @@ module ApplicationHelper
   end
 
   ##
-  # Renders a Turbo Stream toast notification, if a message is present
-  # @param message [Hash] a message hash containing :type and :content
-  # @return [String, nil] rendered toast partial or nil if no message to render
-  def turbo_toast(message)
-    if message.present?
-      render(
-        partial: "turbo_stream_templates/turbo_toast",
-        locals: { notification_type: message[:type], message_content: message[:content] },
-      )
-    end
-  end
-
-  ##
   # Determines the Bootstrap validation class based on field errors
   # @param errors [Hash] the errors hash containing validation errors
   # @param key [Symbol] the field key to check for errors

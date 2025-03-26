@@ -6,19 +6,16 @@ module Api
     include Streamable
     include AdminItemManageable
 
-    attr_reader :model, :type, :path
-
     def create
       @question = Question.new(question_params)
-      @question.save
-      flash[:errors] = @question.errors.to_hash(true)
       message = nil
 
-      if @question.persisted?
+      if @question.save
         session.delete(:question_data)
         @question = Question.new
         message = { content: "Your question has been submitted.", type: "success" }
       else
+        flash[:errors] = @question.errors.to_hash(true)
         session[:question_data] = @question.attributes.slice("question")
       end
 
@@ -32,8 +29,8 @@ module Api
         message = { content: "Your answer has been submitted.", type: "success" }
         stream_response("questions/answer", manage_admin_questions_path, message)
       else
-        admin_item_stream_error_response(
-          "An error occurred while trying to update question answer.",
+        respond_with_toast(
+          { content: "An error occurred while trying to update question answer.", type: "danger" },
           manage_admin_questions_path,
         )
       end
@@ -43,8 +40,8 @@ module Api
       if AdminManagement::VisibilityUpdater.call(Question, params[:id])
         admin_item_stream_success_response(Question.visible, Question.hidden, manage_admin_questions_path)
       else
-        admin_item_stream_error_response(
-          "An error occurred while trying to update question visibility.",
+        respond_with_toast(
+          { content: "An error occurred while trying to update question visibility.", type: "danger" },
           manage_admin_questions_path,
         )
       end
@@ -54,8 +51,8 @@ module Api
       if AdminManagement::OrderUpdater.call(Question, params[:id], params[:order_change].to_i)
         admin_item_stream_success_response(Question.visible, Question.hidden, manage_admin_questions_path)
       else
-        admin_item_stream_error_response(
-          "An error occurred while trying to update question order.",
+        respond_with_toast(
+          { content: "An error occurred while trying to update question order.", type: "danger" },
           manage_admin_questions_path,
         )
       end
@@ -63,6 +60,7 @@ module Api
 
     def click
       unless user_can_click?(params[:id])
+        # Return ok instead of not found to avoid console errors
         head(:ok) and return
       end
 

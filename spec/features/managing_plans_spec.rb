@@ -132,6 +132,7 @@ RSpec.feature("Managing plans") do
       js: true,
       vcr: true do
       visit new_trip_plan_path(trip)
+      sleep_for_js
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton").click
@@ -142,6 +143,7 @@ RSpec.feature("Managing plans") do
       click_on "Save"
       sleep_for_js
       visit new_trip_plan_path(trip)
+      sleep_for_js
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton").click
