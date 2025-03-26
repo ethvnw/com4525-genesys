@@ -18,10 +18,7 @@ module Api
         session.delete(:journey)
         session.delete(:registration_data)
 
-        turbo_redirect_to(
-          root_path,
-          { content: "Successfully registered. Keep an eye on your inbox for updates!", type: "success" },
-        )
+        turbo_redirect_to(root_path, notice: "Successfully registered. Keep an eye on your inbox for updates!")
       else
         flash[:errors] = @registration.errors.to_hash(true)
         session[:registration_data] = @registration.attributes.slice("email")

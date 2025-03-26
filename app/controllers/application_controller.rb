@@ -74,6 +74,9 @@ class ApplicationController < ActionController::Base
     authorize!(:access, :faq)
     authorize!(:access, :subscription)
   rescue CanCan::AccessDenied
-    redirect_to(home_path, flash: { notice: flash[:notice], alert: flash[:alert] })
+    redirect_to(
+      home_path,
+      flash: { notice: flash[:notice], alert: flash[:alert], notifications: flash[:notifications] },
+    )
   end
 end

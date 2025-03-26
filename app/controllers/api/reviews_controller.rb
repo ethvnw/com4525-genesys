@@ -6,20 +6,17 @@ module Api
     include Streamable
     include AdminItemManageable
 
-    attr_reader :model, :type, :path
-
     def create
       @review = Review.new(review_params)
-      @review.save
-      flash[:errors] = @review.errors.to_hash(true)
       message = nil
 
-      if @review.persisted?
+      if @review.save
         session.delete(:review_data)
         @review = Review.new
         message = { content: "Review submitted. Thanks for helping to improve Roamio!", type: "success" }
         redirect_path = root_path
       else
+        flash[:errors] = @review.errors.to_hash(true)
         session[:review_data] = @review.attributes.slice("name", "content")
         redirect_path = root_path(anchor: "new_review")
       end
@@ -31,8 +28,8 @@ module Api
       if AdminManagement::VisibilityUpdater.call(Review, params[:id])
         admin_item_stream_success_response(Review.visible, Review.hidden, manage_admin_reviews_path)
       else
-        admin_item_stream_error_response(
-          "An error occurred while trying to update review visibility.",
+        respond_with_toast(
+          { content: "An error occurred while trying to update review visibility.", type: "danger" },
           manage_admin_reviews_path,
         )
       end
@@ -42,8 +39,8 @@ module Api
       if AdminManagement::OrderUpdater.call(Review, params[:id], params[:order_change].to_i)
         admin_item_stream_success_response(Review.visible, Review.hidden, manage_admin_reviews_path)
       else
-        admin_item_stream_error_response(
-          "An error occurred while trying to update review order.",
+        respond_with_toast(
+          { content: "An error occurred while trying to update review order.", type: "danger" },
           manage_admin_reviews_path,
         )
       end

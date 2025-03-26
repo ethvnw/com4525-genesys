@@ -41,6 +41,13 @@ const updateEndLocationInput = (e) => {
  * Initialises the plan form with map and location search functionality
  */
 function setupPlanForm() {
+  const startLocationNameInput = document.getElementById('start_location_name_input');
+
+  // Return if we are not on the new plan page
+  if (!startLocationNameInput) {
+    return;
+  }
+
   RoamioMap.initialise();
 
   // Clean up and reinitialise autocomplete instances
@@ -61,7 +68,7 @@ function setupPlanForm() {
   updateEndLocationInput();
 
   // Restore existing locations if present
-  const startName = document.getElementById('start_location_name_input').value;
+  const startName = startLocationNameInput.value;
   const startLat = parseFloat(document.getElementById('start_location_latitude_input').value);
   const startLng = parseFloat(document.getElementById('start_location_longitude_input').value);
   const endName = document.getElementById('end_location_name_input').value;
@@ -83,6 +90,12 @@ function setupPlanForm() {
 document.addEventListener('turbo:load', () => {
   setupPlanForm();
 
+  const formContainer = document.querySelector('#content .container');
+
+  if (!formContainer) {
+    return;
+  }
+
   const planFormObserver = new MutationObserver(setupPlanForm);
-  planFormObserver.observe(document.querySelector('#content .container'), { childList: true });
+  planFormObserver.observe(formContainer, { childList: true });
 });

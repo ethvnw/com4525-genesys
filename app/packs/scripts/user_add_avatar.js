@@ -6,6 +6,11 @@ function setupAvatar() {
   const fileNameSpan = document.getElementById('avatar-file-name');
   const avatarPreview = document.getElementById('avatar-preview');
 
+  // If any of the elements are not found, return
+  if (!browseButton || !customButton || !fileNameSpan || !avatarPreview) {
+    return;
+  }
+
   // When the custom button is clicked, trigger a click on the browse button
   customButton.addEventListener('click', () => {
     browseButton.click();
@@ -39,6 +44,11 @@ function setupAvatar() {
 document.addEventListener('turbo:load', () => {
   setupAvatar();
 
+  const form = document.getElementById('avatar-form-container');
+  if (!form) {
+    return;
+  }
+
   const formObserver = new MutationObserver(setupAvatar);
-  formObserver.observe(document.getElementById('avatar-form-container'), { childList: true });
+  formObserver.observe(form, { childList: true });
 });

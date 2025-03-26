@@ -7,20 +7,15 @@ include ActionView::Helpers::TextHelper
 # the default SimpleForm::FormBuilder
 #
 # @example
-#   = simple_form_for(@user, builder: ValidatedFormBuilder, errors: @user.errors.to_hash(true)) do |f|
-#     = f.validated_input(:email)
-#     = f.validated_select(:role, User.roles.keys)
-#     = f.validated_datetime(:birthday)
+#   = simple_form_for(@plan, builder: ValidatedFormBuilder, errors: @errors) do |f|
+#     = f.validated_input(:name)
+#     = f.validated_select(:plan_type, Plan.plan_types.keys)
+#     = f.validated_datetime(:start_date)
 class ValidatedFormBuilder < SimpleForm::FormBuilder
   ##
   # Creates a validated text input field with error handling
   # @param attribute_name [Symbol] the name of the attribute to create an input for
   # @param element_options [Hash] options for the input element
-  # @option element_options [Symbol] :error_key the key to use for error messages (defaults to attribute_name)
-  # @option element_options [String] :hint optional hint text to display below the input
-  # @option element_options [String] :label custom label text (defaults to attribute_name.humanize)
-  # @option element_options [String] :class additional CSS classes
-  # @option element_options [String] :input_class CSS classes for the input element
   # @return [String] HTML for the input field with validation
   def validated_input(attribute_name, element_options = {})
     error = get_formatted_errors(element_options[:error_key] || attribute_name)
@@ -42,11 +37,6 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
   # @param attribute_name [Symbol] the name of the attribute to create a select for
   # @param choices [Array] array of choices for the select field
   # @param element_options [Hash] options for the select element
-  # @option element_options [Symbol] :error_key the key to use for error messages (defaults to attribute_name)
-  # @option element_options [String] :hint optional hint text to display below the input
-  # @option element_options [String] :label custom label text (defaults to attribute_name.humanize)
-  # @option element_options [String] :class additional CSS classes
-  # @option element_options [String] :input_class CSS classes for the input element
   # @return [String] HTML for the select field with validation
   def validated_select(attribute_name, choices, element_options = {})
     error = get_formatted_errors(element_options[:error_key] || attribute_name)
@@ -67,11 +57,6 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
   # Creates a validated datetime input field with error handling
   # @param attribute_name [Symbol] the name of the attribute to create a datetime input for
   # @param element_options [Hash] options for the datetime input element
-  # @option element_options [Symbol] :error_key the key to use for error messages (defaults to attribute_name)
-  # @option element_options [String] :hint optional hint text to display below the input
-  # @option element_options [String] :label custom label text (defaults to attribute_name.humanize)
-  # @option element_options [String] :class additional CSS classes
-  # @option element_options [String] :input_class CSS classes for the input element
   # @return [String] HTML for the datetime input field with validation
   def validated_datetime(attribute_name, element_options = {})
     error = get_formatted_errors(element_options[:error_key] || attribute_name)
