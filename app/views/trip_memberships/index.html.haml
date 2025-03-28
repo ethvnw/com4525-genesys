@@ -1,4 +1,4 @@
-%h1.mb-4 Manage Members 
+%h1.mb-4 Manage Members
 
 - @members.each do |member|
   .card.mb-2
@@ -9,8 +9,7 @@
             = image_tag(member.user.decorate.avatar_or_default, class: "avatar-img")
             .d-flex.flex-column
               %p.mb-0= member.user_display_name
-              %p.fw-semibold.mb-0
-                = "@#{member.user.username}"
+              %p.fw-semibold.mb-0 @#{member.user.username}
 
           %p.mb-0.fst-italic
             Joined on
@@ -18,8 +17,8 @@
 
         = link_to(trip_trip_membership_path(member.trip, member),
                   class: "btn btn-outline-danger fw-bold",
-                  method: :delete, 
-                  data: { confirm: "Are you sure you want to remove this member?" }) do 
+                  method: :delete,
+                  data: { confirm: "Are you sure you want to remove this member?" }) do
           %i.bi.bi-person-fill-x
           &nbsp;
           - if member.user == current_user
@@ -27,7 +26,7 @@
           - else
             Remove
 
--if @pending_members.any?
+- if @pending_members.any?
   %h2.mt-4.mb-2 Pending Members
 
   - @pending_members.each do |member|
@@ -39,8 +38,7 @@
               = image_tag(member.user.decorate.avatar_or_default, class: "avatar-img")
               .d-flex.flex-column
                 %p.mb-0= member.user_display_name
-                %p.fw-semibold.mb-0
-                  = "@#{member.user.username}"
+                %p.fw-semibold.mb-0 @#{member.user.username}
 
             %p.mb-0.fst-italic
               Sent on
@@ -48,9 +46,9 @@
 
           .d-flex.gap-2
             = link_to(trip_trip_membership_path(member.trip, member),
-                    class: "btn btn-outline-danger fw-bold",
-                    method: :delete, 
-                    data: { confirm: "Are you sure you want to remove this member?" }) do 
+                      class: "btn btn-outline-danger fw-bold",
+                      method: :delete,
+                      data: { confirm: "Are you sure you want to remove this member?" }) do
               %i.bi.bi-person-fill-x
               &nbsp;
               Cancel
