@@ -1,42 +1,44 @@
-.d-flex.justify-content-between.align-items-center.mb-4
-  .d-flex.flex-column
+.d-flex.justify-content-between.mb-4
+  .align-self-center
     %h1.mb-0.fw-bold= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
-    %p.mb-0.fs-5.text-primary= @trip.description
 
-  .d-flex.justify-content-center.gap-2.align-self-start
-    = link_to(trips_path, class: "btn btn-light") do
-      %i.bi.bi-arrow-left &nbsp;
-      All Trips
+  .d-flex.flex-column.align-items-end.gap-3
+    = render("partials/trips/members", members: @trip.trip_memberships)
 
-    = link_to(new_trip_plan_path(@trip), class: "btn btn-primary py-2") do
-      %i.bi.bi-plus-circle &nbsp
-      Add Plan
+    .d-flex.gap-2
+      = link_to(new_trip_plan_path(@trip), class: "btn btn-primary py-2") do
+        %i.bi.bi-plus-circle &nbsp
+        Add Plan
 
-    #trip-settings.dropdown.align-self-stretch
-      %button.h-100.btn.btn-secondary.dropdown-toggle.py-2{
-        type: "button",
-        data: {
-          bs_toggle: "dropdown",
-        },
-        aria: {
-          expanded: "false",
-        },
-      }
-        %i.bi.bi-gear-fill &nbsp
-        Settings
+      #trip-settings.dropdown
+        %button.h-100.btn.btn-secondary.dropdown-toggle.py-2{
+          type: "button",
+          data: {
+            bs_toggle: "dropdown",
+          },
+          aria: {
+            expanded: "false",
+          },
+        }
+          %i.bi.bi-gear-fill
 
-      .dropdown-menu
-        = link_to(edit_trip_path(@trip), class: "dropdown-item") do
-          %i.bi.bi-pencil &nbsp;
-          Edit trip
+        .dropdown-menu
+          = link_to(edit_trip_path(@trip), class: "dropdown-item") do
+            %i.bi.bi-pencil-fill &nbsp;
+            Edit trip
 
-        = link_to(trip_path(@trip),
-                  class: "dropdown-item text-danger",
-                  method: :delete,
-                  data: { confirm: "Are you sure you want to delete this trip?" }) do
-          %i.bi.bi-trash &nbsp;
-          Delete trip
+          = link_to(trip_trip_memberships_path(@trip),
+                    class: "dropdown-item") do
+            %i.bi.bi-person-fill-gear &nbsp;
+            Manage members
+
+          = link_to(trip_path(@trip),
+                    class: "dropdown-item text-danger",
+                    method: :delete,
+                    data: { confirm: "Are you sure you want to delete this trip?" }) do
+            %i.bi.bi-trash-fill &nbsp;
+            Delete trip
 
 - if @plan_groups.empty?
   %p No plans have been added to this trip yet.
@@ -58,10 +60,11 @@
 
     .collapse.show.mb-3{ id: "plans#{index}" }
       - plans.each do |plan|
-        .d-flex.flex-column.gap-1.flex-md-row.gap-md-3
-          %p.mb-0.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
-
-          - if plan.plan_type.starts_with?("travel_")
-            = render("partials/plans/travel_card", trip: @trip, plan: plan)
-          - else
-            = render("partials/plans/event_card", trip: @trip, plan: plan)
+        .row.mb-2
+          .col-sm-2
+            %p.mb-0.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
+          .col
+            - if plan.plan_type.starts_with?("travel_")
+              = render("partials/plans/travel_card", trip: @trip, plan: plan)
+            - else
+              = render("partials/plans/event_card", trip: @trip, plan: plan)
