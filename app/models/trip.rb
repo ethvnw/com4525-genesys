@@ -28,18 +28,26 @@ class Trip < ApplicationRecord
   validates :description, presence: true, length: { maximum: 500 }
   validate :date_range_cant_be_blank
   validate :location_cant_be_blank
+  validate :start_date_cant_be_in_the_past
+  validates_with DateValidator
 
   private
 
   def date_range_cant_be_blank
     if start_date.blank? || end_date.blank?
-      errors.add(:base, "Date range can't be blank")
+      errors.add(:date, "can't be blank")
     end
   end
 
   def location_cant_be_blank
     if location_name.blank? || location_latitude.blank? || location_longitude.blank?
-      errors.add(:base, "Location can't be blank")
+      errors.add(:location, "can't be blank")
+    end
+  end
+
+  def start_date_cant_be_in_the_past
+    if start_date.present? && start_date < Date.current
+      errors.add(:start_date, "cannot be in the past")
     end
   end
 end

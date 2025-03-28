@@ -58,7 +58,10 @@ RSpec.feature("Managing reviews") do
     scenario "I can like a review" do
       visit root_path
       within("div.reviews-carousel") do
-        find("button#review_#{review.id}").click
+        expect(page).to(have_content("0"))
+      end
+      within("div.reviews-carousel") do
+        find("button#like-review-#{review.id}").click
       end
       visit root_path
       within("div.reviews-carousel") do
@@ -66,24 +69,14 @@ RSpec.feature("Managing reviews") do
       end
     end
 
-    scenario "I can unlike a review" do
-      review.increment!(:engagement_counter)
-      visit root_path
-      within("div.reviews-carousel") do
-        find("button#review_#{review.id}").click
-      end
+    scenario "I can unlike a review after liking it" do
       visit root_path
       within("div.reviews-carousel") do
         expect(page).to(have_content("0"))
       end
-    end
-
-    scenario "I can like and unlike a review", js: true do
-      visit root_path
       within("div.reviews-carousel") do
-        find("button#review_#{review.id}").click
-        sleep_for_js
-        find("button#review_#{review.id}").click
+        find("button#like-review-#{review.id}").click
+        find("button#like-review-#{review.id}").click
       end
       visit root_path
       within("div.reviews-carousel") do
@@ -113,13 +106,13 @@ RSpec.feature("Managing reviews") do
       login_as(admin, scope: :user)
     end
 
-    given!(:review) { FactoryBot.create(:review) }
+    given!(:review) { create(:review) }
 
     scenario "I can make a review hidden and no longer see it on the home page" do
       visit manage_admin_reviews_path
-      within(:css, "#visible-items form.update-visibility") do
-        find("button").click
-      end
+
+      click_on "visibility-toggle-#{review.id}"
+
       visit root_path
       within("div.reviews-carousel") do
         expect(page).not_to(have_content(review.content))
@@ -127,14 +120,14 @@ RSpec.feature("Managing reviews") do
     end
 
     scenario "I can make a review visible and see it on the home page" do
-      review.toggle!(:is_hidden)
+      hidden_review = create(:hidden_review)
       visit manage_admin_reviews_path
-      within(:css, "#hidden-items form.update-visibility") do
-        find("button").click
-      end
+
+      click_on "visibility-toggle-#{hidden_review.id}"
+
       visit root_path
       within("div.reviews-carousel") do
-        expect(page).to(have_content(review.content))
+        expect(page).to(have_content(hidden_review.content))
       end
     end
   end
@@ -144,68 +137,52 @@ RSpec.feature("Managing reviews") do
       login_as(admin, scope: :user)
     end
 
-    given!(:review1) { FactoryBot.create(:review) }
-    given!(:review2) { FactoryBot.create(:review, name: "OtherName", content: "OtherContent", order: 1) }
-    given!(:review3) do
-      FactoryBot.create(:review, name: "HiddenName", content: "HiddenContent", is_hidden: true, order: 2)
-    end
+    given!(:review1) { FactoryBot.create(:review, order: 1) }
+    given!(:review2) { FactoryBot.create(:review, name: "OtherName", content: "OtherContent", order: 2) }
+    given!(:hidden_review) { FactoryBot.create(:hidden_review) }
 
-    scenario "I can move a review closer to the front so it appears before other reviews on the home page", js: true do
+    scenario "I can move a review closer to the front so it appears before other reviews on the home page" do
       visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
         find(".order-up-arrow").click
       end
-      click_on "Save Changes"
+
       visit root_path
-      within(:css, ".reviews-carousel .swiper-wrapper") do
-        first_review = find('[data-swiper-slide-index="0"]')
-        expect(first_review).to(have_content(review2.content))
+      within(:css, ".swiper-slide:first-child") do
+        expect(page).to(have_content(review2.content))
       end
     end
 
-    scenario "I can move a review closer to the end so it appears after other reviews on the home page", js: true do
+    scenario "I can move a review closer to the end so it appears after other reviews on the home page" do
       visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review1.id} .order-arrows") do
         find(".order-down-arrow").click
       end
-      click_on "Save Changes"
+
       visit root_path
-      within(:css, ".reviews-carousel .swiper-wrapper") do
-        second_review = find('[data-swiper-slide-index="1"]')
-        expect(second_review).to(have_content(review1.content))
+      within(:css, ".swiper-slide:nth-child(2)") do
+        expect(page).to(have_content(review1.content))
       end
     end
 
-    scenario "I cannot move the first review even closer to the front as there is no up arrow shown", js: true do
+    scenario "I cannot move the first review even closer to the front as there is no up arrow shown" do
       visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review1.id} .order-arrows") do
         expect(page).not_to(have_css(".order-up-arrow"))
       end
     end
 
-    scenario "I cannot move the last review even closer to the end as there is no down arrow", js: true do
+    scenario "I cannot move the last review even closer to the end as there is no down arrow" do
       visit manage_admin_reviews_path
       within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
         expect(page).not_to(have_css(".order-down-arrow"))
       end
     end
 
-    scenario "I cannot edit the order of a hidden review as there are no arrows present", js: true do
+    scenario "I cannot edit the order of a hidden review as there are no arrows present" do
       visit manage_admin_reviews_path
-      within(:css, "#hidden-items #item_#{review3.id}") do
+      within(:css, "#hidden-items #item_#{hidden_review.id}") do
         expect(page).not_to(have_css(".order-arrows"))
-      end
-    end
-
-    scenario "I can discard changes to order by not clicking the 'Save Changes' button", js: true do
-      visit manage_admin_reviews_path
-      within(:css, "#visible-items #item_#{review2.id} .order-arrows") do
-        find(".order-up-arrow").click
-      end
-      visit root_path
-      within(:css, ".reviews-carousel .swiper-wrapper") do
-        first_review = find('[data-swiper-slide-index="0"]')
-        expect(first_review).to(have_content(review1.content))
       end
     end
   end

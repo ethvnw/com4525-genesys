@@ -1,0 +1,9 @@
+= yield
+
+- if @message.present?
+  = render(partial: "turbo_stream_templates/turbo_toast",
+           locals: { notification_type: @message[:type], message_content: @message[:content] })
+
+-# Discard the flash[:errors] value after it has been used, to prevent it from
+  # being shown on the next page load
+- flash[:errors] = nil

@@ -7,6 +7,8 @@ require "uri"
 
 # Handles the creation of trips
 class TripsController < ApplicationController
+  include Streamable
+
   layout "user"
   before_action :authenticate_user!
 
@@ -55,9 +57,10 @@ class TripsController < ApplicationController
       membership.is_invite_accepted = true
       membership.user_display_name = current_user.username
       membership.save
+
       redirect_to(trips_path, notice: "Your trip has been submitted.")
     else
-      flash[:errors] = @trip.errors.full_messages
+      flash[:errors] = @trip.errors.to_hash(true)
       session[:trip_data] =
         @trip.attributes.slice(
           "title",
@@ -68,7 +71,13 @@ class TripsController < ApplicationController
           "location_latitude",
           "location_longitude",
         )
-      redirect_to(new_trip_path)
+
+      # Merge the errors from start_date and end_date into the date error, as this is the one used by the date field
+      flash[:errors][:date] ||= []
+      flash[:errors][:date].concat(flash[:errors][:start_date]) if flash[:errors][:start_date]
+      flash[:errors][:date].concat(flash[:errors][:end_date]) if flash[:errors][:end_date]
+
+      stream_response("trips/create", new_trip_path)
     end
   end
 
@@ -83,8 +92,8 @@ class TripsController < ApplicationController
     if @trip.update(trip_params)
       redirect_to(trip_path, notice: "Trip updated successfully.")
     else
-      flash[:errors] = @trip.errors.full_messages
-      redirect_to(edit_trip_path(@trip))
+      flash[:errors] = @trip.errors.to_hash(true)
+      stream_response("trips/update", edit_trip_path(@trip))
     end
   end
 

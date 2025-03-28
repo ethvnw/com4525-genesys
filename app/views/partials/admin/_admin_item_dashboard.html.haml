@@ -3,20 +3,4 @@
   = link_to(admin_dashboard_path) do
     Back to admin dashboard
 
-.d-flex.gap-2.justify-content-between.align-items-center
-  %h2
-    Visible #{type.capitalize}s
-    %span#visible-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= visible_items.count
-
-  = form_tag(path, method: :post, id: "save-form", class: "mb-0") do
-    = button_tag(type: "submit", class: "btn btn-primary fw-bold d-none save-button") do
-      %i.bi.bi-floppy
-      &nbsp;
-      Save Changes
-
-= render(type + "-card", items: visible_items, hidden: false)
-
-%h2
-  Hidden #{type.capitalize}s
-  %span#hidden-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= hidden_items.count
-= render(type + "-card", items: hidden_items, hidden: true)
+= render("partials/admin/admin_item_turbo_frame", type: type, visible_items: visible_items, hidden_items: hidden_items)

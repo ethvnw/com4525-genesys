@@ -128,3 +128,6 @@ gem "geocoder", "~> 1.8", ">= 1.8.3"
 
 # countries handle ISO codes [https://github.com/countries/countries]
 gem "countries", "~> 7.0"
+
+# turbo - enables SPA-like performance
+gem "turbo-rails"

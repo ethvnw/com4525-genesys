@@ -1,0 +1,13 @@
+= simple_form_for([:api, question],
+                  builder: ValidatedFormBuilder,
+                  errors: errors,
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
+  = f.validated_input(:question,
+                      label: "Your Question",
+                      placeholder: "Enter your question here")
+
+  .d-flex.justify-content-end
+    = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
+      %i.bi.bi-send-fill
+      &nbsp;
+      Submit Question

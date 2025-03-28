@@ -1,6 +1,4 @@
-#toast-list.toast-container.d-flex.flex-column{
-  class: "toast-container top-0 start-50 translate-middle-x mt-2 align-items-center position-fixed",
-}
+#toast-list.toast-container.top-0.start-50.translate-middle-x.mt-2.d-flex.flex-column.align-items-center.fixed-top
   - flash[:notifications].each do |notification|
     = render("partials/layouts/toast",
              message: notification[:message],

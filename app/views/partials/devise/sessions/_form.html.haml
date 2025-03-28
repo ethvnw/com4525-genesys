@@ -1,0 +1,17 @@
+= simple_form_for(resource,
+                  as: resource_name,
+                  url: session_path(resource_name)) do |f|
+  .form-inputs.py-2
+    = f.input(:login,
+              required: false,
+              autofocus: true,
+              input_html: { placeholder: "Email address or Username", class: "mb-3" },
+              label: false)
+    = f.input(:password,
+              required: false,
+              input_html: { placeholder: "Password", class: "mb-3", autocomplete: "new-password" },
+              label: false)
+  .form-actions.d-flex.justify-content-center
+    = f.button(:submit,
+               "Log In",
+               class: "btn fw-bold btn-primary w-100")

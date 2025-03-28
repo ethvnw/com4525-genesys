@@ -18,6 +18,12 @@ class SubscriptionsController < ApplicationController
     subscription_tier.increment_engagement_counter!
     subscription_tier.save
 
-    @registration = Registration.new
+    @registration = if session[:registration_data]
+      Registration.new(session[:registration_data])
+    else
+      Registration.new
+    end
+
+    @errors = flash[:errors]
   end
 end

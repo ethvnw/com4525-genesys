@@ -1,24 +1,26 @@
-%h2 Change your password
+.col-lg-5.m-auto
+  %h2.mt-3 Change Your Password
 
-= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = f.error_notification
-  = f.input(:reset_password_token, as: :hidden)
-  = f.full_error(:reset_password_token)
+  = simple_form_for(resource,
+                    as: resource_name,
+                    url: password_path(resource_name),
+                    builder: ValidatedFormBuilder,
+                    errors: resource.errors.to_hash(true),
+                    html: { method: :put }) do |f|
+    .form-inputs
+      = f.input(:reset_password_token, as: :hidden)
 
-  .form-inputs
-    = f.input(:password,
-              label: "New password",
-              required: true,
-              autofocus: true,
-              hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-              input_html: { autocomplete: "new-password" })
+      = f.validated_input(:password,
+                          label: "New Password",
+                          required: false,
+                          autocomplete: "new-password")
 
-    = f.input(:password_confirmation,
-              label: "Confirm your new password",
-              required: true,
-              input_html: { autocomplete: "new-password" })
+      = f.validated_input(:password_confirmation,
+                          label: "New Password Confirmation",
+                          required: false,
+                          autocomplete: "new-password")
 
-  .form-actions
-    = f.button(:submit, "Change my password")
+    .form-actions.mt-4.d-flex.justify-content-end.gap-2
+      = f.button(:submit, "Reset Password", class: "btn-primary px-4")
 
-= render("devise/shared/links")
+  = render("partials/devise/shared/links")

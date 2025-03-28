@@ -1,40 +1,43 @@
-- unless errors.nil?
-  .alert.alert-danger
-    %ul.mb-0
-      - errors.each do |error|
-        %li= error
+= simple_form_for([trip, plan],
+                  builder: ValidatedFormBuilder,
+                  errors: errors,
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
+  = f.validated_input(:title,
+                      placeholder: "Enter the title of the plan...")
+  = f.validated_select(:plan_type,
+                       options_for_select(Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },
+                                          selected: plan.plan_type),
+                       prompt: "Select plan type",
+                       required: true)
 
-= simple_form_for([trip, plan], html: { class: "d-flex flex-column gap-2" }) do |f|
-  = f.input(:title,
-            input_html: { class: "fw-semibold" },
-            label: false,
-            placeholder: "Enter the title of the plan...",
-            required: true)
-  = f.select(:plan_type,
-             Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },
-             { prompt: "Select plan type" },
-             class: "form-select fw-semibold",
-             required: true)
+  .d-flex.flex-column.mb-3
+    = f.label("Start location", class: "mb-1", for: "#start-location-autocomplete")
+    #start-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :start_location_name) }
+    = form_error_message(errors, :start_location_name)
+    .valid-feedback Looks good!
 
-  #start-location-autocomplete
-  #end-location-autocomplete.d-none
+  #end-location-container.d-none.d-flex.flex-column.mb-3
+    = f.label("End location", class: "mb-1", for: "#end-location-autocomplete")
+    #end-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :end_location_name) }
+    = form_error_message(errors, :end_location_name)
+    .valid-feedback Looks good!
 
   #map
-  = f.label(:start_date, "Start Date and Time", class: "fw-semibold")
-  = f.datetime_local_field(:start_date,
-                           label: "Start Date",
-                           class: "form-control fw-semibold",
-                           required: true)
 
-  = f.label(:end_date, "End Date and Time", class: "fw-semibold")
-  = f.datetime_local_field(:end_date,
-                           class: "form-control fw-semibold")
+  = f.validated_datetime(:start_date, required: true)
+  = f.validated_datetime(:end_date, required: true)
 
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 
-  = f.input(:start_location_name, as: :hidden)
-  = f.input(:end_location_name, as: :hidden)
-  = f.input(:start_location_latitude, as: :hidden)
-  = f.input(:start_location_longitude, as: :hidden)
-  = f.input(:end_location_latitude, as: :hidden)
-  = f.input(:end_location_longitude, as: :hidden)
+  = f.hidden_field(:start_location_name,
+                   id: "start_location_name_input")
+  = f.hidden_field(:end_location_name,
+                   id: "end_location_name_input")
+  = f.hidden_field(:start_location_latitude,
+                   id: "start_location_latitude_input")
+  = f.hidden_field(:start_location_longitude,
+                   id: "start_location_longitude_input")
+  = f.hidden_field(:end_location_latitude,
+                   id: "end_location_latitude_input")
+  = f.hidden_field(:end_location_longitude,
+                   id: "end_location_longitude_input")

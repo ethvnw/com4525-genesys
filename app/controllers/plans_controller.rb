@@ -2,6 +2,8 @@
 
 # Handles the creation of plans
 class PlansController < ApplicationController
+  include Streamable
+
   layout "user"
   before_action :authenticate_user!
 
@@ -21,10 +23,10 @@ class PlansController < ApplicationController
     @plan = Plan.new(plan_params)
     @plan.trip = Trip.find(params[:trip_id])
     if @plan.save
-      redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
       session.delete(:plan_data)
+      redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else
-      flash[:errors] = @plan.errors.full_messages
+      flash[:errors] = @plan.errors.to_hash(true)
       session[:plan_data] =
         @plan.attributes.slice(
           "title",
@@ -38,7 +40,8 @@ class PlansController < ApplicationController
           "start_date",
           "end_date",
         )
-      redirect_to(new_trip_plan_path)
+
+      stream_response("plans/create", new_trip_plan_path(@plan.trip))
     end
   end
 
@@ -54,8 +57,8 @@ class PlansController < ApplicationController
     if @plan.update(plan_params)
       redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.")
     else
-      flash[:errors] = @plan.errors.full_messages
-      redirect_to(edit_trip_plan_path(@plan))
+      flash[:errors] = @plan.errors.to_hash(true)
+      stream_response("plans/update", edit_trip_plan_path(@plan))
     end
   end
 

@@ -14,31 +14,16 @@
               = image_pack_tag("images/placeholder_ios_screen_2.png", class: "d-block img-fluid screen")
             .login-slideshow-image
               = image_pack_tag("images/placeholder_ios_screen_3.png", class: "d-block img-fluid screen")
-
           = image_pack_tag("images/iphone11-frame.png", id: "iphone-frame", class: "d-block")
 
     .col-xl-6.d-flex.justify-content-center.align-items-center
-      .card.login-card
+      .card.login-card.px-md-5.py-3
         .card-body
           .container
             .d-flex.flex-column.align-items-center.pb-4
               = link_to("/", class: "mt-4") do
                 = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 40)
 
-          = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-            .form-inputs.py-2
-              = f.input(:login,
-                        required: false,
-                        autofocus: true,
-                        input_html: { placeholder: "Email address or Username", class: "mb-3" },
-                        label: false)
-              = f.input(:password,
-                        required: false,
-                        input_html: { placeholder: "Password", class: "mb-3", autocomplete: "new-password" },
-                        label: false)
-            .form-actions
-              = f.button(:submit,
-                         "Log In",
-                         class: "btn btn-sm fw-bold btn-primary w-100")
+          = render("partials/devise/sessions/form")
           .d-flex.flex-column
-            = render("devise/shared/links")
+            = render("partials/devise/shared/links")

@@ -132,21 +132,26 @@ RSpec.feature("Managing plans") do
       js: true,
       vcr: true do
       visit new_trip_plan_path(trip)
+      sleep_for_js
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton").click
       find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
-      fill_in "plan_start_date", with: Time.current + 1.day
-      click_on "Save"
 
+      find_all(".aa-Item").first.click
+      fill_in "Start date", with: Time.current + 1.day
+      click_on "Save"
+      sleep_for_js
       visit new_trip_plan_path(trip)
+      sleep_for_js
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
       find(".aa-DetachedSearchButton").click
       find(".aa-Input").set("Brazil")
+
       find_all(".aa-Item").first.click
-      fill_in "plan_start_date", with: Time.current + 1.day + 2.hours
+      sleep_for_js
+      fill_in "Start date", with: Time.current + 1.day + 2.hours
       click_on "Save"
 
       visit trip_path(trip)

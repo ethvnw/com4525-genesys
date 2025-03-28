@@ -1,0 +1,16 @@
+= form_with(model: user,
+            url: invitation_path(:user),
+            method: :post,
+            builder: ValidatedFormBuilder,
+            errors: errors,
+            html: { id: "new_user", novalidate: true, "data-turbo": "true" },
+            class: "mt-0 row g-3 align-items-top") do |f|
+  .col-12.col-sm-8
+    = f.validated_input(:email,
+                        placeholder: "Email address")
+  .col-12.col-sm-4
+    = f.validated_select(:user_role,
+                         options_for_select(User.user_roles.values, selected: user.user_role&.titleize),
+                         include_blank: "Role")
+  .form-actions
+    = f.submit("Send Invitation", class: "btn btn-primary")

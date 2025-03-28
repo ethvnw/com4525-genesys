@@ -27,4 +27,6 @@
               %strong Answer:
               = question.answer || "No answer yet"
 
-  = render("questions/form", question: @question, errors: @errors)
+  %h4.text-center.text-lg-start.fw-bold.mt-5
+    Got a question? Submit it here!
+  = render("partials/questions/form", question: @question, errors: @errors)

@@ -1,15 +1,15 @@
-%h2 Forgot your password?
+.col-lg-5.m-auto
+  %h2.mt-3 Forgot Your Password?
 
-= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  = f.error_notification
+  = simple_form_for(resource,
+                    as: resource_name,
+                    url: password_path(resource_name),
+                    builder: ValidatedFormBuilder,
+                    errors: resource.errors.to_hash(true),
+                    html: { method: :post }) do |f|
+    = f.validated_input(:email)
 
-  .form-inputs
-    = f.input(:email,
-              required: true,
-              autofocus: true,
-              input_html: { autocomplete: "email" })
+    .form-actions.mt-4.d-flex.justify-content-end.gap-2
+      = f.button(:submit, "Send me Password Reset Instructions", class: "btn-primary px-4")
 
-  .form-actions
-    = f.button(:submit, "Send me reset password instructions")
-
-= render("devise/shared/links")
+  = render("partials/devise/shared/links")
