@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resources :trips do
     resources :plans
+    resources :trip_memberships, only: [:index, :create, :destroy]
   end
 
   resources :subscriptions, only: [:new] do

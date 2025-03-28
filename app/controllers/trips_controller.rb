@@ -33,21 +33,7 @@ class TripsController < ApplicationController
     @trip = Trip.new(trip_params)
 
     if @trip.save
-      # Find a photo from Unsplash based on the location name
-      photo = Unsplash::Photo.search(@trip.location_name.split(",", 2).first).first
-      if photo
-        image_url = photo.urls["regular"]
-        # Download the image
-        downloaded_image = URI.parse(image_url).open
-        # Attach the image to the trip
-        @trip.image.attach(
-          io: downloaded_image,
-          # Encode it to prevent special characters in the filename
-          filename: "unsplash_#{URI.encode_www_form_component(@trip.location_name)}.jpg",
-          content_type: downloaded_image.content_type,
-        )
-
-      end
+      uploaded_image = upload_unsplash_image(@trip.location_name)
       session.delete(:trip_data)
       # Next, a TripMembership is created between the current logged in user and the new trip
       membership = TripMembership.new
@@ -90,6 +76,9 @@ class TripsController < ApplicationController
   def update
     @trip = Trip.find(params[:id])
     if @trip.update(trip_params)
+      if @trip.saved_change_to_location_name?
+        uploaded_image = upload_unsplash_image(@trip.location_name)
+      end
       redirect_to(trip_path, notice: "Trip updated successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
@@ -110,6 +99,29 @@ class TripsController < ApplicationController
   end
 
   private
+
+  def upload_unsplash_image(location_name)
+    photo = Unsplash::Photo.search(@trip.location_name.split(",", 2).first).first
+
+    if photo
+      image_url = photo.urls["regular"]
+      downloaded_image = URI.parse(image_url).open
+      @trip.image.attach(
+        io: downloaded_image,
+        # Encode it to prevent special characters in the filename
+        filename: "unsplash_#{URI.encode_www_form_component(@trip.location_name)}.jpg",
+        content_type: downloaded_image.content_type,
+      )
+    else
+      @trip.image.attach(
+        # attach fallback_location_img.png in packs/images
+        io: File.open(Rails.root.join("app", "packs", "images", "fallback_location_img.png")),
+        filename: "fallback_location_img.png",
+        content_type: "image/png",
+      )
+    end
+  end
+
 
   def trip_params
     params.require(:trip).permit(
