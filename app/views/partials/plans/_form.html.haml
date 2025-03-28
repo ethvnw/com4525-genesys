@@ -1,6 +1,7 @@
 = simple_form_for([trip, plan],
                   builder: ValidatedFormBuilder,
                   errors: errors,
+                  multipart: true,
                   html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
   = f.validated_input(:title,
                       placeholder: "Enter the title of the plan...")
@@ -27,6 +28,10 @@
   = f.validated_datetime(:start_date, required: true)
   = f.validated_datetime(:end_date, required: true)
 
+  = f.label(:documents, "Upload PDFs", class: "fw-semibold")
+  = f.file_field(:documents, multiple: true, accept: "application/pdf", class: "form-control")
+
+
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 
   = f.hidden_field(:start_location_name,
@@ -41,3 +46,17 @@
                    id: "end_location_latitude_input")
   = f.hidden_field(:end_location_longitude,
                    id: "end_location_longitude_input")
+
+- if plan.documents.attached?
+  %h3 Documents
+  %table.table
+    %tbody
+      - plan.documents.each do |document|
+        %tr
+          %td.p-0.align-middle
+            = link_to(document.filename, url_for(document), target: "_blank")
+          %td.p-0.align-middle
+            = button_to("Remove", remove_trip_plan_document_path(plan.trip, plan, document_id: document.id),
+              method: :delete,
+              data: { confirm: "Are you sure you want to delete this document?" },
+              class: "btn btn-danger btn-sm")

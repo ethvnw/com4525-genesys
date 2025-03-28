@@ -41,6 +41,7 @@ class PlansController < ApplicationController
           "end_location_longitude",
           "start_date",
           "end_date",
+          "documents",
         )
 
       stream_response("plans/create", new_trip_plan_path(@plan.trip))
@@ -56,7 +57,12 @@ class PlansController < ApplicationController
 
   def update
     @plan = Plan.find(params[:id])
-    if @plan.update(plan_params)
+    # Saving the uploaded documents (if any) so current attachments do not get removed on save
+    documents = params[:plan][:documents] if params[:plan] && params[:plan][:documents].present?
+    if @plan.update(plan_params.except(:documents))
+      if documents
+        @plan.documents.attach(documents)
+      end
       redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.")
     else
       flash[:errors] = @plan.errors.to_hash(true)
@@ -84,6 +90,7 @@ class PlansController < ApplicationController
       :end_location_longitude,
       :start_date,
       :end_date,
+      documents: [],
     )
   end
 end

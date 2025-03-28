@@ -18,13 +18,18 @@ Rails.application.routes.draw do
   get :faq, to: "pages#faq"
 
   resources :trips do
-    resources :plans
+    resources :plans do
+      resources :documents, only: [] do
+        member do
+          post :upload
+          delete :remove
+        end
+      end
+    end
     resources :trip_memberships do
       member do
         post :accept_invite
         post :decline_invite
-      end
-    end
   end
 
   resources :subscriptions, only: [:new] do
