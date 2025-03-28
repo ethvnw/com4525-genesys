@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       member do
         post :accept_invite
         post :decline_invite
+    end
   end
 
   resources :subscriptions, only: [:new] do
