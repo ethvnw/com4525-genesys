@@ -52,6 +52,7 @@ export default function buildNewToast(message, notificationType, spinner = false
     'aria-live': 'assertive',
     'aria-atomic': true,
     'data-bs-delay': 3000,
+    'data-toast-persistent': spinner,
   }, [bodyButtonContainer]);
 
   // Add toast element to DOM by appending it to toast list

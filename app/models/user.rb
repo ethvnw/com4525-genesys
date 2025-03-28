@@ -64,12 +64,12 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates_format_of :username,
     with: /\A[a-zA-Z0-9_.]+\z/,
-    message: "Can only contain letters, numbers, underscores, and periods",
+    message: "can only contain letters, numbers, underscores, and periods",
     multiline: true
   validates_length_of :username,
     minimum: 6,
     maximum: 20,
-    message: "Must be between 6 and 20 characters"
+    message: "must be between 6 and 20 characters"
 
   has_one_attached :avatar
   validates :avatar,
@@ -94,6 +94,13 @@ class User < ApplicationRecord
 
   def set_default_role
     self.user_role ||= self.class.user_roles[:member]
+  end
+
+  # Validates whether an invite is able to be sent (check whether role is given)
+  def valid_invite?
+    unless user_role.present? && User.user_roles.include?(user_role)
+      errors.add(:user_role, "must be either 'Admin' or 'Reporter'")
+    end
   end
 
   # Attribute called login to allow users to log in with either their username or email

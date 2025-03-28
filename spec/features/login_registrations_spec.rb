@@ -32,17 +32,14 @@ RSpec.feature("Login and Registrations") do
 
   feature "Editing username" do
     before do
-      visit new_user_session_path
-      fill_in "Email address or Username", with: user.email
-      fill_in "Password", with: "GenesysModule#1"
-      click_button "Log In"
+      login_as(user, scope: :user)
       visit edit_user_registration_path
     end
 
     scenario "I cannot edit my username to one that already exists" do
       fill_in "Username", with: user2.username
       fill_in "Current password", with: "GenesysModule#1"
-      click_button "Update"
+      click_button "Apply Changes"
 
       expect(page).to(have_content("Username has already been taken"))
     end
@@ -50,21 +47,20 @@ RSpec.feature("Login and Registrations") do
     scenario "I can edit my username to one that does not already exist" do
       fill_in "Username", with: "new_unique_username"
       fill_in "Current password", with: "GenesysModule#1"
-      click_button "Update"
+      click_button "Apply Changes"
 
-      expect(page).to(have_content("Your account has been updated successfully"))
+      expect(page).to(have_content("Account updated successfully"))
       expect(user.reload.username).to(eq("new_unique_username"))
     end
 
     scenario "I can edit my username to one that does not already exist and login" do
       fill_in "Username", with: "new_username"
       fill_in "Current password", with: "GenesysModule#1"
-      click_button "Update"
+      click_button "Apply Changes"
 
-      expect(page).to(have_content("Your account has been updated successfully"))
+      expect(page).to(have_content("Account updated successfully"))
 
       find("#user-account-dropdown .dropdown-toggle").click
-      sleep_for_js
       within("#user-account-dropdown") do
         click_link "Sign Out"
       end
@@ -86,7 +82,7 @@ RSpec.feature("Login and Registrations") do
       fill_in "Username", with: user.username
       fill_in "Password", with: "GenesysModule#1"
       fill_in "Password confirmation", with: "GenesysModule#1"
-      click_button "Sign up"
+      click_button "Sign Up"
 
       expect(page).to(have_content("Username has already been taken"))
     end
@@ -98,7 +94,7 @@ RSpec.feature("Login and Registrations") do
       fill_in "Username", with: "newuniqueusername"
       fill_in "Password", with: "GenesysModule#1"
       fill_in "Password confirmation", with: "GenesysModule#1"
-      click_button "Sign up"
+      click_button "Sign Up"
 
       expect(page).to(have_content("Welcome! You have signed up successfully."))
       expect(User.find_by(username: "newuniqueusername")).to(be_present)

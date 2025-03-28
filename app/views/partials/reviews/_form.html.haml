@@ -1,0 +1,15 @@
+= simple_form_for([:api, review],
+                  builder: ValidatedFormBuilder,
+                  errors: errors,
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
+  = f.validated_input(:name,
+                      placeholder: "Enter your name...")
+  = f.validated_input(:content,
+                      placeholder: "Enter your review...",
+                      rows: 5)
+
+  .d-flex.justify-content-end
+    = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
+      %i.bi.bi-send-fill
+      &nbsp;
+      Submit Review

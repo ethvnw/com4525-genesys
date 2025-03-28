@@ -43,4 +43,48 @@ module ApplicationHelper
       end
     end
   end
+
+  ##
+  # Retrieves and formats error messages for a specific form field
+  # @param errors [Hash] the hash containing validation errors, generated with record.errors.to_hash(true)
+  # @param key [Symbol] the field key to get errors for
+  # @return [String, nil] joined error messages for the field (or nil if no errors)
+  def get_formatted_errors(errors, key)
+    errors ||= {}
+    errors_for_key = errors[key]
+
+    if errors_for_key.present?
+      errors_for_key.join("\n")
+    end
+  end
+
+  ##
+  # Determines the Bootstrap validation class based on field errors
+  # @param errors [Hash] the errors hash containing validation errors
+  # @param key [Symbol] the field key to check for errors
+  # @return [String, nil] 'is-invalid' if field has errors, 'is-valid' if errors exist but this field is valid,
+  #                       nil otherwise
+  def get_error_class_with(errors, key)
+    if errors.present?
+      if errors.include?(key) && errors[key].present?
+        "is-invalid"
+      else
+        "is-valid"
+      end
+    end
+  end
+
+  ##
+  # Renders a form error message in a consistent manner
+  # @param errors [Hash] the hash containing validation errors, generated with record.errors.to_hash(true)
+  # @param key [Symbol] the field key to get errors for
+  # @return [String, nil] rendered error message or nil if no errors
+  def form_error_message(errors, key)
+    error = get_formatted_errors(errors, key)
+    if error.present?
+      content_tag(:div, class: "invalid-feedback") do
+        simple_format(error, {}, wrapper_tag: "span")
+      end
+    end
+  end
 end

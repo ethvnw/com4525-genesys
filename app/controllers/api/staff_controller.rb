@@ -3,17 +3,26 @@
 module Api
   # Staff controller
   class StaffController < Admin::BaseController
+    include Streamable
+
     def update
       @user = User.find(params[:id])
       if @user.update(user_params)
-        redirect_to(admin_dashboard_path, notice: "#{@user.email} updated successfully.")
+        turbo_redirect_to(admin_dashboard_path, notice: "#{@user.email} updated successfully.")
+      else
+        flash[:edited_data] = user_params.slice("user_role")
+        flash[:errors] = @user.errors.to_hash(true)
+        stream_response("admin/staff/update", edit_admin_staff_path(id: @user.id))
       end
     end
 
     def destroy
-      @user = User.find(params[:id])
-      if @user.destroy
-        redirect_to(admin_dashboard_path, notice: "Access removed for #{@user.email}")
+      user = User.find(params[:id])
+      if user.destroy
+        turbo_redirect_to(
+          admin_dashboard_path,
+          message: { content: "Access removed for #{user.email}", type: "info" },
+        )
       end
     end
 

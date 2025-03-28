@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "registrations_helper"
 
 RSpec.feature("Registering Interest") do
   scenario "I can register my interest" do
@@ -49,13 +48,13 @@ RSpec.feature("Registering Interest") do
       visit root_path
     end
 
-    scenario "After registering, my landing page journey will be saved to the database", js: true, vcr: true do
+    scenario "After registering, my landing page journey will be saved to the database", vcr: true do
       share_feature(feature, "Facebook")
       share_feature(feature, "WhatsApp")
 
       click_link "Reviews"
-      click_button(id: "review_#{review1.id}")
-      click_button(id: "review_#{review2.id}")
+      click_button(id: "like-review-#{review1.id}")
+      click_button(id: "like-review-#{review2.id}")
 
       click_link "FAQ"
       click_button(id: "question_#{question1.id}")
@@ -65,12 +64,6 @@ RSpec.feature("Registering Interest") do
       click_link "Get Explorer Individual"
 
       register_with_email
-
-      # Removing this stops registrations_controller from being able to access the database
-      # It is unable to find subscription_tier, leading to a validation error
-      # even though subscription_controller can find it
-      sleep(1)
-
       registration = Registration.first
 
       expect(
@@ -102,25 +95,21 @@ RSpec.feature("Registering Interest") do
 
       register_with_email
 
-      sleep_for_js # Give time for registration request to be processed
-
       expect(FeatureShare.count).to(eq(1))
       expect(QuestionClick.count).to(eq(1))
     end
 
     scenario "An unliked review will not appear in my landing page journey", js: true, vcr: true do
       click_link "Reviews"
-      click_button(id: "review_#{review1.id}")
-      click_button(id: "review_#{review1.id}")
+      click_button(id: "like-review-#{review1.id}")
+      click_button(id: "like-review-#{review1.id}")
 
       click_link "Pricing"
       click_link "Get Explorer Individual"
 
       register_with_email
 
-      sleep_for_js # Give time for registration request to be processed
-
-      expect(FeatureShare.count).to(be_zero)
+      expect(ReviewLike.count).to(be_zero)
     end
   end
 

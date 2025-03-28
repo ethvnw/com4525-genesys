@@ -1,4 +1,4 @@
 %h2.text-break
   Editing
   = @trip.title
-= render("form", trip: @trip, errors: flash[:errors])
+= render("partials/trips/form", trip: @trip, errors: flash[:errors])

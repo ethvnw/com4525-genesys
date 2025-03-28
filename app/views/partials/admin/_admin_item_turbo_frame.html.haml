@@ -1,0 +1,13 @@
+%h2
+  Visible #{type.capitalize}s
+  %span#visible-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= visible_items.count
+
+#visible-items.d-flex.flex-column.gap-2.mb-4{ "data-turbo": "true" }
+  = render("partials/admin/admin_item_list", items: visible_items)
+
+%h2
+  Hidden #{type.capitalize}s
+  %span#hidden-count.badge.rounded-pill.text-bg-secondary.fs-5.align-middle= hidden_items.count
+
+#hidden-items.d-flex.flex-column.gap-2.mb-4{ "data-turbo": "true" }
+  = render("partials/admin/admin_item_list", items: hidden_items)

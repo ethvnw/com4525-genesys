@@ -1,39 +1,25 @@
-%p
-  = link_to("Dashboard", admin_dashboard_path)
+.col-lg-6.m-auto
+  %p
+    = link_to("↵ Back to Dashboard", admin_dashboard_path)
 
-%h1 Edit User
-%hr
+  %h1 Edit User
+  %hr
 
-%p
-  - unless @user.invitation_accepted?
-    - flash.now["alert"] = "Account has not been activated by #{@user.email}."
+  %p
+    - unless @user.invitation_accepted?
+      - flash.now["alert"] = "Account has not been activated by #{@user.email}."
 
-%p
-  %span.fw-bold Account Email:
-  #{@user.email}
+  %p
+    %span.fw-bold Account Email:
+    #{@user.email}
 
-= simple_form_for(@user, url: api_staff_path(@user)) do |f|
-  = f.error_notification
+  = render("partials/admin/staff/edit", user: @user, errors: @errors)
 
-  .form-inputs
-    .row.align-items-center
-      .col-auto
-        %span.fw-bold Privileges:
-      .col
-        = f.input(:user_role,
-                  collection: User.user_roles.values,
-                  label: false,
-                  input_html: { class: "form-select form-control w-auto" },
-                  selected: User.user_roles[@user.user_role])
-
-  .form-actions.mt-3
-    = button_tag(type: "submit", class: "btn btn-primary d-flex justify-content-end") do
-      Save Changes
-
-%hr
-.d-flex.justify-content-end
-  = button_to("Remove Access",
-              api_staff_path(@user),
-              method: :delete,
-              data: { confirm: "Are you sure you want to remove access for #{@user.email}?" },
-              class: "btn btn-danger d-flex justify-content-end")
+  %hr
+  .d-flex.justify-content-end
+    - confirm_msg = "Are you sure you want to remove access for #{@user.email}?"
+    = button_to("Remove Access",
+                api_staff_path(@user),
+                method: :delete,
+                form: { data: { turbo: "true", turbo_confirm: confirm_msg } },
+                class: "btn btn-outline-danger d-flex justify-content-end")

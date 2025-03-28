@@ -3,53 +3,65 @@
 module Api
   # Handles the creation of questions
   class QuestionsController < ApplicationController
+    include Streamable
+    include AdminItemManageable
+
     def create
       @question = Question.new(question_params)
-
-      # If you want to quickly test adding a question, set is_hidden to false so it automatically shows up on the FAQ
-      @question.is_hidden = true
-      @question.engagement_counter = 0
+      message = nil
 
       if @question.save
         session.delete(:question_data)
-        redirect_to(faq_path, notice: "Your question has been submitted.")
+        @question = Question.new
+        message = { content: "Your question has been submitted.", type: "success" }
       else
-        flash[:errors] = @question.errors.full_messages
+        flash[:errors] = @question.errors.to_hash(true)
         session[:question_data] = @question.attributes.slice("question")
-        redirect_to(faq_path)
       end
-    end
 
-    def visibility
-      @question = Question.find(params[:id])
-      @question.toggle!(:is_hidden)
-      @question.update(order: params[:order])
-      head(:ok)
-    end
-
-    def orders
-      json = JSON.parse(params[:items])
-      json.each do |id, order|
-        Question.find(id).update(order: order)
-      end
-      head(:ok)
+      stream_response("questions/create", faq_path, message)
     end
 
     def answer
       @question = Question.find(params[:id])
-      # Update the answer for the question and respond depending on if an error occurred
-      if @question.update(answer: params[:answer])
-        # If the update is successful, respond with the answer
-        respond_to do |format|
-          format.json { render(json: { answer: @question.answer }, status: :ok) }
-          format.html { redirect_to(manage_admin_questions_path, notice: "Answer saved successfully.") }
-        end
+
+      if @question&.update(answer: params[:answer])
+        message = { content: "Your answer has been submitted.", type: "success" }
+        stream_response("questions/answer", manage_admin_questions_path, message)
+      else
+        respond_with_toast(
+          { content: "An error occurred while trying to update question answer.", type: "danger" },
+          manage_admin_questions_path,
+        )
+      end
+    end
+
+    def visibility
+      if AdminManagement::VisibilityUpdater.call(Question, params[:id])
+        admin_item_stream_success_response(Question.visible, Question.hidden, manage_admin_questions_path)
+      else
+        respond_with_toast(
+          { content: "An error occurred while trying to update question visibility.", type: "danger" },
+          manage_admin_questions_path,
+        )
+      end
+    end
+
+    def order
+      if AdminManagement::OrderUpdater.call(Question, params[:id], params[:order_change].to_i)
+        admin_item_stream_success_response(Question.visible, Question.hidden, manage_admin_questions_path)
+      else
+        respond_with_toast(
+          { content: "An error occurred while trying to update question order.", type: "danger" },
+          manage_admin_questions_path,
+        )
       end
     end
 
     def click
       unless user_can_click?(params[:id])
-        head(:not_found) and return
+        # Return ok instead of not found to avoid console errors
+        head(:ok) and return
       end
 
       Question.find(params[:id]).increment!(:engagement_counter)

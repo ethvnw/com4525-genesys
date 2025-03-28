@@ -53,7 +53,7 @@ RSpec.feature("User account dropdown") do
         click_link "My Account"
       end
 
-      expect(page).to(have_content("Edit User"))
+      expect(page).to(have_content("Personal Details"))
     end
 
     scenario "Admin can sign out using dropdown" do
@@ -119,7 +119,7 @@ RSpec.feature("User account dropdown") do
         click_link "My Account"
       end
 
-      expect(page).to(have_content("Edit User"))
+      expect(page).to(have_content("Personal Details"))
     end
 
     scenario "Reporter can sign out using dropdown" do
@@ -173,7 +173,7 @@ RSpec.feature("User account dropdown") do
         click_link "My Account"
       end
 
-      expect(page).to(have_content("Edit User"))
+      expect(page).to(have_content("Personal Details"))
     end
 
     scenario "Member can sign out using dropdown" do

@@ -74,7 +74,7 @@ RSpec.describe(User, type: :model) do
         invalid_usernames.each do |username|
           user.username = username
           expect(user).to(be_invalid)
-          expect(user.errors[:username]).to(include("Can only contain letters, numbers, underscores, and periods"))
+          expect(user.errors[:username]).to(include("can only contain letters, numbers, underscores, and periods"))
         end
       end
     end
@@ -83,13 +83,13 @@ RSpec.describe(User, type: :model) do
       it "is invalid if username is too short" do
         user.username = "short"
         expect(user).to(be_invalid)
-        expect(user.errors[:username]).to(include("Must be between 6 and 20 characters"))
+        expect(user.errors[:username]).to(include("must be between 6 and 20 characters"))
       end
 
       it "is invalid if username is too long" do
         user.username = "a" * 21
         expect(user).to(be_invalid)
-        expect(user.errors[:username]).to(include("Must be between 6 and 20 characters"))
+        expect(user.errors[:username]).to(include("must be between 6 and 20 characters"))
       end
 
       it "is valid if username is within length" do
