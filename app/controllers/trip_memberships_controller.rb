@@ -8,8 +8,8 @@ class TripMembershipsController < ApplicationController
   def index
     @trip = Trip.find(params[:trip_id])
     members = @trip.trip_memberships
-    @members = members.select { |m| m.is_invite_accepted }
-    @pending_members = members.select { |m| !m.is_invite_accepted }
+    @members = members.select(&:is_invite_accepted)
+    @pending_members = members.reject(&:is_invite_accepted)
   end
 
   def destroy

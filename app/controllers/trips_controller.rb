@@ -33,7 +33,7 @@ class TripsController < ApplicationController
     @trip = Trip.new(trip_params)
 
     if @trip.save
-      uploaded_image = upload_unsplash_image(@trip.location_name)
+      upload_unsplash_image(@trip.location_name)
       session.delete(:trip_data)
       # Next, a TripMembership is created between the current logged in user and the new trip
       membership = TripMembership.new
@@ -77,7 +77,7 @@ class TripsController < ApplicationController
     @trip = Trip.find(params[:id])
     if @trip.update(trip_params)
       if @trip.saved_change_to_location_name?
-        uploaded_image = upload_unsplash_image(@trip.location_name)
+        upload_unsplash_image(@trip.location_name)
       end
       redirect_to(trip_path, notice: "Trip updated successfully.")
     else
@@ -121,7 +121,6 @@ class TripsController < ApplicationController
       )
     end
   end
-
 
   def trip_params
     params.require(:trip).permit(
