@@ -20,4 +20,13 @@
 class TripMembership < ApplicationRecord
   belongs_to :trip
   belongs_to :user
+  attr_accessor :username
+
+  validate :max_capacity_not_reached
+
+  def max_capacity_not_reached
+    if trip.trip_memberships.count >= 20
+      errors.add(:base, "The trip has reached the 20 member capacity, please remove a member before adding another.")
+    end
+  end
 end
