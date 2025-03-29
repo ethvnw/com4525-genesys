@@ -2,14 +2,27 @@
 
 # Handles trip memberships
 class TripMembershipsController < ApplicationController
+  include Streamable
+
   layout "user"
   before_action :authenticate_user!
 
   def index
+    @script_packs = ["trip_memberships"]
+
+    @trip_membership = TripMembership.new
+    @errors = flash[:errors]
+
     @trip = Trip.find(params[:trip_id])
-    members = @trip.trip_memberships
+    members = @trip.trip_memberships.map { |member| TripMembershipDecorator.new(member, current_user) }
     @members = members.select(&:is_invite_accepted)
     @pending_members = members.reject(&:is_invite_accepted)
+
+    # Options for the user search functionality; excludes staff/reporters and users already present
+    @users = User.where(user_role: "member").where.not(id: @trip.trip_memberships.pluck(:user_id)).select(
+      :id,
+      :username,
+    )
   end
 
   def destroy
@@ -19,5 +32,34 @@ class TripMembershipsController < ApplicationController
   end
 
   def create
+    @trip_membership = TripMembership.new(trip_membership_params)
+    @trip_membership.trip = Trip.find(params[:trip_id])
+    @trip_membership.user = User.find_by(username: @trip_membership.username)
+
+    if @trip_membership.save
+      redirect_to(trip_trip_memberships_path, notice: "User invited successfully.")
+    else
+      @users = User.where(user_role: "member").where.not(
+        id: @trip_membership.trip.trip_memberships.pluck(:user_id),
+      ).select(:id, :username)
+      flash[:errors] = @trip_membership.errors.to_hash(true)
+
+      if @trip_membership.errors[:base].any?
+        respond_with_toast(
+          { type: "danger", content: @trip_membership.errors[:base].first },
+          trip_trip_memberships_path,
+        )
+      else
+        stream_response("trip_memberships/create", trip_trip_memberships_path(@trip_membership.trip))
+      end
+    end
+  end
+
+  private
+
+  def trip_membership_params
+    params.require(:trip_membership).permit(
+      :username,
+    )
   end
 end
