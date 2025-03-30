@@ -1,4 +1,4 @@
-- filtered_members = members.reject { |member| member.user == current_user }
+- filtered_members = members.reject { |member| member.user == current_user or member.is_invite_accepted == false }
 
 .d-flex.gap-2.align-items-center
   - filtered_members.first(3).each do |member|

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_15_184137) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_30_141634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -202,6 +202,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_184137) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "sender_user_id"
+    t.index ["sender_user_id"], name: "index_trip_memberships_on_sender_user_id"
     t.index ["trip_id"], name: "index_trip_memberships_on_trip_id"
     t.index ["user_id"], name: "index_trip_memberships_on_user_id"
   end
@@ -257,4 +259,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_184137) do
   add_foreign_key "app_features_subscription_tiers", "app_features"
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
   add_foreign_key "registrations", "subscription_tiers"
+  add_foreign_key "trip_memberships", "users", column: "sender_user_id"
 end

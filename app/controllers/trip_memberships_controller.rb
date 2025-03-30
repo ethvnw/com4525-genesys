@@ -35,6 +35,7 @@ class TripMembershipsController < ApplicationController
     @trip_membership = TripMembership.new(trip_membership_params)
     @trip_membership.trip = Trip.find(params[:trip_id])
     @trip_membership.user = User.find_by(username: @trip_membership.username)
+    @trip_membership.sender_user_id = current_user.id
 
     if @trip_membership.save
       redirect_to(trip_trip_memberships_path, notice: "User invited successfully.")
@@ -53,6 +54,20 @@ class TripMembershipsController < ApplicationController
         stream_response("trip_memberships/create", trip_trip_memberships_path(@trip_membership.trip))
       end
     end
+  end
+
+  def accept_invite
+    @trip_membership = TripMembership.find(params[:id])
+    @trip_membership.is_invite_accepted = true
+    @trip_membership.user_display_name = current_user.username
+    @trip_membership.save
+    redirect_to(inbox_path, notice: "Invite accepted successfully.")
+  end
+
+  def decline_invite
+    @trip_membership = TripMembership.find(params[:id])
+    @trip_membership.destroy
+    redirect_to(inbox_path, notice: "Invite declined successfully.")
   end
 
   private

@@ -1,6 +1,6 @@
 %nav#topbar.navbar.d-sm-none.border-bottom.sticky-top.px-3
   .col.d-flex.justify-content-start
-    = link_to(root_path, class: "nav-link") do
+    = link_to(inbox_path, class: "nav-link") do
       .position-relative
         %i.bi.bi-inbox.h1
         - if inbox_count&.nonzero?
