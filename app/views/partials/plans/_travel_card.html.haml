@@ -27,8 +27,4 @@
       %p.mb-0= plan.view_label
 
   - if plan.documents.attached?
-    .border-top.border-secondary.mt-2.pt-3.fw-semibold
-      %p.m-0.fw-bold Documents
-      - plan.documents.each do |document|
-        .d-flex.align-items-center.gap-2
-          = link_to(document.filename, url_for(document), target: "_blank")
+    = render("partials/plans/documents_dropdown", plan: plan)
