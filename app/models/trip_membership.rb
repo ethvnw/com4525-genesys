@@ -9,17 +9,24 @@
 #  user_display_name  :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  sender_user_id     :bigint
 #  trip_id            :bigint
 #  user_id            :bigint
 #
 # Indexes
 #
-#  index_trip_memberships_on_trip_id  (trip_id)
-#  index_trip_memberships_on_user_id  (user_id)
+#  index_trip_memberships_on_sender_user_id  (sender_user_id)
+#  index_trip_memberships_on_trip_id         (trip_id)
+#  index_trip_memberships_on_user_id         (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (sender_user_id => users.id)
 #
 class TripMembership < ApplicationRecord
   belongs_to :trip
   belongs_to :user
+  belongs_to :sender_user, class_name: "User"
   attr_accessor :username
 
   validate :max_capacity_not_reached
