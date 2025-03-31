@@ -27,6 +27,11 @@
   = f.validated_datetime(:start_date, required: true)
   = f.validated_datetime(:end_date, required: true)
 
+  = f.label("Scan QR Code", class: "mb-1", for: "#plan_qr_code")
+  %canvas#qr-recreated.d-none;
+  %p#qr-result.d-none;
+  = f.file_field(:qr_code, accept: "image/*", class: "form-control")
+
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 
   = f.hidden_field(:start_location_name,
