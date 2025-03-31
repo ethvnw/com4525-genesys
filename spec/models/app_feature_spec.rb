@@ -50,6 +50,22 @@ RSpec.describe(AppFeature, type: :model) do
     end
   end
 
+  describe ".engagement_stats" do
+    let!(:tier) { create(:subscription_tier, name: "Individual") }
+    let!(:app_feature_1) { create(:app_feature, name: "App Feature 1", engagement_counter: 5) }
+    let!(:app_feature_2) { create(:app_feature, name: "App Feature 2", engagement_counter: 20) }
+    let!(:app_feature_3) { create(:app_feature, name: "App Feature 3", engagement_counter: 10) }
+
+    before do
+      tier.app_features << [app_feature_1, app_feature_2, app_feature_3]
+    end
+
+    it "returns app features ordered by engagement_counter in descending order" do
+      engagement_stats = AppFeature.engagement_stats(:Individual)
+      expect(engagement_stats).to(eq([[app_feature_2.name, 20], [app_feature_3.name, 10], [app_feature_1.name, 5]]))
+    end
+  end
+
   describe "#increment_engagement_counter!" do
     let!(:feature) { create(:app_feature, engagement_counter: 0) }
 
