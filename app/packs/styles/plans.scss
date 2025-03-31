@@ -1,3 +1,8 @@
+@import "twitter_bootstrap";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/variables';
+
 #map {
     height: 20rem;
     border-radius: 0.375rem;
@@ -25,4 +30,26 @@
 
 .collapse-btn.collapsed i {
   transform: rotate(180deg);
+}
+
+@mixin width {
+  width: auto;
+}
+table {
+  &.table-fit {
+      @include width;
+      table-layout: auto !important;
+      thead th,
+      tbody td,
+      tfoot th,
+      tfoot td  {
+          @include width;
+      }
+  }
+}
+
+.btn-document:hover {
+  .btn-document-icon {
+    background-color: $gray-200 !important;
+  }
 }

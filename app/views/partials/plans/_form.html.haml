@@ -47,16 +47,5 @@
                    id: "end_location_longitude_input")
 
 - if plan.documents.attached?
-  %h3 Documents
-  %table.table
-    %tbody
-      - plan.documents.each do |document|
-        %tr
-          %td.p-0.align-middle
-            = link_to(document.filename, url_for(document), target: "_blank")
-          %td.p-0.align-middle
-            = button_to("Remove",
-                        remove_trip_plan_document_path(plan.trip, plan, document_id: document.id),
-                        method: :delete,
-                        data: { confirm: "Are you sure you want to delete this document?" },
-                        class: "btn btn-danger btn-sm")
+  %h4.fw-semibold Documents
+  = render("partials/plans/documents_list", plan: plan)
