@@ -8,6 +8,7 @@ require "uri"
 # Handles the creation of trips
 class TripsController < ApplicationController
   include Streamable
+  load_and_authorize_resource
 
   layout "user"
   before_action :authenticate_user!
