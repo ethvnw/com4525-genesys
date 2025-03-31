@@ -47,6 +47,7 @@ class TripsController < ApplicationController
       # It is assumed that the creator of a trip accepts the invite.
       membership.is_invite_accepted = true
       membership.user_display_name = current_user.username
+      membership.sender_user_id = current_user.id
       membership.save
 
       redirect_to(trips_path, notice: "Your trip has been submitted.")
