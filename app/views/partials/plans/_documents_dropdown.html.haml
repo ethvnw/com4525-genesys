@@ -20,5 +20,5 @@
           %tbody
             - plan.documents.each do |document|
               %tr
-                %td
-                  = link_to(document.filename, url_for(document), target: "_blank")
+                %td.p-0.align-middle.w-100
+                  = render("partials/plans/documents_list_item", document: document)

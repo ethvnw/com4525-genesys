@@ -51,7 +51,7 @@ class PlansController < ApplicationController
   def edit
     @script_packs = ["plans"]
     @trip = Trip.find(params[:trip_id])
-    @plan = Plan.find(params[:id])
+    @plan = Plan.find(params[:id]).decorate
     @errors = flash[:errors]
   end
 
