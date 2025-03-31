@@ -50,13 +50,13 @@ class Ability
     can(:read, Question, is_hidden: false)
     can(:read, Review, is_hidden: false)
 
-    # Allowing user to view a trip only if they are a member of that trip and accepted invite
-    can(:read, Trip) do |trip|
+    # Allowing user to manage a trip only if they are a member of that trip and accepted invite
+    can(:manage, Trip) do |trip|
       trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: true)
     end
 
-    # Allowing user to view a plan only if they are a member of that trip and accepted invite
-    can(:read, Plan) do |plan|
+    # Allowing user to manage a plan only if they are a member of that trip and accepted invite
+    can(:manage, Plan) do |plan|
       plan.trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: true)
     end
 

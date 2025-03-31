@@ -6,6 +6,7 @@ class TripMembershipsController < ApplicationController
 
   layout "user"
   before_action :authenticate_user!
+  before_action :authorize_trip_memberships, only: [:index]
 
   def index
     @script_packs = ["trip_memberships"]
@@ -77,5 +78,16 @@ class TripMembershipsController < ApplicationController
     params.require(:trip_membership).permit(
       :username,
     )
+  end
+
+  def authorize_trip_memberships
+    trip = Trip.find(params[:trip_id])
+    unless can?(:manage, trip) && can?(:manage, TripMembership)
+      raise CanCan::AccessDenied.new(
+        "You are not authorized to manage this trip's members.",
+        :manage,
+        trip.trip_memberships,
+      )
+    end
   end
 end
