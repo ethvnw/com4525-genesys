@@ -70,10 +70,12 @@ RSpec.describe(Trip, type: :model) do
         end
       end
 
-      it "is time-agnostic" do
-        trip.start_date = Time.zone.parse("2020-01-01 12:00:00")
-        expect(trip).to(be_valid)
-        expect(trip.errors[:start_date]).to(be_empty)
+      context "when start_date is the current calendar day, but the time is in the past" do
+        it "validates successfully" do
+          trip.start_date = Time.zone.parse("2020-01-01 12:00:00")
+          expect(trip).to(be_valid)
+          expect(trip.errors[:start_date]).to(be_empty)
+        end
       end
     end
 

@@ -23,7 +23,7 @@ RSpec.describe(SubscriptionTierDecorator, type: :decorator) do
       end
     end
 
-    context "when price_gbp is greater than 0 (whole number)" do
+    context "when price_gbp is a whole number above 0" do
       before { subscription_tier.price_gbp = 10 }
 
       it "returns the formatted price without decimals" do
@@ -43,7 +43,7 @@ RSpec.describe(SubscriptionTierDecorator, type: :decorator) do
       context "with 1 decimal place" do
         before { subscription_tier.price_gbp = 9.5 }
 
-        it "returns the formatted price with 1 decimal place" do
+        it "returns the formatted price padded to 2 decimal places" do
           expect(decorated_tier.formatted_price).to(eq("£9.50/month"))
         end
       end
