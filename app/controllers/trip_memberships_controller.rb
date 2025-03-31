@@ -38,6 +38,7 @@ class TripMembershipsController < ApplicationController
     @trip_membership.sender_user_id = current_user.id
 
     if @trip_membership.save
+      TripMembershipMailer.invite_user(@trip_membership).deliver_later
       redirect_to(trip_trip_memberships_path, notice: "User invited successfully.")
     else
       @users = User.where(user_role: "member").where.not(
