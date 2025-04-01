@@ -24,5 +24,6 @@ FactoryBot.define do
 
     association :user
     association :trip
+    association :sender_user, factory: :user
   end
 end

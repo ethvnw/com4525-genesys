@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.feature("Managing plans") do
-  let(:user) { create(:user) }
+  let(:user) { create(:admin) }
   let(:trip) { FactoryBot.create(:trip) }
 
   before do
@@ -168,7 +168,7 @@ RSpec.feature("Managing plans") do
       visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Edit plan"
+        click_on "Edit Plan"
       end
 
       find(".aa-DetachedSearchButton").click
@@ -182,7 +182,7 @@ RSpec.feature("Managing plans") do
       visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Edit plan"
+        click_on "Edit Plan"
       end
 
       select "Restaurant", from: "plan_plan_type"
@@ -194,7 +194,7 @@ RSpec.feature("Managing plans") do
       visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Edit plan"
+        click_on "Edit Plan"
       end
 
       fill_in "plan_title", with: ""
@@ -206,7 +206,7 @@ RSpec.feature("Managing plans") do
       visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Edit plan"
+        click_on "Edit Plan"
       end
 
       sleep_for_js
@@ -227,7 +227,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content(plan.start_location_name))
       within(:css, "section #plan-settings.dropdown") do
         find("button").click
-        click_on "Delete plan"
+        click_on "Delete Plan"
       end
       expect(page).not_to(have_content(plan.start_location_name))
     end
