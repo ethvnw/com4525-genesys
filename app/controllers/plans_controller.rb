@@ -3,7 +3,8 @@
 # Handles the creation of plans
 class PlansController < ApplicationController
   include Streamable
-  load_and_authorize_resource
+  load_and_authorize_resource :trip
+  load_and_authorize_resource :plan, through: :trip
 
   layout "user"
   before_action :authenticate_user!

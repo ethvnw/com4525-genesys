@@ -50,6 +50,9 @@ class Ability
     can(:read, Question, is_hidden: false)
     can(:read, Review, is_hidden: false)
 
+    # Anyone can create a trip
+    can(:create, Trip)
+
     # Allowing user to manage a trip only if they are a member of that trip and accepted invite
     can(:manage, Trip) do |trip|
       trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: true)
