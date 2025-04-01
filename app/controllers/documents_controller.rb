@@ -5,17 +5,7 @@ class DocumentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_plan
 
-  def upload
-    @plan = Plan.find(params[:plan_id])
-    if params[:documents].present?
-      @plan.documents.attach(params[:documents])
-      redirect_to(new_trip_plan_path, notice: "Documents uploaded successfully.")
-    else
-      redirect_to(new_trip_plan_path, alert: "No documents selected.")
-    end
-  end
-
-  def remove
+  def destroy
     @plan = Plan.find(params[:plan_id])
 
     begin

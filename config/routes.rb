@@ -19,12 +19,7 @@ Rails.application.routes.draw do
 
   resources :trips do
     resources :plans do
-      resources :documents, only: [] do
-        member do
-          post :upload
-          delete :remove
-        end
-      end
+      resources :documents, only: [:destroy]
     end
     resources :trip_memberships do
       member do
