@@ -1,0 +1,5 @@
+- locals = { trip: @trip_membership.trip, trip_membership: @trip_membership, errors: flash[:errors] }
+
+= turbo_stream.replace("edit_trip_membership",
+                       partial: "partials/trip_memberships/display_name_form",
+                       locals: locals)

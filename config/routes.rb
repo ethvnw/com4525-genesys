@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   resources :trips do
     resources :plans
-    resources :trip_memberships, only: [:index, :create, :destroy] do
+    resources :trip_memberships do
       member do
         post :accept_invite
         post :decline_invite

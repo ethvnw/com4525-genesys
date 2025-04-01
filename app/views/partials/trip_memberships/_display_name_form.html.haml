@@ -1,0 +1,12 @@
+= simple_form_for([trip, trip_membership],
+                  builder: ValidatedFormBuilder,
+                  errors: errors,
+                  html: { "data-turbo": "true" }) do |f|
+  = f.validated_input(:user_display_name,
+                      placeholder: "Enter a display name for this trip...")
+
+  .d-flex.justify-content-end
+    = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
+      %i.bi.bi-floppy2-fill
+      &nbsp;
+      Update

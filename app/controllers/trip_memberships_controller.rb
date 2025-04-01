@@ -28,8 +28,14 @@ class TripMembershipsController < ApplicationController
 
   def destroy
     trip_membership = TripMembership.find(params[:id])
+    user = trip_membership.user
     trip_membership.destroy
-    redirect_to(trip_trip_memberships_path, notice: "User removed successfully.")
+
+    if user == current_user
+      redirect_to(trips_path, notice: "You have left the trip.")
+    else
+      redirect_to(trip_trip_memberships_path, notice: "User removed successfully.")
+    end
   end
 
   def create
@@ -72,11 +78,23 @@ class TripMembershipsController < ApplicationController
     redirect_to(inbox_path, notice: "Invite declined successfully.")
   end
 
+  def update
+    @trip_membership = TripMembership.find(params[:id])
+    if @trip_membership.update(trip_membership_params)
+      redirect_to(trip_path, notice: "Display name updated successfully.")
+    else
+      flash[:errors] = @trip_membership.errors.to_hash(true)
+      puts flash[:errors]
+      stream_response("trip_memberships/update", trip_path(@trip_membership.trip))
+    end
+  end
+
   private
 
   def trip_membership_params
     params.require(:trip_membership).permit(
       :username,
+      :user_display_name,
     )
   end
 

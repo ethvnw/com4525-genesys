@@ -6,6 +6,13 @@
     %i.bi.bi-chevron-down &nbsp;
     Sort by
 
+- if @trips.empty?
+  .d-flex.flex-column.gap-4.align-items-center.justify-content-center.h-75.fs-1.text-dark-emphasis
+    %i.bi.bi-postcard-heart
+    .text-center
+      %p.mb-0 You have no trips!
+      %p.mb-0 Create a trip to get started.
+
 - @trips.each_with_index do |trip|
   = link_to(trip_path(trip), class: "d-block link-underline link-underline-opacity-0 mb-3 link-body-emphasis") do
     %section.trip-card.d-flex.flex-column.justify-content-end.rounded-3.position-relative
