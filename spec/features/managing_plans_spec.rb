@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.feature("Managing plans") do
   let(:user) { create(:user) }
   let(:trip) { create(:trip) }
-  let(:trip_membership) { create(:trip_membership, user: user, trip: trip ) }
+  let(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
   before do
     trip_membership # Prevent lazy evaluation
