@@ -200,7 +200,7 @@ RSpec.feature("Managing trips") do
   end
 
   feature "Editing a trip" do
-    given!(:trip) { create(:trip, start_date: time, end_date: end_time ) }
+    given!(:trip) { create(:trip, start_date: time, end_date: end_time) }
     given!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
     scenario "I can edit a trip and the existing values will be displayed in the edit form", js: true, vcr: true do
