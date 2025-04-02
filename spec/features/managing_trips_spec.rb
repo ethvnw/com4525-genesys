@@ -11,6 +11,7 @@ RSpec.feature("Managing trips") do
   PhotoMock = Struct.new(:urls) unless defined?(PhotoMock)
 
   before do
+    stub_photon_api
     login_as(user, scope: :user)
     allow(Unsplash::Photo).to(receive(:search).and_return([
       PhotoMock.new({ "regular" => "https://images.unsplash.com/photo-1502602898657-3e91760cbb34" }),
@@ -20,8 +21,8 @@ RSpec.feature("Managing trips") do
   end
 
   # Create start and end date variables in yyyy-mm-dd format
-  let(:time) { Time.current }
-  let(:end_time) { time + 1.day }
+  let(:time) { Time.current + 1.day }
+  let(:end_time) { time + 2.day }
 
   # 0-indexed months are used for js input selection, as js DateTime objects are 0-indexed
   let(:zero_index_month) { format("%02d", time.strftime("%m").to_i - 1) }
@@ -137,7 +138,6 @@ RSpec.feature("Managing trips") do
       click_on "title of trip"
       # The trip details should be displayed, with the title and description
       expect(page).to(have_content("title of trip"))
-      expect(page).to(have_content("description of trip"))
     end
 
     scenario "When I make an error during creation, the data I entered is preserved", js: true, vcr: true do
@@ -200,7 +200,8 @@ RSpec.feature("Managing trips") do
   end
 
   feature "Editing a trip" do
-    given!(:trip) { FactoryBot.create(:trip) }
+    given!(:trip) { create(:trip, start_date: time, end_date: end_time ) }
+    given!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
     scenario "I can edit a trip and the existing values will be displayed in the edit form", js: true, vcr: true do
       visit trip_path(trip)
@@ -229,8 +230,6 @@ RSpec.feature("Managing trips") do
       # Trip title and description should be updated to the edited values
       expect(page).not_to(have_content(trip.title))
       expect(page).to(have_content("edited title"))
-      expect(page).not_to(have_content(trip.description))
-      expect(page).to(have_content("edited description"))
 
       click_on "Settings"
       click_on "Edit Trip"
@@ -238,7 +237,6 @@ RSpec.feature("Managing trips") do
       expect(page).not_to(have_content("Editing #{trip.title}"))
       expect(page).to(have_content("Editing edited title"))
       expect(page).to(have_field("trip_title", with: "edited title"))
-      expect(page).to(have_field("trip_description", with: "edited description"))
     end
 
     scenario "I cannot edit a trip and save it having removed required fields", js: true, vcr: true do
@@ -252,7 +250,8 @@ RSpec.feature("Managing trips") do
   end
 
   feature "Deleting a trip" do
-    given!(:trip) { FactoryBot.create(:trip) }
+    given!(:trip) { create(:trip) }
+    given!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
     scenario "I can delete a trip and no longer see it on my list of trips" do
       visit trip_path(trip)

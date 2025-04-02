@@ -43,8 +43,8 @@
 
 FactoryBot.define do
   factory :user do
-    username { "MockUser" }
-    email { "test@epigenesys.org.uk" }
+    sequence(:email) { |n| "user#{n}@epigenesys.org.uk" }
+    sequence(:username) { |n| "username#{n}" }
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
 
