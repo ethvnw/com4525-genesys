@@ -84,7 +84,6 @@ class TripMembershipsController < ApplicationController
       redirect_to(trip_path, notice: "Display name updated successfully.")
     else
       flash[:errors] = @trip_membership.errors.to_hash(true)
-      puts flash[:errors]
       stream_response("trip_memberships/update", trip_path(@trip_membership.trip))
     end
   end
