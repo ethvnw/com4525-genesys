@@ -3,10 +3,12 @@
 require "rails_helper"
 
 RSpec.feature("Managing plans") do
-  let(:user) { create(:admin) }
-  let(:trip) { FactoryBot.create(:trip) }
+  let(:user) { create(:user) }
+  let(:trip) { create(:trip) }
+  let(:trip_membership) { create(:trip_membership, user: user, trip: trip ) }
 
   before do
+    trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
     travel_to(Time.parse("2025-01-10 1:30:00"))
     stub_photon_api
@@ -162,7 +164,7 @@ RSpec.feature("Managing plans") do
   end
 
   feature "Edit a plan" do
-    given!(:plan) { FactoryBot.create(:plan) }
+    given!(:plan) { create(:plan, trip: trip) }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
@@ -220,7 +222,7 @@ RSpec.feature("Managing plans") do
   end
 
   feature "Delete a plan" do
-    given!(:plan) { FactoryBot.create(:plan) }
+    given!(:plan) { create(:plan, trip: trip) }
 
     scenario "I can delete a plan and see it removed from the plans index page" do
       visit trip_path(plan.trip_id)

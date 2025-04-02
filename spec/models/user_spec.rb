@@ -187,14 +187,14 @@ RSpec.describe(User, type: :model) do
 
     context "when logging in with a username" do
       it "finds the user by username" do
-        found_user = User.find_for_authentication(login: "MockUser")
+        found_user = User.find_for_authentication(login: user.username)
         expect(found_user).to(eq(user))
       end
     end
 
     context "when logging in with an email" do
       it "finds the user by email" do
-        found_user = User.find_for_authentication(login: "test@epigenesys.org.uk")
+        found_user = User.find_for_authentication(login: user.email)
         expect(found_user).to(eq(user))
       end
     end
@@ -208,10 +208,10 @@ RSpec.describe(User, type: :model) do
 
     context "when login input is case-insensitive" do
       it "finds the user regardless of case" do
-        found_user = User.find_for_authentication(login: "mockuser")
+        found_user = User.find_for_authentication(login: user.username.upcase)
         expect(found_user).to(eq(user))
 
-        found_user = User.find_for_authentication(login: "TEST@EPIGENESYS.ORG.UK")
+        found_user = User.find_for_authentication(login: user.email.upcase)
         expect(found_user).to(eq(user))
       end
     end
