@@ -24,6 +24,8 @@
 #  fk_rails_...  (sender_user_id => users.id)
 #
 class TripMembership < ApplicationRecord
+  MAX_CAPACITY = 20
+
   belongs_to :trip
   belongs_to :user
   belongs_to :sender_user, class_name: "User"
@@ -32,8 +34,11 @@ class TripMembership < ApplicationRecord
   validate :max_capacity_not_reached
 
   def max_capacity_not_reached
-    if trip.trip_memberships.count >= 20
-      errors.add(:base, "The trip has reached the 20 member capacity, please remove a member before adding another.")
+    if trip.trip_memberships.count >= MAX_CAPACITY
+      errors.add(
+        :base,
+        "The trip has reached the #{MAX_CAPACITY} member capacity, please remove a member before adding another.",
+      )
     end
   end
 end
