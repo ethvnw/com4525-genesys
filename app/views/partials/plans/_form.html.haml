@@ -27,10 +27,20 @@
   = f.validated_datetime(:start_date, required: true)
   = f.validated_datetime(:end_date, required: true)
 
-  = f.label("Scan QR Code", class: "mb-1", for: "#plan_qr_code")
-  %canvas#qr-recreated.d-none;
-  %p#qr-result.d-none;
-  = f.file_field(:qr_code, accept: "image/*", class: "form-control")
+  // QR code upload
+  = f.label("Upload QR Codes", class: "mb-1", for: "#qr_codes_upload")
+
+  #qr-results.d-none
+  #qr-navigation.d-none
+    // type="button" is used to prevent form submission
+    %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
+    %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+    // Image counter is updated dynamically based on the number of images uploaded
+    %p#image-counter.text-center.m-0
+      Image 1/1
+
+  // f.file_field is not used as QR code images are not uploaded, instead the code values are
+  = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")
 
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 

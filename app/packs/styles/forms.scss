@@ -49,3 +49,13 @@
   @extend .form-control-btn;
   color: $body-color;
 }
+
+// Styling for QR code input
+#qr-navigation {
+  @extend .text-center;
+  width: 200px; // Matches size of the generated QR code canvas
+}
+
+.qr-result-item {
+  display: none;
+}
