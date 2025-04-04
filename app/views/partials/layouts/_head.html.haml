@@ -11,6 +11,11 @@
 = csrf_meta_tags
 = csp_meta_tag
 
+-# Allows the stubbing of JS new Date within tests
+- if Rails.env.test? && ENV["TEST_TIMESTAMP"].present?
+  %meta{ name: "test-timestamp", content: ENV["TEST_TIMESTAMP"] }
+  - prepend_javascript_pack_tag "scriptpacks/testing_time_helpers"
+
 -# Allows us to separate scripts/styles out into multiple packs, and only load them when required.
    Dynamically remove stylesheets if turbo navigates to a page where they are not included.
 = stylesheet_pack_tag("stylepacks/application",
