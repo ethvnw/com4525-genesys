@@ -6,18 +6,17 @@ require "webmock/rspec"
 RSpec.feature("Managing trips") do
   let(:user) { create(:user) }
 
-  before do
-    login_as(user, scope: :user)
-  end
-
   # Mocks the Unsplash::Photo class as API calls cannot happen in tests
   # Unless defined? is used to prevent redefinition of the class
   PhotoMock = Struct.new(:urls) unless defined?(PhotoMock)
 
   before do
+    login_as(user, scope: :user)
     allow(Unsplash::Photo).to(receive(:search).and_return([
       PhotoMock.new({ "regular" => "https://images.unsplash.com/photo-1502602898657-3e91760cbb34" }),
     ]))
+
+    time_travel_everywhere(Time.new(2020, 1, 1, 0, 0, 0))
   end
 
   # Create start and end date variables in yyyy-mm-dd format
