@@ -23,6 +23,11 @@ class PlansController < ApplicationController
     @plan = Plan.new(plan_params)
     @plan.trip = Trip.find(params[:trip_id])
     if @plan.save
+      # Create scannable tickets if provided
+      qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
+      qr_codes.each do |code|
+        @plan.scannable_tickets.create(code: code, ticket_format: :qr)
+      end
       session.delete(:plan_data)
       redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else

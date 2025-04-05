@@ -28,8 +28,12 @@
   = f.validated_datetime(:end_date, required: true)
 
   // QR code upload
-  = f.label("Upload QR Codes", class: "mb-1", for: "#qr_codes_upload")
+  = f.label("Upload scannable tickets (QR codes)", class: "mb-1", for: "#qr_codes_upload")
 
+  // The data shown on the form is very verbose right now, will change to a more user-friendly format
+  // when we finalise the design, all possible elements are included here for future reference
+
+  #qr-codes-found
   #qr-results.d-none
   #qr-navigation.d-none
     // type="button" is used to prevent form submission
@@ -41,6 +45,8 @@
 
   // f.file_field is not used as QR code images are not uploaded, instead the code values are
   = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")
+  // QR code values are stored in a hidden field, and are used to create ScannableTickets in the controller
+  = hidden_field_tag(:scannable_tickets)
 
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 

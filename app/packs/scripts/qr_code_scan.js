@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!files.length) return;
 
     results = [];
+    const extractedCodes = []; // Store extracted QR codes
     currentIndex = 0;
 
     resultsContainer.innerHTML = '';
@@ -71,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const qrCtx = qrCanvas.getContext('2d');
 
           if (code) {
+            // Add the extracted QR code to the list
+            extractedCodes.push(code.data);
+            // Draw the QR code in the canvas
             fileResult.innerHTML = `
               <p class="m-0">Extracted QR Code Data: <strong>${code.data}</strong></p>
             `;
@@ -89,6 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
             resultsContainer.classList.replace('d-none', 'd-block');
             document.getElementById('qr-navigation').classList.replace('d-none', 'd-block');
             showResult(0);
+            document.getElementById('scannable_tickets').value = JSON.stringify(extractedCodes);
+
+            // Show the user how many QR codes were found
+            document.getElementById('qr-codes-found').innerHTML = `Codes found in ${extractedCodes.length}/${files.length} images`;
           }
         };
       };
