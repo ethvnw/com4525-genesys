@@ -16,7 +16,9 @@ Rails.application.routes.draw do
   get :faq, to: "pages#faq"
 
   resources :trips do
-    resources :plans
+    resources :plans do
+      resources :scannable_tickets, only: [:destroy]
+    end
   end
 
   resources :subscriptions, only: [:new] do
