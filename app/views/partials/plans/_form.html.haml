@@ -62,3 +62,7 @@
                    id: "end_location_latitude_input")
   = f.hidden_field(:end_location_longitude,
                    id: "end_location_longitude_input")
+
+- if plan.scannable_tickets.any?
+  %h4.fw-semibold Scannable tickets
+  = render("partials/plans/scannable_tickets_list", plan: plan)
