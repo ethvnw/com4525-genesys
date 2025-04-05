@@ -22,7 +22,6 @@ end
 ##
 # Resets the system and JavaScript time back to the present
 # Hop in the Delorean!
-#
 def time_travel_back
   travel_back
 
