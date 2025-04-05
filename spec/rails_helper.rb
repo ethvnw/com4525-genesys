@@ -74,6 +74,7 @@ RSpec.configure do |config|
   config.after do
     Warden.test_reset!
     DatabaseCleaner.clean
+    time_travel_back
   end
 
   # Help debug tests
