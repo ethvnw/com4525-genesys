@@ -60,7 +60,19 @@ class PlansController < ApplicationController
   def update
     @plan = Plan.find(params[:id])
     if @plan.update(plan_params)
-      redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.")
+      existing_flag = false
+      qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
+      qr_codes.each do |code|
+        # Check if the code already exists before creating a new one
+        if @plan.scannable_tickets.exists?(code: code)
+          existing_flag = true
+        else
+          @plan.scannable_tickets.create(code: code, ticket_format: :qr)
+        end
+      end
+      # The notice message indicates whether any QR codes already existed to the plan
+      redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.
+        #{existing_flag ? "Some QR codes already existed..." : ""}")
     else
       flash[:errors] = @plan.errors.to_hash(true)
       stream_response("plans/update", edit_trip_plan_path(@plan))
