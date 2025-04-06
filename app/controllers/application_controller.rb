@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   # Permit parameters such as username and email
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  before_action :notifications
+  before_action :check_for_notifications
 
   # Permit username and email when signing up or updating details
   def configure_permitted_parameters
@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  def notifications
+  def check_for_notifications
     return unless current_user
 
     pending_trip_memberships = current_user.trip_memberships.where(is_invite_accepted: false)

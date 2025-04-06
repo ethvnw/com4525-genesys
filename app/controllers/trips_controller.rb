@@ -46,6 +46,7 @@ class TripsController < ApplicationController
       membership.user_id = current_user.id
       # It is assumed that the creator of a trip accepts the invite.
       membership.is_invite_accepted = true
+      membership.invite_accepted_date = Time.current
       membership.user_display_name = current_user.username
       membership.sender_user_id = current_user.id
       membership.save

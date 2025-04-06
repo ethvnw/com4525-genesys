@@ -20,4 +20,12 @@ class TripMembershipDecorator < ApplicationDecorator
       "Cancel"
     end
   end
+
+  def invitation_date_text
+    if object.is_invite_accepted
+      "Joined on #{object.invite_accepted_date.strftime("%d %b %Y")}"
+    else
+      "Invited on #{object.created_at.strftime("%d %b %Y")}"
+    end
+  end
 end
