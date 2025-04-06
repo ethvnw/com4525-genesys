@@ -3,10 +3,11 @@
 # Handles trip memberships
 class TripMembershipsController < ApplicationController
   include Streamable
+  load_and_authorize_resource :trip, except: [:accept_invite, :decline_invite]
+  load_and_authorize_resource :trip_membership, through: :trip, except: [:accept_invite, :decline_invite]
 
   layout "user"
   before_action :authenticate_user!
-  before_action :authorize_trip_memberships, only: [:index]
 
   def index
     @script_packs = ["trip_memberships"]
@@ -66,7 +67,10 @@ class TripMembershipsController < ApplicationController
 
   def accept_invite
     @trip_membership = TripMembership.find(params[:id])
+    authorize!(:respond_invite, @trip_membership)
+
     @trip_membership.is_invite_accepted = true
+    @trip_membership.invite_accepted_date = Time.current
     @trip_membership.user_display_name = current_user.username
     @trip_membership.save
     redirect_to(inbox_path, notice: "Invite accepted successfully.")
@@ -74,6 +78,8 @@ class TripMembershipsController < ApplicationController
 
   def decline_invite
     @trip_membership = TripMembership.find(params[:id])
+    authorize!(:respond_invite, @trip_membership)
+
     @trip_membership.destroy
     redirect_to(inbox_path, notice: "Invite declined successfully.")
   end
@@ -81,7 +87,7 @@ class TripMembershipsController < ApplicationController
   def update
     @trip_membership = TripMembership.find(params[:id])
     if @trip_membership.update(trip_membership_params)
-      redirect_to(trip_path, notice: "Display name updated successfully.")
+      redirect_to(trip_path(@trip_membership.trip), notice: "Display name updated successfully.")
     else
       flash[:errors] = @trip_membership.errors.to_hash(true)
       stream_response("trip_memberships/update", trip_path(@trip_membership.trip))
@@ -99,10 +105,10 @@ class TripMembershipsController < ApplicationController
 
   def authorize_trip_memberships
     trip = Trip.find(params[:trip_id])
-    unless can?(:manage, trip) && can?(:manage, TripMembership)
+    unless can?(:manage, trip) && can?(:read, TripMembership)
       raise CanCan::AccessDenied.new(
         "You are not authorized to manage this trip's members.",
-        :manage,
+        :read,
         trip.trip_memberships,
       )
     end

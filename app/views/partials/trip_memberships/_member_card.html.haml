@@ -9,8 +9,7 @@
             %p.fw-semibold.mb-0 @#{member.user.username}
 
         %p.mb-0.fst-italic
-          Joined on
-          = member.created_at.strftime("%d %b %Y")
+          = member.invitation_date_text
 
       = link_to(trip_trip_membership_path(member.trip, member),
                 class: "btn btn-outline-danger fw-bold",

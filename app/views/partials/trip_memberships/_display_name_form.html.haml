@@ -1,7 +1,7 @@
 = simple_form_for([trip, trip_membership],
                   builder: ValidatedFormBuilder,
                   errors: errors,
-                  html: { "data-turbo": "true" }) do |f|
+                  html: { id: "edit_trip_membership", "data-turbo": "true" }) do |f|
   = f.validated_input(:user_display_name,
                       placeholder: "Enter a display name for this trip...")
 

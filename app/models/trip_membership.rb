@@ -4,14 +4,15 @@
 #
 # Table name: trip_memberships
 #
-#  id                 :bigint           not null, primary key
-#  is_invite_accepted :boolean          default(FALSE)
-#  user_display_name  :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  sender_user_id     :bigint
-#  trip_id            :bigint
-#  user_id            :bigint
+#  id                   :bigint           not null, primary key
+#  invite_accepted_date :datetime
+#  is_invite_accepted   :boolean          default(FALSE)
+#  user_display_name    :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  sender_user_id       :bigint
+#  trip_id              :bigint
+#  user_id              :bigint
 #
 # Indexes
 #
