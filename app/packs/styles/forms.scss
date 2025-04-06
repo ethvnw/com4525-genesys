@@ -50,12 +50,16 @@
   color: $body-color;
 }
 
-// Styling for QR code input
+// Styling for QR code input TODO fix for mobile
 #qr-navigation {
   @extend .text-center;
-  width: 200px; // Matches size of the generated QR code canvas
 }
 
 .qr-result-item {
   display: none;
+}
+
+#qr-counter {
+  @extend .mx-3, .d-inline-block, .text-center;
+  width: 4rem;
 }

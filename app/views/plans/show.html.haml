@@ -1,7 +1,47 @@
-%h2= @plan.title
-%h4.mb-4= @plan.start_date.strftime("%A, %d %B %Y")
+.d-flex.justify-content-between.align-items-center.mb-4
+  .d-flex.flex-column
+    %h1.mb-0.fw-bold= @trip.title
+    %p.mb-0.fs-4.fw-semibold.text-secondary
+      Tickets for #{@plan.title}
+    %p.mb-0.fs-5.text-primary= @plan.formatted_date_range
+    - if @plan.plan_type.starts_with?("travel_")
+      -# Start location and date
+      .row.align-items-center.mb-3
+        .col
+          %p.mb-0.max-height-2-lines= @plan.start_location_name
 
-- if @plan.plan_type.starts_with?("travel_")
-  = render("partials/plans/travel_card", plan: @plan)
-- else
-  = render("partials/plans/event_card", plan: @plan)
+        -# Travel icon
+        .col-auto.px-4
+          %h2.text-black-50
+            %i{ class: @plan.travel_icon }
+
+        -# End location and date
+        .col
+          %p.mb-0.text-end.max-height-2-lines= @plan.end_location_name
+    - else
+      -# Company name
+      .d-flex.gap-3.align-items-center
+        %i.bi.bi-building
+        %p.mb-0 Company Name
+
+      -# Start location
+      .d-flex.gap-3.align-items-center
+        %i.bi.bi-geo-alt
+        %p.mb-0= @plan.start_location_name
+
+    - if @plan.scannable_tickets.any?
+      -# QR codes
+      #qr-code-container.d-flex.justify-content-center.align-items-center
+      #qr-navigation.mt-3
+        %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
+        %span#qr-counter
+        %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+
+      %script#qr-code-data{ type: "application/json" }
+        = raw(@plan.scannable_tickets.to_json(only: [:code]))
+
+-# TODO: Make this look much better on mobile, same for trip show page
+.d-flex.justify-content-center.gap-2.align-self-start
+  = link_to(trip_path(@trip), class: "btn btn-light") do
+    %i.bi.bi-arrow-left &nbsp;
+    Back to Trip
