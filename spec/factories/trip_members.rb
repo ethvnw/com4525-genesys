@@ -20,6 +20,7 @@
 FactoryBot.define do
   factory :trip_membership do
     is_invite_accepted { true }
+    invite_accepted_date { Time.current }
     user_display_name { "Mock Display Name" }
 
     association :user
