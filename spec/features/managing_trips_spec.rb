@@ -39,14 +39,11 @@ RSpec.feature("Managing trips") do
   # Look into using Timecop to freeze time during tests in future
 
   feature "Creating a trip" do
-    scenario "I cannot create a trip with no title", js: true, vcr: true do
+    scenario "I cannot create a trip with no title", js: true do
       visit new_trip_path
       fill_in "trip_description", with: "description of plan"
       # Fill in the location search field
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
-      find_all(".aa-Item").first.click
+      select_location("England")
       # Fill in the date range
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
@@ -55,14 +52,11 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Title can't be blank"))
     end
 
-    scenario "I cannot create a trip with a title longer than the limit (100 characters)", js: true, vcr: true do
+    scenario "I cannot create a trip with a title longer than the limit (100 characters)", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "a" * 101
       fill_in "trip_description", with: "description of plan"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
-      find_all(".aa-Item").first.click
+      select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
@@ -70,13 +64,10 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
     end
 
-    scenario "I cannot create a trip with no description", js: true, vcr: true do
+    scenario "I cannot create a trip with no description", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "title of plan"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
-      find_all(".aa-Item").first.click
+      select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
@@ -84,14 +75,11 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Description can't be blank"))
     end
 
-    scenario "I cannot create a trip with a description longer than the limit (500 characters)", js: true, vcr: true do
+    scenario "I cannot create a trip with a description longer than the limit (500 characters)", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "title of plan"
       fill_in "trip_description", with: "a" * 501
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
-      find_all(".aa-Item").first.click
+      select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
@@ -99,19 +87,16 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Description is too long (maximum is 500 characters)"))
     end
 
-    scenario "I cannot create a trip with no date range", js: true, vcr: true do
+    scenario "I cannot create a trip with no date range", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "title of plan"
       fill_in "trip_description", with: "description of plan"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
-      find_all(".aa-Item").first.click
+      select_location("England")
       click_button "Create Trip"
       expect(page).to(have_content("Date can't be blank"))
     end
 
-    scenario "I cannot create a trip with no location", js: true, vcr: true do
+    scenario "I cannot create a trip with no location", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "title of plan"
       fill_in "trip_description", with: "description of plan"
@@ -122,14 +107,11 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Location can't be blank"))
     end
 
-    scenario "I can create a trip and see it displayed", js: true, vcr: true do
+    scenario "I can create a trip and see it displayed", js: true do
       visit new_trip_path
-      fill_in "trip_title", with: "title of trip"
-      fill_in "trip_description", with: "description of trip"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
-      find_all(".aa-Item").first.click
+      fill_in "trip_title", with: "title of plan"
+      fill_in "trip_description", with: "description of plan"
+      select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
@@ -140,15 +122,12 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("title of trip"))
     end
 
-    scenario "When I make an error during creation, the data I entered is preserved", js: true, vcr: true do
+    scenario "When I make an error during creation, the data I entered is preserved", js: true do
       # Fill in the form with the required fields
       visit new_trip_path
       fill_in "trip_title", with: "a" * 101 # Title too long error
       fill_in "trip_description", with: "description of plan"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
-      find_all(".aa-Item").first.click
+      select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
@@ -174,10 +153,7 @@ RSpec.feature("Managing trips") do
       visit new_trip_path
       fill_in "trip_title", with: "a" * 101 # Title too long error
       fill_in "trip_description", with: "description of plan"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("England")
-      sleep 3
-      find_all(".aa-Item").first.click
+      select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
@@ -203,7 +179,7 @@ RSpec.feature("Managing trips") do
     given!(:trip) { create(:trip, start_date: time, end_date: end_time) }
     given!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
-    scenario "I can edit a trip and the existing values will be displayed in the edit form", js: true, vcr: true do
+    scenario "I can edit a trip and the existing values will be displayed in the edit form", js: true do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Edit Trip"
@@ -219,7 +195,7 @@ RSpec.feature("Managing trips") do
       expect(datetime_button).to(have_content("#{start_date_one_index} - #{end_date_one_index}"))
     end
 
-    scenario "I can edit a trip and see the changes displayed", js: true, vcr: true do
+    scenario "I can edit a trip and see the changes displayed", js: true do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Edit Trip"
@@ -239,7 +215,7 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_field("trip_title", with: "edited title"))
     end
 
-    scenario "I cannot edit a trip and save it having removed required fields", js: true, vcr: true do
+    scenario "I cannot edit a trip and save it having removed required fields", js: true do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Edit Trip"

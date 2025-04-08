@@ -155,10 +155,10 @@ RSpec.describe(Analytics::JourneySaver) do
         })
 
         expect(FeatureShare.find_by(
-            app_feature_id: feature.id,
-            registration_id: registration.id,
-            share_method: "Mock Share Method",
-            created_at: Time.zone.parse("2024-01-01 09:00:45"),
+          app_feature_id: feature.id,
+          registration_id: registration.id,
+          share_method: "Mock Share Method",
+          created_at: Time.zone.parse("2024-01-01 09:00:45"),
         )).to(be_present)
 
         expect(QuestionClick.find_by(

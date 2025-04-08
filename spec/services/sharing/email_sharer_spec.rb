@@ -6,7 +6,7 @@ RSpec.describe(Sharing::EmailSharer) do
   let(:feature) { build(:app_feature) }
 
   describe ".call" do
-    it "Correctly formats the feature details as a mailto link", vcr: true do
+    it "Correctly formats the feature details as a mailto link" do
       mailto = Sharing::EmailSharer.call(feature)
 
       encoded_feature_name = ERB::Util.url_encode(feature.name.to_s)
