@@ -4,15 +4,15 @@ require "rails_helper"
 
 RSpec.describe(PlanDecorator, type: :decorator) do
   before do
-    travel_to Time.parse("2000-01-01 1:00:00")
+    travel_to Time.zone.parse("2000-01-01 1:00:00")
   end
 
-  let(:plan) { create(:plan, start_date: Time.zone.now, end_date: Time.zone.now + 1.hour) }
+  let(:plan) { create(:plan, start_date: Time.current, end_date: Time.current + 1.hour) }
   let(:decorated_plan) { plan.decorate }
 
   describe "#formatted_date_range" do
     context "when the end date is present" do
-      it "returns the start and end date as 'start to end'" do
+      it "returns the start and end time as 'start to end'" do
         expect(decorated_plan.formatted_date_range).to(eq("01:00 to 02:00"))
       end
     end
@@ -20,7 +20,7 @@ RSpec.describe(PlanDecorator, type: :decorator) do
     context "when the end date is not present" do
       before { decorated_plan.end_date = nil }
 
-      it "returns the start date" do
+      it "returns the start time" do
         expect(decorated_plan.formatted_date_range).to(eq("01:00"))
       end
     end
@@ -28,7 +28,7 @@ RSpec.describe(PlanDecorator, type: :decorator) do
 
   describe "#formatted_end_date" do
     context "when the end date is the same day as the start date" do
-      it "returns the end date as 'HH:MM'" do
+      it "returns the end time as 'HH:MM'" do
         expect(decorated_plan.formatted_end_date).to(eq("02:00"))
       end
     end

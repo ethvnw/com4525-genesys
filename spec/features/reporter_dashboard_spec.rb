@@ -18,7 +18,7 @@ RSpec.feature("Reporter dashboard") do
       login_as(reporter, scope: :user)
 
       # Wednesday, 10th January 2024 (Week 2)
-      travel_to Time.parse("2024-01-10")
+      travel_to Time.zone.parse("2024-01-10")
 
       # Landing page views
 
@@ -33,21 +33,21 @@ RSpec.feature("Reporter dashboard") do
         :landing_page_visit,
         country_code: "GB",
         # Monday, 8th January 2024 (Week 2)
-        created_at: Time.parse("2024-01-08"),
+        created_at: Time.zone.parse("2024-01-08"),
       )
 
       create(
         :landing_page_visit,
         country_code: "NL",
         # Monday, 1st January 2024 (Week 1)
-        created_at: Time.parse("2024-01-01"),
+        created_at: Time.zone.parse("2024-01-01"),
       )
 
       create(
         :landing_page_visit,
         country_code: "BE",
         # Monday, 25th December 2023
-        created_at: Time.parse("2023-12-25"),
+        created_at: Time.zone.parse("2023-12-25"),
       )
 
       # Registrations
@@ -65,7 +65,7 @@ RSpec.feature("Reporter dashboard") do
         email: "test2@example.com",
         country_code: "US",
         # Monday, 8th January 2024 (Week 2)
-        created_at: Time.parse("2024-01-08"),
+        created_at: Time.zone.parse("2024-01-08"),
       )
 
       create(
@@ -73,7 +73,7 @@ RSpec.feature("Reporter dashboard") do
         email: "test3@example.com",
         country_code: "IE",
         # Monday, 1st January 2024 (Week 1)
-        created_at: Time.parse("2024-01-01"),
+        created_at: Time.zone.parse("2024-01-01"),
       )
 
       create(
@@ -81,7 +81,7 @@ RSpec.feature("Reporter dashboard") do
         email: "test4@example.com",
         country_code: "SG",
         # Monday, 25th December 2023
-        created_at: Time.parse("2023-12-25"),
+        created_at: Time.zone.parse("2023-12-25"),
       )
 
       tier.app_features << [app_feature_1, app_feature_2, app_feature_3]

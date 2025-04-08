@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe(TripDecorator, type: :decorator) do
   before do
-    travel_to Time.parse("2000-01-01 1:00:00")
+    travel_to Time.zone.parse("2000-01-01 1:00:00")
   end
 
   let(:trip) { create(:trip, start_date: Time.zone.now, end_date: Time.zone.now + 1.hour) }

@@ -18,7 +18,7 @@ RSpec.feature("Registering Interest") do
     end
   end
 
-  scenario "After I register my interest, my geolocation will be saved", vcr: true do
+  scenario "After I register my interest, my geolocation will be saved" do
     ENV["TEST_IP_ADDR"] = "185.156.172.142" # IP address in Amsterdam
 
     create(:individual_tier)
@@ -48,7 +48,7 @@ RSpec.feature("Registering Interest") do
       visit root_path
     end
 
-    scenario "After registering, my landing page journey will be saved to the database", vcr: true do
+    scenario "After registering, my landing page journey will be saved to the database" do
       share_feature(feature, "Facebook")
       share_feature(feature, "WhatsApp")
 
@@ -80,7 +80,7 @@ RSpec.feature("Registering Interest") do
       expect(QuestionClick.find_by(question_id: question2.id, registration_id: registration.id)).to(be_present)
     end
 
-    scenario "Duplicate events will not be saved twice", js: true, vcr: true do
+    scenario "Duplicate events will not be saved twice", js: true do
       share_feature(feature, "Facebook")
       share_feature(feature, "Facebook")
 
@@ -99,7 +99,7 @@ RSpec.feature("Registering Interest") do
       expect(QuestionClick.count).to(eq(1))
     end
 
-    scenario "An unliked review will not appear in my landing page journey", js: true, vcr: true do
+    scenario "An unliked review will not appear in my landing page journey", js: true do
       click_link "Reviews"
       click_button(id: "like-review-#{review1.id}")
       click_button(id: "like-review-#{review1.id}")
@@ -114,7 +114,7 @@ RSpec.feature("Registering Interest") do
   end
 
   context "when email validation fails" do
-    scenario "I will be told if the email I entered is blank", vcr: true do
+    scenario "I will be told if the email I entered is blank" do
       tier = create(:subscription_tier)
       visit new_subscription_path(s_id: tier.id)
       click_on "Notify Me"
@@ -122,7 +122,7 @@ RSpec.feature("Registering Interest") do
       expect(page).to(have_content("Email can't be blank"))
     end
 
-    scenario "I will be told if the email I entered is invalid", vcr: true do
+    scenario "I will be told if the email I entered is invalid" do
       tier = create(:subscription_tier)
       visit new_subscription_path(s_id: tier.id)
       fill_in "registration_email", with: "invalid_email"
@@ -131,7 +131,7 @@ RSpec.feature("Registering Interest") do
       expect(page).to(have_content("Email is invalid"))
     end
 
-    scenario "I will be told if the email I entered is already taken", vcr: true do
+    scenario "I will be told if the email I entered is already taken" do
       create(:registration, email: "test@example.com")
       tier = create(:subscription_tier)
       visit new_subscription_path(s_id: tier.id)
