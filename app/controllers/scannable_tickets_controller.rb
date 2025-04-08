@@ -9,8 +9,6 @@ class ScannableTicketsController < ApplicationController
     @scannable_ticket = @plan.scannable_tickets.find(params[:ticket_id])
     if @scannable_ticket.destroy
       redirect_back_or_to(trip_path(@plan.trip), notice: "Scannable ticket deleted successfully.")
-    else
-      redirect_back_or_to(trip_path(@plan.trip), alert: "Failed to delete scannable ticket.")
     end
   end
 

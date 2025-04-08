@@ -50,9 +50,10 @@
   color: $body-color;
 }
 
-// Styling for QR code input TODO fix for mobile
+// Styling for QR code input
 #qr-navigation {
   @extend .text-center;
+  width: $qr-width;
 }
 
 .qr-result-item {
