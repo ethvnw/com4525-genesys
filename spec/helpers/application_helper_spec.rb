@@ -165,7 +165,7 @@ RSpec.describe(ApplicationHelper, type: :helper) do
         helper.add_param_button(key, value, icon)
       end
 
-      it "creates a link without the active class" do
+      it "creates a link without get_error_class_withthe active class" do
         result = helper.add_param_button(key, value, icon)
 
         # Check each of the HTML tags
@@ -193,6 +193,99 @@ RSpec.describe(ApplicationHelper, type: :helper) do
         expect(result).to(have_selector("a.active.change-view-link[href='#{output_path}']"))
         expect(result).to(have_selector("i.bi-pin-map.bi"))
         expect(result).to(have_selector("span", text: "Mock-value"))
+      end
+    end
+  end
+
+  describe "#get_formatted_errors" do
+    context "when errors is nil" do
+      let(:errors) { nil }
+      it "returns nil" do
+        expect(helper.get_formatted_errors(errors, :mock_field)).to(be_nil)
+      end
+    end
+
+    context "when errors is an empty hash" do
+      let(:errors) { {} }
+      it "returns nil" do
+        expect(helper.get_formatted_errors(errors, :mock_field)).to(be_nil)
+      end
+    end
+
+    context "when errors is not empty, but does not contain the desired key" do
+      let(:errors) { { other_key: ["error!"] } }
+      it "returns nil" do
+        expect(helper.get_formatted_errors(errors, :mock_field)).to(be_nil)
+      end
+    end
+
+    context "with one error for the given key" do
+      let(:errors) { { other_key: ["error!"], mock_field: ["error1"] } }
+      it "returns the correct error message" do
+        expect(helper.get_formatted_errors(errors, :mock_field)).to(eq("error1"))
+      end
+    end
+
+    context "with multiple errors for the given key" do
+      let(:errors) { { other_key: ["error!"], mock_field: ["error1", "error2", "error3"] } }
+      it "joins the error messages with newlines" do
+        expect(helper.get_formatted_errors(errors, :mock_field)).to(eq("error1\nerror2\nerror3"))
+      end
+    end
+
+    context "with an empty array for the given key" do
+      let(:errors) { { other_key: ["error!"], mock_field: [] } }
+      it "returns nil" do
+        expect(helper.get_formatted_errors(errors, :mock_field)).to(be_nil)
+      end
+    end
+  end
+
+  describe "#get_error_class_with" do
+    context "when errors is nil" do
+      let(:errors) { nil }
+      it "returns nil" do
+        expect(helper.get_error_class_with(nil, :mock_field)).to(be_nil)
+      end
+    end
+
+    context "when errors is not nil, but does not contain an error for the given key" do
+      let(:errors) { { other_field: ["error!"] } }
+      it "returns the valid class" do
+        expect(helper.get_error_class_with(errors, :mock_field)).to(eq("is-valid"))
+      end
+    end
+
+    context "when errors is not nil, and contains an error for the given key" do
+      let(:errors) { { other_field: ["error!"], mock_field: ["error1"] } }
+      it "returns the invalid class" do
+        expect(helper.get_error_class_with(errors, :mock_field)).to(eq("is-invalid"))
+      end
+    end
+  end
+
+  describe "#form_error_message" do
+    context "when no error message is present for the given field" do
+      before do
+        allow(helper).to(receive(:get_formatted_errors)).and_return(nil)
+      end
+
+      it "returns nil" do
+        expect(helper.form_error_message({}, :mock_field)).to(be_nil)
+      end
+    end
+
+    context "when an error message is present for the given field" do
+      before do
+        allow(helper).to(receive(:get_formatted_errors)).and_return("error1\nerror2")
+      end
+
+      it "renders a feedback div, with the errors contained in a <span>" do
+        # Can just pass an empty hash here as the get_formatted_errors stub makes sure that the errors are present
+        result = helper.form_error_message({}, :mock_field)
+
+        expect(result).to(have_selector("div.invalid-feedback"))
+        expect(result).to(have_selector("span", text: "error1\nerror2"))
       end
     end
   end
