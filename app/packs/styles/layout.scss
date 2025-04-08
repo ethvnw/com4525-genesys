@@ -31,6 +31,10 @@ main {
         @extend .flex-fill;
         @extend .w-100;
         z-index: 1;
+
+        @include media-breakpoint-down(sm) {
+            margin-bottom: calc($navbar-padding-y + env(safe-area-inset-bottom) + 4rem);
+        }
     }
 }
 

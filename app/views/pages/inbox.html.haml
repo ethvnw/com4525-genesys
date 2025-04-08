@@ -1,0 +1,37 @@
+%h1.mb-4 Inbox
+
+- if @inbox_msgs.empty?
+  .d-flex.flex-column.gap-4.align-items-center.justify-content-center.h-75.fs-1.text-dark-emphasis
+    %i.bi.bi-postcard-heart
+    .text-center
+      %p.mb-0 Your inbox is empty!
+      %p.mb-0 Check back later for new trip invites.
+
+- @inbox_msgs.each do |msg|
+  .card
+    .card-body
+      .row
+        .col-1
+          = image_tag(msg.sender_user.decorate.avatar_or_default, class: "avatar-img")
+
+        .col-11
+          %h5.card-title
+            @#{msg.sender_user.username} invited you to the trip
+            %span.fw-bold= msg.trip.title
+          %p.card-text= msg.trip.description
+          .d-flex.justify-content-between.align-items-center
+            %p.mb-0.fst-italic
+              Sent on
+              = msg.created_at.strftime("%d %b %Y")
+
+            .d-flex.gap-2
+              = link_to(accept_invite_trip_trip_membership_path(msg.trip, msg),
+                        class: "btn btn-success fs-5",
+                        method: :post) do
+                %i.bi.bi-check
+
+              = link_to(decline_invite_trip_trip_membership_path(msg.trip, msg),
+                        class: "btn btn-danger fs-5",
+                        method: :post,
+                        data: { confirm: "Are you sure you want to decline this invitation?" }) do
+                %i.bi.bi-x

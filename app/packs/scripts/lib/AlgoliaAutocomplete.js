@@ -106,5 +106,5 @@ const createAutocomplete = (containerId, searchType) => autocomplete({
 
 export default createAutocomplete;
 export {
-  updateLocationPin, startMarker, endMarker, line,
+  updateLocationPin, startMarker, endMarker, line, debouncedPromise,
 };

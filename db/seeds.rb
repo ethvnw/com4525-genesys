@@ -44,11 +44,14 @@ User.create!(
 TripMembership.create!(
   trip_id: Trip.find_by(title: "Trip to Paris").id,
   user_id: User.find_by(email: "admin@genesys.com").id,
+  sender_user_id: User.find_by(email: "admin@genesys.com").id,
   is_invite_accepted: true,
+  invite_accepted_date: Time.zone.now,
   user_display_name: "admin1",
 ) unless TripMembership.exists?(
   trip_id: Trip.find_by(title: "Trip to Paris").id,
   user_id: User.find_by(email: "admin@genesys.com").id,
+  sender_user_id: User.find_by(email: "admin@genesys.com").id,
 )
 
 User.create!(
