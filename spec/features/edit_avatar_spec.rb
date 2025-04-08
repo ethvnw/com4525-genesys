@@ -11,26 +11,26 @@ RSpec.feature("User Avatar") do
   end
 
   feature "Updating avatar" do
-    scenario "With a valid image file (PNG, JPG, JPEG)" do
+    scenario "Uploading a valid image file (PNG, JPG, JPEG)" do
       attach_file("user[avatar]", Rails.root.join("spec", "support", "files", "mock_avatar.png"))
       click_button "Save"
       expect(page).to(have_content("Avatar updated successfully."))
       expect(user.avatar.filename).to(eq("mock_avatar.png"))
     end
 
-    scenario "When no avatar is uploaded" do
+    scenario "Not uploading any image" do
       # No image file attached
       click_button "Save"
       expect(page).to(have_content("No avatar photo uploaded."))
     end
 
-    scenario "With an invalid file type" do
+    scenario "Uploading an invalid file type" do
       attach_file("user[avatar]", Rails.root.join("spec", "support", "files", "test.txt"))
       click_button "Save"
       expect(page).to(have_content("Avatar has an invalid content type (authorized content types are PNG, JPG)"))
     end
 
-    scenario "With a file that exceeds the 5 MB size limit" do
+    scenario "Uploading a file that exceeds the 5 MB size limit" do
       large_file = Rails.root.join("spec", "support", "files", "large_avatar.jpg")
 
       # Creating an image file larger than 5 MB
@@ -55,9 +55,10 @@ RSpec.feature("User Avatar") do
     end
 
     scenario "When the user does not have an avatar" do
-      expect(page).to(have_button("Remove Avatar Photo"))
-      # Remove existing mock avatar image (which is already attached)
-      click_button "Remove Avatar Photo"
+      no_avatar_user = create(:user, :no_avatar, email: "no_avatar@example.com", username: "no_avatar")
+      login_as(no_avatar_user)
+      visit edit_user_registration_path
+
       expect(page).not_to(have_button("Remove Avatar Photo"))
     end
   end

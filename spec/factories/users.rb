@@ -54,6 +54,10 @@ FactoryBot.define do
         "image/png",
       )
     end
+
+    trait :no_avatar do
+      avatar { nil }
+    end
   end
 
   factory :admin, class: User do
