@@ -53,7 +53,6 @@
 // Styling for QR code input
 #qr-navigation {
   @extend .text-center;
-  width: $qr-width;
 }
 
 .qr-result-item {

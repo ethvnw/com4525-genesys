@@ -33,15 +33,16 @@
   // The data shown on the form is very verbose right now, will change to a more user-friendly format
   // when we finalise the design, all possible elements are included here for future reference
 
-  #qr-codes-found
+  #qr-codes-found.d-none
   #qr-results.d-none
-  #qr-navigation.d-none
-    // type="button" is used to prevent form submission
-    %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
-    %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
-    // Image counter is updated dynamically based on the number of images uploaded
-    %p#image-counter.text-center.m-0
-      Image 1/1
+  #qr-codes-container.d-flex.justify-content-between.align-items-center.d-none
+    .d-flex.flex-column
+      #qr-canvas-container.d-none
+      #qr-navigation.mt-1.text-center.d-none
+        %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
+        %span#qr-counter.mx-3
+        %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+
 
   // f.file_field is not used as QR code images are not uploaded, instead the code values are
   = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")

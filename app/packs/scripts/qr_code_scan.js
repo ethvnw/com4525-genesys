@@ -1,49 +1,46 @@
 import jsQR from 'jsqr';
 import QRCode from 'qrcode';
 
-// DOMContentLoaded event to ensure the navigation buttons are available, script errors are avoided
 document.addEventListener('DOMContentLoaded', () => {
   let results = [];
   let currentIndex = 0;
 
   const input = document.getElementById('qr_codes_upload');
   const resultsContainer = document.getElementById('qr-results');
+  const canvasesContainer = document.getElementById('qr-canvas-container');
   const prevBtn = document.getElementById('prev-btn');
   const nextBtn = document.getElementById('next-btn');
-  const imageCounter = document.getElementById('image-counter');
+  const counter = document.getElementById('qr-counter');
 
-  // Function to show the current result based on the index
   function showResult(index) {
-    results.forEach((result, i) => {
-      // Show the current result and hide others
-      result.classList.replace(
+    results.forEach(({ text, canvas }, i) => {
+      text.classList.replace(
+        i === index ? 'd-none' : 'd-block',
+        i === index ? 'd-block' : 'd-none',
+      );
+      canvas.classList.replace(
         i === index ? 'd-none' : 'd-block',
         i === index ? 'd-block' : 'd-none',
       );
     });
 
-    // Enable/disable navigation buttons based on the current index
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === results.length - 1;
-
-    // Update the image counter
-    imageCounter.innerText = `Image ${index + 1}/${results.length}`;
+    counter.innerText = `${index + 1} of ${results.length}`;
   }
 
-  // When files are selected, read it and extract the QR code
   input.addEventListener('change', async (event) => {
     const { files } = event.target;
     if (!files.length) return;
 
     results = [];
-    const extractedCodes = []; // Store extracted QR codes
+    const extractedCodes = [];
     currentIndex = 0;
 
     resultsContainer.innerHTML = '';
     resultsContainer.classList.replace('d-block', 'd-none');
 
     Array.from(files).forEach((file) => {
-      // Use FileReader so the CSP doesn't block the image
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -51,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = e.target.result;
 
         img.onload = () => {
-          // Create a canvas and draw the image on it
           const canvas = document.createElement('canvas');
           canvas.width = img.width;
           canvas.height = img.height;
@@ -59,43 +55,50 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.drawImage(img, 0, 0, img.width, img.height);
           const imageData = ctx.getImageData(0, 0, img.width, img.height);
 
-          // When the image is loaded, extract the QR code using jsQR
           const code = jsQR(imageData.data, imageData.width, imageData.height);
 
           const fileResult = document.createElement('div');
           fileResult.classList.add('qr-result-item', 'd-none');
 
-          // QR Codes/error images are displayed in a 200x200 canvas
           const qrCanvas = document.createElement('canvas');
-          qrCanvas.width = 200; // Ensure fixed width for consistency
+          qrCanvas.width = 200;
           qrCanvas.height = 200;
           const qrCtx = qrCanvas.getContext('2d');
 
+          const canvasContainer = document.createElement('div');
+          canvasContainer.classList.add('qr-canvas-container', 'd-flex', 'justify-content-center', 'd-none');
+          canvasContainer.appendChild(qrCanvas);
+
+          const textContainer = document.createElement('div');
+          textContainer.classList.add('qr-text');
+
           if (code) {
-            // Add the extracted QR code to the list
-            extractedCodes.push(code.data);
-            // Draw the QR code in the canvas
-            fileResult.innerHTML = `
-              <p class="m-0">Extracted QR Code Data: <strong>${code.data}</strong></p>
-            `;
-            QRCode.toCanvas(qrCanvas, code.data, { width: 200, height: 200 });
+            if (!extractedCodes.includes(code.data)) {
+              extractedCodes.push(code.data);
+              textContainer.innerHTML = `<p class="m-0">Extracted QR Code Data: <strong>${code.data}</strong></p>`;
+              QRCode.toCanvas(qrCanvas, code.data, { width: 200, height: 200 });
+            } else {
+              textContainer.innerHTML = '<p class="m-0">Error: Duplicate QR code</p>';
+              qrCtx.drawImage(img, 0, 0, 200, 200);
+            }
           } else {
-            // If no QR code is found, show the original image, also in 200x200
-            fileResult.innerHTML = '<p class="m-0">No QR Code found in this image.</p>';
-            qrCtx.drawImage(img, 0, 0, 200, 200); // Draw original image in QR-sized canvas
+            textContainer.innerHTML = '<p class="m-0">No QR Code found in this image.</p>';
+            qrCtx.drawImage(img, 0, 0, 200, 200);
           }
 
-          fileResult.appendChild(qrCanvas);
-          results.push(fileResult);
+          fileResult.appendChild(textContainer);
+          canvasesContainer.appendChild(canvasContainer);
+          results.push({ text: fileResult, canvas: canvasContainer });
           resultsContainer.appendChild(fileResult);
 
           if (results.length === files.length) {
             resultsContainer.classList.replace('d-none', 'd-block');
+            canvasesContainer.classList.replace('d-none', 'd-block');
             document.getElementById('qr-navigation').classList.replace('d-none', 'd-block');
+            document.getElementById('qr-codes-container').classList.replace('d-none', 'd-block');
             showResult(0);
             document.getElementById('scannable_tickets').value = JSON.stringify(extractedCodes);
-
-            // Show the user how many QR codes were found
+            document.getElementById('qr-codes-found').classList.replace('d-none', 'd-block');
             document.getElementById('qr-codes-found').innerHTML = `Codes found in ${extractedCodes.length}/${files.length} images`;
           }
         };
@@ -105,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Event listeners for navigation buttons
   prevBtn.addEventListener('click', () => {
     if (currentIndex > 0) {
       currentIndex -= 1;
