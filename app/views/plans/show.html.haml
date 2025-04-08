@@ -32,6 +32,8 @@
     - if @plan.scannable_tickets.any?
       -# QR codes
       #qr-code-container.d-flex.justify-content-center.align-items-center
+      %h6#qr-code-text.text-center
+        = @plan.scannable_tickets[0].code
       #qr-navigation.mt-3
         %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
         %span#qr-counter
