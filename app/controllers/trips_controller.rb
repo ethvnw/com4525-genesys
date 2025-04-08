@@ -14,8 +14,13 @@ class TripsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # Only show trips that the user is a member of (use TripMemberships in db)
+    # Enforce presence of "view" query parameter
+    unless ["list", "map"].include?(params[:view].to_s)
+      redirect_to(trips_path(request.query_parameters.merge({ view: "list" }))) and return
+    end
+
     @trips = current_user.joined_trips.decorate
+    stream_response("trips/index")
   end
 
   def new
