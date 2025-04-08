@@ -102,15 +102,4 @@ class TripMembershipsController < ApplicationController
       :user_display_name,
     )
   end
-
-  def authorize_trip_memberships
-    trip = Trip.find(params[:trip_id])
-    unless can?(:manage, trip) && can?(:read, TripMembership)
-      raise CanCan::AccessDenied.new(
-        "You are not authorized to manage this trip's members.",
-        :read,
-        trip.trip_memberships,
-      )
-    end
-  end
 end
