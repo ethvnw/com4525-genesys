@@ -58,7 +58,7 @@ module ApplicationHelper
   ##
   # Generates a link which adds query parameters to the current path.
   # Useful for changing from map to list view, or for sorting.
-  # @param key [String] the key of the new parameter
+  # @param key [Symbol] the key of the new parameter
   # @param value [String] the value of the new parameter
   # @param icon [String] the Bootstrap icon class to use
   # @return [String] an HTML element containing the link
@@ -69,7 +69,7 @@ module ApplicationHelper
   def add_param_button(key, value, icon)
     link_to(
       url_for(request.query_parameters.merge({ key => value })),
-      class: "#{"active" if params[key] == value} change-view-link",
+      class: "#{"active " if params[key] == value}change-view-link",
       data: { turbo: "true" },
     ) do
       concat(content_tag(:i, nil, class: "#{icon} bi"))
