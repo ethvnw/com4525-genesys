@@ -79,7 +79,7 @@ module ApplicationHelper
 
   ##
   # Retrieves and formats error messages for a specific form field
-  # @param errors [Hash] the hash containing validation errors, generated with record.errors.to_hash(true)
+  # @param errors [Hash, nil] the hash containing validation errors, generated with record.errors.to_hash(true)
   # @param key [Symbol] the field key to get errors for
   # @return [String, nil] joined error messages for the field (or nil if no errors)
   def get_formatted_errors(errors, key)
@@ -93,13 +93,13 @@ module ApplicationHelper
 
   ##
   # Determines the Bootstrap validation class based on field errors
-  # @param errors [Hash] the errors hash containing validation errors
+  # @param errors [Hash, nil] the errors hash containing validation errors
   # @param key [Symbol] the field key to check for errors
   # @return [String, nil] 'is-invalid' if field has errors, 'is-valid' if errors exist but this field is valid,
   #                       nil otherwise
   def get_error_class_with(errors, key)
     if errors.present?
-      if errors.include?(key) && errors[key].present?
+      if errors[key].present?
         "is-invalid"
       else
         "is-valid"
