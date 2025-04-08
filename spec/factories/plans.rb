@@ -40,10 +40,4 @@ FactoryBot.define do
     end_location_longitude { 1.8734 }
     association :trip
   end
-
-  factory :plan_without_scannable_tickets do
-    transient do
-      scannable_tickets { [] }
-    end
-  end
 end
