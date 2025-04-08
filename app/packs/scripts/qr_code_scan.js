@@ -1,6 +1,7 @@
 import jsQR from 'jsqr';
 import QRCode from 'qrcode';
 
+// DOMContentLoaded event to ensure the navigation buttons are available, script errors are avoided
 document.addEventListener('DOMContentLoaded', () => {
   let results = [];
   let currentIndex = 0;
@@ -12,7 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('next-btn');
   const counter = document.getElementById('qr-counter');
 
+  // Function to show the current result based on the index and update the navigation buttons
   function showResult(index) {
+    // Show the current result and hide others
     results.forEach(({ text, canvas }, i) => {
       text.classList.replace(
         i === index ? 'd-none' : 'd-block',
@@ -24,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     });
 
+    // Enable/disable navigation buttons based on the current index
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === results.length - 1;
     counter.innerText = `${index + 1} of ${results.length}`;
@@ -33,14 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const { files } = event.target;
     if (!files.length) return;
 
-    results = [];
-    const extractedCodes = [];
+    results = []; // results is used to store the text and canvas elements
+    const extractedCodes = []; // Store extracted QR codes
     currentIndex = 0;
 
     resultsContainer.innerHTML = '';
     resultsContainer.classList.replace('d-block', 'd-none');
 
     Array.from(files).forEach((file) => {
+      // Use FileReader so the CSP doesn't block the image
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -48,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = e.target.result;
 
         img.onload = () => {
+          // Create a canvas and draw the image on it
           const canvas = document.createElement('canvas');
           canvas.width = img.width;
           canvas.height = img.height;
@@ -55,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.drawImage(img, 0, 0, img.width, img.height);
           const imageData = ctx.getImageData(0, 0, img.width, img.height);
 
+          // When the image is loaded, extract the QR code using jsQR
           const code = jsQR(imageData.data, imageData.width, imageData.height);
 
           const fileResult = document.createElement('div');
@@ -74,14 +81,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (code) {
             if (!extractedCodes.includes(code.data)) {
+              // If the QR code is not already in the extracted codes, add it
               extractedCodes.push(code.data);
               textContainer.innerHTML = `<p class="m-0">Extracted QR Code Data: <strong>${code.data}</strong></p>`;
               QRCode.toCanvas(qrCanvas, code.data, { width: 200, height: 200 });
             } else {
+              // If the QR code is a duplicate, show an error message & the original image
               textContainer.innerHTML = '<p class="m-0">Error: Duplicate QR code</p>';
               qrCtx.drawImage(img, 0, 0, 200, 200);
             }
           } else {
+            // If no QR code is found, show the original image, also in 200x200
             textContainer.innerHTML = '<p class="m-0">No QR Code found in this image.</p>';
             qrCtx.drawImage(img, 0, 0, 200, 200);
           }
@@ -108,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Event listeners for navigation buttons
   prevBtn.addEventListener('click', () => {
     if (currentIndex > 0) {
       currentIndex -= 1;
