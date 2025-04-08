@@ -1,0 +1,24 @@
+%h1.mb-4 Manage Members
+
+= render("partials/trip_memberships/form",
+         trip: @trip,
+         trip_membership: @trip_membership,
+         users: @users,
+         errors: @errors)
+
+%section.mb-5
+  %h2
+    %i.bi.bi-person-fill &nbsp;
+    Current Members
+
+  - @members.each do |member|
+    = render("partials/trip_memberships/member_card", member: member)
+
+- if @pending_members.any?
+  %section
+    %h2
+      %i.bi.bi-person-fill-exclamation &nbsp;
+      Pending Members
+
+    - @pending_members.each do |member|
+      = render("partials/trip_memberships/member_card", member: member)

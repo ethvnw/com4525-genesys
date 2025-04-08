@@ -1,0 +1,20 @@
+.card.mb-2{ class: member.is_invite_accepted? ? nil : "bg-body-secondary" }
+  .card-body
+    .d-flex.gap-3.align-items-center.justify-content-between
+      .d-flex.flex-column
+        .d-flex.gap-3.align-items-center.mb-2
+          = image_tag(member.user.decorate.avatar_or_default, class: "avatar-img")
+          .d-flex.flex-column
+            %p.mb-0= member.user_display_name
+            %p.fw-semibold.mb-0 @#{member.user.username}
+
+        %p.mb-0.fst-italic
+          = member.invitation_date_text
+
+      = link_to(trip_trip_membership_path(member.trip, member),
+                class: "btn btn-outline-danger fw-bold",
+                method: :delete,
+                data: { confirm: "Are you sure you want to remove this member?" }) do
+        %i.bi.bi-person-fill-x
+        &nbsp;
+        = member.button_text

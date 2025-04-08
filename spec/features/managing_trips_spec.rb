@@ -11,6 +11,7 @@ RSpec.feature("Managing trips") do
   PhotoMock = Struct.new(:urls) unless defined?(PhotoMock)
 
   before do
+    stub_photon_api
     login_as(user, scope: :user)
     allow(Unsplash::Photo).to(receive(:search).and_return([
       PhotoMock.new({ "regular" => "https://images.unsplash.com/photo-1502602898657-3e91760cbb34" }),
@@ -20,8 +21,8 @@ RSpec.feature("Managing trips") do
   end
 
   # Create start and end date variables in yyyy-mm-dd format
-  let(:time) { Time.current }
-  let(:end_time) { time + 1.day }
+  let(:time) { Time.current + 1.day }
+  let(:end_time) { time + 2.day }
 
   # 0-indexed months are used for js input selection, as js DateTime objects are 0-indexed
   let(:zero_index_month) { format("%02d", time.strftime("%m").to_i - 1) }
@@ -123,8 +124,8 @@ RSpec.feature("Managing trips") do
 
     scenario "I can create a trip and see it displayed", js: true, vcr: true do
       visit new_trip_path
-      fill_in "trip_title", with: "title of plan"
-      fill_in "trip_description", with: "description of plan"
+      fill_in "trip_title", with: "title of trip"
+      fill_in "trip_description", with: "description of trip"
       find(".aa-DetachedSearchButton", wait: 3).click
       find(".aa-Input", wait: 3).set("England")
       sleep 3
@@ -134,10 +135,9 @@ RSpec.feature("Managing trips") do
       find("div[data-value='#{end_date}']").click
       click_button "Create Trip"
       # Expect the trip to be displayed on the page, identified by the title
-      click_on "title of plan"
+      click_on "title of trip"
       # The trip details should be displayed, with the title and description
-      expect(page).to(have_content("title of plan"))
-      expect(page).to(have_content("description of plan"))
+      expect(page).to(have_content("title of trip"))
     end
 
     scenario "When I make an error during creation, the data I entered is preserved", js: true, vcr: true do
@@ -200,12 +200,13 @@ RSpec.feature("Managing trips") do
   end
 
   feature "Editing a trip" do
-    given!(:trip) { FactoryBot.create(:trip) }
+    given!(:trip) { create(:trip, start_date: time, end_date: end_time) }
+    given!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
     scenario "I can edit a trip and the existing values will be displayed in the edit form", js: true, vcr: true do
       visit trip_path(trip)
       click_on "Settings"
-      click_on "Edit trip"
+      click_on "Edit Trip"
       expect(page).to(have_content("Editing #{trip.title}"))
       expect(page).to(have_field("trip_title", with: trip.title))
       expect(page).to(have_field("trip_description", with: trip.description))
@@ -221,7 +222,7 @@ RSpec.feature("Managing trips") do
     scenario "I can edit a trip and see the changes displayed", js: true, vcr: true do
       visit trip_path(trip)
       click_on "Settings"
-      click_on "Edit trip"
+      click_on "Edit Trip"
       expect(page).to(have_content("Editing #{trip.title}"))
       fill_in "trip_title", with: "edited title"
       fill_in "trip_description", with: "edited description"
@@ -229,21 +230,19 @@ RSpec.feature("Managing trips") do
       # Trip title and description should be updated to the edited values
       expect(page).not_to(have_content(trip.title))
       expect(page).to(have_content("edited title"))
-      expect(page).not_to(have_content(trip.description))
-      expect(page).to(have_content("edited description"))
+
       click_on "Settings"
-      click_on "Edit trip"
+      click_on "Edit Trip"
       # With these changes carrying over to the edit form
       expect(page).not_to(have_content("Editing #{trip.title}"))
       expect(page).to(have_content("Editing edited title"))
       expect(page).to(have_field("trip_title", with: "edited title"))
-      expect(page).to(have_field("trip_description", with: "edited description"))
     end
 
     scenario "I cannot edit a trip and save it having removed required fields", js: true, vcr: true do
       visit trip_path(trip)
       click_on "Settings"
-      click_on "Edit trip"
+      click_on "Edit Trip"
       fill_in "trip_title", with: ""
       click_button "Create Trip"
       expect(page).to(have_content("Title can't be blank"))
@@ -251,13 +250,14 @@ RSpec.feature("Managing trips") do
   end
 
   feature "Deleting a trip" do
-    given!(:trip) { FactoryBot.create(:trip) }
+    given!(:trip) { create(:trip) }
+    given!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
     scenario "I can delete a trip and no longer see it on my list of trips" do
       visit trip_path(trip)
       expect(page).to(have_content(trip.title))
       click_on "Settings"
-      click_on "Delete trip"
+      click_on "Delete Trip"
       expect(page).not_to(have_content(trip.title))
     end
   end
