@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import { MAP_CONFIG, TILE_LAYER_CONFIG } from './map_config';
+import { MAP_CONFIG, TILE_LAYER_CONFIG } from '../constants/map_constants';
 
 /**
  * Wrapper class for Leaflet map instances

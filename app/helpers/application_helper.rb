@@ -56,6 +56,28 @@ module ApplicationHelper
   end
 
   ##
+  # Generates a link which adds query parameters to the current path.
+  # Useful for changing from map to list view, or for sorting.
+  # @param key [String] the key of the new parameter
+  # @param value [String] the value of the new parameter
+  # @param icon [String] the Bootstrap icon class to use
+  # @return [String] an HTML element containing the link
+  #
+  # @example Switching to map view (will add `view=map` to query parameters)
+  #   = add_param_button(:view, "map", "bi-pin-map")
+  #
+  def add_param_button(key, value, icon)
+    link_to(
+      url_for(request.query_parameters.merge({ key => value })),
+      class: "#{"active" if params[key] == value} change-view-link",
+      data: { turbo: "true" },
+    ) do
+      concat(content_tag(:i, nil, class: "#{icon} bi"))
+      concat(content_tag(:span, value.humanize))
+    end
+  end
+
+  ##
   # Retrieves and formats error messages for a specific form field
   # @param errors [Hash] the hash containing validation errors, generated with record.errors.to_hash(true)
   # @param key [Symbol] the field key to get errors for

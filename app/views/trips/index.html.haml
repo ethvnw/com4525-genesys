@@ -2,9 +2,8 @@
   = link_to(new_trip_path, class: "btn btn-primary") do
     %i.bi.bi-plus-circle &nbsp;
     Create Trip
-  %button.btn.btn-light
-    %i.bi.bi-chevron-down &nbsp;
-    Sort by
+  #view-buttons.d-flex.gap-2
+    = render("partials/trips/view_buttons")
 
 - if @trips.empty?
   .d-flex.flex-column.gap-4.align-items-center.justify-content-center.h-75.fs-1.text-dark-emphasis
@@ -13,6 +12,8 @@
       %p.mb-0 You have no trips!
       %p.mb-0 Create a trip to get started.
 
-- @trips.each_with_index do |trip|
-  .mb-3
-    = render("partials/trips/trip_card", trip: trip)
+#trips-view
+  - if params[:view] == "map"
+    = render("partials/trips/map_view", trips: @trips)
+  - else
+    = render("partials/trips/list_view", trips: @trips)
