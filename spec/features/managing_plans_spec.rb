@@ -159,10 +159,39 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("England"))
       expect(page).to(have_content("Brazil"))
     end
+
+    scenario "I can add a QR code to a plan and see a preview of it", js: true do
+      visit new_trip_plan_path(trip)
+      # qr_hello_world.png is a QR code that contains the data "Hello World!"
+      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
+      # Cannot do canvas tests with Capybara, so the text preview is checked for successful processing.
+      expect(page).to(have_selector("canvas"))
+      expect(page).to(have_content("Extracted QR Code Data: Hello World!"))
+      expect(page).to(have_content("Image 1/1"))
+    end
+
+    scenario "I can add a QR code to a plan and see it on the show page", js: true do
+      visit new_trip_plan_path(trip)
+      sleep_for_js
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("England")
+      find_all(".aa-Item").first.click
+      fill_in "Start date", with: Time.current + 1.day
+      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
+      expect(page).to(have_content("Extracted QR Code Data: Hello World!"))
+      click_on "Save"
+      sleep_for_js
+      visit trip_plan_path(trip, Plan.first)
+      # Expect the QR code text to be present on the plan page
+      expect(page).to(have_content("Hello World!"))
+    end
   end
 
   feature "Edit a plan" do
     given!(:plan) { FactoryBot.create(:plan) }
+    let(:plan_with_ticket) { create(:scannable_ticket).plan }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
@@ -217,6 +246,40 @@ RSpec.feature("Managing plans") do
 
       expect(find("#end-location-autocomplete", visible: :all)).not_to(be_visible)
     end
+
+    scenario "I can add additional QR codes to a plan and see them on the plan page", js: true do
+      visit trip_plan_path(trip, plan_with_ticket)
+      # Expect the QR code text to be present on the plan page
+      expect(page).to(have_content("Mock ticket code"))
+      expect(page).to(have_content("1 of 1"))
+      visit edit_trip_plan_path(trip, plan_with_ticket)
+      # Add an new ticket with a different QR code value
+      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
+      sleep_for_js
+      click_on "Save"
+      # Expect the "already existed" notice to not be present
+      expect(page).not_to(have_content("Some QR codes already existed..."))
+      # Expect there to now be two QR codes
+      visit trip_plan_path(trip, plan_with_ticket)
+      expect(page).to(have_content("1 of 2"))
+    end
+
+    scenario "If I try to add an already existing QR code, a notice is shown and it is not added", js: true do
+      visit trip_plan_path(trip, plan_with_ticket)
+      # Expect the QR code text to be present on the plan page
+      expect(page).to(have_content("Mock ticket code"))
+      expect(page).to(have_content("1 of 1"))
+      visit edit_trip_plan_path(trip, plan_with_ticket)
+      # qr_mock.png is a QR code that contains the data "Mock ticket code"
+      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_mock.png"))
+      sleep_for_js
+      click_on "Save"
+      # Expect a notice indicating the QR code already exists
+      expect(page).to(have_content("Some QR codes already existed..."))
+      # Expect there to still only be one QR code
+      visit trip_plan_path(trip, plan_with_ticket)
+      expect(page).to(have_content("1 of 1"))
+    end
   end
 
   feature "Delete a plan" do
@@ -230,6 +293,17 @@ RSpec.feature("Managing plans") do
         click_on "Delete plan"
       end
       expect(page).not_to(have_content(plan.start_location_name))
+    end
+  end
+
+  feature "Viewing plans" do
+    given!(:plan) { FactoryBot.create(:plan) }
+    let(:plan_with_ticket) { create(:scannable_ticket).plan }
+
+    scenario "If a plan doesn't have a scannable ticket, I see a message indicating that", js: true do
+      visit trip_plan_path(trip, plan)
+      # Expect a notice indicating no scannable tickets to be present
+      expect(page).to(have_content("No tickets available for this plan."))
     end
   end
 end
