@@ -15,11 +15,11 @@ RSpec.feature("Managing trips") do
       PhotoMock.new({ "regular" => "https://images.unsplash.com/photo-1502602898657-3e91760cbb34" }),
     ]))
 
-    time_travel_everywhere(Time.new(2020, 1, 1, 0, 0, 0))
+    time_travel_everywhere(Time.new(2020, 1, 1, 0, 0, 0, "utc"))
   end
 
   # Create start and end date variables in yyyy-mm-dd format
-  let(:time) { Time.current + 1.day }
+  let(:time) { Time.current }
   let(:end_time) { time + 2.day }
 
   # 0-indexed months are used for js input selection, as js DateTime objects are 0-indexed
