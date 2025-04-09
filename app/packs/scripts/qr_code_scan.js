@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     resultsContainer.innerHTML = '';
     resultsContainer.classList.replace('d-block', 'd-none');
+    canvasesContainer.innerHTML = '';
+    canvasesContainer.classList.replace('d-block', 'd-none');
 
     Array.from(files).forEach((file) => {
       // Use FileReader so the CSP doesn't block the image
