@@ -39,13 +39,12 @@
 
   #qr-codes-found.d-none
   #qr-results.d-none
-  #qr-codes-container.d-flex.justify-content-between.align-items-center.d-none
-    .d-flex.flex-column
-      #qr-canvas-container.d-none
-      #qr-navigation.mt-1.text-center.d-none
-        %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
-        %span#qr-counter.mx-3
-        %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+  #qr-codes-container.d-flex.flex-column.d-none
+    #qr-canvas-container.d-none
+    #qr-navigation.mt-1.text-center.d-none
+      %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
+      %span#qr-counter.mx-3
+      %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
 
 
   // f.file_field is not used as QR code images are not uploaded, instead the code values are
