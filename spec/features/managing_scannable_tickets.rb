@@ -4,16 +4,18 @@ require "rails_helper"
 
 RSpec.feature("Managing plans") do
   let(:user) { create(:user) }
-  let(:trip) { FactoryBot.create(:trip) }
+  let(:trip) { create(:trip) }
+  let(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
   before do
+    trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
     travel_to(Time.parse("2025-01-10 1:30:00"))
     stub_photon_api
   end
 
   feature "Delete a scannable ticket" do
-    let(:plan_with_ticket) { create(:scannable_ticket).plan }
+    let(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
 
     scenario "I can delete a scannable and see it removed from the plan" do
       # Check that the ticket is present in the plan
