@@ -115,8 +115,7 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I can create 2 plans within the same day and see their information on the plans index page",
-      js: true,
-      vcr: true do
+      js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"

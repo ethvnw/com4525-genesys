@@ -11,11 +11,6 @@ RSpec.feature("Sharing Features") do
     create(:app_features_subscription_tier, app_feature: app_feature, subscription_tier: subscription_tier)
   end
 
-  # Switch back to original tab after each test (sharing tests require a new tab)
-  after(opens_new_tab: true) do
-    page.driver.browser.close
-  end
-
   scenario "I can view a feature" do
     visit root_path
 
@@ -36,46 +31,25 @@ RSpec.feature("Sharing Features") do
     expect("#{uri.path}?#{uri.query}").to(eq(share_api_feature_path(id: app_feature.id, method: "email")))
   end
 
-  scenario "I can share a feature on Facebook", js: true, opens_new_tab: true do
+  scenario "I can share a feature on Facebook", js: true do
     visit root_path
-
     click_button "Share"
-
+    expect_to_share_to("https://www.facebook.com/sharer/sharer.php", [ROOT_URL])
     click_link "Facebook"
-
-    # Switch to new tab to check share URL
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    expect(page).to(have_current_path("https://www.facebook.com/sharer/sharer.php?u=roamio.com"))
   end
 
-  scenario "I can share a feature on Twitter", js: true, opens_new_tab: true do
+  scenario "I can share a feature on Twitter", js: true do
     visit root_path
-
     click_button "Share"
-
+    expect_to_share_to("https://x.com/intent/", [app_feature.name, app_feature.description.downcase])
     click_link "Twitter"
-
-    # Switch to new tab to check share URL
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    decoded_link = CGI.unescape(current_url)
-    expect(decoded_link).to(include("https://x.com/intent/"))
-    expect(decoded_link).to(include(app_feature.name))
-    expect(decoded_link).to(include(app_feature.description.downcase))
   end
 
-  scenario "I can share a feature on WhatsApp", js: true, opens_new_tab: true do
+  scenario "I can share a feature on WhatsApp", js: true do
     visit root_path
-
     click_button "Share"
-
+    expect_to_share_to("https://wa.me/", [app_feature.name, app_feature.description.downcase])
     click_link "WhatsApp"
-
-    # Switch to new tab to check share URL
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    decoded_link = CGI.unescape(current_url)
-    expect(decoded_link).to(include("https://api.whatsapp.com/send/?text="))
-    expect(decoded_link).to(include(app_feature.name))
-    expect(decoded_link).to(include(app_feature.description.downcase))
   end
 
   feature "Visiting an invalid share route" do

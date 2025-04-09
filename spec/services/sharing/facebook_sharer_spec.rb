@@ -10,7 +10,7 @@ RSpec.describe(Sharing::FacebookSharer) do
       facebook = Sharing::FacebookSharer.call(feature)
 
       expect(facebook).to(start_with("https://www.facebook.com"))
-      expect(facebook.include?("roamio.com")).to(be_truthy)
+      expect(facebook.include?(ROOT_URL)).to(be_truthy)
     end
   end
 end

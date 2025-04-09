@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "webmock/rspec"
 
 RSpec.feature("Managing trips") do
   let(:user) { create(:user) }
@@ -41,7 +40,7 @@ RSpec.feature("Managing trips") do
   feature "Creating a trip" do
     scenario "I cannot create a trip with no title", js: true do
       visit new_trip_path
-      fill_in "trip_description", with: "description of plan"
+      fill_in "trip_description", with: "Mock Trip Description"
       # Fill in the location search field
       select_location("England")
       # Fill in the date range
@@ -55,7 +54,7 @@ RSpec.feature("Managing trips") do
     scenario "I cannot create a trip with a title longer than the limit (100 characters)", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "a" * 101
-      fill_in "trip_description", with: "description of plan"
+      fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
@@ -66,7 +65,7 @@ RSpec.feature("Managing trips") do
 
     scenario "I cannot create a trip with no description", js: true do
       visit new_trip_path
-      fill_in "trip_title", with: "title of plan"
+      fill_in "trip_title", with: "Mock Trip Title"
       select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
@@ -77,7 +76,7 @@ RSpec.feature("Managing trips") do
 
     scenario "I cannot create a trip with a description longer than the limit (500 characters)", js: true do
       visit new_trip_path
-      fill_in "trip_title", with: "title of plan"
+      fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "a" * 501
       select_location("England")
       find("#datetimepicker-input").click
@@ -89,8 +88,8 @@ RSpec.feature("Managing trips") do
 
     scenario "I cannot create a trip with no date range", js: true do
       visit new_trip_path
-      fill_in "trip_title", with: "title of plan"
-      fill_in "trip_description", with: "description of plan"
+      fill_in "trip_title", with: "Mock Trip Title"
+      fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       click_button "Create Trip"
       expect(page).to(have_content("Date can't be blank"))
@@ -98,8 +97,8 @@ RSpec.feature("Managing trips") do
 
     scenario "I cannot create a trip with no location", js: true do
       visit new_trip_path
-      fill_in "trip_title", with: "title of plan"
-      fill_in "trip_description", with: "description of plan"
+      fill_in "trip_title", with: "Mock Trip Title"
+      fill_in "trip_description", with: "Mock Trip Description"
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
@@ -109,24 +108,27 @@ RSpec.feature("Managing trips") do
 
     scenario "I can create a trip and see it displayed", js: true do
       visit new_trip_path
-      fill_in "trip_title", with: "title of plan"
-      fill_in "trip_description", with: "description of plan"
+      fill_in "trip_title", with: "Mock Trip Title"
+      fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
       click_button "Create Trip"
+      sleep 5
+      visit trips_path
       # Expect the trip to be displayed on the page, identified by the title
-      click_on "title of trip"
+      click_on "Mock Trip Title"
       # The trip details should be displayed, with the title and description
-      expect(page).to(have_content("title of trip"))
+      expect(page).to(have_content("Mock Trip Title"))
+      expect(page).to(have_content("Mock Trip Description"))
     end
 
     scenario "When I make an error during creation, the data I entered is preserved", js: true do
       # Fill in the form with the required fields
       visit new_trip_path
       fill_in "trip_title", with: "a" * 101 # Title too long error
-      fill_in "trip_description", with: "description of plan"
+      fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
@@ -134,7 +136,7 @@ RSpec.feature("Managing trips") do
       click_button "Create Trip"
       # Expect the form to be displayed with the title and description fields filled in
       expect(page).to(have_field("trip_title", with: "a" * 101))
-      expect(page).to(have_field("trip_description", with: "description of plan"))
+      expect(page).to(have_field("trip_description", with: "Mock Trip Description"))
       within ".aa-DetachedSearchButtonQuery" do
         expect(page).to(have_content("England"))
       end
@@ -147,12 +149,11 @@ RSpec.feature("Managing trips") do
     end
 
     scenario "When I revisit the trip creation page, previously-submitted information is preserved",
-      js: true,
-      vcr: true do
+      js: true do
       # Fill in the form with the required fields
       visit new_trip_path
       fill_in "trip_title", with: "a" * 101 # Title too long error
-      fill_in "trip_description", with: "description of plan"
+      fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       find("#datetimepicker-input").click
       find("div[data-value='#{start_date}']").click
@@ -164,7 +165,7 @@ RSpec.feature("Managing trips") do
 
       # Expect the form to be displayed with the title and description fields filled in
       expect(page).to(have_field("trip_title", with: "a" * 101))
-      expect(page).to(have_field("trip_description", with: "description of plan"))
+      expect(page).to(have_field("trip_description", with: "Mock Trip Description"))
       within ".aa-DetachedSearchButtonQuery" do
         expect(page).to(have_content("England"))
       end
