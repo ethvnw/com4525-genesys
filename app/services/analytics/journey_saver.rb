@@ -4,8 +4,8 @@ module Analytics
   ##
   # Base class for saving landing page journey to the database
   class JourneySaver < ApplicationService
-    # @param [Integer] registration_id the ID of the registration to save the journey for
-    # @param [Array<Hash>] journey the array of journey points
+    # @param registration_id [Integer] the ID of the registration to save the journey for
+    # @param journey [Array<Hash>] the array of journey points
     def initialize(registration_id, journey)
       super()
       @registration_id = registration_id
@@ -22,7 +22,7 @@ module Analytics
 
     ##
     # Saves all instances of the user sharing a feature to the feature_shares table of the DB
-    # @param [Array<Hash>] feature_shares all of the feature share instances from the user's landing page journey
+    # @param feature_shares [Array<Hash>] all of the feature share instances from the user's landing page journey
     def save_feature_shares(feature_shares)
       feature_shares.each do |feature_share|
         FeatureShare.create(
@@ -36,7 +36,7 @@ module Analytics
 
     ##
     # Saves all instances of the user clicking on a question to the question_clicks table of the DB
-    # @param [Array<Hash>] question_clicks all of the question click instances from the user's landing page journey
+    # @param question_clicks [Array<Hash>] all of the question click instances from the user's landing page journey
     def save_question_clicks(question_clicks)
       question_clicks.each do |question_click|
         QuestionClick.create(
