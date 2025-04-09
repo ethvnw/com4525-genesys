@@ -35,7 +35,7 @@ module Project
     config.action_dispatch.rescue_responses["Mime::Type::InvalidMimeType"] = :bad_request
     config.action_dispatch.rescue_responses["URI::InvalidURIError"] = :bad_request
 
-    config.time_zone = "London"
+    config.time_zone = "UTC"
 
     config.generators do |g|
       g.template_engine(:haml)

@@ -21,8 +21,8 @@ FactoryBot.define do
     title { "Mock Trip" }
     description { "Mock Trip Description" }
 
-    start_date { Time.current + 1.day }
-    end_date { Time.current + 2.days }
+    start_date { Time.current }
+    end_date { Time.current + 1.day }
 
     location_name { "The Peak District" }
     location_latitude { 53.3673 }
