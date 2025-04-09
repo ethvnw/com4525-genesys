@@ -96,8 +96,7 @@ RSpec.feature("Managing plans") do
     scenario "I can input an end location if I choose a travel plan", js: true do
       visit new_trip_plan_path(trip)
       select "Travel By Plane", from: "plan_plan_type"
-      sleep_for_js
-      expect(find("#end-location-autocomplete", visible: :all)).to(be_visible)
+      expect(page).to(have_selector("#end-location-autocomplete", visible: true))
     end
 
     scenario "I can create a plan and see its information on the plans index page", js: true do
@@ -107,7 +106,9 @@ RSpec.feature("Managing plans") do
       select_location("England")
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
-      visit trip_path(trip)
+
+      await_message("Plan created successfully")
+
       expect(page).to(have_content("Test Title"))
       expect(page).to(have_content("Other"))
       expect(page).to(have_content("England"))
@@ -129,7 +130,8 @@ RSpec.feature("Managing plans") do
       fill_in "Start date", with: Time.current + 1.day + 2.hours
       click_on "Save"
 
-      visit trip_path(trip)
+      await_message("Plan created successfully")
+
       expect(page).to(have_content("England"))
       expect(page).to(have_content("Brazil"))
     end
@@ -147,6 +149,7 @@ RSpec.feature("Managing plans") do
 
       select_location("Brazil")
       click_on "Save"
+      await_message("Plan updated successfully")
       expect(page).not_to(have_content("England"))
     end
 
@@ -159,6 +162,7 @@ RSpec.feature("Managing plans") do
 
       select "Restaurant", from: "plan_plan_type"
       click_on "Save"
+      await_message("Plan updated successfully")
       expect(page).to(have_content("Restaurant"))
     end
 
@@ -180,14 +184,9 @@ RSpec.feature("Managing plans") do
         find("button").click
         click_on "Edit Plan"
       end
-
-      sleep_for_js
-      expect(find("#end-location-autocomplete", visible: :all)).to(be_visible)
-
+      expect(find("#end-location-autocomplete", visible: :all, wait: 5)).to(be_visible)
       select "Restaurant", from: "plan_plan_type"
-      sleep_for_js
-
-      expect(find("#end-location-autocomplete", visible: :all)).not_to(be_visible)
+      expect(find("#end-location-autocomplete", visible: :all, wait: 5)).not_to(be_visible)
     end
   end
 
@@ -201,6 +200,7 @@ RSpec.feature("Managing plans") do
         find("button").click
         click_on "Delete Plan"
       end
+      await_message("Plan deleted successfully")
       expect(page).not_to(have_content(plan.start_location_name))
     end
   end

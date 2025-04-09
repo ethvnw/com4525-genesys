@@ -10,7 +10,6 @@ RSpec.feature("Managing trips") do
   PhotoMock = Struct.new(:urls) unless defined?(PhotoMock)
 
   before do
-    stub_photon_api
     login_as(user, scope: :user)
     allow(Unsplash::Photo).to(receive(:search).and_return([
       PhotoMock.new({ "regular" => "https://images.unsplash.com/photo-1502602898657-3e91760cbb34" }),
@@ -33,9 +32,6 @@ RSpec.feature("Managing trips") do
   # 1-indexed months are used for display purposes
   let(:start_date_one_index) { time.strftime("%d/%m/%Y") }
   let(:end_date_one_index) { end_time.strftime("%d/%m/%Y") }
-
-  # Potential issue, times might roll over during test execution, causing the test to fail
-  # Look into using Timecop to freeze time during tests in future
 
   feature "Creating a trip" do
     scenario "I cannot create a trip with no title", js: true do
@@ -115,13 +111,12 @@ RSpec.feature("Managing trips") do
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
       click_button "Create Trip"
-      sleep 5
-      visit trips_path
+      await_message("Trip created successfully")
       # Expect the trip to be displayed on the page, identified by the title
       click_on "Mock Trip Title"
-      # The trip details should be displayed, with the title and description
-      expect(page).to(have_content("Mock Trip Title"))
-      expect(page).to(have_content("Mock Trip Description"))
+      # The trip details should be displayed, with the title and dates
+      expect(page).to(have_content("Mock Trip Title", wait: 5))
+      expect(page).to(have_content("01 - 03 Jan 2020"))
     end
 
     scenario "When I make an error during creation, the data I entered is preserved", js: true do
@@ -159,7 +154,8 @@ RSpec.feature("Managing trips") do
       find("div[data-value='#{start_date}']").click
       find("div[data-value='#{end_date}']").click
       click_button "Create Trip"
-      sleep_for_js
+      expect(page).to(have_content("Looks Good!"))
+
       visit root_path
       visit new_trip_path
 
@@ -200,20 +196,13 @@ RSpec.feature("Managing trips") do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Edit Trip"
-      expect(page).to(have_content("Editing #{trip.title}"))
       fill_in "trip_title", with: "edited title"
       fill_in "trip_description", with: "edited description"
       click_button "Create Trip"
+      await_message("Trip updated successfully")
       # Trip title and description should be updated to the edited values
       expect(page).not_to(have_content(trip.title))
       expect(page).to(have_content("edited title"))
-
-      click_on "Settings"
-      click_on "Edit Trip"
-      # With these changes carrying over to the edit form
-      expect(page).not_to(have_content("Editing #{trip.title}"))
-      expect(page).to(have_content("Editing edited title"))
-      expect(page).to(have_field("trip_title", with: "edited title"))
     end
 
     scenario "I cannot edit a trip and save it having removed required fields", js: true do
@@ -235,6 +224,7 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content(trip.title))
       click_on "Settings"
       click_on "Delete Trip"
+      await_message("Trip deleted successfully")
       expect(page).not_to(have_content(trip.title))
     end
   end

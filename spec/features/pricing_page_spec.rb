@@ -65,7 +65,7 @@ RSpec.feature("Pricing page", type: :feature) do
 
     click_on "Get Explorer #{explorer_tier.name}"
 
-    sleep_for_js
+    expect(page).to(have_content("Hello! You've caught us early"))
     expect(explorer_tier.reload.engagement_counter).to(eq(inital_engagement + 1))
   end
 end

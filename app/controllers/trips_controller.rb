@@ -51,7 +51,7 @@ class TripsController < ApplicationController
       membership.sender_user_id = current_user.id
       membership.save
 
-      redirect_to(trips_path, notice: "Your trip has been submitted.")
+      redirect_to(trips_path, notice: "Trip created successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
       session[:trip_data] =

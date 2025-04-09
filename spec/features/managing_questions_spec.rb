@@ -35,7 +35,7 @@ RSpec.feature("Managing questions") do
 
       expect(Question.find(question.id).engagement_counter).to(be_zero)
       click_button(id: "question_#{question.id}")
-      sleep_for_js
+      expect(page).to(have_content("Answer"))
       expect(Question.find(question.id).engagement_counter).to(eq(1))
     end
 
@@ -136,6 +136,7 @@ RSpec.feature("Managing questions") do
 
       fill_in "answer_#{question.id}", with: "An answer"
       click_on "Submit Answer"
+      await_message("Your answer has been submitted")
       within("#item_#{question.id}") do
         expect(page).to(have_content("An answer"))
       end
@@ -150,7 +151,7 @@ RSpec.feature("Managing questions") do
       end
       fill_in "answer_#{question.id}", with: "An answer"
       click_on "Submit Answer"
-      sleep_for_js
+      await_message("Your answer has been submitted")
       visit faq_path
       click_on "Mock question" # expand question
       expect(page).to(have_content("An answer"))

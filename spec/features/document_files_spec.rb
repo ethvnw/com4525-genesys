@@ -33,9 +33,6 @@ RSpec.feature("Managing Documents") do
         find("button.accordion-button").click
       end
 
-      # Sleep added for dropdown animation
-      sleep_for_js
-
       # All documents uploaded should appear, existing and new
       expect(page).to(have_link("test.pdf"))
       expect(page).to(have_link("test2.pdf"))

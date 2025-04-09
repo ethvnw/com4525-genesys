@@ -71,9 +71,14 @@ RSpec.feature("Sharing Features") do
 
     click_button "Share"
 
+    # Stub redirect
+    expect_any_instance_of(Api::FeaturesController).to(receive(:redirect_to)) do |controller|
+      # Check engagement counter in here, as it will have updated by the time `redirect_to` is called
+      expect(app_feature.reload.engagement_counter).to(eq(inital_engagement + 1))
+
+      controller.render(plain: "Mock Response")
+    end
+
     click_link "Twitter"
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    sleep_for_js
-    expect(app_feature.reload.engagement_counter).to(eq(inital_engagement + 1))
   end
 end
