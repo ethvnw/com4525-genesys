@@ -37,6 +37,7 @@
   color: $body-color;
   padding: 0;
   display: flex;
+  height: 2.375rem;
 }
 
 // form-control-btn is used for buttons that look like text inputs (e.g. date range picker)
@@ -48,6 +49,10 @@
 .form-control-btn-selected{
   @extend .form-control-btn;
   color: $body-color;
+}
+
+.membership-button {
+  height: 2.375rem;
 }
 
 // Styling for QR code input

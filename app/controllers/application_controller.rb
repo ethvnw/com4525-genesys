@@ -23,6 +23,8 @@ class ApplicationController < ActionController::Base
   # Permit parameters such as username and email
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  before_action :check_for_notifications
+
   # Permit username and email when signing up or updating details
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email])
@@ -78,5 +80,13 @@ class ApplicationController < ActionController::Base
       home_path,
       flash: { notice: flash[:notice], alert: flash[:alert], notifications: flash[:notifications] },
     )
+  end
+
+  def check_for_notifications
+    return unless current_user
+
+    pending_trip_memberships = current_user.trip_memberships.where(is_invite_accepted: false)
+    @inbox_count = pending_trip_memberships.count
+    @inbox_msgs = pending_trip_memberships
   end
 end

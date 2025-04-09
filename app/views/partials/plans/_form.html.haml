@@ -1,6 +1,7 @@
 = simple_form_for([trip, plan],
                   builder: ValidatedFormBuilder,
                   errors: errors,
+                  multipart: true,
                   html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
   = f.validated_input(:title,
                       placeholder: "Enter the title of the plan...")
@@ -12,13 +13,13 @@
 
   .d-flex.flex-column.mb-3
     = f.label("Start location", class: "mb-1", for: "#start-location-autocomplete")
-    #start-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :start_location_name) }
+    #start-location-autocomplete{ class: get_error_class_with(errors, :start_location_name) }
     = form_error_message(errors, :start_location_name)
     .valid-feedback Looks good!
 
   #end-location-container.d-none.d-flex.flex-column.mb-3
     = f.label("End location", class: "mb-1", for: "#end-location-autocomplete")
-    #end-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :end_location_name) }
+    #end-location-autocomplete{ class: get_error_class_with(errors, :end_location_name) }
     = form_error_message(errors, :end_location_name)
     .valid-feedback Looks good!
 
@@ -27,8 +28,11 @@
   = f.validated_datetime(:start_date, required: true)
   = f.validated_datetime(:end_date, required: true)
 
+  = f.label(:documents, "Upload PDFs", class: "fw-semibold")
+  = f.file_field(:documents, multiple: true, accept: "application/pdf", class: "form-control")
+
   // QR code upload
-  = f.label("Upload scannable tickets (QR codes)", class: "mb-1", for: "#qr_codes_upload")
+  = f.label("Upload scannable tickets (QR codes)", class: "mb-1 fw-semibold", for: "#qr_codes_upload")
 
   // The data shown on the form is very verbose right now, will change to a more user-friendly format
   // when we finalise the design, all possible elements are included here for future reference
@@ -63,6 +67,10 @@
                    id: "end_location_latitude_input")
   = f.hidden_field(:end_location_longitude,
                    id: "end_location_longitude_input")
+
+- if plan.documents.attached?
+  %h4.fw-semibold Documents
+  = render("partials/plans/documents_list", plan: plan)
 
 - if plan.scannable_tickets.any?
   %h4.fw-semibold Scannable tickets

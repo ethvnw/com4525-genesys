@@ -2,7 +2,7 @@
 
 # A basic controller from the template app
 class PagesController < ApplicationController
-  layout "user", only: [:home]
+  layout "user", only: [:home, :inbox]
   before_action :authorize_members_access, only: [:landing, :faq]
   before_action :authenticate_user!, only: :home
 
@@ -35,7 +35,9 @@ class PagesController < ApplicationController
   end
 
   def home
-    @inbox_count = 0
     @errors = flash[:errors]
+  end
+
+  def inbox
   end
 end

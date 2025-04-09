@@ -17,3 +17,6 @@
 
   - if plan.scannable_tickets.any?
     = render("partials/plans/view_tickets_button", trip: trip, plan: plan)
+
+  - if plan.documents.attached?
+    = render("partials/plans/documents_dropdown", plan: plan)

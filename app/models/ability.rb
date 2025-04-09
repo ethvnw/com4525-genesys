@@ -49,5 +49,43 @@ class Ability
     can(:read, SubscriptionTier)
     can(:read, Question, is_hidden: false)
     can(:read, Review, is_hidden: false)
+
+    # Anyone can create a trip
+    can(:create, Trip)
+
+    # Allowing user to manage a trip only if they are a member of that trip and accepted invite
+    can(:manage, Trip) do |trip|
+      trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: true)
+    end
+
+    # Allowing user to manage a plan only if they are a member of that trip and accepted invite
+    can(:manage, Plan) do |plan|
+      plan.trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: true)
+    end
+
+    # Allowing user to create a TripMembership only if they are a member of the trip and accepted the invite
+    can(:create, TripMembership) do |membership|
+      membership.trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: true)
+    end
+
+    # Allowing user to read a TripMembership only if they are a member of the trip and accepted the invite
+    can(:read, TripMembership) do |membership|
+      membership.trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: true)
+    end
+
+    # Allowing user to update a TripMembership only if they are the user associated with the membership
+    can(:update, TripMembership) do |membership|
+      membership.user == user
+    end
+
+    # Allowing user to accept/decline a TripMembership invite only if they have been invited & not actioned it
+    can(:respond_invite, TripMembership) do |membership|
+      membership.trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: false)
+    end
+
+    # Allowing user to destroy a TripMembership only if they are a member of the trip and accepted the invite
+    can(:destroy, TripMembership) do |membership|
+      membership.trip.trip_memberships.exists?(user_id: user.id, is_invite_accepted: true)
+    end
   end
 end
