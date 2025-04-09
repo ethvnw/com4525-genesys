@@ -3,6 +3,7 @@
 # Provides methods for formatting dates and icons for plan views
 class PlanDecorator < ApplicationDecorator
   delegate_all
+  decorates_association :documents, with: DocumentDecorator
 
   def formatted_date_range
     if object.end_date.present?

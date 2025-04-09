@@ -25,3 +25,6 @@
     %button.btn.d-flex.gap-3.align-items-center.p-0.text-light
       %i{ class: plan.view_icon }
       %p.mb-0= plan.view_label
+
+  - if plan.documents.attached?
+    = render("partials/plans/documents_dropdown", plan: plan)
