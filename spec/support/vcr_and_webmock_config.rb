@@ -8,13 +8,9 @@ WebMock.disable_net_connect!(allow_localhost: true, allow: [
   "https://edgedl.me.gvt1.com",
   "https://chromedriver.storage.googleapis.com",
   "https://selenium-release.storage.googleapis.com",
+  /172\.17\.0\.\d+/,
+  /chrome:4444/,
 ])
-
-WebMock.after_request do |request_signature, response|
-  unless request_signature.uri.host == "127.0.0.1"
-    puts "Request #{request_signature} was made and #{response} was returned"
-  end
-end
 
 VCR.configure do |c|
   c.ignore_localhost = true
