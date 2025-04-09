@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../support/helpers/registrations_helper"
 
 RSpec.feature("Registering Interest") do
   scenario "I can register my interest" do

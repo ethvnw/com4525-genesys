@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../support/helpers/invitations_helper"
 
 RSpec.feature("Invitations") do
   let(:admin) { create(:admin) }

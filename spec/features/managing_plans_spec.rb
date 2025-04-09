@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../support/helpers/trips_and_plans_helper"
 
 RSpec.feature("Managing plans") do
   let(:user) { create(:user) }

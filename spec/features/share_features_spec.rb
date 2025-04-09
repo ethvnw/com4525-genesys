@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../support/helpers/sharing_helpers"
 
 RSpec.feature("Sharing Features") do
   let(:app_feature) { create(:app_feature, name: "Feature", description: "Feature Description") }
