@@ -27,6 +27,8 @@ VCR.configure do |c|
       VCR.use_cassette("pwned_passwords") { request.proceed }
     elsif request.uri.include?("ipinfo.io")
       VCR.use_cassette("ip_info") { request.proceed }
+    elsif request.uri.include?("unsplash.com")
+      VCR.use_cassette("unsplash") { request.proceed }
     else
       request.proceed
     end
