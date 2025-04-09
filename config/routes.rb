@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   get :faq, to: "pages#faq"
 
   resources :trips do
-    resources :plans
+    resources :plans do
+      resources :documents, only: [:destroy]
+    end
     resources :trip_memberships do
       member do
         post :accept_invite
