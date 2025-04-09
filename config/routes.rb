@@ -40,8 +40,6 @@ Rails.application.routes.draw do
 
     resources :registrations, only: [:create]
 
-    resources :trips, only: [:create]
-
     resources :questions, only: [:create] do
       member do
         post :visibility
@@ -62,6 +60,12 @@ Rails.application.routes.draw do
     resources :features, only: [] do
       member do
         get :share
+      end
+    end
+
+    resources :locations, only: [] do
+      collection do
+        get :search
       end
     end
   end

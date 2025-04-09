@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 def stub_photon_api(country = "England")
-  stub_request(:get, %r{https://photon.komoot.io/api/\?q=.*&limit=5})
+  stub_request(:get, /photon\.komoot\.io/)
     .to_return(
       status: 200,
       body: {
