@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get :home, to: "pages#home"
 
+  get :inbox, to: "pages#inbox"
+
   resources :registrations, only: [] do
     resource :avatar, only: [:update, :destroy]
   end
@@ -18,6 +20,13 @@ Rails.application.routes.draw do
   resources :trips do
     resources :plans do
       resources :scannable_tickets, only: [:destroy]
+      resources :documents, only: [:destroy]
+    end
+    resources :trip_memberships do
+      member do
+        post :accept_invite
+        post :decline_invite
+      end
     end
   end
 

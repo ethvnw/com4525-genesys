@@ -3,6 +3,8 @@
 # Handles the creation of plans
 class PlansController < ApplicationController
   include Streamable
+  load_and_authorize_resource :trip
+  load_and_authorize_resource :plan, through: :trip
 
   layout "user"
   before_action :authenticate_user!
@@ -44,6 +46,7 @@ class PlansController < ApplicationController
           "end_location_longitude",
           "start_date",
           "end_date",
+          "documents",
         )
 
       stream_response("plans/create", new_trip_plan_path(@plan.trip))
@@ -53,13 +56,20 @@ class PlansController < ApplicationController
   def edit
     @script_packs = ["plans"]
     @trip = Trip.find(params[:trip_id])
-    @plan = Plan.find(params[:id])
+    @plan = Plan.find(params[:id]).decorate
     @errors = flash[:errors]
   end
 
   def update
     @plan = Plan.find(params[:id])
-    if @plan.update(plan_params)
+    # Saving the uploaded documents (if any) so current attachments do not get removed on save
+    documents = params[:plan][:documents] if params[:plan] && params[:plan][:documents].present?
+    if @plan.update(plan_params.except(:documents))
+      if documents
+        @plan.documents.attach(documents)
+      end
+
+      # Create scannable tickets if provided
       any_duplicate_codes = false
       qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
       qr_codes.each do |code|
@@ -70,6 +80,7 @@ class PlansController < ApplicationController
           @plan.scannable_tickets.create(code: code, ticket_format: :qr)
         end
       end
+
       # The notice message indicates whether any QR codes already existed to the plan
       redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.
         #{any_duplicate_codes ? "Some QR codes already existed..." : ""}")
@@ -109,6 +120,7 @@ class PlansController < ApplicationController
       :end_location_longitude,
       :start_date,
       :end_date,
+      documents: [],
     )
   end
 end
