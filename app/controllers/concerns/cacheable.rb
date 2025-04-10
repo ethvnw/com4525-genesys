@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+##
+# Concern to allow controllers to override the default 'no cache' config, allowing caching of API responses
 module Cacheable
   extend ActiveSupport::Concern
 
