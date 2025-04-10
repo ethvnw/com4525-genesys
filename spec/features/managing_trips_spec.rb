@@ -31,7 +31,7 @@ RSpec.feature("Managing trips") do
       PhotoMock.new({ "regular" => "https://images.unsplash.com/photo-1502602898657-3e91760cbb34" }),
     ]))
 
-    time_travel_everywhere(Time.new(2020, 1, 1, 0, 0, 0, "utc"))
+    time_travel_everywhere(Time.zone.parse("2020-01-01 00:00:00"))
   end
 
   context "When creating a trip" do
