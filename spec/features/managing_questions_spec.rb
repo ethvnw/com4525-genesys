@@ -46,7 +46,6 @@ RSpec.feature("Managing questions") do
       click_button(id: "question_#{question.id}")
       click_button(id: "question_#{question.id}")
       click_button(id: "question_#{question.id}")
-      sleep_for_js
       expect(Question.find(question.id).engagement_counter).to(eq(1))
     end
   end
