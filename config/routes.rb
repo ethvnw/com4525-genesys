@@ -36,6 +36,8 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    resources :avatars, only: [:show]
+
     resources :staff, only: [:update, :destroy]
 
     resources :registrations, only: [:create]

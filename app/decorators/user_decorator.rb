@@ -11,8 +11,8 @@ class UserDecorator < ApplicationDecorator
   # @return [String] the user avatar URL
   def avatar_url
     if object.id.present?
-      dicebear_url = "https://api.dicebear.com/9.x/thumbs/svg?seed=#{object.id}"
-      dicebear_url
+      Rails.application.routes.url_helpers.api_avatar_path(object.id)
+      # ApiRoutes.default_avatar(object.username)
     else
       "images/fallback_avatar.png"
     end
