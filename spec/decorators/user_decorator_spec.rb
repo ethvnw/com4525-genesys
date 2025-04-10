@@ -21,7 +21,7 @@ RSpec.describe(UserDecorator, type: :decorator) do
       end
 
       it "returns the default avatar URL" do
-        expect(decorated_user.avatar_or_default).to(eq("https://api.dicebear.com/9.x/thumbs/svg?seed=#{user.id}"))
+        expect(decorated_user.avatar_or_default).to(eq("api/avatars/#{user.id}"))
       end
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe(UserDecorator, type: :decorator) do
   describe "#user_avatar" do
     context "when id is present" do
       it "it returns an avatar" do
-        expect(decorated_user.avatar_url).to(eq("https://api.dicebear.com/9.x/thumbs/svg?seed=#{user.id}"))
+        expect(decorated_user.avatar_url).to(eq("api/avatars#{user.id}"))
       end
     end
 
