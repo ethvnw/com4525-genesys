@@ -1,9 +1,9 @@
-.d-flex.justify-content-between.mb-4
-  .align-self-center
+.d-flex.flex-column.flex-md-row.mb-4.justify-content-md-between
+  %div
     %h1.mb-0.fw-bold= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
 
-  .d-flex.flex-column.align-items-end.gap-3
+  .d-flex.flex-column.gap-3.align-items-md-end
     = render("partials/trips/members", members: @trip.trip_memberships)
 
     .d-flex.gap-2
@@ -71,7 +71,7 @@
           .col-sm-2
             %p.mb-0.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
           .col
-            - if plan.plan_type.starts_with?("travel_")
+            - if plan.travel_plan?
               = render("partials/plans/travel_card", trip: @trip, plan: plan)
             - else
               = render("partials/plans/event_card", trip: @trip, plan: plan)

@@ -1,6 +1,6 @@
 -# View tickets button
 .border-top.border-secondary.mt-2.pt-3.fw-semibold
   = link_to(trip_plan_path(trip, plan), class: "text-decoration-none") do
-    %button.btn.d-flex.gap-3.align-items-center.p-0
+    %button.btn.d-flex.gap-3.align-items-center.p-0{ class: ("text-light" if plan.travel_plan?) }
       %i{ class: plan.view_icon }
       %p.mb-0= plan.view_label

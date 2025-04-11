@@ -69,4 +69,8 @@ class Plan < ApplicationRecord
   validates :start_location_name, :start_date, presence: true
   validates_with PlanValidator
   validates_with DateValidator
+
+  def travel_plan?
+    plan_type.starts_with?("travel_by")
+  end
 end
