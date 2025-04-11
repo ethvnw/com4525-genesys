@@ -30,7 +30,7 @@ module ApplicationHelper
 
   ##
   # Generates a navbar link with an icon and text
-  # Highlights the link if the provied route matches the current route
+  # Highlights the link if the provided route matches the current route
   # @param name [String] the text to display for the link
   # @param icon [String] the Bootstrap icon class to use
   # @param path [String] the route for the link

@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.feature("User accounts") do
   feature "As a user without an account" do
-    scenario "I access the signup page by selecting the free plan" do
+    scenario "I can access the signup page by selecting the free plan" do
       create(:subscription_tier)
 
       visit root_path
@@ -34,7 +34,7 @@ RSpec.feature("User accounts") do
       login_as(user, scope: :user)
     end
 
-    scenario "I can access account settings through dropdown" do
+    scenario "I can access my account settings through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -44,7 +44,7 @@ RSpec.feature("User accounts") do
       end
     end
 
-    scenario "I cannot access reporter dashboard through dropdown" do
+    scenario "I cannot access the reporter dashboard through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -54,7 +54,7 @@ RSpec.feature("User accounts") do
       end
     end
 
-    scenario "I cannot access admin dashboard through dropdown" do
+    scenario "I cannot access the admin dashboard through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -71,7 +71,7 @@ RSpec.feature("User accounts") do
       login_as(reporter, scope: :user)
     end
 
-    scenario "I can access account settings through dropdown" do
+    scenario "I can access account settings through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -81,7 +81,7 @@ RSpec.feature("User accounts") do
       end
     end
 
-    scenario "I can access reporter dashboard through dropdown" do
+    scenario "I can access reporter dashboard through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -91,7 +91,7 @@ RSpec.feature("User accounts") do
       end
     end
 
-    scenario "I cannot access admin dashboard through dropdown" do
+    scenario "I cannot access admin dashboard through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -108,7 +108,7 @@ RSpec.feature("User accounts") do
       login_as(admin, scope: :user)
     end
 
-    scenario "I can access account settings through dropdown" do
+    scenario "I can access account settings through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -118,7 +118,7 @@ RSpec.feature("User accounts") do
       end
     end
 
-    scenario "I can access reporter dashboard through dropdown" do
+    scenario "I can access reporter dashboard through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -128,7 +128,7 @@ RSpec.feature("User accounts") do
       end
     end
 
-    scenario "I can access admin dashboard through dropdown" do
+    scenario "I can access admin dashboard through the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click

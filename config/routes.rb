@@ -36,11 +36,11 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    resources :avatars, only: [:show]
+
     resources :staff, only: [:update, :destroy]
 
     resources :registrations, only: [:create]
-
-    resources :trips, only: [:create]
 
     resources :questions, only: [:create] do
       member do
@@ -62,6 +62,12 @@ Rails.application.routes.draw do
     resources :features, only: [] do
       member do
         get :share
+      end
+    end
+
+    resources :locations, only: [] do
+      collection do
+        get :search
       end
     end
   end

@@ -38,16 +38,22 @@ RSpec.describe(SubscriptionTier, type: :model) do
   describe "#premium_subscription?" do
     let(:no_subscription_tier) { build(:subscription_tier, price_gbp: nil) }
 
-    it "returns true if price_gbp is greater than 0" do
-      expect(premium_tier.premium_subscription?).to(be_truthy)
+    context "when price_gbp is greater than 0" do
+      it "returns true" do
+        expect(premium_tier.premium_subscription?).to(be_truthy)
+      end
     end
 
-    it "returns false if price_gbp is 0" do
-      expect(free_tier.premium_subscription?).to(be_falsey)
+    context "when price_gbp is 0" do
+      it "returns false" do
+        expect(free_tier.premium_subscription?).to(be_falsey)
+      end
     end
 
-    it "returns false if price_gbp is nil" do
-      expect(no_subscription_tier.premium_subscription?).to(be_falsey)
+    context "when price_gbp is nil" do
+      it "returns false" do
+        expect(no_subscription_tier.premium_subscription?).to(be_falsey)
+      end
     end
   end
 end

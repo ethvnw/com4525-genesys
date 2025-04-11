@@ -2,6 +2,7 @@ import L from 'leaflet';
 import { autocomplete } from '@algolia/autocomplete-js';
 import '@algolia/autocomplete-theme-classic';
 import RoamioMap from './map/RoamioMap';
+import { getLocationSearchApiRoute } from '../constants/api_routes';
 
 const DEBOUNCE_MS = 300;
 
@@ -76,7 +77,7 @@ const createAutocomplete = (containerId, searchType) => autocomplete({
     return debouncedPromise([{
       sourceId: 'places',
       async getItems() {
-        const response = await fetch(`https://photon.komoot.io/api/?q=${query}&limit=5`);
+        const response = await fetch(getLocationSearchApiRoute(query));
         const data = await response.json();
         return data.features.map((place) => ({
           name: formatPlaceName(place),

@@ -55,20 +55,11 @@ RSpec.describe(User, type: :model) do
     end
   end
 
-  describe "validations" do
+  describe "username validation" do
     let(:user) { build(:user) }
 
-    context "username validation" do
-      it "only contain letters, numbers, underscores, and periods" do
-        valid_usernames = ["validUsername", "user_name", "username.with.dots", "user_456"]
-
-        valid_usernames.each do |username|
-          user.username = username
-          expect(user).to(be_valid)
-        end
-      end
-
-      it "reject invalid usernames" do
+    context "when username contains invalid characters" do
+      it "is invalid" do
         invalid_usernames = ["user@name", "user name", "user#name!", "user-name"]
 
         invalid_usernames.each do |username|
@@ -79,22 +70,30 @@ RSpec.describe(User, type: :model) do
       end
     end
 
-    context "username length validation" do
-      it "is invalid if username is too short" do
+    context "when username is less than 6 characters" do
+      it "is invalid" do
         user.username = "short"
         expect(user).to(be_invalid)
         expect(user.errors[:username]).to(include("must be between 6 and 20 characters"))
       end
+    end
 
-      it "is invalid if username is too long" do
+    context "when username is more than 20 characters" do
+      it "is invalid" do
         user.username = "a" * 21
         expect(user).to(be_invalid)
         expect(user.errors[:username]).to(include("must be between 6 and 20 characters"))
       end
+    end
 
-      it "is valid if username is within length" do
-        user.username = "validUsername"
-        expect(user).to(be_valid)
+    context "when username is within length limits and contains only letters, numbers, underscores, and periods" do
+      it "is valid" do
+        valid_usernames = ["validUsername", "user_name", "username.with.dots", "user_456"]
+
+        valid_usernames.each do |username|
+          user.username = username
+          expect(user).to(be_valid)
+        end
       end
     end
   end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../support/helpers/sharing_helpers"
 
 RSpec.feature("Sharing Features") do
   let(:app_feature) { create(:app_feature, name: "Feature", description: "Feature Description") }
@@ -9,11 +10,6 @@ RSpec.feature("Sharing Features") do
   before do
     app_feature
     create(:app_features_subscription_tier, app_feature: app_feature, subscription_tier: subscription_tier)
-  end
-
-  # Switch back to original tab after each test (sharing tests require a new tab)
-  after(opens_new_tab: true) do
-    page.driver.browser.close
   end
 
   scenario "I can view a feature" do
@@ -36,46 +32,25 @@ RSpec.feature("Sharing Features") do
     expect("#{uri.path}?#{uri.query}").to(eq(share_api_feature_path(id: app_feature.id, method: "email")))
   end
 
-  scenario "I can share a feature on Facebook", js: true, opens_new_tab: true do
+  scenario "I can share a feature on Facebook", js: true do
     visit root_path
-
     click_button "Share"
-
+    expect_to_share_to("https://www.facebook.com/sharer/sharer.php", [ROOT_URL])
     click_link "Facebook"
-
-    # Switch to new tab to check share URL
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    expect(page).to(have_current_path("https://www.facebook.com/sharer/sharer.php?u=roamio.com"))
   end
 
-  scenario "I can share a feature on Twitter", js: true, opens_new_tab: true do
+  scenario "I can share a feature on Twitter", js: true do
     visit root_path
-
     click_button "Share"
-
+    expect_to_share_to("https://x.com/intent/", [app_feature.name, app_feature.description.downcase])
     click_link "Twitter"
-
-    # Switch to new tab to check share URL
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    decoded_link = CGI.unescape(current_url)
-    expect(decoded_link).to(include("https://x.com/intent/"))
-    expect(decoded_link).to(include(app_feature.name))
-    expect(decoded_link).to(include(app_feature.description.downcase))
   end
 
-  scenario "I can share a feature on WhatsApp", js: true, opens_new_tab: true do
+  scenario "I can share a feature on WhatsApp", js: true do
     visit root_path
-
     click_button "Share"
-
+    expect_to_share_to("https://wa.me/", [app_feature.name, app_feature.description.downcase])
     click_link "WhatsApp"
-
-    # Switch to new tab to check share URL
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    decoded_link = CGI.unescape(current_url)
-    expect(decoded_link).to(include("https://api.whatsapp.com/send/?text="))
-    expect(decoded_link).to(include(app_feature.name))
-    expect(decoded_link).to(include(app_feature.description.downcase))
   end
 
   feature "Visiting an invalid share route" do
@@ -97,9 +72,14 @@ RSpec.feature("Sharing Features") do
 
     click_button "Share"
 
+    # Stub redirect
+    expect_any_instance_of(Api::FeaturesController).to(receive(:redirect_to)) do |controller|
+      # Check engagement counter in here, as it will have updated by the time `redirect_to` is called
+      expect(app_feature.reload.engagement_counter).to(eq(inital_engagement + 1))
+
+      controller.render(plain: "Mock Response")
+    end
+
     click_link "Twitter"
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    sleep_for_js
-    expect(app_feature.reload.engagement_counter).to(eq(inital_engagement + 1))
   end
 end
