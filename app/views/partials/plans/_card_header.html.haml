@@ -1,12 +1,12 @@
 .d-flex.justify-content-between.align-items-center
   %p.mb-0.text-secondary
-    - unless plan.plan_type.starts_with?("travel_")
+    - unless plan.travel_plan?
       = plan.plan_type.humanize.titleize
 
   -# Dropdown menu
   #plan-settings.dropdown
     %button.btn.px-0.py-2{ "data-bs-toggle": "dropdown", "aria-expanded": "false" }
-      %i{ class: "bi bi-three-dots-vertical #{"text-light" if plan.plan_type.starts_with?("travel_")}" }
+      %i{ class: "bi bi-three-dots-vertical #{"text-light" if plan.travel_plan?}" }
 
     .dropdown-menu
       = link_to(edit_trip_plan_path(trip, plan),
