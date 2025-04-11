@@ -45,6 +45,8 @@ class Trip < ApplicationRecord
     end
   end
 
+  ##
+  # Validates start date by checking that it is not in the past
   def start_date_cant_be_in_the_past
     if start_date.present? && start_date < Date.current
       errors.add(:start_date, "cannot be in the past")

@@ -25,7 +25,11 @@ require "rspec/rails"
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
+# Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
+
+require_relative "support/headless_chrome_config"
+require_relative "support/vcr_and_webmock_config"
+require_relative "support/helpers/global_helper"
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -44,7 +48,6 @@ RSpec.configure do |config|
   config.include(Warden::Test::Helpers)
   config.include(Rails.application.routes.url_helpers)
   config.include(Devise::Test::ControllerHelpers, type: :controller)
-  config.include(WebMockHelpers)
 
   # Allows us to travel to specific time periods
   config.include(ActiveSupport::Testing::TimeHelpers)
@@ -129,6 +132,7 @@ Capybara.configure do |config|
 end
 
 Capybara.automatic_label_click = true
+Capybara.default_max_wait_time = 2
 
 def sleep_for_js(sleep_time: 0.5)
   sleep(sleep_time)

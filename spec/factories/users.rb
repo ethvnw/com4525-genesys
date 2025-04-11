@@ -47,12 +47,16 @@ FactoryBot.define do
     sequence(:username) { |n| "username#{n}" }
     password { "GenesysModule#1" }
     password_confirmation { "GenesysModule#1" }
-
+    user_role { "member" }
     avatar do
       Rack::Test::UploadedFile.new(
         File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
         "image/png",
       )
+    end
+
+    trait :no_avatar do
+      avatar { nil }
     end
   end
 

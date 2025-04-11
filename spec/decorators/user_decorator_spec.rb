@@ -20,8 +20,8 @@ RSpec.describe(UserDecorator, type: :decorator) do
         user.avatar.purge
       end
 
-      it "returns the URL avatar version" do
-        expect(decorated_user.avatar_or_default).to(eq("https://api.dicebear.com/9.x/thumbs/svg?seed=#{user.id}"))
+      it "returns the default avatar URL" do
+        expect(decorated_user.avatar_or_default).to(eq("/api/avatars/#{user.id}"))
       end
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe(UserDecorator, type: :decorator) do
   describe "#user_avatar" do
     context "when id is present" do
       it "it returns an avatar" do
-        expect(decorated_user.avatar_url).to(eq("https://api.dicebear.com/9.x/thumbs/svg?seed=#{user.id}"))
+        expect(decorated_user.avatar_url).to(eq("/api/avatars/#{user.id}"))
       end
     end
 
@@ -56,6 +56,14 @@ RSpec.describe(UserDecorator, type: :decorator) do
 
       it "correctly formats the role name" do
         expect(decorated_user.show_role).to(eq("Reporter"))
+      end
+    end
+
+    context "when the user is a member" do
+      before { decorated_user.user_role = :member }
+
+      it "correctly formats the role name" do
+        expect(decorated_user.show_role).to(eq("Member"))
       end
     end
 

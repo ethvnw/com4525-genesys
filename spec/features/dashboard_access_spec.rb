@@ -7,7 +7,7 @@ RSpec.feature("Dashboard access") do
   let(:reporter) { create(:reporter) }
   let(:user) { create(:user) }
 
-  feature "Admin access to admin and reporter dashboards" do
+  feature "As an admin user" do
     before do
       login_as(admin, scope: :user)
     end
@@ -23,7 +23,7 @@ RSpec.feature("Dashboard access") do
     end
   end
 
-  feature "Reporter access to reporter dashboard but not admin dashboard" do
+  feature "As a reporter" do
     before do
       login_as(reporter, scope: :user)
     end
@@ -39,7 +39,7 @@ RSpec.feature("Dashboard access") do
     end
   end
 
-  feature "Inability to access admin or reporter dashboards as a regular user" do
+  feature "As a regular user" do
     before do
       login_as(user, scope: :user)
     end
