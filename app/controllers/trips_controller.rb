@@ -15,11 +15,7 @@ class TripsController < ApplicationController
 
   def index
     # Only show trips that the user is a member of (use TripMemberships in db)
-    @trips = current_user.trips
-      .joins(:trip_memberships)
-      .where(trip_memberships: { is_invite_accepted: true })
-      .distinct
-      .decorate
+    @trips = current_user.trips_member.decorate
   end
 
   def new
