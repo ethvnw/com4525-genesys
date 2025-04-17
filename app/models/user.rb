@@ -117,4 +117,12 @@ class User < ApplicationRecord
         .first
     end
   end
+
+  # Get the trips that the user is part of
+  def trips_member
+    trips
+      .joins(:trip_memberships)
+      .where(trip_memberships: { is_invite_accepted: true })
+      .distinct
+  end
 end
