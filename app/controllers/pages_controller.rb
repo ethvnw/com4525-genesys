@@ -35,6 +35,8 @@ class PagesController < ApplicationController
   end
 
   def home
+    @script_packs = ["home"]
+    @inbox_count = 0
     @errors = flash[:errors]
   end
 
