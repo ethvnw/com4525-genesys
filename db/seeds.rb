@@ -300,3 +300,37 @@ AppFeaturesSubscriptionTier.find_or_create_by!(
   app_feature: group_trips,
   subscription_tier: group_tier,
 )
+
+# Find coords using Bboxfinder [http://bboxfinder.com]
+locations = [
+  { name: "Sheffield",     country_code_iso: "GB", latitude: 53.376871, longitude: -1.500425 },
+  { name: "London",        country_code_iso: "GB", latitude: 51.604225, longitude: -0.066248 },
+  { name: "Birmingham",    country_code_iso: "GB", latitude: 52.4862, longitude: -1.8904 },
+  { name: "Crawley Down",  country_code_iso: "GB", latitude: 51.120869, longitude: -0.077256 },
+  { name: "Leicester",     country_code_iso: "GB", latitude: 52.6369, longitude: -1.1398 },
+  { name: "East Grinstead", country_code_iso: "GB", latitude: 51.124004, longitude: -0.006735 },
+  { name: "Singapore",     country_code_iso: "SG", latitude: 1.340698, longitude: 103.837444 },
+  { name: "New York",      country_code_iso: "US", latitude: 40.7128, longitude: -74.0060 },
+  { name: "Paris",         country_code_iso: "FR", latitude: 48.8566, longitude: 2.3522 },
+]
+
+locations.each do |location|
+  featured = FeaturedLocation.find_or_create_by!(
+    name: location[:name],
+    country_code_iso: location[:country_code_iso],
+    latitude: location[:latitude],
+    longitude: location[:longitude],
+  )
+
+  next if featured.image.attached?
+
+  # Convert name to snake case format, e.g. "new_york"
+  file_name = location[:name].parameterize.underscore
+  image_path = Rails.root.join("db", "seed_images", "featured_locations", "#{file_name}.png")
+
+  featured.image.attach(
+    io: File.open(image_path),
+    filename: "#{file_name}.png",
+    content_type: "image/png",
+  )
+end

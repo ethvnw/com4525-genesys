@@ -27,7 +27,7 @@ main {
     @extend .d-flex;
     @extend .flex-fill;
 
-    .container {
+    #container-parent.position-relative {
         @extend .flex-fill;
         @extend .w-100;
         z-index: 1;

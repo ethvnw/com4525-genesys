@@ -11,8 +11,9 @@
       = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 36)
   .col.d-flex.justify-content-end
     = render("partials/layouts/navbar_user_dropdown")
-.container.pt-3
-  = yield
+#container-parent.position-relative
+  .container.pt-3
+    = yield
 %nav#bottombar.navbar.d-sm-none.bg-light.border-top.fixed-bottom.px-3
   %ul.nav.w-100
     = render("partials/layouts/navigation_links")
