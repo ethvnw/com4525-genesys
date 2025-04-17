@@ -1,0 +1,8 @@
+= link_to(api_featured_location_path(location), class: "featured-location-card") do
+  .featured-location-img
+    = image_tag(url_for(location.image))
+  %h6.fw-semibold.mb-0.mt-2
+    = location.name
+  %small.text-secondary.fw-semibold
+    %i.bi.bi-geo-alt &nbsp;
+    = location.truncated_country_name(13)
