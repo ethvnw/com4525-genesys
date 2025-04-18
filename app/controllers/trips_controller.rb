@@ -20,6 +20,7 @@ class TripsController < ApplicationController
     end
 
     @trips = current_user.joined_trips.decorate
+    @script_packs = ["map_display"]
     stream_response("trips/index")
   end
 
