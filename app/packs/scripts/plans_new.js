@@ -2,7 +2,7 @@
 import createAutocomplete, {
   updateLocationPin, startMarker, endMarker, line,
 } from './lib/AlgoliaAutocomplete';
-import RoamioMap from './lib/RoamioMap';
+import RoamioMap from './lib/map/RoamioMap';
 
 let startAutocomplete = null;
 let endAutocomplete = null;

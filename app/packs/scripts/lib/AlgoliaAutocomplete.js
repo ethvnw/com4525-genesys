@@ -2,7 +2,7 @@ import L from 'leaflet';
 import { autocomplete } from '@algolia/autocomplete-js';
 import '@algolia/autocomplete-theme-classic';
 import { getLocationSearchApiRoute } from '../constants/api_routes';
-import RoamioMap from './RoamioMap';
+import RoamioMap from './map/RoamioMap';
 
 const DEBOUNCE_MS = 300;
 
