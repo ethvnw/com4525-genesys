@@ -22,6 +22,11 @@ class _RoamioMap {
     const tileLayer = L.tileLayer(TILE_LAYER_CONFIG.url, TILE_LAYER_CONFIG.options);
     this.map.addLayer(tileLayer);
   }
+
+  addMarker(latLng) {
+    const marker = L.marker(latLng);
+    marker.addTo(this.map);
+  }
 }
 
 /**

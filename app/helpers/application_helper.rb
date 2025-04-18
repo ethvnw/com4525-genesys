@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "json"
+
 # Module containing global helper functions
 module ApplicationHelper
   ##
@@ -70,7 +72,7 @@ module ApplicationHelper
     link_to(
       url_for(request.query_parameters.merge({ key => value })),
       class: "#{"active " if params[key] == value}change-view-link",
-      data: { turbo: "true" },
+      data: { turbo: "true", turbo_stream: "true" },
     ) do
       concat(content_tag(:i, nil, class: "#{icon} bi"))
       concat(content_tag(:span, value.humanize))
@@ -119,5 +121,23 @@ module ApplicationHelper
         simple_format(error, {}, wrapper_tag: "span")
       end
     end
+  end
+
+  ##
+  # Converts a list of 'events' (trips or plans) to a JSON list, which can be read by JavaScript
+  # @param location_points [Array] an array of plans/trips
+  # @return [String] a JSONified string of important information from the events
+  def convert_events_to_json(location_points)
+    ruby_hash = location_points.map do |point|
+      datapoint = {}
+      if point.is_a?(Trip)
+        datapoint[:coords] = [point.location_latitude.to_f, point.location_longitude.to_f]
+      elsif point.is_a?(Plan)
+        datapoint[:coords] = [point.start_location_latitude.to_f, point.start_location_longitude.to_f]
+      end
+      datapoint
+    end
+
+    ruby_hash.to_json.html_safe
   end
 end
