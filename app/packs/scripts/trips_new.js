@@ -2,7 +2,7 @@
 
 import createAutocomplete, { updateLocationPin, startMarker } from './lib/AlgoliaAutocomplete';
 import setupPicker from './date_range_picker';
-import RoamioMap from './lib/RoamioMap';
+import RoamioMap from './lib/map/RoamioMap';
 
 let tripAutocomplete = null;
 
