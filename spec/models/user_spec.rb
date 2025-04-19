@@ -215,4 +215,35 @@ RSpec.describe(User, type: :model) do
       end
     end
   end
+
+  describe "#joined_trips" do
+    let(:user) { create(:user) }
+    let(:accepted_trip) { create(:trip) }
+    let(:unaccepted_trip) { create(:trip) }
+    let(:other_trip) { create(:trip) }
+
+    before do
+      create(:trip_membership, user: user, trip: accepted_trip, is_invite_accepted: true)
+      create(:trip_membership, user: user, trip: unaccepted_trip, is_invite_accepted: false)
+
+      # Ensure a trip not related to this user is not included
+      create(:trip_membership, trip: other_trip, is_invite_accepted: true)
+    end
+
+    it "returns only trips where invite is accepted by user" do
+      result = user.joined_trips
+      expect(result).to(include(accepted_trip))
+      expect(result).not_to(include(unaccepted_trip))
+      expect(result).not_to(include(other_trip))
+    end
+
+    it "returns distinct trips even if multiple accepted memberships exist" do
+      # Duplicate accepted membership
+      create(:trip_membership, user: user, trip: accepted_trip, is_invite_accepted: true)
+
+      result = user.joined_trips
+      expect(result.count).to(eq(1))
+      expect(result.first).to(eq(accepted_trip))
+    end
+  end
 end

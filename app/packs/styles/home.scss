@@ -1,0 +1,153 @@
+// Imports
+@import 'variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/variables';
+@import 'twitter_bootstrap';
+
+// Fix for transitioning CSS gradient backgrounds
+// See [https://stackoverflow.com/a/63848864]
+// Credit Mahozad, CC BY-SA 4.0
+@property --top-shade {
+  syntax: '<color>';
+  initial-value: $light;
+  inherits: false;
+}
+
+@property --bottom-shade {
+  syntax: '<color>';
+  initial-value: $light;
+  inherits: false;
+}
+
+// Home Background
+#home-bg {
+  height: 340px;
+  z-index: -1;
+  background: linear-gradient(to bottom, var(--top-shade), var(--bottom-shade));
+  transition: --top-shade 0.5s ease, --bottom-shade 0.5s ease;
+}
+
+// Base class for carousels
+.home-carousels {
+  .swiper-slide {
+    @extend .d-flex, .justify-content-center;
+  }
+
+  .swiper-wrapper {
+    @extend .pb-2;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    @extend .bg-dark, .rounded-circle;
+    width: 44px;
+    height: 44px;
+
+    i {
+      @extend .h2, .mb-0;
+    }
+
+    &::after {
+      content: "";
+    }
+  }
+}
+
+// Swiper overrides
+.swiper {
+  display: grid;
+}
+
+.swiper-wrapper {
+  min-width: 0;
+}
+
+// Latest trips carousel
+.latest-trips-carousel {
+  a {
+    width: 386px;
+    height: 230px;
+  }
+
+  .trip-card {
+    height: 230px;
+
+    .avatar-img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .text-light {
+      @extend .text-break;
+    }
+  }
+}
+
+// No trips card
+.no-trips-card {
+  @extend .d-flex, .flex-column;
+  @extend .align-items-center, .justify-content-center;
+  @extend .text-secondary, .fw-semibold, .rounded-3;
+  @extend .text-decoration-none;
+  border: 1px dashed $secondary;
+}
+
+// Quick link button
+.quick-link-btn {
+  @extend .text-decoration-none, .text-start;
+  @extend .d-flex, .flex-column, .py-3;
+  border-bottom: 3px solid $body-color !important;
+  width: 200px;
+
+  .btn-icon {
+    @extend .d-flex, .align-items-center, .justify-content-center;
+    @extend .mb-3, .rounded-circle;
+    background-color: $gray-200;
+    width: 48px;
+    height: 48px;
+
+    i {
+      @extend .h4, .mb-0;
+    }
+  }
+
+  .btn-body {
+    @extend .d-flex, .flex-column, .align-items-start;
+    @extend .fw-semibold;
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .quick-link-btn {
+    width: 100%;
+  }
+}
+
+// Featured locations carousel
+.featured-locations-carousel {
+  .featured-location-card {
+    @extend .d-flex, .flex-column;
+    @extend .link-dark, .fw-semibold;
+    @extend .text-decoration-none;
+    transition: box-shadow 0.6s ease-in-out;
+  
+    .featured-location-img {
+      width: 140px;
+      height: 140px;
+      @extend .rounded, .position-relative, .overflow-hidden;
+  
+      img {
+        @extend .w-100, .h-100, .top-0, .start-0;
+        @extend .object-fit-cover, .position-absolute;
+        transition: transform 0.6s ease-in-out;
+      }
+    }
+  
+    &:hover {
+      img {
+        transform: scale(1.03);
+      }
+    }
+  }
+}

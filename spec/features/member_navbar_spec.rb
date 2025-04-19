@@ -5,11 +5,11 @@ require "rails_helper"
 RSpec.feature("Member navbar") do
   let!(:member) { create(:user, username: "allisoncameron") }
 
-  feature "Member can navigate using the navbar" do
-    before do
-      login_as(member, scope: :user)
-    end
+  before do
+    login_as(member, scope: :user)
+  end
 
+  feature "Member can navigate using the navbar" do
     scenario "Accessing the home page" do
       # Start from trips path
       visit trips_path
@@ -65,7 +65,59 @@ RSpec.feature("Member navbar") do
     end
   end
 
-  # TODO: Ensure correct amount of notifications are displayed for trip invitations
-  feature "Invitation notifications amount is displayed" do
+  feature "Invitation notification count" do
+    let(:member) { create(:user) }
+    let(:accepted_trip) { create(:trip) }
+    let(:unaccepted_trip) { create(:trip) }
+    let(:unrelated_trip) { create(:trip) }
+
+    context "when there is one pending invite" do
+      scenario "shows the correct count" do
+        # One accepted invite (should not count)
+        create(:trip_membership, user: member, trip: accepted_trip, is_invite_accepted: true)
+
+        # One pending invite (should count)
+        create(:trip_membership, user: member, trip: unaccepted_trip, is_invite_accepted: false)
+
+        # Unrelated invite (should not count)
+        create(:trip_membership, trip: unrelated_trip, is_invite_accepted: false)
+
+        visit home_path
+
+        within("#inbox-container") do
+          expect(page).to(have_content("1"))
+        end
+      end
+    end
+
+    context "when all invites are pending" do
+      scenario "shows the correct count" do
+        # Two pending invites (should count)
+        create(:trip_membership, user: member, trip: accepted_trip, is_invite_accepted: false)
+        create(:trip_membership, user: member, trip: unaccepted_trip, is_invite_accepted: false)
+
+        # Unrelated trip (should not count)
+        create(:trip_membership, trip: unrelated_trip, is_invite_accepted: false)
+
+        visit home_path
+
+        within("#inbox-container") do
+          expect(page).to(have_content("2"))
+        end
+      end
+    end
+
+    context "when there are no invites" do
+      scenario "does not show a count" do
+        # Unrelated invite (should not count)
+        create(:trip_membership, trip: unrelated_trip, is_invite_accepted: false)
+
+        visit home_path
+
+        within("#inbox-container") do
+          expect(page).to_not(have_content("0"))
+        end
+      end
+    end
   end
 end

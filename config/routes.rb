@@ -70,6 +70,8 @@ Rails.application.routes.draw do
         get :search
       end
     end
+
+    resources :featured_locations, only: [:show]
   end
 
   namespace :admin do
