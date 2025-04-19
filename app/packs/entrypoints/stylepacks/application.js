@@ -15,6 +15,7 @@ import '@algolia/autocomplete-theme-classic';
 import '@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css';
 import '../../styles/forms.scss';
 import '../../styles/trips.scss';
+import '../../styles/home.scss';
 import '../../styles/twitter_bootstrap.scss';
 
 require.context('../../images', true);

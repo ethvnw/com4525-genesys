@@ -4,18 +4,20 @@
 #
 # Table name: featured_locations
 #
-#  id         :bigint           not null, primary key
-#  latitude   :decimal(, )
-#  longitude  :decimal(, )
-#  name       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id               :bigint           not null, primary key
+#  country_code_iso :string
+#  latitude         :decimal(, )
+#  longitude        :decimal(, )
+#  name             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 FactoryBot.define do
   factory :featured_location do
     name { "The Peak District" }
     latitude { 53.3673 }
     longitude { 1.8158 }
+    country_code_iso { "GB" }
 
     image do
       Rack::Test::UploadedFile.new(
