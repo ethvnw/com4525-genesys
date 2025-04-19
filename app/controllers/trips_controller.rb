@@ -15,7 +15,7 @@ class TripsController < ApplicationController
 
   def index
     # Only show trips that the user is a member of (use TripMemberships in db)
-    @trips = current_user.trips_member.decorate
+    @trips = current_user.joined_trips.decorate
   end
 
   def new

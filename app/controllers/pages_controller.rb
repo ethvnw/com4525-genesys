@@ -37,8 +37,8 @@ class PagesController < ApplicationController
   def home
     @script_packs = ["home"]
     @errors = flash[:errors]
-    @trips = current_user.trips_member.order(start_date: :asc).limit(9).decorate
-    @featured_locations = FeaturedLocation.limit(12).decorate
+    @trips = current_user.joined_trips.order(start_date: :asc).limit(9).decorate
+    @featured_locations = FeaturedLocation.all.decorate
   end
 
   def inbox
