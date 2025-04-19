@@ -216,7 +216,7 @@ RSpec.describe(User, type: :model) do
     end
   end
 
-  describe "#trips_member" do
+  describe "#joined_trips" do
     let(:user) { create(:user) }
     let(:accepted_trip) { create(:trip) }
     let(:unaccepted_trip) { create(:trip) }
@@ -231,7 +231,7 @@ RSpec.describe(User, type: :model) do
     end
 
     it "returns only trips where invite is accepted by user" do
-      result = user.trips_member
+      result = user.joined_trips
       expect(result).to(include(accepted_trip))
       expect(result).not_to(include(unaccepted_trip))
       expect(result).not_to(include(other_trip))
@@ -241,7 +241,7 @@ RSpec.describe(User, type: :model) do
       # Duplicate accepted membership
       create(:trip_membership, user: user, trip: accepted_trip, is_invite_accepted: true)
 
-      result = user.trips_member
+      result = user.joined_trips
       expect(result.count).to(eq(1))
       expect(result.first).to(eq(accepted_trip))
     end
