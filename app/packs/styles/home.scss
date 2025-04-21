@@ -131,19 +131,19 @@
     @extend .link-dark, .fw-semibold;
     @extend .text-decoration-none;
     transition: box-shadow 0.6s ease-in-out;
-  
+
     .featured-location-img {
       width: 140px;
       height: 140px;
       @extend .rounded, .position-relative, .overflow-hidden;
-  
+
       img {
         @extend .w-100, .h-100, .top-0, .start-0;
         @extend .object-fit-cover, .position-absolute;
         transition: transform 0.6s ease-in-out;
       }
     }
-  
+
     &:hover {
       img {
         transform: scale(1.03);
