@@ -10,5 +10,5 @@ Turbo.StreamActions.redirect = function () {
 
 // Custom action to change URL from a stream response (e.g. view=list -> view=map)
 Turbo.StreamActions.changeUrl = function () {
-  window.history.pushState({}, '', this.target);
+  window.history.replaceState({}, '', this.target);
 };

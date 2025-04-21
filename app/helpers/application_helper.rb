@@ -129,7 +129,10 @@ module ApplicationHelper
   # @return [String] a JSONified string of important information from the events
   def convert_events_to_json(location_points)
     ruby_hash = location_points.map do |point|
-      datapoint = {}
+      datapoint = {
+        id: point.id,
+      }
+
       if point.is_a?(Trip)
         datapoint[:coords] = [point.location_latitude.to_f, point.location_longitude.to_f]
       elsif point.is_a?(Plan)
