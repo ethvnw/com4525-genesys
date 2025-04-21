@@ -131,3 +131,4 @@ gem "countries", "~> 7.0"
 
 # turbo - enables SPA-like performance
 gem "turbo-rails"
+gem "stimulus-rails"

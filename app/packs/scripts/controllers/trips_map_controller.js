@@ -1,0 +1,17 @@
+import { Controller } from '@hotwired/stimulus';
+import L from 'leaflet';
+import { newRoamioMap } from '../lib/map/RoamioMap';
+import { VariablesDiv } from '../lib/VariablesDiv';
+
+export default class extends Controller {
+  connect() {
+    this.map = newRoamioMap(this.identifier);
+    this.map.initialise();
+    const jsVariables = new VariablesDiv('map-variables');
+    const markerPoints = JSON.parse(jsVariables.get('marker-coords'));
+
+    markerPoints?.forEach((point) => {
+      this.map.addMarker(L.latLng(point.coords));
+    });
+  }
+}
