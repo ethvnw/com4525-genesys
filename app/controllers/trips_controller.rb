@@ -19,6 +19,9 @@ class TripsController < ApplicationController
       redirect_to(trips_path(request.query_parameters.merge({ view: "list" }))) and return
     end
 
+    # Store view so that we can redirect user back to their preferred one when creating/deleting a trip
+    session[:trips_view] = params[:view]
+
     @trips = current_user.joined_trips.decorate
     @script_packs = ["map_display"]
     stream_response("trips/index")
@@ -53,7 +56,8 @@ class TripsController < ApplicationController
       membership.sender_user_id = current_user.id
       membership.save
 
-      redirect_to(trips_path, notice: "Trip created successfully.")
+      view_param = session.fetch(:trips_view, "list")
+      turbo_redirect_to(trips_path(view: view_param), notice: "Trip created successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
       session[:trip_data] =
@@ -88,7 +92,8 @@ class TripsController < ApplicationController
       if @trip.saved_change_to_location_name?
         upload_unsplash_image(@trip.location_name)
       end
-      redirect_to(trip_path, notice: "Trip updated successfully.")
+      view_param = session.fetch(:trips_view, "list")
+      turbo_redirect_to(trips_path(view: view_param), notice: "Trip updated successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
       stream_response("trips/update", edit_trip_path(@trip))
@@ -98,7 +103,8 @@ class TripsController < ApplicationController
   def destroy
     @trip = Trip.find(params[:id])
     @trip.destroy
-    redirect_to(trips_path, notice: "Trip deleted successfully.")
+    view_param = session.fetch(:trips_view, "list")
+    turbo_redirect_to(trips_path(view: view_param), notice: "Trip deleted successfully.")
   end
 
   def show
