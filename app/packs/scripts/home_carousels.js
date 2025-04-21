@@ -37,6 +37,42 @@ function calculateLuminance(r, g, b) {
   return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
 }
 
+/**
+ * Applies a background gradient to the trips carousel
+ * @param {HTMLDivElement} currentSlide - The currently selected slide in the carousel
+ */
+function applyBackgroundGradient(currentSlide) {
+  const currentImage = currentSlide?.querySelector('img');
+  const background = document.getElementById('home-bg');
+  if (!currentImage || !background) return;
+
+  // Apply a gradient to the background based on the colour of the current slide image
+  const applyGradientFromColour = () => {
+    let [r, g, b] = colourThief.getColor(currentImage);
+    const luminance = calculateLuminance(r, g, b);
+
+    // For lighter colours, darken it so text remains legible
+    if (luminance > 0.7) {
+      r = Math.round(r * 0.6);
+      g = Math.round(g * 0.6);
+      b = Math.round(b * 0.6);
+    }
+
+    const lightShade = shadeColourRGB(r, g, b, 50);
+    const darkShade = shadeColourRGB(r, g, b, -30);
+    background.style.setProperty('--top-shade', lightShade);
+    background.style.setProperty('--bottom-shade', darkShade);
+  };
+
+  if (currentImage.complete) {
+    applyGradientFromColour();
+  } else {
+    currentImage.addEventListener('load', () => {
+      applyGradientFromColour();
+    });
+  }
+}
+
 const latestTripsConfig = {
   direction: 'horizontal',
   loop: true,
@@ -78,35 +114,7 @@ const latestTripsCarousel = new Swiper('.latest-trips-carousel', {
   on: {
     activeIndexChange() {
       const currentSlide = this.slides[this.activeIndex];
-      const currentImage = currentSlide?.querySelector('img');
-      const background = document.getElementById('home-bg');
-      if (!currentImage || !background) return;
-
-      // Apply a gradient to the background based on the colour of the current slide image
-      const applyGradientFromColour = () => {
-        let [r, g, b] = colourThief.getColor(currentImage);
-        const luminance = calculateLuminance(r, g, b);
-
-        // For lighter colours, darken it so text remains legible
-        if (luminance > 0.7) {
-          r = Math.round(r * 0.6);
-          g = Math.round(g * 0.6);
-          b = Math.round(b * 0.6);
-        }
-
-        const lightShade = shadeColourRGB(r, g, b, 50);
-        const darkShade = shadeColourRGB(r, g, b, -30);
-        background.style.setProperty('--top-shade', lightShade);
-        background.style.setProperty('--bottom-shade', darkShade);
-      };
-
-      if (currentImage.complete) {
-        applyGradientFromColour();
-      } else {
-        currentImage.addEventListener('load', () => {
-          applyGradientFromColour();
-        });
-      }
+      applyBackgroundGradient(currentSlide);
     },
   },
 });
@@ -115,3 +123,9 @@ const featuredLocationsCarousel = new Swiper(
   '.featured-locations-carousel',
   featuredLocationsConfig,
 );
+
+document.querySelectorAll('.latest-trips-carousel .swiper-slide').forEach((slide) => {
+  slide.addEventListener('mouseenter', () => {
+    applyBackgroundGradient(slide);
+  });
+});
