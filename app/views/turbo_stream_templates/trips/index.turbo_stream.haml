@@ -1,6 +1,8 @@
 = turbo_stream.update("view-buttons",
                       partial: "partials/trips/view_buttons")
 
+= turbo_stream.action("changeUrl", trips_url(view: params[:view]))
+
 - if params[:view] == "map"
   = turbo_stream.update("trips-view",
                         partial: "partials/trips/map_view",

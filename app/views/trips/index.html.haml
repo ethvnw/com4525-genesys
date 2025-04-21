@@ -12,7 +12,7 @@
       %p.mb-0 You have no trips!
       %p.mb-0 Create a trip to get started.
 
-#trips-view
+#trips-view.flex-fill.mb-3
   - if params[:view] == "map"
     = render("partials/trips/map_view", trips: @trips)
   - else
