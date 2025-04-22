@@ -131,6 +131,7 @@ module ApplicationHelper
     ruby_hash = location_points.map do |point|
       datapoint = {
         id: point.id,
+        title: point.title,
       }
 
       if point.is_a?(Trip)
