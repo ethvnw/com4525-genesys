@@ -17,7 +17,10 @@ export default class extends Controller {
     const markerPoints = JSON.parse(jsVariables.get('marker-coords'));
 
     markerPoints?.forEach((point) => {
-      this.map.addMarker(L.latLng(point.coords), point.id);
+      this.map.addMarker(L.latLng(point.coords), {
+        key: point.id,
+        popup: point.title,
+      });
     });
   }
 }

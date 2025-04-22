@@ -1,3 +1,17 @@
+import L from 'leaflet';
+import tripIconShadow from '../../../images/leaflet/trip-icon-shadow.png';
+import { createElement } from '../DOMUtils';
+import { tripIconSvg } from './icon_svgs';
+
+function buildDivIconWithSVG(svg) {
+  const imgElement = createElement('img', {
+    src: tripIconShadow,
+    className: 'shadow',
+  });
+
+  return `${svg}\n${imgElement.outerHTML}`;
+}
+
 const MAP_CONFIG = {
   center: [0, 0],
   zoom: 1,
@@ -17,4 +31,13 @@ const TILE_LAYER_CONFIG = {
   },
 };
 
-export { MAP_CONFIG, TILE_LAYER_CONFIG };
+const MAP_ICONS = {
+  trip: L.divIcon({
+    html: buildDivIconWithSVG(tripIconSvg),
+    iconSize: [48, 48],
+    iconAnchor: [4, 44],
+    popupAnchor: [24, -40],
+  }),
+};
+
+export { MAP_CONFIG, TILE_LAYER_CONFIG, MAP_ICONS };
