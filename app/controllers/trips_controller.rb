@@ -20,7 +20,7 @@ class TripsController < ApplicationController
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a trip
-    session[:trips_view] = params[:view]
+    session[:trip_index_view] = params[:view]
 
     @trips = current_user.joined_trips.decorate
     stream_response("trips/index")
@@ -55,7 +55,7 @@ class TripsController < ApplicationController
       membership.sender_user_id = current_user.id
       membership.save
 
-      view_param = session.fetch(:trips_view, "list")
+      view_param = session.fetch(:trips_index_view, "list")
       turbo_redirect_to(trips_path(view: view_param), notice: "Trip created successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
@@ -91,7 +91,7 @@ class TripsController < ApplicationController
       if @trip.saved_change_to_location_name?
         upload_unsplash_image(@trip.location_name)
       end
-      view_param = session.fetch(:trips_view, "list")
+      view_param = session.fetch(:trips_index_view, "list")
       turbo_redirect_to(trips_path(view: view_param), notice: "Trip updated successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
@@ -102,15 +102,27 @@ class TripsController < ApplicationController
   def destroy
     @trip = Trip.find(params[:id])
     @trip.destroy
-    view_param = session.fetch(:trips_view, "list")
+    view_param = session.fetch(:trips_index_view, "list")
     turbo_redirect_to(trips_path(view: view_param), notice: "Trip deleted successfully.")
   end
 
   def show
+    # Enforce presence of "view" query parameter
+    unless ["list", "map"].include?(params[:view].to_s)
+      redirect_to(trip_path(params[:id], request.query_parameters.merge({ view: "list" }))) and return
+    end
+
+    # Store view so that we can redirect user back to their preferred one when creating/deleting a plan
+    session[:trip_show_view] = params[:view]
+
+    @trips = current_user.joined_trips.decorate
+
     @trip = Trip.find(params[:id]).decorate
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
     plans = @trip.plans.order(:start_date).decorate
     @plan_groups = plans.group_by { |plan| plan.start_date.to_date }
+
+    stream_response("trips/show")
   end
 
   private

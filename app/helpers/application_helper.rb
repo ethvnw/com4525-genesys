@@ -138,6 +138,9 @@ module ApplicationHelper
         datapoint[:coords] = [point.location_latitude.to_f, point.location_longitude.to_f]
       elsif point.is_a?(Plan)
         datapoint[:coords] = [point.start_location_latitude.to_f, point.start_location_longitude.to_f]
+        if point.end_location_latitude
+          datapoint[:endCoords] = [point.end_location_latitude.to_f, point.end_location_longitude.to_f]
+        end
       end
       datapoint
     end
