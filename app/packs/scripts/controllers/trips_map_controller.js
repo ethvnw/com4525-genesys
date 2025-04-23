@@ -16,9 +16,29 @@ export default class extends Controller {
     const jsVariables = new VariablesDiv('map-variables');
     const markerPoints = JSON.parse(jsVariables.get('marker-coords'));
 
+    let previousCoords = null;
+    let directionSign = 1;
+
     markerPoints?.forEach((point) => {
-      this.map.addMarker(L.latLng(point.coords), {
-        key: point.id,
+      const coords = L.latLng(point.coords);
+
+      if (this.element.dataset.drawLines && previousCoords) {
+        this.map.addConnectingLine([coords, previousCoords], directionSign *= -1);
+      }
+      previousCoords = coords;
+
+      if (point.endCoords) {
+        const endCoords = L.latLng(point.endCoords);
+        this.map.addConnectingLine([coords, endCoords], 0);
+        this.map.addMarker(endCoords, {
+          key: `${point.id.toString()}-end`,
+          popup: point.title,
+        });
+        previousCoords = endCoords;
+      }
+
+      this.map.addMarker(coords, {
+        key: point.id.toString(),
         popup: point.title,
       });
     });

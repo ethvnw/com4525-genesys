@@ -1,0 +1,13 @@
+= turbo_stream.update("view-buttons",
+                      partial: "partials/trips/view_buttons")
+
+= turbo_stream.action("changeUrl", trip_url(@trip.id, view: params[:view]))
+
+- if params[:view] == "map"
+  = turbo_stream.update("plans-view",
+                        partial: "partials/plans/map_view",
+                        locals: { trip: @trip })
+- else
+  = turbo_stream.update("plans-view",
+                        partial: "partials/plans/list_view",
+                        locals: { trip: @trip, plan_groups: @plan_groups })

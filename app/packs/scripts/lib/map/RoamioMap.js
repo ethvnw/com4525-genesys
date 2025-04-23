@@ -1,4 +1,5 @@
 import L from 'leaflet';
+import '@elfalem/leaflet-curve';
 import { MAP_CONFIG, MAP_ICONS, TILE_LAYER_CONFIG } from './map_config';
 
 /**
@@ -72,6 +73,42 @@ class _RoamioMap {
 
     // Fit map to bounds of feature group
     this.map.fitBounds(this.markersFG.getBounds().pad(0.25));
+  }
+
+  /**
+   * Adds a line connecting an array of two coordinates.
+   * @param latLngs {Array[L.LatLng]} - An array of the two coordinates that you want to draw a
+   *                                    line between.
+   * @param directionSign {number} - the sign of the direction of curve.
+   *                                 If 0, then line will be straight.
+   */
+  addConnectingLine(latLngs, directionSign = 1) {
+    const direction = Math.sign(directionSign);
+
+    const latDiff = latLngs[1].lat - latLngs[0].lat;
+    const lngDiff = latLngs[1].lng - latLngs[0].lng;
+    const latOffset = 0.5 + 0.3 * -direction;
+    const lngOffset = 0.5 + 0.3 * direction;
+
+    const midPoint = L.latLng(
+      latLngs[0].lat + (latOffset * latDiff),
+      latLngs[0].lng + (lngOffset * lngDiff),
+    );
+
+    const pathOptions = {
+      color: 'rgba(255,255,255)',
+      weight: 3,
+    };
+
+    const path = L.curve(
+      [
+        'M', [latLngs[0].lat, latLngs[0].lng],
+        'Q', [midPoint.lat, midPoint.lng], [latLngs[1].lat, latLngs[1].lng],
+      ],
+      pathOptions,
+    );
+
+    this.markersFG.addLayer(path);
   }
 
   /**
