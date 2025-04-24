@@ -2,6 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 import L from 'leaflet';
 import { newRoamioMap } from '../lib/map/RoamioMap';
 import { VariablesDiv } from '../lib/VariablesDiv';
+import { MAP_ICONS } from '../lib/map/map_config';
 
 let mapObject;
 
@@ -39,7 +40,7 @@ export default class extends Controller {
 
       this.map.addMarker(coords, {
         key: point.id.toString(),
-        popup: point.title,
+        icon: MAP_ICONS.tripText(point.title, `/trips/${point.id}`),
       });
     });
   }

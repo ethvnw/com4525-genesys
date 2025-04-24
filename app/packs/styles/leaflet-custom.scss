@@ -20,6 +20,8 @@
   background-color: transparent !important;
   border-color: transparent !important;
 
+  @extend .d-flex, .align-items-center, .justify-content-center;
+
   color: white;
   svg {
     height: 100%;
@@ -34,6 +36,40 @@
     width: 100%;
     z-index: -1;
   }
+}
+
+.btn-trip {
+  @extend .btn, .btn-sm, .btn-primary, .fw-semibold;
+  position: relative;
+  max-width: 200px;
+  
+  span {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%; 
+  }
+}
+
+// Speech bubble effect made with Bubbly
+// [https://projects.verou.me/bubbly/]
+.btn-trip:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 12px solid transparent;
+	border-top-color: var(--bs-btn-bg);
+	border-bottom: 0;
+	margin-left: -12px;
+	margin-bottom: -12px;
+}
+
+.btn-trip:hover:after {
+  border-top-color: var(--bs-btn-hover-bg);
 }
 
 .mapbox-logo {
