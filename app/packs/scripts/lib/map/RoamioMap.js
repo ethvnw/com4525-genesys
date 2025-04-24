@@ -104,20 +104,32 @@ class _RoamioMap {
       latLngs[0].lng + (lngOffset * lngDiff),
     );
 
-    const pathOptions = {
-      color: 'rgba(255,255,255)',
-      weight: 3,
-    };
-
-    const path = L.curve(
+    // Outline Curve
+    const outlinePath = L.curve(
       [
         'M', [latLngs[0].lat, latLngs[0].lng],
         'Q', [midPoint.lat, midPoint.lng], [latLngs[1].lat, latLngs[1].lng],
       ],
-      pathOptions,
+      {
+        color: '#559bf7',
+        weight: 8,
+      },
     );
 
-    this.markersFG.addLayer(path);
+    // Foreground curve
+    const foregroundPath = L.curve(
+      [
+        'M', [latLngs[0].lat, latLngs[0].lng],
+        'Q', [midPoint.lat, midPoint.lng], [latLngs[1].lat, latLngs[1].lng],
+      ],
+      {
+        color: '#3170ef',
+        weight: 6,
+      },
+    );
+
+    this.markersFG.addLayer(outlinePath);
+    this.markersFG.addLayer(foregroundPath);
   }
 
   /**
