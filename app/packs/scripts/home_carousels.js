@@ -124,8 +124,18 @@ const featuredLocationsCarousel = new Swiper(
   featuredLocationsConfig,
 );
 
+/**
+ * Reverts the background gradient to the first slide in the trips carousel
+ */
+function revertBackgroundGradient() {
+  applyBackgroundGradient(latestTripsCarousel.slides[latestTripsCarousel.activeIndex]);
+}
+
 document.querySelectorAll('.latest-trips-carousel .swiper-slide').forEach((slide) => {
   slide.addEventListener('mouseenter', () => {
     applyBackgroundGradient(slide);
+  });
+  slide.addEventListener('mouseleave', () => {
+    revertBackgroundGradient();
   });
 });
