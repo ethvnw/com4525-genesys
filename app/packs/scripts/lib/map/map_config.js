@@ -27,6 +27,7 @@ const TILE_LAYER_CONFIG = {
   url: '/api/map/tile/{x}/{y}/{z}',
   options: {
     maxZoom: 20,
+    attribution: '© <a href="https://www.mapbox.com/about/maps">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://apps.mapbox.com/feedback/" target="_blank">Improve this map</a></strong>',
   },
 };
 

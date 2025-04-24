@@ -118,6 +118,18 @@ class _RoamioMap {
     this.viewSettings.set('coords', this.map.getCenter());
     this.viewSettings.set('zoom', this.map.getZoom());
   }
+
+  addMapboxAttributionLogo() {
+    const mapContainer = document.getElementById(this.mapId);
+    if (mapContainer) {
+      const link = document.createElement('a');
+      link.href = 'https://mapbox.com/';
+      link.target = '_blank';
+      link.innerHTML = 'Mapbox';
+      link.classList.add('mapbox-logo');
+      mapContainer.appendChild(link);
+    }
+  }
 }
 
 /**
@@ -126,7 +138,9 @@ class _RoamioMap {
  * @returns {_RoamioMap} A new RoamioMap instance.
  */
 function newRoamioMap(mapId) {
-  return new _RoamioMap(mapId);
+  const roamioMap = new _RoamioMap(mapId);
+  roamioMap.addMapboxAttributionLogo();
+  return roamioMap;
 }
 
 // Create and export singleton instance of RoamioMap
