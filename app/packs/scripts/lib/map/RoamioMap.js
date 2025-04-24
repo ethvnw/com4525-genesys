@@ -119,6 +119,9 @@ class _RoamioMap {
     this.viewSettings.set('zoom', this.map.getZoom());
   }
 
+  /**
+   * Adds Mapbox Attribution Logo to map
+   */
   addMapboxAttributionLogo() {
     const mapContainer = document.getElementById(this.mapId);
     if (mapContainer) {
