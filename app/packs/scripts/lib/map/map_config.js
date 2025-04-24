@@ -12,6 +12,19 @@ function buildDivIconWithSVG(svg) {
   return `${svg}\n${imgElement.outerHTML}`;
 }
 
+function buildDivTripMarker(title, link) {
+  const markerEl = document.createElement('a');
+  markerEl.href = link;
+  markerEl.className = 'btn-trip';
+  const titleEl = document.createElement('span');
+  const iconEl = document.createElement('i');
+  iconEl.className = 'bi bi-geo-alt-fill';
+  titleEl.appendChild(iconEl);
+  titleEl.appendChild(document.createTextNode(` ${title}`));
+  markerEl.appendChild(titleEl);
+  return markerEl.outerHTML;
+}
+
 const MAP_CONFIG = {
   center: [0, 0],
   zoom: 1,
@@ -27,7 +40,6 @@ const TILE_LAYER_CONFIG = {
   url: '/api/map/tile/{x}/{y}/{z}',
   options: {
     maxZoom: 20,
-    attribution: '© <a href="https://www.mapbox.com/about/maps">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://apps.mapbox.com/feedback/" target="_blank">Improve this map</a></strong>',
   },
 };
 
@@ -37,6 +49,11 @@ const MAP_ICONS = {
     iconSize: [48, 48],
     iconAnchor: [4, 44],
     popupAnchor: [24, -40],
+  }),
+  tripText: (title, link) => L.divIcon({
+    html: buildDivTripMarker(title, link),
+    iconSize: [200, 48],
+    iconAnchor: [100, 48],
   }),
 };
 

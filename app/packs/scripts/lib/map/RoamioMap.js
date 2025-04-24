@@ -50,6 +50,9 @@ class _RoamioMap {
     }
 
     this.map.on('moveend', this.saveView.bind(this));
+
+    // Add Mapbox attribution
+    this.addMapboxAttribution();
   }
 
   /**
@@ -67,7 +70,13 @@ class _RoamioMap {
       return;
     }
 
-    const marker = L.marker(latLng, { icon: fullOptions.icon }).bindPopup(fullOptions.popup);
+    const marker = L.marker(latLng, { icon: fullOptions.icon });
+
+    // Only bind a popup if the popup option is provided
+    if (fullOptions.popup) {
+      marker.bindPopup(fullOptions.popup);
+    }
+
     this.markers.set(markerKey, marker);
     this.markersFG.addLayer(marker);
 
@@ -120,9 +129,12 @@ class _RoamioMap {
   }
 
   /**
-   * Adds Mapbox Attribution Logo to map
+   * Adds Mapbox Attribution to map
    */
-  addMapboxAttributionLogo() {
+  addMapboxAttribution() {
+    this.map.attributionControl.addAttribution(
+      '© <a href="https://www.mapbox.com/about/maps">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://apps.mapbox.com/feedback/" target="_blank">Improve this map</a></strong>',
+    );
     const mapContainer = document.getElementById(this.mapId);
     if (mapContainer) {
       const link = document.createElement('a');
@@ -141,9 +153,7 @@ class _RoamioMap {
  * @returns {_RoamioMap} A new RoamioMap instance.
  */
 function newRoamioMap(mapId) {
-  const roamioMap = new _RoamioMap(mapId);
-  roamioMap.addMapboxAttributionLogo();
-  return roamioMap;
+  return new _RoamioMap(mapId);
 }
 
 // Create and export singleton instance of RoamioMap
