@@ -27,7 +27,6 @@ const TILE_LAYER_CONFIG = {
   url: '/api/map/tile/{x}/{y}/{z}',
   options: {
     maxZoom: 20,
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
   },
 };
 
