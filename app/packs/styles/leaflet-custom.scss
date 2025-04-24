@@ -72,6 +72,23 @@
   border-top-color: var(--bs-btn-hover-bg);
 }
 
+.leaflet-control-zoom {
+  @extend .border-0;
+  a {
+    @extend .btn, .btn-light;
+    @extend .border-0;
+    @extend .d-flex, .justify-content-center, .align-items-center;
+  }
+
+  a:first-child {
+    border-radius: $border-radius $border-radius 0 0;
+  }
+
+  a:last-child {
+    border-radius: 0 0 $border-radius $border-radius;
+  }
+}
+
 .mapbox-logo {
   position: absolute;
   display: block;
