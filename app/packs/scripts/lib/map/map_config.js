@@ -24,7 +24,7 @@ const MAP_CONFIG = {
 };
 
 const TILE_LAYER_CONFIG = {
-  url: 'http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+  url: '/api/map/tile/{x}/{y}/{z}',
   options: {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
