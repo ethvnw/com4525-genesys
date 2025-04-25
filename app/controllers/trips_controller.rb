@@ -109,7 +109,8 @@ class TripsController < ApplicationController
   def show
     # Enforce presence of "view" query parameter
     unless ["list", "map"].include?(params[:view].to_s)
-      redirect_to(trip_path(params[:id], request.query_parameters.merge({ view: "list" }))) and return
+      flash.keep(:notifications) # Persist notifications across redirect
+      turbo_redirect_to(trip_path(params[:id], request.query_parameters.merge({ view: "list" }))) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a plan
