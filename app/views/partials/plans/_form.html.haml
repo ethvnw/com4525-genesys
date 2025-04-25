@@ -2,7 +2,7 @@
                   builder: ValidatedFormBuilder,
                   errors: errors,
                   multipart: true,
-                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "plan-form" }) do |f|
   = f.validated_input(:title,
                       placeholder: "Enter the title of the plan...")
   = f.validated_select(:plan_type,
@@ -23,7 +23,7 @@
     = form_error_message(errors, :end_location_name)
     .valid-feedback Looks good!
 
-  #map
+  #plan-form-map.form-map
 
   = f.validated_datetime(:start_date, required: true)
   = f.validated_datetime(:end_date, required: true)
