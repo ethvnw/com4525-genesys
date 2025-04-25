@@ -20,7 +20,7 @@ module ApiRoutes
     # @param query [String] the user query to send to photon
     # @return [String] the URL which should be called to make the API request
     def location_search(query)
-      "https://photon.komoot.io/api?q=#{query}&limit=5"
+      "https://photon.komoot.io/api?q=#{query}&limit=5&lang=en"
     end
 
     ##
