@@ -125,10 +125,10 @@ module ApplicationHelper
 
   ##
   # Converts a list of 'events' (trips or plans) to a JSON list, which can be read by JavaScript
-  # @param location_points [Array] an array of plans/trips
+  # @param location_points [Array, nil] an array of plans/trips
   # @return [String] a JSONified string of important information from the events
   def convert_events_to_json(location_points)
-    ruby_hash = location_points.map do |point|
+    ruby_hash = location_points&.map do |point|
       datapoint = {
         id: point.id,
         title: point.title,
@@ -145,7 +145,7 @@ module ApplicationHelper
       datapoint
     end
 
-    ruby_hash.to_json.html_safe
+    ruby_hash&.to_json&.html_safe || "[]"
   end
 
   ##

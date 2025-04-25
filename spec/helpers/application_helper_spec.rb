@@ -289,4 +289,66 @@ RSpec.describe(ApplicationHelper, type: :helper) do
       end
     end
   end
+
+  describe "#convert_events_to_json" do
+    context "when nothing is passed" do
+      it "returns JSON for an empty array" do
+        expect(helper.convert_events_to_json(nil)).to(eq("[]"))
+      end
+    end
+
+    context "when an empty array is passed" do
+      it "returns JSON for an empty array" do
+        expect(helper.convert_events_to_json([])).to(eq("[]"))
+      end
+    end
+
+    context "when a list of events is passed" do
+      let(:trip) { create(:trip) }
+      let(:plan) { create(:plan) }
+      let(:plan_without_end_location) { create(:plan, :no_end_location) }
+
+      it "produces valid JSON" do
+        result = helper.convert_events_to_json([trip, plan, plan_without_end_location])
+        expect { JSON.parse(result) }.not_to(raise_error)
+      end
+
+      it "contains a list of all events passed" do
+        result = JSON.parse(helper.convert_events_to_json([trip, plan, plan_without_end_location]))
+        expect(result.is_a?(Array)).to(be_truthy)
+        expect(result.length).to(eq(3))
+      end
+
+      it "contains only the ID, title, and coordinates of trip events" do
+        result = JSON.parse(helper.convert_events_to_json([trip, plan, plan_without_end_location]))
+        expect(result[0]).to(eq({
+          "id" => trip.id,
+          "title" => trip.title,
+          "coords" => [trip.location_latitude, trip.location_longitude],
+        }))
+      end
+
+      it "contains only the ID, title, and start coordinates of plan events with no end location" do
+        result = JSON.parse(helper.convert_events_to_json([trip, plan, plan_without_end_location]))
+        expect(result[2]).to(eq({
+          "id" => plan_without_end_location.id,
+          "title" => plan_without_end_location.title,
+          "coords" => [
+            plan_without_end_location.start_location_latitude,
+            plan_without_end_location.start_location_longitude,
+          ],
+        }))
+      end
+
+      it "contains the end coordinates of plan events with an end location" do
+        result = JSON.parse(helper.convert_events_to_json([trip, plan, plan_without_end_location]))
+        expect(result[1]).to(eq({
+          "id" => plan.id,
+          "title" => plan.title,
+          "coords" => [plan.start_location_latitude, plan.start_location_longitude],
+          "endCoords" => [plan.end_location_latitude, plan.end_location_longitude],
+        }))
+      end
+    end
+  end
 end
