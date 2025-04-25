@@ -108,13 +108,18 @@ class _RoamioMap {
    */
   addConnectingLine(latLngs, directionSign = 1, key = null) {
     // auto-assign key if none passed
-    const lineKey = key || this.markers.size.toString();
+    const lineKey = key || this.lines.size.toString();
 
     if (this.lines.has(`${lineKey}-fg`) || this.lines.has(`${lineKey}-bg`)) {
       return;
     }
 
     const direction = Math.sign(directionSign);
+
+    const dashOptions = {};
+    if (direction === 0) {
+      dashOptions.dashArray = '30 20';
+    }
 
     const latDiff = latLngs[1].lat - latLngs[0].lat;
     const lngDiff = latLngs[1].lng - latLngs[0].lng;
@@ -135,6 +140,7 @@ class _RoamioMap {
       {
         color: '#559bf7',
         weight: 8,
+        ...dashOptions,
       },
     );
 
@@ -147,6 +153,7 @@ class _RoamioMap {
       {
         color: '#3170ef',
         weight: 6,
+        ...dashOptions,
       },
     );
 
