@@ -305,8 +305,8 @@ RSpec.describe(ApplicationHelper, type: :helper) do
 
     context "when a list of events is passed" do
       let(:trip) { create(:trip) }
-      let(:plan) { create(:plan) }
-      let(:plan_without_end_location) { create(:plan, :no_end_location) }
+      let(:plan) { create(:plan, trip: trip) }
+      let(:plan_without_end_location) { create(:plan, :no_end_location, trip: trip) }
 
       it "produces valid JSON" do
         result = helper.convert_events_to_json([trip, plan, plan_without_end_location])
@@ -319,16 +319,17 @@ RSpec.describe(ApplicationHelper, type: :helper) do
         expect(result.length).to(eq(3))
       end
 
-      it "contains only the ID, title, and coordinates of trip events" do
+      it "contains only the ID, title, coordinates, and path of trip events" do
         result = JSON.parse(helper.convert_events_to_json([trip, plan, plan_without_end_location]))
         expect(result[0]).to(eq({
           "id" => trip.id,
           "title" => trip.title,
           "coords" => [trip.location_latitude, trip.location_longitude],
+          "href" => "/trips/#{trip.id}",
         }))
       end
 
-      it "contains only the ID, title, and start coordinates of plan events with no end location" do
+      it "contains only the ID, title, start coordinates, and path of plan events with no end location" do
         result = JSON.parse(helper.convert_events_to_json([trip, plan, plan_without_end_location]))
         expect(result[2]).to(eq({
           "id" => plan_without_end_location.id,
@@ -337,6 +338,7 @@ RSpec.describe(ApplicationHelper, type: :helper) do
             plan_without_end_location.start_location_latitude,
             plan_without_end_location.start_location_longitude,
           ],
+          "href" => "/trips/#{trip.id}/plans/#{plan_without_end_location.id}/edit",
         }))
       end
 
@@ -347,6 +349,7 @@ RSpec.describe(ApplicationHelper, type: :helper) do
           "title" => plan.title,
           "coords" => [plan.start_location_latitude, plan.start_location_longitude],
           "endCoords" => [plan.end_location_latitude, plan.end_location_longitude],
+          "href" => "/trips/#{trip.id}/plans/#{plan.id}/edit",
         }))
       end
     end
