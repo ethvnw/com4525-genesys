@@ -1,8 +1,8 @@
 = simple_form_for([trip, plan],
                   builder: ValidatedFormBuilder,
                   errors: errors,
-                  multipart: true,
-                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "plan-form" }) do |f|
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "plan-form" },
+                  multipart: true) do |f|
   = f.validated_input(:title,
                       placeholder: "Enter the title of the plan...")
   = f.validated_select(:plan_type,
