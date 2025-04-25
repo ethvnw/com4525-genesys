@@ -132,3 +132,6 @@ gem "countries", "~> 7.0"
 # turbo - enables SPA-like performance
 gem "turbo-rails"
 gem "stimulus-rails"
+
+# Allows us to normalise URI to ASCII characters only when making requests with HTTParty
+gem "addressable"
