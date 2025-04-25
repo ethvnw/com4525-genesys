@@ -147,4 +147,13 @@ module ApplicationHelper
 
     ruby_hash.to_json.html_safe
   end
+
+  ##
+  # Creates a data hash which includes turbo: tru and turbo-confirm
+  # Prevents lines being too long in HAML
+  # @param message [String] the message to display in the alert
+  # @return [Hash] the data hash
+  def turbo_confirm(message)
+    { turbo: true, turbo_confirm: message }
+  end
 end

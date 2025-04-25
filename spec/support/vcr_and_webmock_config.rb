@@ -31,14 +31,6 @@ VCR.configure do |c|
       VCR.use_cassette("ip_info") { request.proceed }
     elsif request.uri.include?("unsplash.com")
       VCR.use_cassette("unsplash") { request.proceed }
-    elsif request.uri.include?("mapbox.com")
-      # VCR likes to try and nest things, so check whether it's currently inside of the cassette we want to use
-      if VCR.current_cassette && VCR.current_cassette.name == "mapbox"
-        request.proceed
-      else
-        # Match all GET requests to mapbox.com
-        VCR.use_cassette("mapbox", match_requests_on: [:method]) { request.proceed }
-      end
     else
       request.proceed
     end
