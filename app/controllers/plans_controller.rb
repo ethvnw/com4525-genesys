@@ -10,7 +10,6 @@ class PlansController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @script_packs = ["plans"]
     @trip = Trip.find(params[:trip_id])
     @plan = if session[:plan_data]
       Plan.new(session[:plan_data])
@@ -49,7 +48,6 @@ class PlansController < ApplicationController
   end
 
   def edit
-    @script_packs = ["plans"]
     @trip = Trip.find(params[:trip_id])
     @plan = Plan.find(params[:id]).decorate
     @errors = flash[:errors]

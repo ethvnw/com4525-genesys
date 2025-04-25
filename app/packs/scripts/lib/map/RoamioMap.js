@@ -23,6 +23,7 @@ class _RoamioMap {
   constructor(mapId = 'map') {
     this.mapId = mapId;
     this.markers = new Map(); // JavaScript map, not leaflet
+    this.lines = new Map();
     this.markersFG = L.featureGroup();
     this.viewSettings = new Map();
   }
@@ -81,7 +82,21 @@ class _RoamioMap {
     this.markersFG.addLayer(marker);
 
     // Fit map to bounds of feature group
-    this.map.fitBounds(this.markersFG.getBounds().pad(0.25));
+    this.map.fitBounds(this.markersFG.getBounds().pad(0.25), { maxZoom: 12 });
+  }
+
+  /**
+   * Remove a marker from the map
+   * @param {String} key - the key of the marker to remove
+   */
+  removeMarker(key) {
+    if (!this.markers.has(key)) {
+      return;
+    }
+
+    this.markersFG.removeLayer(this.markers.get(key));
+    this.markers.delete(key);
+    this.map.fitBounds(this.markersFG.getBounds().pad(0.25), { maxZoom: 12 });
   }
 
   /**
@@ -91,7 +106,14 @@ class _RoamioMap {
    * @param directionSign {number} - the sign of the direction of curve.
    *                                 If 0, then line will be straight.
    */
-  addConnectingLine(latLngs, directionSign = 1) {
+  addConnectingLine(latLngs, directionSign = 1, key = null) {
+    // auto-assign key if none passed
+    const lineKey = key || this.markers.size.toString();
+
+    if (this.lines.has(`${lineKey}-fg`) || this.lines.has(`${lineKey}-bg`)) {
+      return;
+    }
+
     const direction = Math.sign(directionSign);
 
     const latDiff = latLngs[1].lat - latLngs[0].lat;
@@ -130,6 +152,25 @@ class _RoamioMap {
 
     this.markersFG.addLayer(outlinePath);
     this.markersFG.addLayer(foregroundPath);
+
+    this.lines.set(`${lineKey}-fg`, foregroundPath);
+    this.lines.set(`${lineKey}-bg`, outlinePath);
+  }
+
+  /**
+   * Remove a connecting line from the map
+   * @param {String} key - the key of the line to remove
+   */
+  removeConnectingLine(key) {
+    if (!(this.lines.has(`${key}-fg`) || this.lines.has(`${key}-bg`))) {
+      return;
+    }
+
+    this.markersFG.removeLayer(this.lines.get(`${key}-fg`));
+    this.lines.delete(`${key}-fg`);
+    this.markersFG.removeLayer(this.lines.get(`${key}-bg`));
+    this.lines.delete(`${key}-bg`);
+    this.map.fitBounds(this.markersFG.getBounds().pad(0.25), { maxZoom: 12 });
   }
 
   /**

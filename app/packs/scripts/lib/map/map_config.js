@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import tripIconShadow from '../../../images/leaflet/trip-icon-shadow.png';
-import { createElement } from '../DOMUtils';
+import { appendChildren, createElement } from '../DOMUtils';
 import { tripIconSvg } from './icon_svgs';
 
 function buildDivIconWithSVG(svg) {
@@ -13,21 +13,21 @@ function buildDivIconWithSVG(svg) {
 }
 
 function buildDivTripMarker(title, link) {
-  const markerEl = document.createElement('a');
-  markerEl.href = link;
-  markerEl.className = 'btn-trip';
-  const titleEl = document.createElement('span');
-  const iconEl = document.createElement('i');
-  iconEl.className = 'bi bi-geo-alt-fill';
-  titleEl.appendChild(iconEl);
-  titleEl.appendChild(document.createTextNode(` ${title}`));
+  const markerEl = createElement(link !== null ? 'a' : 'span', { className: 'btn-trip' });
+  if (link !== null) {
+    markerEl.href = link;
+  }
+
+  const titleEl = createElement('span', {});
+  const iconEl = createElement('i', { className: 'bi bi-geo-alt-fill' });
+  appendChildren(titleEl, [iconEl, document.createTextNode(` ${title}`)]);
   markerEl.appendChild(titleEl);
   return markerEl.outerHTML;
 }
 
 const MAP_CONFIG = {
   center: [0, 0],
-  zoom: 1,
+  zoom: 5,
   maxZoom: 20,
   minZoom: 1,
   maxBounds: [
