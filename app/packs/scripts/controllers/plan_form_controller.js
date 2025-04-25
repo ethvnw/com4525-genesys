@@ -18,7 +18,17 @@ export default class extends Controller {
     this.planTypeDropdown = document.getElementById('plan_plan_type');
     this.planTypeDropdown.addEventListener('change', this.updateEndLocationInput.bind(this));
 
-    this.startLocationContainer = document.getElementById('start-location-container');
+    this.setupLocationInputs();
+    // Set end location visible if necessary
+    this.updateEndLocationInput();
+    // Restore existing locations if present
+    this.restoreExistingLocation();
+  }
+
+  /**
+   * Store location input elements as instance variables
+   */
+  setupLocationInputs() {
     this.startLocationInput = document.getElementById('start_location_name_input');
     this.startLocationLatitudeInput = document.getElementById('start_location_latitude_input');
     this.startLocationLongitudeInput = document.getElementById('start_location_longitude_input');
@@ -41,14 +51,16 @@ export default class extends Controller {
       this.endLocationLongitudeInput.value = item.lng;
       this.updateMarker('end', item);
     });
+  }
 
-    // Set end location visible if necessary
-    this.updateEndLocationInput();
-
-    // Restore existing locations if present
+  /**
+   * Restore location from hidden inputs if one exists
+   */
+  restoreExistingLocation() {
     const startName = this.startLocationInput.value;
     const startLat = parseFloat(this.startLocationLatitudeInput.value);
     const startLng = parseFloat(this.startLocationLongitudeInput.value);
+
     const endName = this.endLocationInput.value;
     const endLat = parseFloat(this.endLocationLatitudeInput.value);
     const endLng = parseFloat(this.endLocationLongitudeInput.value);
@@ -89,6 +101,11 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Update a marker with a new response from the autocomplete
+   * @param {String} marker - the name of the marker to update
+   * @param {{ name: String, lat: float, lng: float }} item - the item retrieved by the autocomplete
+   */
   updateMarker(marker, item) {
     this.map.removeMarker(`${marker}-location`);
     this.map.addMarker(L.latLng(item.lat, item.lng), {

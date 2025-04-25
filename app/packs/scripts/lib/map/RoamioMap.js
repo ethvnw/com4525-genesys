@@ -82,7 +82,7 @@ class _RoamioMap {
     this.markersFG.addLayer(marker);
 
     // Fit map to bounds of feature group
-    this.map.fitBounds(this.markersFG.getBounds().pad(0.25), { maxZoom: 12 });
+    this.fitToFeatures();
   }
 
   /**
@@ -96,7 +96,7 @@ class _RoamioMap {
 
     this.markersFG.removeLayer(this.markers.get(key));
     this.markers.delete(key);
-    this.map.fitBounds(this.markersFG.getBounds().pad(0.25), { maxZoom: 12 });
+    this.fitToFeatures();
   }
 
   /**
@@ -177,7 +177,15 @@ class _RoamioMap {
     this.lines.delete(`${key}-fg`);
     this.markersFG.removeLayer(this.lines.get(`${key}-bg`));
     this.lines.delete(`${key}-bg`);
-    this.map.fitBounds(this.markersFG.getBounds().pad(0.25), { maxZoom: 12 });
+    this.fitToFeatures();
+  }
+
+  /**
+   * Fits the map view to its features
+   * @param {number} maxZoom - the zoom level to set the map to
+   */
+  fitToFeatures(maxZoom = 12) {
+    this.map.fitBounds(this.markersFG.getBounds().pad(0.25), { maxZoom });
   }
 
   /**

@@ -29,7 +29,6 @@ class TripsController < ApplicationController
   end
 
   def new
-    @script_packs = ["trips"]
     @trip = if session[:trip_data]
       Trip.new(session[:trip_data])
     else
@@ -82,7 +81,6 @@ class TripsController < ApplicationController
   end
 
   def edit
-    @script_packs = ["trips"]
     @trip = Trip.find(params[:id])
     @errors = flash[:errors]
   end
