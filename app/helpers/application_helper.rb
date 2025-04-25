@@ -136,11 +136,13 @@ module ApplicationHelper
 
       if point.is_a?(Trip)
         datapoint[:coords] = [point.location_latitude.to_f, point.location_longitude.to_f]
+        datapoint[:href] = trip_path(point.id)
       elsif point.is_a?(Plan)
         datapoint[:coords] = [point.start_location_latitude.to_f, point.start_location_longitude.to_f]
         if point.end_location_latitude
           datapoint[:endCoords] = [point.end_location_latitude.to_f, point.end_location_longitude.to_f]
         end
+        datapoint[:href] = edit_trip_plan_path(point.trip.id, point.id)
       end
       datapoint
     end

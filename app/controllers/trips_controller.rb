@@ -16,7 +16,9 @@ class TripsController < ApplicationController
   def index
     # Enforce presence of "view" query parameter
     unless ["list", "map"].include?(params[:view].to_s)
-      redirect_to(trips_path(request.query_parameters.merge({ view: "list" }))) and return
+      flash.keep(:notifications) # Persist notifications across redirect
+      default_view = session.fetch(:trip_index_view, "list")
+      redirect_to(trips_path(request.query_parameters.merge({ view: default_view }))) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a trip
@@ -110,7 +112,8 @@ class TripsController < ApplicationController
     # Enforce presence of "view" query parameter
     unless ["list", "map"].include?(params[:view].to_s)
       flash.keep(:notifications) # Persist notifications across redirect
-      turbo_redirect_to(trip_path(params[:id], request.query_parameters.merge({ view: "list" }))) and return
+      default_view = session.fetch(:trip_index_view, "list")
+      turbo_redirect_to(trip_path(params[:id], request.query_parameters.merge({ view: default_view }))) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a plan

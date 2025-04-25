@@ -40,7 +40,7 @@ export default class extends Controller {
 
       this.map.addMarker(coords, {
         key: point.id.toString(),
-        icon: MAP_ICONS.tripText(point.title, `/trips/${point.id}`),
+        icon: MAP_ICONS.tripText(point.title, point.href),
       });
     });
   }
