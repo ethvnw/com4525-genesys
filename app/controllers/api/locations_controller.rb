@@ -9,7 +9,11 @@ module Api
     before_action :set_cache_control_headers
 
     def search
-      api_response = HTTParty.get(ApiRoutes.location_search(params[:query].to_s), timeout: 5)&.body
+      api_response = HTTParty.get(
+        ApiRoutes.location_search(params[:query].to_s),
+        timeout: 5,
+        uri_adapter: Addressable::URI,
+      )&.body
       render(json: api_response)
     end
   end
