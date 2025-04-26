@@ -1,7 +1,8 @@
 .d-flex.justify-content-between.align-items-center
-  %p.mb-0.text-secondary
-    - unless plan.plan_type.starts_with?("travel_")
-      = plan.plan_type.humanize.titleize
+  - if plan.plan_type.starts_with?("travel_")
+    %p.mb-0.text-white= plan.title.titleize
+  - else
+    %p.mb-0.text-secondary= plan.plan_type.titleize
 
   -# Dropdown menu
   #plan-settings.dropdown
