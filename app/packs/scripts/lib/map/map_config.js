@@ -12,16 +12,21 @@ function buildDivIconWithSVG(svg) {
   return `${svg}\n${imgElement.outerHTML}`;
 }
 
-function buildDivTripMarker(title, link) {
+function buildDivTripMarker(title, link, icon = 'bi bi-geo-alt-fill', description = null) {
   const markerEl = createElement(link !== null ? 'a' : 'span', { className: 'btn-trip' });
   if (link !== null) {
     markerEl.href = link;
   }
 
   const titleEl = createElement('span', {});
-  const iconEl = createElement('i', { className: 'bi bi-geo-alt-fill' });
+  const iconEl = createElement('i', { className: icon });
   appendChildren(titleEl, [iconEl, document.createTextNode(` ${title}`)]);
   markerEl.appendChild(titleEl);
+  if (description) {
+    const descriptionEl = createElement('span', { className: 'marker-description' });
+    descriptionEl.textContent = description;
+    markerEl.appendChild(descriptionEl);
+  }
   return markerEl.outerHTML;
 }
 
@@ -50,11 +55,14 @@ const MAP_ICONS = {
     iconAnchor: [4, 44],
     popupAnchor: [24, -40],
   }),
-  tripText: (title, link) => L.divIcon({
-    html: buildDivTripMarker(title, link),
-    iconSize: [200, 48],
-    iconAnchor: [100, 48],
-  }),
+  tripText: (title, link, icon, description) => {
+    const anchorY = 48 + (description ? 12 : 0);
+    return L.divIcon({
+      html: buildDivTripMarker(title, link, icon, description),
+      iconSize: [200, anchorY],
+      iconAnchor: [100, anchorY],
+    });
+  },
 };
 
 export { MAP_CONFIG, TILE_LAYER_CONFIG, MAP_ICONS };

@@ -141,6 +141,7 @@ module ApplicationHelper
         datapoint[:coords] = [point.start_location_latitude.to_f, point.start_location_longitude.to_f]
         if point.end_location_latitude
           datapoint[:endCoords] = [point.end_location_latitude.to_f, point.end_location_longitude.to_f]
+          datapoint[:icon] = [point.decorate.travel_icon]
         end
         datapoint[:href] = edit_trip_plan_path(point.trip.id, point.id)
       end
