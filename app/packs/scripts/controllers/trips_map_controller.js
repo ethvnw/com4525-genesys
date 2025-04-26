@@ -28,20 +28,19 @@ export default class extends Controller {
       }
       previousCoords = coords;
 
+      const key = point.id.toString();
+      const icon = MAP_ICONS.tripText(point.title, point.href, point.icon, point.endCoords ? 'Start' : undefined);
+      this.map.addMarker(coords, { key, icon });
+
       if (point.endCoords) {
         const endCoords = L.latLng(point.endCoords);
         this.map.addConnectingLine([coords, endCoords], 0);
         this.map.addMarker(endCoords, {
-          key: `${point.id.toString()}-end`,
-          popup: point.title,
+          key: `${key}-end`,
+          icon: MAP_ICONS.tripText(point.title, point.href, point.icon, 'End'),
         });
         previousCoords = endCoords;
       }
-
-      this.map.addMarker(coords, {
-        key: point.id.toString(),
-        icon: MAP_ICONS.tripText(point.title, point.href),
-      });
     });
   }
 }

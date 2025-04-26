@@ -48,28 +48,39 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 100%; 
+    width: 100%;
+    text-align: left;
   }
-}
 
-// Speech bubble effect made with Bubbly
-// [https://projects.verou.me/bubbly/]
-.btn-trip:after {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	width: 0;
-	height: 0;
-	border: 12px solid transparent;
-	border-top-color: var(--bs-btn-bg);
-	border-bottom: 0;
-	margin-left: -12px;
-	margin-bottom: -12px;
-}
+  span.marker-description {
+    @extend .small, .text-secondary;
+    display: flex;
+    padding-left: 18px;
+  }
+  
+  // Speech bubble effect made with Bubbly
+  // [https://projects.verou.me/bubbly/]
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 12px solid transparent;
+    border-top-color: var(--bs-btn-bg);
+    border-bottom: 0;
+    margin-left: -12px;
+    margin-bottom: -12px;
+    transition: color 0.15s ease-in-out, 
+        background-color 0.15s ease-in-out, 
+        border-color 0.15s ease-in-out, 
+        box-shadow 0.15s ease-in-out;
+  }
 
-.btn-trip:hover:after {
-  border-top-color: var(--bs-btn-hover-bg);
+  &:hover::after {
+    border-top-color: var(--bs-btn-hover-bg);
+  }
 }
 
 .leaflet-control-zoom {

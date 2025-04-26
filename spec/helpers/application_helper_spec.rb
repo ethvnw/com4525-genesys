@@ -350,6 +350,7 @@ RSpec.describe(ApplicationHelper, type: :helper) do
           "coords" => [plan.start_location_latitude, plan.start_location_longitude],
           "endCoords" => [plan.end_location_latitude, plan.end_location_longitude],
           "href" => "/trips/#{trip.id}/plans/#{plan.id}/edit",
+          "icon" => [plan.decorate.travel_icon],
         }))
       end
     end
