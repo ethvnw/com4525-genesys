@@ -71,7 +71,7 @@ class _RoamioMap {
       return;
     }
 
-    const marker = L.marker(latLng, { icon: fullOptions.icon });
+    const marker = L.marker(latLng, { icon: fullOptions.icon, riseOnHover: true });
 
     // Only bind a popup if the popup option is provided
     if (fullOptions.popup) {
