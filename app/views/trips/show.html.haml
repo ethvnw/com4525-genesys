@@ -59,7 +59,7 @@
 - else
   #plans-view.h-100.mb-3
     - if params[:view] == "map"
-      = render("partials/plans/map_view", trip: @trip)
+      = render("partials/plans/map_view", plans: @plans)
     - else
       = render("partials/plans/list_view", trip: @trip, plan_groups: @plan_groups)
 

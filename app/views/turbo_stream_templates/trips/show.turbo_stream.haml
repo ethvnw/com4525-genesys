@@ -6,7 +6,7 @@
 - if params[:view] == "map"
   = turbo_stream.update("plans-view",
                         partial: "partials/plans/map_view",
-                        locals: { trip: @trip })
+                        locals: { plans: @plans })
 - else
   = turbo_stream.update("plans-view",
                         partial: "partials/plans/list_view",

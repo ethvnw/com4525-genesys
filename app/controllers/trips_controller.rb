@@ -121,8 +121,8 @@ class TripsController < ApplicationController
 
     @trip = Trip.find(params[:id]).decorate
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
-    plans = @trip.plans.order(:start_date).decorate
-    @plan_groups = plans.group_by { |plan| plan.start_date.to_date }
+    @plans = @trip.plans.order(:start_date).decorate
+    @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
 
     stream_response("trips/show")
   end
