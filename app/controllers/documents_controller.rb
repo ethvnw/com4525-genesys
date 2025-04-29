@@ -2,6 +2,7 @@
 
 # Handles the documents
 class DocumentsController < ApplicationController
+  include Streamable
   before_action :authenticate_user!
   before_action :set_plan
 
@@ -9,11 +10,16 @@ class DocumentsController < ApplicationController
     @plan = Plan.find(params[:plan_id])
 
     begin
-      document = @plan.documents.find(params[:document_id])
+      @document_id = params[:document_id]
+      document = @plan.documents.find(@document_id)
       document.purge
-      redirect_back_or_to(trip_path(@plan.trip), notice: "Document deleted successfully.")
+      stream_response(
+        "documents/destroy",
+        edit_trip_plan_path(@plan.trip, @plan),
+        { type: "success", content: "Document deleted successfully." },
+      )
     rescue ActiveRecord::RecordNotFound
-      redirect_back_or_to(trip_path(@plan.trip), alert: "Document not found.")
+      respond_with_toast({ type: "danger", content: "Document not found." }, edit_trip_plan_path(@plan.trip, @plan))
     end
   end
 

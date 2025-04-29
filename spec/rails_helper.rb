@@ -72,6 +72,9 @@ RSpec.configure do |config|
 
   config.before do
     DatabaseCleaner.start
+
+    # Enable VCR for every test
+    VCR.turn_on!
   end
 
   config.after do

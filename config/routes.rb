@@ -72,6 +72,8 @@ Rails.application.routes.draw do
     end
 
     resources :featured_locations, only: [:show]
+
+    get "/map/tile/:x/:y/:z", to: "map#tile", as: :map_tile
   end
 
   namespace :admin do
