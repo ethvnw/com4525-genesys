@@ -39,8 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (qrCodes[index].code.length > 30) {
       codeText.textContent += '...'; // Truncate long codes
     }
-    titleText.textContent = qrCodes[index].title_value
-    console.log(qrCodes);
+    titleText.textContent = qrCodes[index].title_value;
 
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === qrElements.length - 1;

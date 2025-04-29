@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('next-btn');
   const counter = document.getElementById('qr-counter');
 
-  let codesWithTitles = []; // [{ value: "qr_value", title: "james' ticket" }]
+  const codesWithTitles = []; // [{ value: "qr_value", title: "james' ticket" }]
 
   // Function to show the current result based on the index and update the navigation buttons
   function showResult(index) {
@@ -38,12 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateTitles(title, code) {
     const item = codesWithTitles.find((c) => c.value === code);
     if (item) item.title = title;
-  
+
     document.getElementById('scannable_ticket_titles').value = JSON.stringify(
-      codesWithTitles.map((c) => c.title)
+      codesWithTitles.map((c) => c.title),
     );
   }
-  
 
   input.addEventListener('change', async (event) => {
     const { files } = event.target;
@@ -111,12 +110,12 @@ document.addEventListener('DOMContentLoaded', () => {
               titleInput.placeholder = 'Enter title';
               titleInput.classList.add('form-control');
 
-              titleInput.addEventListener('input', (event) => {
-                updateTitles(event.target.value, code.data);
+              // edit is used > event as event is declared already above
+              titleInput.addEventListener('input', (edit) => {
+                updateTitles(edit.target.value, code.data);
               });
 
               textContainer.appendChild(titleInput);
-
             } else {
               // If the QR code is a duplicate, show an error message & the original image
               textContainer.innerHTML = '<p class="m-0">Error: Duplicate QR code</p>';
@@ -141,13 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
             showResult(0);
 
             document.getElementById('scannable_tickets').value = JSON.stringify(
-              codesWithTitles.map(({ value }) => value)
+              codesWithTitles.map(({ value }) => value),
             );
-            
+
             document.getElementById('scannable_ticket_titles').value = JSON.stringify(
-              codesWithTitles.map(({ title }) => title)
+              codesWithTitles.map(({ title }) => title),
             );
-            
+
             document.getElementById('qr-codes-found').classList.replace('d-none', 'd-block');
             document.getElementById('qr-codes-found').innerHTML = `Codes found in ${codesWithTitles.length}/${files.length} images`;
           }
