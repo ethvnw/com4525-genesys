@@ -12,6 +12,8 @@
 require "rails_helper"
 
 RSpec.describe(LandingPageVisit, type: :model) do
+  it_behaves_like "countable"
+
   describe "counting methods" do
     before do
       create(
@@ -44,27 +46,6 @@ RSpec.describe(LandingPageVisit, type: :model) do
         country_code: "GB",
         created_at: Time.zone.parse("2025-01-01 08:30:00"),
       )
-    end
-
-    describe ".by_day" do
-      it "counts landing page visits by day" do
-        by_day = LandingPageVisit.by_day
-        expect(by_day[Time.zone.parse("2024-01-01")]).to(eq(2))
-      end
-    end
-
-    describe ".by_week" do
-      it "counts landing page visits by week" do
-        by_week = LandingPageVisit.by_week
-        expect(by_week[Time.zone.parse("2024-01-01")]).to(eq(3))
-      end
-    end
-
-    describe ".by_month" do
-      it "counts landing page visits by month" do
-        by_month = LandingPageVisit.by_month
-        expect(by_month[Time.zone.parse("2024-01-01")]).to(eq(4))
-      end
     end
 
     describe ".by_country" do

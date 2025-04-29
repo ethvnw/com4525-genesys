@@ -17,6 +17,8 @@
 require "rails_helper"
 
 RSpec.describe(Trip, type: :model) do
+  it_behaves_like "countable"
+
   describe "validations" do
     let(:trip) { build(:trip) }
 
