@@ -22,6 +22,8 @@
 require "rails_helper"
 
 RSpec.describe(Registration, type: :model) do
+  it_behaves_like "countable"
+
   describe "validations" do
     context "when no email is present" do
       it "is invalid" do
@@ -126,27 +128,6 @@ RSpec.describe(Registration, type: :model) do
         country_code: "GB",
         created_at: Time.zone.parse("2025-01-01 08:30:00"),
       )
-    end
-
-    describe ".by_day" do
-      it "counts registrations by day" do
-        by_day = Registration.by_day
-        expect(by_day[Time.zone.parse("2024-01-01")]).to(eq(2))
-      end
-    end
-
-    describe ".by_week" do
-      it "counts registrations by week" do
-        by_week = Registration.by_week
-        expect(by_week[Time.zone.parse("2024-01-01")]).to(eq(3))
-      end
-    end
-
-    describe ".by_month" do
-      it "counts registrations by month" do
-        by_month = Registration.by_month
-        expect(by_month[Time.zone.parse("2024-01-01")]).to(eq(4))
-      end
     end
 
     describe ".by_country" do
