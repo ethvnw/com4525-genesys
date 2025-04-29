@@ -33,7 +33,9 @@ class _RoamioMap {
    * with configurations predefined in map_config.js.
    */
   initialise() {
-    this.map = L.map(this.mapId, MAP_CONFIG);
+    // Create a new canvas renderer for each map
+    const config = { ...MAP_CONFIG, renderer: L.canvas() };
+    this.map = L.map(this.mapId, config);
     this.markersFG.addTo(this.map);
 
     // Re-add all layers, otherwise they won't display on the map when tabbing back to it
