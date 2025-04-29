@@ -1,17 +1,19 @@
 import QRCode from 'qrcode';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const img = document.getElementById('qr-image');
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  const counter = document.getElementById('qr-counter');
-  const codeText = document.getElementById('qr-code-text');
-  const titleText = document.getElementById('qr-code-title');
+const img = document.getElementById('qr-image');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const counter = document.getElementById('qr-counter');
+const codeText = document.getElementById('qr-code-text');
+const titleText = document.getElementById('qr-code-title');
 
-  let currentIndex = 0;
-  const qrCodes = JSON.parse(document.getElementById('qr-code-data').textContent);
-  const dataUrls = await Promise.all(qrCodes.map((ticket) => QRCode.toDataURL(ticket.code)));
+let currentIndex = 0;
+const qrCodes = JSON.parse(document.getElementById('qr-code-data').textContent);
 
+// Wait for all codes to be generated before rendering
+Promise.all(
+  qrCodes.map((ticket) => QRCode.toDataURL(ticket.code)),
+).then((dataUrls) => {
   function showQR(index) {
     img.src = dataUrls[index];
     codeText.textContent = qrCodes[index].code;
@@ -36,5 +38,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  showQR(currentIndex);
+  showQR(currentIndex); // initial render
 });

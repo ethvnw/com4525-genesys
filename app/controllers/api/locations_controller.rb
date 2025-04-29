@@ -9,7 +9,15 @@ module Api
     before_action :set_cache_control_headers
 
     def search
-      api_response = HTTParty.get(ApiRoutes.location_search(params[:query].to_s), timeout: 5)&.body
+      # Timeout set to 60 to account for when the API throttles the location requests.
+      api_response = HTTParty.get(
+        ApiRoutes.location_search(params[:query].to_s),
+        headers: {
+          "User-Agent" => request.headers["User-Agent"],
+        },
+        timeout: 60,
+        uri_adapter: Addressable::URI,
+      )&.body
       render(json: api_response)
     end
   end

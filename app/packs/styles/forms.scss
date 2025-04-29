@@ -73,6 +73,11 @@
   max-width: 17rem;
 }
 
+.qr-error{
+  @extend .fw-semibold, .form-control, .m-0, .text-danger;
+  border-color: transparent;
+}
+
 @include media-breakpoint-down(md) {
   #qr-codes-container {
     max-width: 100%;

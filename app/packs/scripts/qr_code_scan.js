@@ -1,177 +1,164 @@
 import jsQR from 'jsqr';
 import QRCode from 'qrcode';
 
-// DOMContentLoaded event to ensure the navigation buttons are available, script errors are avoided
-document.addEventListener('DOMContentLoaded', () => {
-  let results = [];
-  let currentIndex = 0;
+let results = [];
+let currentIndex = 0;
 
-  const input = document.getElementById('qr_codes_upload');
-  const resultsContainer = document.getElementById('qr-results');
-  const canvasesContainer = document.getElementById('qr-canvas-container');
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  const counter = document.getElementById('qr-counter');
+const input = document.getElementById('qr_codes_upload');
+const resultsContainer = document.getElementById('qr-results');
+const imagesContainer = document.getElementById('qr-images-container');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const counter = document.getElementById('qr-counter');
 
-  const codesWithTitles = []; // [{ value: "qr_value", title: "james' ticket" }]
+const codesWithTitles = [];
 
-  // Function to show the current result based on the index and update the navigation buttons
-  function showResult(index) {
-    // Show the current result and hide others
-    results.forEach(({ text, canvas }, i) => {
-      text.classList.replace(
-        i === index ? 'd-none' : 'd-block',
-        i === index ? 'd-block' : 'd-none',
-      );
-      canvas.classList.replace(
-        i === index ? 'd-none' : 'd-block',
-        i === index ? 'd-block' : 'd-none',
-      );
-    });
-
-    // Enable/disable navigation buttons based on the current index
-    prevBtn.disabled = index === 0;
-    nextBtn.disabled = index === results.length - 1;
-    counter.innerText = `${index + 1} of ${results.length}`;
-  }
-
-  function updateTitles(title, code) {
-    const item = codesWithTitles.find((c) => c.value === code);
-    if (item) item.title = title;
-
-    document.getElementById('scannable_ticket_titles').value = JSON.stringify(
-      codesWithTitles.map((c) => c.title),
+function showResult(index) {
+  results.forEach(({ text, image }, i) => {
+    text.classList.replace(
+      i === index ? 'd-none' : 'd-block',
+      i === index ? 'd-block' : 'd-none',
     );
-  }
+    image.classList.replace(
+      i === index ? 'd-none' : 'd-block',
+      i === index ? 'd-block' : 'd-none',
+    );
+  });
 
-  input.addEventListener('change', async (event) => {
-    const { files } = event.target;
-    if (!files.length) return;
+  prevBtn.disabled = index === 0;
+  nextBtn.disabled = index === results.length - 1;
+  counter.innerText = `${index + 1} of ${results.length}`;
+}
 
-    results = []; // results is used to store the text and canvas elements
-    currentIndex = 0;
+function updateTitles(title, code) {
+  const item = codesWithTitles.find((c) => c.value === code);
+  if (item) item.title = title;
 
-    resultsContainer.innerHTML = '';
-    resultsContainer.classList.replace('d-block', 'd-none');
-    canvasesContainer.innerHTML = '';
-    canvasesContainer.classList.replace('d-block', 'd-none');
+  document.getElementById('scannable_ticket_titles').value = JSON.stringify(
+    codesWithTitles.map((c) => c.title),
+  );
+}
 
-    Array.from(files).forEach((file) => {
-      // Use FileReader so the CSP doesn't block the image
-      const reader = new FileReader();
+input.addEventListener('change', async (event) => {
+  const { files } = event.target;
+  if (!files.length) return;
 
-      reader.onload = (e) => {
-        const img = new Image();
-        img.src = e.target.result;
+  results = [];
+  currentIndex = 0;
 
-        img.onload = () => {
-          // Create a canvas and draw the image on it
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          // Fill the canvas with white background to avoid transparency issues
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, img.width, img.height);
-          ctx.drawImage(img, 0, 0, img.width, img.height);
-          const imageData = ctx.getImageData(0, 0, img.width, img.height);
+  resultsContainer.innerHTML = '';
+  imagesContainer.innerHTML = '';
+  resultsContainer.classList.replace('d-block', 'd-none');
+  imagesContainer.classList.replace('d-block', 'd-none');
 
-          // When the image is loaded, extract the QR code using jsQR
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
+  Array.from(files).forEach((file) => {
+    const reader = new FileReader();
 
-          const fileResult = document.createElement('div');
-          fileResult.classList.add('qr-result-item', 'd-none');
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target.result;
 
-          const qrCanvas = document.createElement('canvas');
-          qrCanvas.width = 200;
-          qrCanvas.height = 200;
-          const qrCtx = qrCanvas.getContext('2d');
+      img.onload = async () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, img.width, img.height);
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        const imageData = ctx.getImageData(0, 0, img.width, img.height);
 
-          const canvasContainer = document.createElement('div');
-          canvasContainer.classList.add('qr-canvas-container', 'd-flex', 'justify-content-center', 'd-none');
-          canvasContainer.appendChild(qrCanvas);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
 
-          const textContainer = document.createElement('div');
-          textContainer.classList.add('qr-text');
+        const fileResult = document.createElement('div');
+        fileResult.classList.add('qr-result-item', 'd-none');
 
-          if (code) {
-            const exists = codesWithTitles.some(({ value }) => value === code.data);
-            if (!exists) {
-              codesWithTitles.push({ value: code.data, title: code.data });
-              QRCode.toCanvas(qrCanvas, code.data, { width: 200, height: 200 });
+        const imgContainer = document.createElement('div');
+        imgContainer.classList.add('qr-image-container', 'd-flex', 'justify-content-center', 'd-none');
 
-              // Create paragraph showing the QR code value
-              const qrText = document.createElement('p');
-              qrText.classList.add('m-0');
-              textContainer.appendChild(qrText);
+        const resultImage = document.createElement('img');
+        resultImage.width = 200;
+        resultImage.height = 200;
+        resultImage.alt = 'QR preview';
+        imgContainer.appendChild(resultImage);
 
-              // Create input field for the title
+        const textContainer = document.createElement('div');
+        textContainer.classList.add('qr-text');
+
+        if (code) {
+          const exists = codesWithTitles.some(({ value }) => value === code.data);
+          if (!exists) {
+            codesWithTitles.push({ value: code.data, title: code.data });
+
+            try {
+              const dataUrl = await QRCode.toDataURL(code.data, { width: 200, height: 200 });
+              resultImage.src = dataUrl;
+
               const titleInput = document.createElement('input');
               titleInput.type = 'text';
               titleInput.name = 'qr_titles[]';
-              titleInput.value = code.data; // preload with QR data
+              titleInput.value = code.data;
               titleInput.placeholder = 'Enter title';
               titleInput.classList.add('form-control');
 
-              // edit is used > event as event is declared already above
               titleInput.addEventListener('input', (edit) => {
                 updateTitles(edit.target.value, code.data);
               });
 
               textContainer.appendChild(titleInput);
-            } else {
-              // If the QR code is a duplicate, show an error message & the original image
-              textContainer.innerHTML = '<p class="m-0">Error: Duplicate QR code</p>';
-              qrCtx.drawImage(img, 0, 0, 200, 200);
+            } catch (err) {
+              textContainer.innerHTML = '<p class="qr-error">Error generating QR image</p>';
+              resultImage.src = e.target.result;
             }
           } else {
-            // If no QR code is found, show the original image, also in 200x200
-            textContainer.innerHTML = '<p class="m-0">No QR Code found in this image.</p>';
-            qrCtx.drawImage(img, 0, 0, 200, 200);
+            textContainer.innerHTML = '<p class="qr-error">Error: Duplicate QR code</p>';
+            resultImage.src = e.target.result;
           }
+        } else {
+          textContainer.innerHTML = '<p class="qr-error">No QR Code found in this image.</p>';
+          resultImage.src = e.target.result;
+        }
 
-          fileResult.appendChild(textContainer);
-          canvasesContainer.appendChild(canvasContainer);
-          results.push({ text: fileResult, canvas: canvasContainer });
-          resultsContainer.appendChild(fileResult);
+        fileResult.appendChild(textContainer);
+        imagesContainer.appendChild(imgContainer);
+        results.push({ text: fileResult, image: imgContainer });
+        resultsContainer.appendChild(fileResult);
 
-          if (results.length === files.length) {
-            resultsContainer.classList.replace('d-none', 'd-block');
-            canvasesContainer.classList.replace('d-none', 'd-block');
-            document.getElementById('qr-navigation').classList.replace('d-none', 'd-block');
-            document.getElementById('qr-codes-container').classList.replace('d-none', 'd-block');
-            showResult(0);
+        if (results.length === files.length) {
+          resultsContainer.classList.replace('d-none', 'd-block');
+          imagesContainer.classList.replace('d-none', 'd-block');
+          document.getElementById('qr-navigation').classList.replace('d-none', 'd-block');
+          document.getElementById('qr-codes-container').classList.replace('d-none', 'd-block');
+          showResult(0);
 
-            document.getElementById('scannable_tickets').value = JSON.stringify(
-              codesWithTitles.map(({ value }) => value),
-            );
+          document.getElementById('scannable_tickets').value = JSON.stringify(
+            codesWithTitles.map(({ value }) => value),
+          );
 
-            document.getElementById('scannable_ticket_titles').value = JSON.stringify(
-              codesWithTitles.map(({ title }) => title),
-            );
+          document.getElementById('scannable_ticket_titles').value = JSON.stringify(
+            codesWithTitles.map(({ title }) => title),
+          );
 
-            document.getElementById('qr-codes-found').classList.replace('d-none', 'd-block');
-            document.getElementById('qr-codes-found').innerHTML = `Codes found in ${codesWithTitles.length}/${files.length} images`;
-          }
-        };
+          document.getElementById('qr-codes-found').classList.replace('d-none', 'd-block');
+          document.getElementById('qr-codes-found').innerHTML = `Codes found in ${codesWithTitles.length}/${files.length} images`;
+        }
       };
+    };
 
-      reader.readAsDataURL(file);
-    });
+    reader.readAsDataURL(file);
   });
+});
 
-  // Event listeners for navigation buttons
-  prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) {
-      currentIndex -= 1;
-      showResult(currentIndex);
-    }
-  });
+prevBtn.addEventListener('click', () => {
+  if (currentIndex > 0) {
+    currentIndex -= 1;
+    showResult(currentIndex);
+  }
+});
 
-  nextBtn.addEventListener('click', () => {
-    if (currentIndex < results.length - 1) {
-      currentIndex += 1;
-      showResult(currentIndex);
-    }
-  });
+nextBtn.addEventListener('click', () => {
+  if (currentIndex < results.length - 1) {
+    currentIndex += 1;
+    showResult(currentIndex);
+  }
 });

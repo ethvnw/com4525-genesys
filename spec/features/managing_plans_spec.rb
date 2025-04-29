@@ -139,18 +139,16 @@ RSpec.feature("Managing plans") do
 
     scenario "I can add a QR code to a plan and see it on the show page", js: true do
       visit new_trip_plan_path(trip)
-      sleep_for_js
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "Start date", with: Time.current + 1.day
       # Attach a QR code file
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
+      sleep_for_js
       click_on "Save"
       sleep_for_js
-      visit trip_plan_path(trip, Plan.first)
+      visit trip_plan_path(trip, trip.plans.first)
       # Expect the QR code text to be present on the plan page
       expect(page).to(have_content("Hello World!"))
     end
@@ -217,7 +215,6 @@ RSpec.feature("Managing plans") do
       visit edit_trip_plan_path(trip, plan_with_ticket)
       # Add an new ticket with a different QR code value
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
-      sleep_for_js
       click_on "Save"
       # Expect the "already existed" notice to not be present
       expect(page).not_to(have_content("Some QR codes already existed..."))
@@ -234,7 +231,6 @@ RSpec.feature("Managing plans") do
       visit edit_trip_plan_path(trip, plan_with_ticket)
       # qr_mock.png is a QR code that contains the data "Mock ticket code"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_mock.png"))
-      sleep_for_js
       click_on "Save"
       # Expect a notice indicating the QR code already exists
       expect(page).to(have_content("Some QR codes already existed..."))
