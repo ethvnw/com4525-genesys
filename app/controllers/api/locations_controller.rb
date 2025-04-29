@@ -11,6 +11,9 @@ module Api
     def search
       api_response = HTTParty.get(
         ApiRoutes.location_search(params[:query].to_s),
+        headers: {
+          "User-Agent" => request.headers["User-Agent"],
+        },
         timeout: 60,
         uri_adapter: Addressable::URI,
       )&.body
