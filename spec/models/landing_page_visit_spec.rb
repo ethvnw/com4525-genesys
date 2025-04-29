@@ -48,9 +48,9 @@ RSpec.describe(LandingPageVisit, type: :model) do
       )
     end
 
-    describe ".by_country" do
+    describe ".count_by_country" do
       it "counts landing page visits by country" do
-        by_country = LandingPageVisit.by_country
+        by_country = LandingPageVisit.count_by_country
         gb_country_obj = ISO3166::Country.new("GB")
         expect(by_country.count).to(eq(4))
         expect(by_country[gb_country_obj]).to(eq(3))
