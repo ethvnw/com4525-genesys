@@ -38,8 +38,10 @@
 - if @plan.scannable_tickets.any?
   -# QR codes
   #qr-code-container.d-flex.justify-content-center.align-items-center
-  %h6#qr-code-text.text-center
-    = @plan.scannable_tickets[0].code
+    %img#qr-image
+  .w-100.d-flex.justify-content-center
+    %h6#qr-code-text.text-truncate.text-center.overflow-hidden
+      = @plan.scannable_tickets[0].code
   %h6#qr-code-title.text-center.fw-semibold
     = @plan.scannable_tickets[0].decorate.title_value
   #qr-navigation.mt-3

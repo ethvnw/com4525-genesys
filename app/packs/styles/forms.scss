@@ -73,7 +73,7 @@
   max-width: 17rem;
 }
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
   #qr-codes-container {
     max-width: 100%;
   }

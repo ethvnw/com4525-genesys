@@ -5,6 +5,6 @@ class ScannableTicketDecorator < ApplicationDecorator
   delegate_all
 
   def title_value
-    object.title == object.code ? "No title" : object.title
+    object.title == object.code ? "Untitled Ticket" : object.title
   end
 end
