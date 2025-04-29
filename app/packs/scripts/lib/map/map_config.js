@@ -39,6 +39,7 @@ const MAP_CONFIG = {
     [-90, -180],
     [90, 180],
   ],
+  renderer: L.canvas(),
 };
 
 const TILE_LAYER_CONFIG = {
