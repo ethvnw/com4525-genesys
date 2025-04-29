@@ -10,7 +10,6 @@ class PlansController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @script_packs = ["plans"]
     @trip = Trip.find(params[:trip_id])
     @plan = if session[:plan_data]
       Plan.new(session[:plan_data])
@@ -26,7 +25,7 @@ class PlansController < ApplicationController
     @plan.trip = Trip.find(params[:trip_id])
     if @plan.save
       session.delete(:plan_data)
-      redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
+      turbo_redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else
       flash[:errors] = @plan.errors.to_hash(true)
       session[:plan_data] =
@@ -49,7 +48,6 @@ class PlansController < ApplicationController
   end
 
   def edit
-    @script_packs = ["plans"]
     @trip = Trip.find(params[:trip_id])
     @plan = Plan.find(params[:id]).decorate
     @errors = flash[:errors]
@@ -63,7 +61,7 @@ class PlansController < ApplicationController
       if documents
         @plan.documents.attach(documents)
       end
-      redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.")
+      turbo_redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.")
     else
       flash[:errors] = @plan.errors.to_hash(true)
       stream_response("plans/update", edit_trip_plan_path(@plan))
@@ -73,7 +71,7 @@ class PlansController < ApplicationController
   def destroy
     @plan = Plan.find(params[:id])
     @plan.destroy
-    redirect_back_or_to(trip_path(@plan.trip), notice: "Plan deleted successfully.")
+    turbo_redirect_to(trip_path(@plan.trip), notice: "Plan deleted successfully.")
   end
 
   private

@@ -65,7 +65,7 @@ RSpec.feature("Sharing Features") do
     end
   end
 
-  scenario "It increments the engagement count for the feature", js: true, opens_new_tab: true do
+  scenario "It increments the engagement count for the feature", js: true do
     inital_engagement = app_feature.engagement_counter
 
     visit root_path
@@ -74,12 +74,13 @@ RSpec.feature("Sharing Features") do
 
     # Stub redirect
     expect_any_instance_of(Api::FeaturesController).to(receive(:redirect_to)) do |controller|
-      # Check engagement counter in here, as it will have updated by the time `redirect_to` is called
-      expect(app_feature.reload.engagement_counter).to(eq(inital_engagement + 1))
-
       controller.render(plain: "Mock Response")
     end
 
     click_link "Twitter"
+
+    # Sleep needed here to wait for the share request to complete before checking engagement counter.
+    sleep(0.5)
+    expect(app_feature.reload.engagement_counter).to(eq(inital_engagement + 1))
   end
 end

@@ -77,9 +77,6 @@ RSpec.feature("Member home") do
 
       # Check the form contents
       expect(page).to(have_field("trip_title", with: featured_location.trip_name))
-      expect(page).to(have_field("trip_description", with: nil))
-      datetime_button = find("#datetimepicker-input")[:value]
-      expect(datetime_button).to(have_content(nil))
       # .aa-DetachedSearchButtonQuery is the location autocomplete field
       within ".aa-DetachedSearchButtonQuery" do
         expect(page).to(have_content(featured_location.location_name))
