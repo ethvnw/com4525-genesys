@@ -15,7 +15,7 @@ end
 RSpec.shared_examples_for("countable") do
   let(:model) { described_class }
 
-  describe "#count_by_day" do
+  describe ".count_by_day" do
     context "when there is nothing in the database" do
       it "returns an empty hash" do
         expect(model.count_by_day).to(eq({}))
@@ -38,7 +38,7 @@ RSpec.shared_examples_for("countable") do
     end
   end
 
-  describe "#count_by_week" do
+  describe ".count_by_week" do
     context "when there is nothing in the database" do
       it "returns an empty hash" do
         expect(model.count_by_week).to(eq({}))
@@ -60,7 +60,7 @@ RSpec.shared_examples_for("countable") do
     end
   end
 
-  describe "#count_by_month" do
+  describe ".count_by_month" do
     context "when there is nothing in the database" do
       it "returns an empty hash" do
         expect(model.count_by_month).to(eq({}))
@@ -81,7 +81,7 @@ RSpec.shared_examples_for("countable") do
     end
   end
 
-  describe "#count_today" do
+  describe ".count_today" do
     before do
       time_travel_everywhere(Time.zone.parse("2024-01-01"))
     end
@@ -103,7 +103,7 @@ RSpec.shared_examples_for("countable") do
     end
   end
 
-  describe "#count_this_week" do
+  describe ".count_this_week" do
     before do
       time_travel_everywhere(Time.zone.parse("2024-01-01"))
     end
@@ -125,7 +125,7 @@ RSpec.shared_examples_for("countable") do
     end
   end
 
-  describe "#count_this_month" do
+  describe ".count_this_month" do
     before do
       time_travel_everywhere(Time.zone.parse("2024-01-01"))
     end

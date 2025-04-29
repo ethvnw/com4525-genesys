@@ -3,7 +3,7 @@
 require "rails_helper"
 require "active_support/testing/time_helpers"
 
-RSpec.feature("Reporter dashboard") do
+RSpec.feature("Landing Page Analytics") do
   let!(:reporter) { create(:reporter) }
   let!(:tier) { create(:subscription_tier, name: "Free") }
   let!(:app_feature_1) { create(:app_feature, name: "App Feature 1", engagement_counter: 5) }
@@ -86,7 +86,7 @@ RSpec.feature("Reporter dashboard") do
 
       tier.app_features << [app_feature_1, app_feature_2, app_feature_3]
 
-      visit reporter_dashboard_path
+      visit analytics_landing_page_path
     end
 
     context "Reporter can view landing page views statistics" do

@@ -130,9 +130,9 @@ RSpec.describe(Registration, type: :model) do
       )
     end
 
-    describe ".by_country" do
+    describe ".count_by_country" do
       it "counts registrations by country" do
-        by_country = Registration.by_country
+        by_country = Registration.count_by_country
         gb_country_obj = ISO3166::Country.new("GB")
         expect(by_country.count).to(eq(4))
         expect(by_country[gb_country_obj]).to(eq(3))
