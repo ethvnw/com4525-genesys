@@ -20,6 +20,8 @@
 #  fk_rails_...  (subscription_tier_id => subscription_tiers.id)
 #
 class Registration < ApplicationRecord
+  include Countable
+
   belongs_to :subscription_tier
 
   has_many :feature_shares, dependent: :destroy
@@ -36,25 +38,7 @@ class Registration < ApplicationRecord
   validate :validate_subscription_tier
 
   class << self
-    def by_day
-      Registration.all.group_by do |registration|
-        registration.created_at.beginning_of_day
-      end.transform_values(&:count)
-    end
-
-    def by_week
-      Registration.all.group_by do |registration|
-        registration.created_at.beginning_of_week
-      end.transform_values(&:count)
-    end
-
-    def by_month
-      Registration.all.group_by do |registration|
-        registration.created_at.beginning_of_month
-      end.transform_values(&:count)
-    end
-
-    def by_country
+    def count_by_country
       Registration.all
         .group_by(&:country_code)
         .transform_keys { |code| ISO3166::Country.new(code) }
