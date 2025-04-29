@@ -1,0 +1,38 @@
+%section.row.align-items-center
+  %h1.fw-bold.display-6.mb-3 Trip Analytics
+  %hr.mt-3
+  %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
+    %li.nav-item
+      %button.nav-link.active{ "data-bs-target": "#today-tab", "data-bs-toggle": "pill", type: "button" } Day
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#week-tab", "data-bs-toggle": "pill", type: "button" } Week
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#month-tab", "data-bs-toggle": "pill", type: "button" } Month
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#all-time-tab", "data-bs-toggle": "pill", type: "button" } All Time
+  .tab-content
+    #today-tab.tab-pane.show.active
+      = render("partials/analytics/trip_analytics_card_tab",
+               trips_created: @trip_counts[:today],
+               plans_created: @plan_counts[:today],
+               invitations_sent: @invitation_counts[:today],
+               time_period: "Today")
+    #week-tab.profile.tab-pane
+      = render("partials/analytics/trip_analytics_card_tab",
+               trips_created: @trip_counts[:this_week],
+               plans_created: @plan_counts[:this_week],
+               invitations_sent: @invitation_counts[:this_week],
+               time_period: "This Week")
+    #month-tab.tab-pane
+      = render("partials/analytics/trip_analytics_card_tab",
+               trips_created: @trip_counts[:this_month],
+               plans_created: @plan_counts[:this_month],
+               invitations_sent: @invitation_counts[:this_month],
+               time_period: "This Month")
+    #all-time-tab.tab-pane
+      = render("partials/analytics/trip_analytics_card_tab",
+               trips_created: @trip_counts[:all_time],
+               plans_created: @plan_counts[:all_time],
+               invitations_sent: @invitation_counts[:all_time],
+               time_period: "All Time")
+  %hr.mt-3

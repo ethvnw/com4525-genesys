@@ -25,6 +25,8 @@
 #  fk_rails_...  (sender_user_id => users.id)
 #
 class TripMembership < ApplicationRecord
+  include Countable
+
   MAX_CAPACITY = 20
 
   belongs_to :trip

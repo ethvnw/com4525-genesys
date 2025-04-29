@@ -46,6 +46,8 @@ end
 #  index_plans_on_trip_id  (trip_id)
 #
 class Plan < ApplicationRecord
+  include Countable
+
   belongs_to :trip
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
