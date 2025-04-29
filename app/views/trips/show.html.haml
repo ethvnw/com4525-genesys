@@ -87,4 +87,4 @@
         = render("partials/trip_memberships/display_name_form",
                  trip: @trip,
                  trip_membership: @trip_membership,
-                 errors: @trip_membership.errors)
+                 errors: @trip_membership&.errors)

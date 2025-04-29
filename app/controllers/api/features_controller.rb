@@ -29,7 +29,7 @@ module Api
 
     ##
     # Checks whether a given share method is valid
-    # @param [ActionController::Parameters] params the params to check for validity
+    # @param params [ActionController::Parameters] the params to check for validity
     # @return [bool] true if share is possible, else false
     def can_share?(params)
       AppFeature.exists?(id: params[:id]) && params[:method].present? && SHARERS.key?(params[:method].to_s)

@@ -30,16 +30,27 @@ module ApplicationHelper
 
   ##
   # Generates a navbar link with an icon and text
-  # Highlights the link if the provied route matches the current route
+  # Highlights the link if the provided route matches the current route
   # @param name [String] the text to display for the link
   # @param icon [String] the Bootstrap icon class to use
   # @param path [String] the route for the link
+  # @param badge_count [Integer] (optional) The number to display as a badge
   # @return [String] a Bootstrap HTML element containing the link
-  def navbar_link_to(name, icon, path)
+  def navbar_link_to(name, icon, path, badge_count = 0)
     content_tag(:li, class: "nav-item") do
       link_to(path, class: "#{"active" if current_page?(path)} nav-link") do
-        concat(content_tag(:i, nil, class: "#{current_page?(path) ? "#{icon}-fill" : icon} bi"))
-        concat(content_tag(:span, name))
+        concat(
+          content_tag(:div, class: "position-relative") do
+            concat(content_tag(:i, nil, class: "#{current_page?(path) ? "#{icon}-fill" : icon} bi"))
+            if badge_count&.nonzero?
+              concat(content_tag(:div, badge_count, class: "nav-badge"))
+            end
+          end,
+        )
+        concat(content_tag(:span, name, class: "text-center"))
+        if badge_count&.nonzero?
+          concat(content_tag(:div, badge_count, class: "nav-badge-lg"))
+        end
       end
     end
   end

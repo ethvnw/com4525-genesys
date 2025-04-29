@@ -93,5 +93,27 @@ RSpec.describe(ApplicationHelper, type: :helper) do
         expect(result).to(have_selector("span", text: "Home"))
       end
     end
+
+    context "when badge count is greater than 0" do
+      let(:badge_count) { 3 }
+
+      it "renders the notification badges" do
+        result = helper.navbar_link_to(name, icon, path, badge_count)
+
+        # Check each of the HTML tags
+        expect(result).to(have_selector("div.nav-badge", text: "3"))
+        expect(result).to(have_selector("div.nav-badge-lg", text: "3"))
+      end
+    end
+
+    context "when badge count is not provided" do
+      it "does not render the notification badges" do
+        result = helper.navbar_link_to(name, icon, path)
+
+        # Check each of the HTML tags
+        expect(result).not_to(have_selector("div.nav-badge"))
+        expect(result).not_to(have_selector("div.nav-badge-lg"))
+      end
+    end
   end
 end

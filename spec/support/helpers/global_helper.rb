@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 ##
+# Waits for a flash message to appear before continuing
+# Prevents flakiness caused by (e.g.) checking for the existence of a trip before it has saved
+#
+# @param message [String] the message that should appear before continuing
+def await_message(message)
+  within("#toast-list") do
+    expect(page).to(have_content(message, wait: 5))
+  end
+end
+
+##
 # Detects whether a test is running with the `js: true` flag
 def js_true?
   RSpec.current_example.metadata[:js]

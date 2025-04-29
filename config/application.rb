@@ -35,7 +35,10 @@ module Project
     config.action_dispatch.rescue_responses["Mime::Type::InvalidMimeType"] = :bad_request
     config.action_dispatch.rescue_responses["URI::InvalidURIError"] = :bad_request
 
-    config.time_zone = "London"
+    # Set application timezone to UTC - changed from "London" to avoid our database doing daylight savings.
+    # Using London time had the effect of setting every trip to start at 23:00, the day before the desired trip.
+    # The reason for using UTC is so that a user's trips/plans appear to them consistently, regardless of timezone.
+    config.time_zone = "UTC"
 
     config.generators do |g|
       g.template_engine(:haml)
@@ -66,6 +69,6 @@ module Project
     }
 
     config.middleware.use(LandingPageJourneyMiddleware)
-    config.autoload_paths += ["#{config.root}/app/models/validators"]
+    config.autoload_paths += ["#{config.root}/app/models/validators", "#{config.root}/config/constants"]
   end
 end

@@ -11,7 +11,7 @@ RSpec.feature("Managing trip members") do
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
-    travel_to(Time.parse("2025-01-10 1:30:00"))
+    travel_to(Time.zone.parse("2025-01-10 1:30:00"))
   end
 
   feature "Inviting trip members" do
@@ -19,9 +19,9 @@ RSpec.feature("Managing trip members") do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Manage Members"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("user")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("user")
+      expect(page).to(have_selector(".aa-Item"))
       find_all(".aa-Item").first.click
       click_button "Invite"
       expect(page).to(have_content("User invited successfully"))
@@ -31,7 +31,7 @@ RSpec.feature("Managing trip members") do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Manage Members"
-      find(".aa-DetachedSearchButton", wait: 3).click
+      find(".aa-DetachedSearchButton").click
       find(".aa-Input").set("")
       click_on "Cancel"
       click_button "Invite"
@@ -44,9 +44,9 @@ RSpec.feature("Managing trip members") do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Manage Members"
-      find(".aa-DetachedSearchButton", wait: 3).click
-      find(".aa-Input", wait: 3).set("user")
-      sleep 3
+      find(".aa-DetachedSearchButton").click
+      find(".aa-Input").set("user")
+      expect(page).to(have_selector(".aa-Item"))
       find_all(".aa-Item").first.click
       click_button "Invite"
       expect(page).to(
@@ -113,7 +113,7 @@ RSpec.feature("Managing trip members") do
       expect(page).not_to(have_content("Mock Trip"))
     end
 
-    scenario "I can accept the invitation to the trip and access related pages", js: true do
+    scenario "I can accept the invitation to the trip and access related pages" do
       visit inbox_path
       find(".btn.btn-success").click
       visit trip_path(trip)

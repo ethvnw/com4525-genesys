@@ -15,11 +15,7 @@ class TripsController < ApplicationController
 
   def index
     # Only show trips that the user is a member of (use TripMemberships in db)
-    @trips = current_user.trips
-      .joins(:trip_memberships)
-      .where(trip_memberships: { is_invite_accepted: true })
-      .distinct
-      .decorate
+    @trips = current_user.joined_trips.decorate
   end
 
   def new
@@ -51,7 +47,7 @@ class TripsController < ApplicationController
       membership.sender_user_id = current_user.id
       membership.save
 
-      redirect_to(trips_path, notice: "Your trip has been submitted.")
+      redirect_to(trips_path, notice: "Trip created successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
       session[:trip_data] =

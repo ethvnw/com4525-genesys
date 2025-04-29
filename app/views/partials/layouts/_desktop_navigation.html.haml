@@ -6,18 +6,8 @@
     %ul.nav.nav-pills.nav-flush.flex-column
       %li.nav-item
         = render("partials/layouts/navbar_user_dropdown")
-      %li.nav-item
-        = link_to(inbox_path, class: "nav-link") do
-          .position-relative
-            %i.bi.bi-inbox
-            - if inbox_count&.nonzero?
-              .position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.text-bg-danger
-                = inbox_count
-          %span
-            Inbox
-          - if inbox_count&.nonzero?
-            .d-none.d-lg-flex.ms-auto.badge.rounded-pill.text-bg-danger
-              = inbox_count
+      #inbox-container
+        = navbar_link_to("Inbox", "bi-inbox", inbox_path, inbox_count)
     %hr
     %ul#navigation-links.nav.nav-pills.nav-flush.flex-column
       = render("partials/layouts/navigation_links")

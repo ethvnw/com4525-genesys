@@ -46,28 +46,28 @@ RSpec.describe(LandingPageVisit, type: :model) do
       )
     end
 
-    describe "by_day" do
+    describe ".by_day" do
       it "counts landing page visits by day" do
         by_day = LandingPageVisit.by_day
         expect(by_day[Time.zone.parse("2024-01-01")]).to(eq(2))
       end
     end
 
-    describe "by_week" do
+    describe ".by_week" do
       it "counts landing page visits by week" do
         by_week = LandingPageVisit.by_week
         expect(by_week[Time.zone.parse("2024-01-01")]).to(eq(3))
       end
     end
 
-    describe "by_month" do
+    describe ".by_month" do
       it "counts landing page visits by month" do
         by_month = LandingPageVisit.by_month
         expect(by_month[Time.zone.parse("2024-01-01")]).to(eq(4))
       end
     end
 
-    describe "by_country" do
+    describe ".by_country" do
       it "counts landing page visits by country" do
         by_country = LandingPageVisit.by_country
         gb_country_obj = ISO3166::Country.new("GB")

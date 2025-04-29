@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../support/helpers/trips_and_plans_helper"
 
 RSpec.feature("Managing plans") do
   let(:user) { create(:user) }
@@ -10,7 +11,7 @@ RSpec.feature("Managing plans") do
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
-    travel_to(Time.parse("2025-01-10 1:30:00"))
+    travel_to(Time.zone.parse("2025-01-10 1:30:00"))
     stub_photon_api
   end
 
@@ -18,9 +19,7 @@ RSpec.feature("Managing plans") do
     scenario "I cannot create a plan with no title", js: true do
       visit new_trip_plan_path(trip)
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
       expect(page).to(have_content("Title can't be blank"))
@@ -30,9 +29,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a" * 300
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
       expect(page).to(have_content("Title is too long (maximum is 250 characters)"))
@@ -41,9 +38,7 @@ RSpec.feature("Managing plans") do
     scenario "I cannot create a plan with no provided plan type", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
       expect(page).to(have_content("Plan type is not included in the list"))
@@ -62,9 +57,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       click_on "Save"
       expect(page).to(have_content("Start date can't be blank"))
     end
@@ -73,9 +66,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "plan_start_date", with: Time.current + 2.days
       fill_in "plan_end_date", with: Time.current + 1.day
       click_on "Save"
@@ -86,9 +77,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "plan_start_date", with: Time.current - 1.day
       click_on "Save"
       expect(page).to(have_content("Start date cannot be in the past"))
@@ -98,9 +87,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Travel By Plane", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "plan_start_date", with: Time.current + 1.day
       fill_in "plan_end_date", with: Time.current + 2.days
       click_on "Save"
@@ -110,20 +97,19 @@ RSpec.feature("Managing plans") do
     scenario "I can input an end location if I choose a travel plan", js: true do
       visit new_trip_plan_path(trip)
       select "Travel By Plane", from: "plan_plan_type"
-      sleep_for_js
-      expect(find("#end-location-autocomplete", visible: :all)).to(be_visible)
+      expect(page).to(have_selector("#end-location-autocomplete", visible: true))
     end
 
     scenario "I can create a plan and see its information on the plans index page", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "plan_start_date", with: Time.current + 1.day
       click_on "Save"
-      visit trip_path(trip)
+
+      await_message("Plan created successfully")
+
       expect(page).to(have_content("Test Title"))
       expect(page).to(have_content("Other"))
       expect(page).to(have_content("England"))
@@ -131,33 +117,22 @@ RSpec.feature("Managing plans") do
     end
 
     scenario "I can create 2 plans within the same day and see their information on the plans index page",
-      js: true,
-      vcr: true do
+      js: true do
       visit new_trip_plan_path(trip)
-      sleep_for_js
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("England")
-
-      find_all(".aa-Item").first.click
+      select_location("England")
       fill_in "Start date", with: Time.current + 1.day
       click_on "Save"
-      sleep_for_js
       visit new_trip_plan_path(trip)
-      sleep_for_js
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("Brazil")
-
-      find_all(".aa-Item").first.click
-      sleep_for_js
+      select_location("Brazil")
       fill_in "Start date", with: Time.current + 1.day + 2.hours
       click_on "Save"
 
-      visit trip_path(trip)
-      expect(page).to(have_selector("h4.fw-bold.mb-0.max-height-2-lines", count: 2))
+      await_message("Plan created successfully")
+
       expect(page).to(have_content("England"))
       expect(page).to(have_content("Brazil"))
     end
@@ -192,10 +167,9 @@ RSpec.feature("Managing plans") do
         click_on "Edit Plan"
       end
 
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("Brazil")
-      find_all(".aa-Item").first.click
+      select_location("Brazil")
       click_on "Save"
+      await_message("Plan updated successfully")
       expect(page).not_to(have_content("England"))
     end
 
@@ -208,6 +182,7 @@ RSpec.feature("Managing plans") do
 
       select "Restaurant", from: "plan_plan_type"
       click_on "Save"
+      await_message("Plan updated successfully")
       expect(page).to(have_content("Restaurant"))
     end
 
@@ -229,14 +204,9 @@ RSpec.feature("Managing plans") do
         find("button").click
         click_on "Edit Plan"
       end
-
-      sleep_for_js
-      expect(find("#end-location-autocomplete", visible: :all)).to(be_visible)
-
+      expect(find("#end-location-autocomplete", visible: :all, wait: 5)).to(be_visible)
       select "Restaurant", from: "plan_plan_type"
-      sleep_for_js
-
-      expect(find("#end-location-autocomplete", visible: :all)).not_to(be_visible)
+      expect(find("#end-location-autocomplete", visible: :all, wait: 5)).not_to(be_visible)
     end
 
     scenario "I can add additional QR codes to a plan and see them on the plan page", js: true do
@@ -284,6 +254,7 @@ RSpec.feature("Managing plans") do
         find("button").click
         click_on "Delete Plan"
       end
+      await_message("Plan deleted successfully")
       expect(page).not_to(have_content(plan.start_location_name))
     end
   end

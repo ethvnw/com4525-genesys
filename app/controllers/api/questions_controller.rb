@@ -82,7 +82,7 @@ module Api
 
     ##
     # Checks that a question exists, and that the user has not already clicked on this question
-    # @param [ActionController::Parameters] question_id the ID of the question to check for validity
+    # @param question_id [ActionController::Parameters] the ID of the question to check for validity
     # @return [Boolean] true if current user can click, else false
     def user_can_click?(question_id)
       Question.exists?(id: question_id) && !session[:questions_clicked]&.include?(question_id)

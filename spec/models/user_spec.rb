@@ -55,20 +55,11 @@ RSpec.describe(User, type: :model) do
     end
   end
 
-  describe "validations" do
+  describe "username validation" do
     let(:user) { build(:user) }
 
-    context "username validation" do
-      it "only contain letters, numbers, underscores, and periods" do
-        valid_usernames = ["validUsername", "user_name", "username.with.dots", "user_456"]
-
-        valid_usernames.each do |username|
-          user.username = username
-          expect(user).to(be_valid)
-        end
-      end
-
-      it "reject invalid usernames" do
+    context "when username contains invalid characters" do
+      it "is invalid" do
         invalid_usernames = ["user@name", "user name", "user#name!", "user-name"]
 
         invalid_usernames.each do |username|
@@ -79,22 +70,30 @@ RSpec.describe(User, type: :model) do
       end
     end
 
-    context "username length validation" do
-      it "is invalid if username is too short" do
+    context "when username is less than 6 characters" do
+      it "is invalid" do
         user.username = "short"
         expect(user).to(be_invalid)
         expect(user.errors[:username]).to(include("must be between 6 and 20 characters"))
       end
+    end
 
-      it "is invalid if username is too long" do
+    context "when username is more than 20 characters" do
+      it "is invalid" do
         user.username = "a" * 21
         expect(user).to(be_invalid)
         expect(user.errors[:username]).to(include("must be between 6 and 20 characters"))
       end
+    end
 
-      it "is valid if username is within length" do
-        user.username = "validUsername"
-        expect(user).to(be_valid)
+    context "when username is within length limits and contains only letters, numbers, underscores, and periods" do
+      it "is valid" do
+        valid_usernames = ["validUsername", "user_name", "username.with.dots", "user_456"]
+
+        valid_usernames.each do |username|
+          user.username = username
+          expect(user).to(be_valid)
+        end
       end
     end
   end
@@ -214,6 +213,37 @@ RSpec.describe(User, type: :model) do
         found_user = User.find_for_authentication(login: user.email.upcase)
         expect(found_user).to(eq(user))
       end
+    end
+  end
+
+  describe "#joined_trips" do
+    let(:user) { create(:user) }
+    let(:accepted_trip) { create(:trip) }
+    let(:unaccepted_trip) { create(:trip) }
+    let(:other_trip) { create(:trip) }
+
+    before do
+      create(:trip_membership, user: user, trip: accepted_trip, is_invite_accepted: true)
+      create(:trip_membership, user: user, trip: unaccepted_trip, is_invite_accepted: false)
+
+      # Ensure a trip not related to this user is not included
+      create(:trip_membership, trip: other_trip, is_invite_accepted: true)
+    end
+
+    it "returns only trips where invite is accepted by user" do
+      result = user.joined_trips
+      expect(result).to(include(accepted_trip))
+      expect(result).not_to(include(unaccepted_trip))
+      expect(result).not_to(include(other_trip))
+    end
+
+    it "returns distinct trips even if multiple accepted memberships exist" do
+      # Duplicate accepted membership
+      create(:trip_membership, user: user, trip: accepted_trip, is_invite_accepted: true)
+
+      result = user.joined_trips
+      expect(result.count).to(eq(1))
+      expect(result.first).to(eq(accepted_trip))
     end
   end
 end
