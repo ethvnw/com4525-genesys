@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('next-btn');
   const counter = document.getElementById('qr-counter');
   const codeText = document.getElementById('qr-code-text');
+  const titleText = document.getElementById('qr-code-title');
 
   let currentIndex = 0;
   const qrElements = [];
@@ -38,6 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (qrCodes[index].code.length > 30) {
       codeText.textContent += '...'; // Truncate long codes
     }
+    titleText.textContent = qrCodes[index].title_value
+    console.log(qrCodes);
+
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === qrElements.length - 1;
     counter.textContent = `${index + 1} of ${qrElements.length}`;

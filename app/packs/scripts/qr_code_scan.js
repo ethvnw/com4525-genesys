@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('next-btn');
   const counter = document.getElementById('qr-counter');
 
+  let codesWithTitles = []; // [{ value: "qr_value", title: "james' ticket" }]
+
   // Function to show the current result based on the index and update the navigation buttons
   function showResult(index) {
     // Show the current result and hide others
@@ -33,12 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
     counter.innerText = `${index + 1} of ${results.length}`;
   }
 
+  function updateTitles(title, code) {
+    const item = codesWithTitles.find((c) => c.value === code);
+    if (item) item.title = title;
+  
+    document.getElementById('scannable_ticket_titles').value = JSON.stringify(
+      codesWithTitles.map((c) => c.title)
+    );
+  }
+  
+
   input.addEventListener('change', async (event) => {
     const { files } = event.target;
     if (!files.length) return;
 
     results = []; // results is used to store the text and canvas elements
-    const extractedCodes = []; // Store extracted QR codes
     currentIndex = 0;
 
     resultsContainer.innerHTML = '';
@@ -82,11 +93,30 @@ document.addEventListener('DOMContentLoaded', () => {
           textContainer.classList.add('qr-text');
 
           if (code) {
-            if (!extractedCodes.includes(code.data)) {
-              // If the QR code is not already in the extracted codes, add it
-              extractedCodes.push(code.data);
-              textContainer.innerHTML = `<p class="m-0">Extracted QR Code Data: <strong>${code.data}</strong></p>`;
+            const exists = codesWithTitles.some(({ value }) => value === code.data);
+            if (!exists) {
+              codesWithTitles.push({ value: code.data, title: code.data });
               QRCode.toCanvas(qrCanvas, code.data, { width: 200, height: 200 });
+
+              // Create paragraph showing the QR code value
+              const qrText = document.createElement('p');
+              qrText.classList.add('m-0');
+              textContainer.appendChild(qrText);
+
+              // Create input field for the title
+              const titleInput = document.createElement('input');
+              titleInput.type = 'text';
+              titleInput.name = 'qr_titles[]';
+              titleInput.value = code.data; // preload with QR data
+              titleInput.placeholder = 'Enter title';
+              titleInput.classList.add('form-control');
+
+              titleInput.addEventListener('input', (event) => {
+                updateTitles(event.target.value, code.data);
+              });
+
+              textContainer.appendChild(titleInput);
+
             } else {
               // If the QR code is a duplicate, show an error message & the original image
               textContainer.innerHTML = '<p class="m-0">Error: Duplicate QR code</p>';
@@ -109,9 +139,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('qr-navigation').classList.replace('d-none', 'd-block');
             document.getElementById('qr-codes-container').classList.replace('d-none', 'd-block');
             showResult(0);
-            document.getElementById('scannable_tickets').value = JSON.stringify(extractedCodes);
+
+            document.getElementById('scannable_tickets').value = JSON.stringify(
+              codesWithTitles.map(({ value }) => value)
+            );
+            
+            document.getElementById('scannable_ticket_titles').value = JSON.stringify(
+              codesWithTitles.map(({ title }) => title)
+            );
+            
             document.getElementById('qr-codes-found').classList.replace('d-none', 'd-block');
-            document.getElementById('qr-codes-found').innerHTML = `Codes found in ${extractedCodes.length}/${files.length} images`;
+            document.getElementById('qr-codes-found').innerHTML = `Codes found in ${codesWithTitles.length}/${files.length} images`;
           }
         };
       };

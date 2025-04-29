@@ -35,15 +35,24 @@
     %i.bi.bi-geo-alt
     %p.mb-0= @plan.start_location_name
 
-- if @plan.scannable_tickets.any?
-  -# QR codes
-  #qr-code-container.d-flex.justify-content-center.align-items-center
-  %h6#qr-code-text.text-center
-    = @plan.scannable_tickets[0].code
-  #qr-navigation.mt-3
-    %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
-    %span#qr-counter
-    %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+    - if @plan.scannable_tickets.any?
+      -# QR codes
+      #qr-code-container.d-flex.justify-content-center.align-items-center
+      %h6#qr-code-text.text-center
+        = @plan.scannable_tickets[0].code
+      %h6#qr-code-title.text-center.fw-semibold
+        = @plan.scannable_tickets[0].decorate.title_value
+      #qr-navigation.mt-3
+        %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
+        %span#qr-counter
+        %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
 
-  %script#qr-code-data{ type: "application/json" }
-    = raw(@plan.scannable_tickets.to_json(only: [:code]))
+      - codes = @plan.scannable_tickets.map { |ticket| { code: ticket.code, title_value: ticket.decorate.title_value } }
+      %script#qr-code-data{ type: "application/json" }
+        = raw(codes.to_json)
+
+-# TODO: Make this look much better on mobile, same for trip show page
+.d-flex.justify-content-center.gap-2.align-self-start
+  = link_to(trip_path(@trip), class: "btn btn-light") do
+    %i.bi.bi-arrow-left &nbsp;
+    Back to Trip

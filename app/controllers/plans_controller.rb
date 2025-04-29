@@ -27,9 +27,12 @@ class PlansController < ApplicationController
     if @plan.save
       # Create scannable tickets if provided
       qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
-      qr_codes.each do |code|
-        @plan.scannable_tickets.create(code: code, ticket_format: :qr)
+      qr_titles = params[:scannable_ticket_titles].present? ? JSON.parse(params[:scannable_ticket_titles]) : []
+
+      qr_codes.each_with_index do |code, index|
+        @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
       end
+
       session.delete(:plan_data)
       redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else
@@ -72,14 +75,23 @@ class PlansController < ApplicationController
       # Create scannable tickets if provided
       any_duplicate_codes = false
       qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
-      qr_codes.each do |code|
+      qr_titles = params[:scannable_ticket_titles].present? ? JSON.parse(params[:scannable_ticket_titles]) : []
+
+      qr_codes.each_with_index do |code, index|
         # Check if the code already exists before creating a new one
         if @plan.scannable_tickets.exists?(code: code)
           any_duplicate_codes = true
         else
-          @plan.scannable_tickets.create(code: code, ticket_format: :qr)
+          @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
         end
       end
+
+      # puts params
+      # update existing ticket titles - NOT WORKING YET
+      # params[:existing_scannable_ticket].each do |ticket_id, ticket_params|
+      #   ticket = ScannableTicket.find(ticket_id)
+      #   ticket.update(title: ticket_params[:title])
+      # end
 
       # The notice message indicates whether any QR codes already existed to the plan
       redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.

@@ -51,6 +51,7 @@
   = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")
   // QR code values are stored in a hidden field, and are used to create ScannableTickets in the controller
   = hidden_field_tag(:scannable_tickets)
+  = hidden_field_tag(:scannable_ticket_titles)
 
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 

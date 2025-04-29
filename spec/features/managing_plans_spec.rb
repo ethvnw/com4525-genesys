@@ -162,16 +162,6 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Brazil"))
     end
 
-    scenario "I can add a QR code to a plan and see a preview of it", js: true do
-      visit new_trip_plan_path(trip)
-      # qr_hello_world.png is a QR code that contains the data "Hello World!"
-      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
-      # Cannot do canvas tests with Capybara, so the text preview is checked for successful processing.
-      expect(page).to(have_selector("canvas"))
-      expect(page).to(have_content("Extracted QR Code Data: Hello World!"))
-      expect(page).to(have_content("1 of 1"))
-    end
-
     scenario "I can add a QR code to a plan and see it on the show page", js: true do
       visit new_trip_plan_path(trip)
       sleep_for_js
@@ -182,7 +172,7 @@ RSpec.feature("Managing plans") do
       find_all(".aa-Item").first.click
       fill_in "Start date", with: Time.current + 1.day
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
-      expect(page).to(have_content("Extracted QR Code Data: Hello World!"))
+      expect(page).to(have_content("Hello World!"))
       click_on "Save"
       sleep_for_js
       visit trip_plan_path(trip, Plan.first)

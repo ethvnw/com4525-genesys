@@ -1,9 +1,11 @@
 %table#scannable-tickets-table.table.table-fit
   %tbody
-    - plan.scannable_tickets.each do |ticket|
+    - plan.scannable_tickets.decorate.each do |ticket|
       %tr.p-1
         %td.align-middle
           = ticket.code
+        %td.align-middle
+          = ticket.title_value
         %td.align-right
           = button_to(trip_plan_scannable_ticket_path(plan.trip, plan, ticket_id: ticket.id),
                       method: :delete,
