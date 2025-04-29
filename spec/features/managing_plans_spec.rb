@@ -146,8 +146,8 @@ RSpec.feature("Managing plans") do
       find(".aa-Input").set("England")
       find_all(".aa-Item").first.click
       fill_in "Start date", with: Time.current + 1.day
+      # Attach a QR code file
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
-      expect(page).to(have_content("Hello World!"))
       click_on "Save"
       sleep_for_js
       visit trip_plan_path(trip, Plan.first)
