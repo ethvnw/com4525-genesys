@@ -145,9 +145,9 @@ RSpec.feature("Managing plans") do
       fill_in "Start date", with: Time.current + 1.day
       # Attach a QR code file
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
-      sleep_for_js
+      expect(page).to(have_content("1 of 1")) # Expect the QR code to be loaded
       click_on "Save"
-      sleep_for_js
+      expect(page).to(have_content("Plan created successfully"))
       visit trip_plan_path(trip, trip.plans.first)
       # Expect the QR code text to be present on the plan page
       expect(page).to(have_content("Hello World!"))
