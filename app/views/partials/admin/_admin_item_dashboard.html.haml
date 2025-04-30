@@ -1,6 +1,8 @@
 .mb-4
-  %h1 Manage #{type.capitalize}s
-  = link_to(admin_dashboard_path) do
-    Back to admin dashboard
+  = render("partials/layouts/page_title", page_title: "Manage #{type.capitalize}s")
+  = link_to(admin_dashboard_path,
+            class: "link-dark",
+            tabindex: 0) do
+    Back to Admin Dashboard
 
 = render("partials/admin/admin_item_turbo_frame", type: type, visible_items: visible_items, hidden_items: hidden_items)
