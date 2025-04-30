@@ -39,7 +39,6 @@ class PlansController < ApplicationController
 
       # If the plan is invalid, tickets and documents are lost. This flag is used to alert the user of this
       lost_uploads_alert = @plan.documents.attached? || params[:scannable_tickets].present?
-
       # Reset the documents to avoid loading the documents card in the create form with non-existent documents
       @plan.documents = []
 
