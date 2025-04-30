@@ -10,6 +10,7 @@
 #  updated_at   :datetime         not null
 #
 require "rails_helper"
+require_relative "../concerns/countable_shared_examples"
 
 RSpec.describe(LandingPageVisit, type: :model) do
   it_behaves_like "countable"

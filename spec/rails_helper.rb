@@ -25,7 +25,6 @@ require "rspec/rails"
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join("spec/concerns/**/*.rb")].sort.each { |f| require f }
 
 require_relative "support/headless_chrome_config"
 require_relative "support/vcr_and_webmock_config"
