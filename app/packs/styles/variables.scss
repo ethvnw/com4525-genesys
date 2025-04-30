@@ -30,6 +30,9 @@ $nav-pills-link-active-color: darken($secondary, 10%);
 $dropdown-link-hover-bg: darken($body-bg, 5%);
 $dropdown-link-active-bg: darken($body-bg, 10%);
 $dropdown-link-active-color: $dark;
+$accordion-button-active-bg: darken($body-bg, 10%);
+$accordion-button-active-color: $dark;
+$accordion-button-bg: darken($body-bg, 10%);
 
 /* Set default font to Inter, and default emoji font to Noto Color Emoji */
 $font-family-sans-serif: "Inter", "InterVariable", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Color Emoji", sans-serif;
