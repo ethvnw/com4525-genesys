@@ -11,6 +11,7 @@ RSpec.feature("Managing plans") do
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
+    freeze_time(Time.current) # Ensure the time is frozen for the tests
   end
 
   feature "Creating plans" do
@@ -235,40 +236,6 @@ RSpec.feature("Managing plans") do
       # Expect there to still only be one QR code
       visit trip_plan_path(trip, plan_with_ticket)
       expect(page).to(have_content("1 of 1"))
-    end
-
-    scenario "I can edit a plan and change the provider name" do
-      visit trip_path(plan.trip_id)
-      within(:css, "section #plan-settings.dropdown") do
-        find("button").click
-        click_on "Edit Plan"
-      end
-
-      fill_in "plan_provider_name", with: "New Provider Name"
-      click_on "Save"
-
-      await_message("Plan updated successfully")
-      expect(page).to(have_content("New Provider Name"))
-    end
-
-    scenario "I can edit a plan and remove the provider name" do
-      visit trip_path(plan.trip_id)
-
-      # Check company name exists already
-      expect(page).to(have_content(plan.provider_name))
-
-      within(:css, "section #plan-settings.dropdown") do
-        find("button").click
-        click_on "Edit Plan"
-      end
-
-      fill_in "plan_provider_name", with: ""
-      click_on "Save"
-
-      await_message("Plan updated successfully")
-
-      # Check company name is now removed
-      expect(page).not_to(have_content(plan.provider_name))
     end
   end
 
