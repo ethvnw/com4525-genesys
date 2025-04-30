@@ -53,3 +53,15 @@ table {
     background-color: $gray-200 !important;
   }
 }
+
+#qr-image{
+  width: 200px;
+  height: 200px;
+}
+
+// Used when displaying a truncated code on mobile so it doesn't overflow
+@include media-breakpoint-down(lg) {
+  #qr-code-text {
+    width: 75vw;
+  }
+}

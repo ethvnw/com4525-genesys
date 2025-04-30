@@ -3,7 +3,7 @@
     %h1.mb-0.fw-bold= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
 
-  .d-flex.flex-column.align-items-end.gap-3
+  .d-flex.flex-column.gap-3.align-items-md-end
     = render("partials/trips/members", members: @trip.trip_memberships)
 
     .d-flex.gap-2
