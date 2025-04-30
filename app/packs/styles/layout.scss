@@ -23,6 +23,23 @@ body {
   width: 30rem;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  @extend .btn, .btn-tertiary;
+  @extend .rounded-circle;
+  @extend .d-flex, .align-items-center, .justify-content-center;
+  width: 44px;
+  height: 44px;
+
+  i {
+    @extend .fs-2, .mb-0;
+  }
+
+  &::after {
+    content: "";
+  }
+}
+
 main {
     @extend .d-flex;
     @extend .flex-fill;

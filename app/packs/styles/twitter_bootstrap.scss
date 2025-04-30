@@ -1,6 +1,59 @@
 @import "variables";
 @import "~bootstrap/scss/bootstrap";
 
+/* Roamio Brand */
+.roamio-header, .roamio-text {
+    font-family: "Cal Sans";
+    font-weight: 400;
+}
+
+.roamio-base {
+    font-family: $font-family-sans-serif;
+}
+
+input, textarea {
+    @extend .bg-light;
+}
+
+.btn-primary {
+    @extend .bg-primary;
+}
+
+.bg-roamio {
+    background-color: $roamio-secondary;
+    @extend .text-light;
+}
+
+.btn {
+    @extend .roamio-text;
+}
+
+h1, h2, h3, h4, h5 {
+    @extend .roamio-header; 
+}
+
+label {
+    @extend .roamio-text;
+}
+
+#landing-topbar {
+    .nav-link {
+        color: $body-bg;
+  
+        &:hover {
+            color: darken($body-bg, 10%);
+        }
+  
+        &:active {
+            color: darken($body-bg, 20%);
+        }
+    }
+
+    .navbar-toggler span {
+        background-color: $body-bg;
+    }
+}
+
 /* Overwrite bg elements with light text */
 .bg-success, .bg-dark, .bg-primary, .btn-primary {
     @extend .text-light;
@@ -8,12 +61,16 @@
 
 /* Overwrite button secondary */
 .btn-secondary {
-    @include button-variant(darken($light, 10%), darken($light, 10%));
-    color: var(--bs-navbar-color);
+    @include button-variant(darken($body-bg, 10%), darken($body-bg, 10%));
+    color: $secondary;
+}
+
+.btn-tertiary {
+    @include button-variant($roamio-tertiary, $roamio-tertiary);    
 }
 
 .btn-secondary.active {
-    @include button-variant(darken($light, 2%), darken($light, 2%));
+    @include button-variant(darken($body-bg, 2%), darken($body-bg, 2%));
 }
 
 /* Remove border from toggler */
