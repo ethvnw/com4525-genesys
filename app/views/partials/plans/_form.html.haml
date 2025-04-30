@@ -20,6 +20,7 @@
     = label_tag(:start_location_name, class: "mb-1", for: "start-location-autocomplete") do
       Start location
       %abbr{ title: "required" } *
+
     #start-location-autocomplete{ class: get_error_class_with(errors, :start_location_name) }
     = form_error_message(errors, :start_location_name)
     .valid-feedback Looks good!
