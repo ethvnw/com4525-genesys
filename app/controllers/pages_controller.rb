@@ -4,7 +4,7 @@
 class PagesController < ApplicationController
   layout "user", only: [:home, :inbox]
   before_action :authorize_members_access, only: [:landing, :faq]
-  before_action :authenticate_user!, only: :home
+  before_action :authenticate_user!, only: [:home, :inbox]
 
   def landing
     @script_packs = ["landing"]
