@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_16_124554) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_30_091300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -112,6 +112,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_124554) do
     t.datetime "end_date", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "provider_name"
     t.index ["trip_id"], name: "index_plans_on_trip_id"
   end
 
@@ -166,6 +167,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_124554) do
     t.integer "ticket_format", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
     t.index ["plan_id"], name: "index_scannable_tickets_on_plan_id"
   end
 

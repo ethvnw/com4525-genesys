@@ -7,3 +7,8 @@ Turbo.session.drive = false;
 Turbo.StreamActions.redirect = function () {
   Turbo.visit(this.target);
 };
+
+// Custom action to change URL from a stream response (e.g. view=list -> view=map)
+Turbo.StreamActions.changeUrl = function () {
+  window.history.replaceState({}, '', this.target);
+};

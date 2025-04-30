@@ -10,6 +10,7 @@ WebMock.disable_net_connect!(allow_localhost: true, allow: [
   "https://selenium-release.storage.googleapis.com",
   /172\.17\.0\.\d+/,
   /chrome:4444/,
+  /api.mapbox.com/,
 ])
 
 VCR.configure do |c|
@@ -21,7 +22,8 @@ VCR.configure do |c|
   c.ignore_request do |request|
     # Ignore requests for gitlab CI containers
     URI(request.uri).host&.match?(/172\.17\.0\.\d+/) \
-      || URI(request.uri).host == "chrome"
+      || URI(request.uri).host == "chrome" \
+      || URI(request.uri).host == "api.mapbox.com" # Also ignore mapbox, cassettes for this don't want to work
   end
 
   c.around_http_request do |request|

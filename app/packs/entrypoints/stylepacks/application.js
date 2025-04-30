@@ -17,5 +17,6 @@ import '../../styles/forms.scss';
 import '../../styles/trips.scss';
 import '../../styles/home.scss';
 import '../../styles/twitter_bootstrap.scss';
+import '../../styles/leaflet-custom.scss';
 
 require.context('../../images', true);

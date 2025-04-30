@@ -5,21 +5,19 @@
     %h4.fw-bold.mb-0.max-height-2-lines
       = plan.title
 
-  -# Company name
-  .d-flex.gap-3.align-items-center
-    %i.bi.bi-building
-    %p.mb-0 Company Name
+  -# Provider name
+  - if plan.provider_name.present?
+    .d-flex.gap-3.align-items-center
+      %i.bi.bi-building
+      %p.mb-0= plan.provider_name
 
   -# Start location
   .d-flex.gap-3.align-items-center
     %i.bi.bi-geo-alt
     %p.mb-0= plan.start_location_name
 
-  -# View tickets button
-  .border-top.border-secondary.mt-2.pt-3.fw-semibold
-    %button.btn.d-flex.gap-3.align-items-center.p-0
-      %i{ class: plan.view_icon }
-      %p.mb-0= plan.view_label
+  - if plan.scannable_tickets.any?
+    = render("partials/plans/view_tickets_button", trip: trip, plan: plan)
 
   - if plan.documents.attached?
     = render("partials/plans/documents_dropdown", plan: plan)
