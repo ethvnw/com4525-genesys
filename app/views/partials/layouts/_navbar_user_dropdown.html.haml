@@ -4,7 +4,6 @@
     "aria-label": "Account menu Button for #{current_user.username}",
     "aria-haspopup": "true",
     "aria-expanded": "false",
-    id: "userAccountDropdown",
     role: "button",
     tabindex: 0,
   }
@@ -12,7 +11,7 @@
     .dropdown-username
       = current_user.username
 
-  .dropdown-menu.dropdown-menu-end{ "aria-labelledby": "userAccountDropdown" }
+  .dropdown-menu.dropdown-menu-end
     %p.dropdown-header.text-dark.fw-semibold.pb-0
       = current_user.email
     %p.small.dropdown-header.text-secondary.pt-0
