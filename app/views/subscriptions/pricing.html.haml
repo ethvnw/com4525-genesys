@@ -1,5 +1,5 @@
 %section.row.align-items-center.gy-3
-  %h1.fw-bold.display-6 Pricing
+  %h1.display-6 Pricing
   - @subscription_tiers.each do |tier|
     .col-lg-4
       = render("partials/landing/subscription_card", tier: tier.decorate)

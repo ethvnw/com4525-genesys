@@ -10,6 +10,15 @@
         border-radius: 0;
     }
 }
+#landing-topbar {
+    #user-account-dropdown {
+        @extend .py-1;
+    }
+}
+
+#application-main {
+    margin-top: $landing-navbar-height;
+}
 
 /* Override swiper */
 .swiper-wrapper {
@@ -27,16 +36,16 @@
         height: 491px;
     }
 
-    h4, p {
+    h3, p {
         display: -webkit-box;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
-    h4 {
+    h3 {
         -webkit-line-clamp: 2;
         line-clamp: 2;
-        min-height: 60px;
+        min-height: 68px;
     }
 
     p {

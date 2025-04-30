@@ -37,21 +37,6 @@
   .swiper-wrapper {
     @extend .pb-2;
   }
-
-  .swiper-button-prev,
-  .swiper-button-next {
-    @extend .bg-dark, .rounded-circle;
-    width: 44px;
-    height: 44px;
-
-    i {
-      @extend .h2, .mb-0;
-    }
-
-    &::after {
-      content: "";
-    }
-  }
 }
 
 // Swiper overrides

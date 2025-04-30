@@ -74,6 +74,11 @@ function shareSetup() {
   shareTwitter = socialShareCanvas.querySelector('#social-share-twitter');
   shareWhatsapp = socialShareCanvas.querySelector('#social-share-whatsapp');
 
+  // Focus clipboard button when offcanvas is shown for accessibility
+  socialShareCanvas.addEventListener('shown.bs.offcanvas', () => {
+    shareClipboard?.focus();
+  });
+
   document.querySelectorAll('.share-feature-button').forEach((button) => {
     button.addEventListener('click', () => {
       // Get the feature details from the card

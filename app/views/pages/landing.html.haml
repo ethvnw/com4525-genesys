@@ -1,29 +1,32 @@
 -# Hero section
 %section.row.align-items-center.py-5
   .col-lg-6.text-center.text-lg-start
-    %h1.display-5.fw-bold.lh-1.mb-3
+    %h1.display-5.lh-1.mb-3
       No more searching through files, emails, and group chats
-    %p.fw-semibold
+    %p.fs-5.text-secondary
       Roamio is a collaborative app to organise trip tickets, bookings, and activities
-    = link_to(pricing_subscriptions_path, class: "btn btn-primary btn-lg fw-semibold mb-5") do
+    = link_to(pricing_subscriptions_path,
+              class: "btn btn-primary btn-lg mb-5",
+              tabindex: 0,
+              "aria-label": "Sign up for Roamio") do
       %i.bi.bi-compass &nbsp;
       Join the travel revolution
   .col-lg-6.d-flex.justify-content-center.my-0
-    = image_pack_tag("images/roamio_brand_home_hero.png", class: "", height: 700)
+    = image_pack_tag("images/roamio_brand_home_hero.png", class: "", height: 700, alt: "")
 
 -# About section
 %section.row.align-items-center.py-5.px-5.card-section.bg-primary
   .card-body
     .row.text-center.text-lg-start
       .col-lg-6.text-center.text-lg-start
-        %h2.display-6.fw-bold.lh-1.mb-3
+        %h2.display-6.lh-1.mb-3
           Roamio is built for collaboration, ensuring every trip is perfectly planned
-        %p.fw-semibold
+        %p.fs-5
           Disorganised plans cause stress, missed bookings, and miscommunication
 
 -# Features carousel section
 %section.row.align-items-center.py-5.gap-4
-  %h2.text-center.text-lg-start.fw-bold.lh-1
+  %h2.text-center.text-lg-start.lh-1
     Seamless travel, organised
   .swiper.features-carousel
     .swiper-wrapper
@@ -32,8 +35,7 @@
           .swiper-slide.d-flex.justify-content-center
             = render("partials/landing/carousel_app_feature_slide",
                      app_feature_obj: app_feature)
-    .swiper-button-prev
-    .swiper-button-next
+    = render("partials/swiper/swiper_controls")
     .swiper-scrollbar
 
 -# About section
@@ -41,14 +43,14 @@
   .card-body
     .row.text-center.text-lg-start
       .col-lg-6.text-center.text-lg-start
-        %h2.display-6.fw-bold.lh-1.mb-3
+        %h2.display-6.lh-1.mb-3
           Built for You, Shaped by Your Feedback
-        %p.fw-semibold.text-secondary
+        %p.fs-5.text-secondary
           Your feedback drives our design
 
 -# Reviews carousel section
 %section.row.align-items-center.py-5.gap-4
-  %h2.text-center.text-lg-start.fw-bold
+  %h2.text-center.text-lg-start
     Trusted by travellers
   #reviews-carousel.swiper.reviews-carousel
     .swiper-wrapper
@@ -56,10 +58,9 @@
         .swiper-slide.d-flex.justify-content-center
           = render("partials/landing/carousel_review_slide",
                    review_obj: review)
-    .swiper-button-prev
-    .swiper-button-next
+    = render("partials/swiper/swiper_controls")
     .swiper-scrollbar
-  %h3.text-center.text-lg-start.fw-bold
+  %h2.text-center.text-lg-start
     Enjoy using Roamio? Leave a review
   = render("partials/reviews/form", review: @review, errors: @errors)
 

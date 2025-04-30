@@ -3,7 +3,8 @@ import Swiper from 'swiper/bundle';
 
 const carouselConfig = {
   direction: 'horizontal',
-  loop: true,
+  loop: false,
+  a11y: true,
   slidesPerView: 1,
   centeredSlides: false,
   navigation: {

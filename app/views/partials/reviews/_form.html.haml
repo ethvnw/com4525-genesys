@@ -1,15 +1,20 @@
 = simple_form_for([:api, review],
                   builder: ValidatedFormBuilder,
                   errors: errors,
-                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" },
+                  "aria-label": "Submit a review") do |f|
   = f.validated_input(:name,
+                      label: "Your full name or a nickname *",
+                      "aria-label": "Your full name or a nickname - leaving a review for Roamio",
                       placeholder: "Enter your name...")
   = f.validated_input(:content,
+                      label: "Your review of Roamio *",
+                      "aria-label": "Your review of Roamio",
                       placeholder: "Enter your review...",
                       rows: 5)
 
   .d-flex.justify-content-end
-    = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do
-      %i.bi.bi-send-fill
+    = button_tag(type: "submit", class: "btn btn-secondary") do
+      %i.bi.bi-send-fill{ "aria-hidden": "true" }
       &nbsp;
       Submit Review

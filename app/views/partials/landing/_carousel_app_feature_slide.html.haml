@@ -1,12 +1,18 @@
 .feature-slide
   .card.mb-2
-    = image_pack_tag("images/placeholder_ios_screen.png", class: "card-img")
+    = image_pack_tag("images/placeholder_ios_screen.png", class: "card-img", alt: "")
     .card-img-overlay
-  %h4.share-feature-name.display-8.fw-bold= app_feature_obj.name
-  %p.small.share-feature-description.fw-semibold.text-secondary= app_feature_obj.description
-  %button.share-feature-button.btn.btn-light.fw-semibold.text-secondary{
+  %h3.share-feature-name.display-8{ id: "feature-title-#{app_feature_obj.id}" }
+    = app_feature_obj.name
+  %p.fs-6.share-feature-description.text-secondary{ id: "feature-desc-#{app_feature_obj.id}" }
+    = app_feature_obj.description
+  %button.share-feature-button.btn.btn-secondary{
     id: "share_#{app_feature_obj.id}",
     data: { "share-id": app_feature_obj.id },
+    "aria-labelledby": "feature-title-#{app_feature_obj.id} share_#{app_feature_obj.id}",
+    "aria-describedby": "feature-desc-#{app_feature_obj.id}",
+    tabindex: 0,
   }
-    %i.bi.bi-share-fill &nbsp;
-    Share
+    %i.bi.bi-share-fill{ "aria-hidden": "true" } &nbsp;
+    Share Feature
+    .visually-hidden To Social Media Button
