@@ -31,6 +31,7 @@ end
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
 #  plan_type                :integer          not null
+#  provider_name            :string
 #  start_date               :datetime
 #  start_location_latitude  :decimal(, )
 #  start_location_longitude :decimal(, )
@@ -69,4 +70,8 @@ class Plan < ApplicationRecord
   validates :start_location_name, :start_date, presence: true
   validates_with PlanValidator
   validates_with DateValidator
+
+  def travel_plan?
+    plan_type.starts_with?("travel_by")
+  end
 end

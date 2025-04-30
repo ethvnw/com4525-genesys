@@ -12,21 +12,23 @@
   %h4.fw-semibold{ class: "#{text_class} z-3" }
     My Trips
 
--# Latest trips carousel
-.latest-trips-carousel.home-carousels.swiper
-  .swiper-wrapper
-    - if @trips.present?
-      - @trips.each_with_index do |trip|
+-# Without this wrapper, slider freaks out and sets the width of the slides to 0.333px
+%div
+  -# Latest trips carousel
+  .latest-trips-carousel.home-carousels.swiper
+    .swiper-wrapper
+      - if @trips.present?
+        - @trips.each_with_index do |trip|
+          .swiper-slide
+            = render("partials/trips/trip_card", trip: trip)
+      - else
+        -# Show card for no trips, directing the user to create a trip
         .swiper-slide
-          = render("partials/trips/trip_card", trip: trip)
-    - else
-      -# Show card for no trips, directing the user to create a trip
-      .swiper-slide
-        = render("partials/home/no_trips_card")
-  .swiper-button-prev
-    %i.bi.bi-chevron-left
-  .swiper-button-next
-    %i.bi.bi-chevron-right
+          = render("partials/home/no_trips_card")
+    .swiper-button-prev
+      %i.bi.bi-chevron-left
+    .swiper-button-next
+      %i.bi.bi-chevron-right
 
 -# Quick Links
 .d-flex.gap-3.mb-3.mt-5
@@ -37,23 +39,22 @@
            description: "Start your adventure")
 
   = render("partials/home/quick_link_button",
-           path: trips_path,
+           path: trips_path(view: "list"),
            icon: "bi-geo",
            title: "Trips",
            description: "View all trips past and present")
 
   = render("partials/home/quick_link_button",
-           path: trips_path,
+           path: trips_path(view: "map"),
            icon: "bi-map",
            title: "Map",
            description: "View all trips on a map")
 
--# Section header for featured locations
-%hr
-%h4.fw-semibold.mb-3 Explore Destinations
-
 -# Featured locations carousel
 - if @featured_locations.present?
+  -# Section header for featured locations
+  %hr
+  %h4.fw-semibold.mb-3 Explore Destinations
   .featured-locations-carousel.home-carousels.swiper.mb-3
     .swiper-wrapper
       - @featured_locations.each do |location|

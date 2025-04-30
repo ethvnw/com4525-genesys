@@ -41,7 +41,9 @@ export function createElement(tag, attributes, childList = []) {
   const element = document.createElement(tag);
   Object.entries(attributes).forEach(([k, v]) => {
     const value = v.toString();
-    element.setAttribute(k, value);
+    const attributeName = k === 'className' ? 'class' : k;
+
+    element.setAttribute(attributeName, value);
   });
 
   setChildList(element, childList);

@@ -21,7 +21,7 @@ module Streamable
     #     root_path,
     #     { type: "success", content: "Successfully added review." }
     #   )
-    def stream_response(stream_template, redirect_path, message = nil)
+    def stream_response(stream_template, redirect_path = nil, message = nil)
       respond_to do |format|
         format.turbo_stream do
           @message = message
@@ -30,7 +30,12 @@ module Streamable
 
         format.html do
           create_flash_message(message)
-          redirect_to(redirect_path)
+
+          if redirect_path.present?
+            redirect_to(redirect_path)
+          else
+            render
+          end
         end
       end
     end

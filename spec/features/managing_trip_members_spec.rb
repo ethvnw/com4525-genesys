@@ -78,6 +78,7 @@ RSpec.feature("Managing trip members") do
       accept_alert do
         click_on "Remove"
       end
+      await_message("User removed successfully")
       login_as(user2, scope: :user)
       visit trip_path(trip)
       expect(page).not_to(have_content("Mock Trip"))

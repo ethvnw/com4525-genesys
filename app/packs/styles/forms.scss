@@ -54,3 +54,39 @@
 .membership-button {
   height: 2.375rem;
 }
+
+.form-map {
+  @extend .flex-fill;
+  height: 35rem;
+  max-height: 50vh;
+}
+
+
+// Styling for QR code input
+#qr-navigation {
+  @extend .text-center;
+}
+
+.qr-result-item {
+  display: none;
+}
+
+#qr-counter {
+  @extend .mx-3, .d-inline-block, .text-center;
+  width: 4rem;
+}
+
+#qr-codes-container {
+  max-width: 17rem;
+}
+
+.qr-error{
+  @extend .fw-semibold, .form-control, .m-0, .text-danger;
+  border-color: transparent;
+}
+
+@include media-breakpoint-down(md) {
+  #qr-codes-container {
+    max-width: 100%;
+  }
+}

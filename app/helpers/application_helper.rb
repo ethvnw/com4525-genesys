@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "json"
+
 # Module containing global helper functions
 module ApplicationHelper
   ##
@@ -56,8 +58,30 @@ module ApplicationHelper
   end
 
   ##
+  # Generates a link which adds query parameters to the current path.
+  # Useful for changing from map to list view, or for sorting.
+  # @param key [Symbol] the key of the new parameter
+  # @param value [String] the value of the new parameter
+  # @param icon [String] the Bootstrap icon class to use
+  # @return [String] an HTML element containing the link
+  #
+  # @example Switching to map view (will add `view=map` to query parameters)
+  #   = add_param_button(:view, "map", "bi-pin-map")
+  #
+  def add_param_button(key, value, icon)
+    link_to(
+      url_for(request.query_parameters.merge({ key => value })),
+      class: "#{"active " if params[key] == value}change-view-link",
+      data: { turbo: "true", turbo_stream: "true" },
+    ) do
+      concat(content_tag(:i, nil, class: "#{icon} bi"))
+      concat(content_tag(:span, value.humanize))
+    end
+  end
+
+  ##
   # Retrieves and formats error messages for a specific form field
-  # @param errors [Hash] the hash containing validation errors, generated with record.errors.to_hash(true)
+  # @param errors [Hash, nil] the hash containing validation errors, generated with record.errors.to_hash(true)
   # @param key [Symbol] the field key to get errors for
   # @return [String, nil] joined error messages for the field (or nil if no errors)
   def get_formatted_errors(errors, key)
@@ -71,13 +95,13 @@ module ApplicationHelper
 
   ##
   # Determines the Bootstrap validation class based on field errors
-  # @param errors [Hash] the errors hash containing validation errors
+  # @param errors [Hash, nil] the errors hash containing validation errors
   # @param key [Symbol] the field key to check for errors
   # @return [String, nil] 'is-invalid' if field has errors, 'is-valid' if errors exist but this field is valid,
   #                       nil otherwise
   def get_error_class_with(errors, key)
     if errors.present?
-      if errors.include?(key) && errors[key].present?
+      if errors[key].present?
         "is-invalid"
       else
         "is-valid"
@@ -97,5 +121,42 @@ module ApplicationHelper
         simple_format(error, {}, wrapper_tag: "span")
       end
     end
+  end
+
+  ##
+  # Converts a list of 'events' (trips or plans) to a JSON list, which can be read by JavaScript
+  # @param location_points [Array, nil] an array of plans/trips
+  # @return [String] a JSONified string of important information from the events
+  def convert_events_to_json(location_points)
+    ruby_hash = location_points&.map do |point|
+      datapoint = {
+        id: point.id,
+        title: point.title,
+      }
+
+      if point.is_a?(Trip)
+        datapoint[:coords] = [point.location_latitude.to_f, point.location_longitude.to_f]
+        datapoint[:href] = trip_path(point.id)
+      elsif point.is_a?(Plan)
+        datapoint[:coords] = [point.start_location_latitude.to_f, point.start_location_longitude.to_f]
+        if point.end_location_latitude
+          datapoint[:endCoords] = [point.end_location_latitude.to_f, point.end_location_longitude.to_f]
+          datapoint[:icon] = [point.decorate.travel_icon]
+        end
+        datapoint[:href] = edit_trip_plan_path(point.trip.id, point.id)
+      end
+      datapoint
+    end
+
+    ruby_hash&.to_json&.html_safe || "[]"
+  end
+
+  ##
+  # Creates a data hash which includes turbo: tru and turbo-confirm
+  # Prevents lines being too long in HAML
+  # @param message [String] the message to display in the alert
+  # @return [Hash] the data hash
+  def turbo_confirm(message)
+    { turbo: true, turbo_confirm: message }
   end
 end

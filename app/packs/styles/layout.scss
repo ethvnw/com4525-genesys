@@ -235,3 +235,29 @@ footer {
 .flex-grow-evenly {
     flex: 1 1 0;
 }
+
+.change-view-link {
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .justify-content-center;
+    @extend .p-2;
+    @extend .nav-link;
+    @extend .bg-light;
+    @extend .gap-1;
+
+    border-radius: 0;
+
+    &.active {
+        background-color: $nav-pills-link-active-bg !important;
+    }
+
+    &:first-child {
+        border-bottom-left-radius: $border-radius;
+        border-top-left-radius: $border-radius;
+    }
+
+    &:last-child {
+        border-bottom-right-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+    }
+}

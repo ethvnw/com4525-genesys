@@ -1,7 +1,54 @@
-%h2= @plan.title
-%h4.mb-4= @plan.start_date.strftime("%A, %d %B %Y")
+.d-flex.flex-column.flex-md-row.justify-content-md-between.mb-4
+  .mb-2
+    %h1.mb-0.fw-bold= @trip.title
+    %p.mb-0.fs-4.fw-semibold.text-secondary
+      Tickets for #{@plan.title}
 
-- if @plan.plan_type.starts_with?("travel_")
-  = render("partials/plans/travel_card", plan: @plan)
+  = link_to(trip_path(@trip), class: "btn btn-secondary align-self-start align-self-md-center") do
+    %i.bi.bi-arrow-left &nbsp;
+    Back to Trip
+
+
+%p.mb-0.fs-5.text-primary= @plan.formatted_date_range
+- if @plan.travel_plan?
+  -# Start location and date
+  .row.align-items-center.mb-3
+    .col
+      %p.mb-0.max-height-2-lines= @plan.start_location_name
+
+    -# Travel icon
+    .col-auto.px-4
+      %h2.text-black-50
+        %i{ class: @plan.travel_icon }
+
+    -# End location and date
+    .col
+      %p.mb-0.text-end.max-height-2-lines= @plan.end_location_name
 - else
-  = render("partials/plans/event_card", plan: @plan)
+  -# Company name
+  .d-flex.gap-3.align-items-center
+    %i.bi.bi-building
+    %p.mb-0 Company Name
+
+  -# Start location
+  .d-flex.gap-3.align-items-center
+    %i.bi.bi-geo-alt
+    %p.mb-0= @plan.start_location_name
+
+- if @plan.scannable_tickets.any?
+  -# QR codes
+  #qr-code-container.d-flex.justify-content-center.align-items-center
+    %img#qr-image
+  .w-100.d-flex.justify-content-center
+    %h6#qr-code-text.text-truncate.text-center.overflow-hidden
+      = @plan.scannable_tickets[0].code
+  %h6#qr-code-title.text-center.fw-semibold
+    = @plan.scannable_tickets[0].decorate.title_value
+  #qr-navigation.mt-3
+    %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
+    %span#qr-counter
+    %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+
+  - codes = @plan.scannable_tickets.map { |ticket| { code: ticket.code, title_value: ticket.decorate.title_value } }
+  %script#qr-code-data{ type: "application/json" }
+    = raw(codes.to_json)

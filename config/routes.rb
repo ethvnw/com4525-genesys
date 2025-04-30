@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :trips do
     resources :plans do
+      resources :scannable_tickets, only: [:destroy]
       resources :documents, only: [:destroy]
     end
     resources :trip_memberships do
@@ -72,6 +73,8 @@ Rails.application.routes.draw do
     end
 
     resources :featured_locations, only: [:show]
+
+    get "/map/tile/:x/:y/:z", to: "map#tile", as: :map_tile
   end
 
   namespace :admin do

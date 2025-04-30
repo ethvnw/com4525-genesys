@@ -7,6 +7,7 @@
 #  id            :bigint           not null, primary key
 #  code          :string           not null
 #  ticket_format :integer          not null
+#  title         :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  plan_id       :bigint
@@ -21,4 +22,5 @@ class ScannableTicket < ApplicationRecord
   enum ticket_format: [:qr, :code_39, :code_128]
 
   validates :ticket_format, inclusion: { in: ticket_formats }
+  validates :title, presence: true
 end

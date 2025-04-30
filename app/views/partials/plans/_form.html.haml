@@ -1,15 +1,19 @@
 = simple_form_for([trip, plan],
                   builder: ValidatedFormBuilder,
                   errors: errors,
-                  multipart: true,
-                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "plan-form" },
+                  multipart: true) do |f|
   = f.validated_input(:title,
                       placeholder: "Enter the title of the plan...")
+
   = f.validated_select(:plan_type,
                        options_for_select(Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },
                                           selected: plan.plan_type),
                        prompt: "Select plan type",
                        required: true)
+
+  = f.validated_input(:provider_name,
+                      placeholder: "Enter business or provider name...")
 
   .d-flex.flex-column.mb-3
     = f.label("Start location", class: "mb-1", for: "#start-location-autocomplete")
@@ -23,13 +27,33 @@
     = form_error_message(errors, :end_location_name)
     .valid-feedback Looks good!
 
-  #map
+  #plan-form-map.form-map
 
   = f.validated_datetime(:start_date, required: true)
   = f.validated_datetime(:end_date, required: true)
 
   = f.label(:documents, "Upload PDFs", class: "fw-semibold")
   = f.file_field(:documents, multiple: true, accept: "application/pdf", class: "form-control")
+
+  // QR code upload
+  = f.label("Upload scannable tickets (QR codes)", class: "mb-1 fw-semibold", for: "#qr_codes_upload")
+
+  #qr-codes-found.d-none
+  #qr-results.d-none
+  #qr-codes-container.d-flex.flex-column.d-none
+    #qr-images-container.d-none
+      %img#qr-image
+    #qr-navigation.mt-1.text-center.d-none
+      %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
+      %span#qr-counter.mx-3
+      %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+
+
+  // f.file_field is not used as QR code images are not uploaded, instead the code values are
+  = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")
+  // QR code values are stored in a hidden field, and are used to create ScannableTickets in the controller
+  = hidden_field_tag(:scannable_tickets)
+  = hidden_field_tag(:scannable_ticket_titles)
 
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 
@@ -49,3 +73,7 @@
 - if plan.documents.attached?
   %h4.fw-semibold Documents
   = render("partials/plans/documents_list", plan: plan)
+
+- if plan.scannable_tickets.any?
+  %h4.fw-semibold Scannable tickets
+  = render("partials/plans/scannable_tickets_list", plan: plan)

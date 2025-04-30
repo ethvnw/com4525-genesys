@@ -10,6 +10,7 @@
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
 #  plan_type                :integer          not null
+#  provider_name            :string
 #  start_date               :datetime
 #  start_location_latitude  :decimal(, )
 #  start_location_longitude :decimal(, )
@@ -29,6 +30,7 @@ FactoryBot.define do
   # and specify the dates when using the factory.
   factory :plan do
     title { "Mock Plan" }
+    provider_name { "Company Name" }
     plan_type { :travel_by_plane }
     start_date { Time.current + 1.day }
     end_date { Time.current + 2.days }
@@ -38,6 +40,14 @@ FactoryBot.define do
     end_location_name { "Kinder Scout, Peak District, UK" }
     end_location_latitude { 53.3849 }
     end_location_longitude { 1.8734 }
+
+    trait :no_end_location do
+      plan_type { :other }
+      end_location_name { nil }
+      end_location_latitude { nil }
+      end_location_longitude { nil }
+    end
+
     association :trip
   end
 end

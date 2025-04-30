@@ -10,7 +10,7 @@ class PlansController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @script_packs = ["plans"]
+    @script_packs = ["plans_create"]
     @trip = Trip.find(params[:trip_id])
     @plan = if session[:plan_data]
       Plan.new(session[:plan_data])
@@ -25,13 +25,22 @@ class PlansController < ApplicationController
     @plan = Plan.new(plan_params)
     @plan.trip = Trip.find(params[:trip_id])
     if @plan.save
+      # Create scannable tickets if provided
+      qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
+      qr_titles = params[:scannable_ticket_titles].present? ? JSON.parse(params[:scannable_ticket_titles]) : []
+
+      qr_codes.each_with_index do |code, index|
+        @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
+      end
+
       session.delete(:plan_data)
-      redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
+      turbo_redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else
       flash[:errors] = @plan.errors.to_hash(true)
       session[:plan_data] =
         @plan.attributes.slice(
           "title",
+          "provider_name",
           "plan_type",
           "start_location_name",
           "start_location_latitude",
@@ -49,7 +58,7 @@ class PlansController < ApplicationController
   end
 
   def edit
-    @script_packs = ["plans"]
+    @script_packs = ["plans_create"]
     @trip = Trip.find(params[:trip_id])
     @plan = Plan.find(params[:id]).decorate
     @errors = flash[:errors]
@@ -63,7 +72,24 @@ class PlansController < ApplicationController
       if documents
         @plan.documents.attach(documents)
       end
-      redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.")
+
+      # Create scannable tickets if provided
+      any_duplicate_codes = false
+      qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
+      qr_titles = params[:scannable_ticket_titles].present? ? JSON.parse(params[:scannable_ticket_titles]) : []
+
+      qr_codes.each_with_index do |code, index|
+        # Check if the code already exists before creating a new one
+        if @plan.scannable_tickets.exists?(code: code)
+          any_duplicate_codes = true
+        else
+          @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
+        end
+      end
+
+      # The notice message indicates whether any QR codes already existed to the plan
+      turbo_redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.
+      #{any_duplicate_codes ? "Some QR codes already existed..." : ""}")
     else
       flash[:errors] = @plan.errors.to_hash(true)
       stream_response("plans/update", edit_trip_plan_path(@plan))
@@ -73,7 +99,17 @@ class PlansController < ApplicationController
   def destroy
     @plan = Plan.find(params[:id])
     @plan.destroy
-    redirect_back_or_to(trip_path(@plan.trip), notice: "Plan deleted successfully.")
+    turbo_redirect_to(trip_path(@plan.trip), notice: "Plan deleted successfully.")
+  end
+
+  def show
+    @script_packs = ["plans_show"]
+    @plan = Plan.find(params[:id]).decorate
+    @trip = @plan.trip.decorate
+    # Redirect back to the trip page if there are no tickets
+    if @plan.scannable_tickets.empty?
+      redirect_back_or_to(trip_path(@trip), notice: "No tickets available for this plan.")
+    end
   end
 
   private
@@ -81,6 +117,7 @@ class PlansController < ApplicationController
   def plan_params
     params.require(:plan).permit(
       :title,
+      :provider_name,
       :plan_type,
       :start_location_name,
       :start_location_latitude,
