@@ -53,7 +53,7 @@ burke = User.create!(
 
 seed_avatar(burke, "burke.jpg")
 
-User.create!(
+james = User.create!(
   email: "jmarch2@sheffield.ac.uk",
   username: "jamesmarch",
   password: "JMGenesys12!",
@@ -61,6 +61,8 @@ User.create!(
   user_role: User.user_roles[:member],
   invitation_accepted_at: Time.zone.parse("2024-05-26 15:42:08"),
 ) unless User.find_by(email: "jmarch2@sheffield.ac.uk").present?
+
+seed_avatar(james, "march.jpg")
 
 User.create!(
   email: "ebarker5@sheffield.ac.uk",
