@@ -6,8 +6,8 @@ class ScannableTicketsController < ApplicationController
   before_action :set_plan
 
   def destroy
-    @scannable_ticket = @plan.scannable_tickets.find(params[:ticket_id])
-    if @scannable_ticket.destroy
+    scannable_ticket = @plan.scannable_tickets.find(params[:ticket_id])
+    if scannable_ticket.destroy
       redirect_back_or_to(trip_path(@plan.trip), notice: "Scannable ticket deleted successfully.")
     end
   end

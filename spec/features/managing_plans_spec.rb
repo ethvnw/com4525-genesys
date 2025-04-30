@@ -4,15 +4,13 @@ require "rails_helper"
 require_relative "../support/helpers/trips_and_plans_helper"
 
 RSpec.feature("Managing plans") do
-  let(:user) { create(:user) }
-  let(:trip) { create(:trip) }
-  let(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
+  let!(:user) { create(:user) }
+  let!(:trip) { create(:trip) }
+  let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
-    travel_to(Time.zone.parse("2025-01-10 1:30:00"))
-    stub_photon_api
   end
 
   feature "Creating plans" do
@@ -155,8 +153,8 @@ RSpec.feature("Managing plans") do
   end
 
   feature "Edit a plan" do
-    given!(:plan) { create(:plan, trip: trip) }
-    let(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
+    let!(:plan) { create(:plan, trip: trip) }
+    let!(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
@@ -241,7 +239,7 @@ RSpec.feature("Managing plans") do
   end
 
   feature "Delete a plan" do
-    given!(:plan) { create(:plan, trip: trip) }
+    let!(:plan) { create(:plan, trip: trip) }
 
     scenario "I can delete a plan and see it removed from the plans index page" do
       visit trip_path(plan.trip_id)
@@ -256,8 +254,8 @@ RSpec.feature("Managing plans") do
   end
 
   feature "Viewing plans" do
-    given!(:plan) { create(:plan, trip: trip) }
-    let(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
+    let!(:plan) { create(:plan, trip: trip) }
+    let!(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
 
     scenario "If a plan doesn't have a scannable ticket, I see a message indicating that", js: true do
       visit trip_plan_path(trip, plan)
