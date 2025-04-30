@@ -11,6 +11,7 @@ RSpec.feature("Managing plans") do
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
+    freeze_time
   end
 
   feature "Creating plans" do
