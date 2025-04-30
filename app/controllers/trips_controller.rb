@@ -134,6 +134,20 @@ class TripsController < ApplicationController
     stream_response("trips/show")
   end
 
+  def export_pdf
+    trip = Trip.find(params[:id]).decorate
+    plans = @trip.plans.order(:start_date).decorate
+    plan_groups = plans.group_by { |plan| plan.start_date.to_date }
+
+    html_content = render_to_string(
+      template: "pdf_templates/trip",
+      layout: false,
+      locals: { trip: trip, plan_groups: plan_groups },
+    )
+    pdf = Grover.new(html_content).to_pdf
+    send_data(pdf, filename: "#{trip.title}.pdf", type: "application/pdf", disposition: "attachment")
+  end
+
   private
 
   def upload_unsplash_image(location_name)
