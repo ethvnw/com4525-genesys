@@ -1,0 +1,21 @@
+%table#scannable-tickets-table.table.table-fit
+  %tbody
+    %thead
+      %tr
+        %th.text-break Title
+        %th.text-break Code
+        %th.pe-0 Actions
+    - plan.scannable_tickets.decorate.each do |ticket|
+      %tr.p-1
+        %td.align-middle.w-50.text-break
+          = ticket.title_value
+        %td.align-middle.w-50.text-break
+          = ticket.code
+        %td.pe-0.align-middle
+          = button_to(trip_plan_scannable_ticket_path(plan.trip, plan, ticket_id: ticket.id),
+                      method: :delete,
+                      data: { confirm: "Are you sure you want to delete this ticket?" },
+                      form: { class: "m-0" },
+                      class: "btn btn-secondary btn-sm text-nowrap px-2") do
+            %i.bi.bi-trash
+            Remove

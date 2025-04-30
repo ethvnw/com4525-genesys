@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :trips do
     resources :plans do
+      resources :scannable_tickets, only: [:destroy]
       resources :documents, only: [:destroy]
     end
     resources :trip_memberships do
