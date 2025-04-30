@@ -70,7 +70,7 @@ class Plan < ApplicationRecord
     other: 13,
   }
 
-  validates :plan_type, inclusion: { in: plan_types.keys }
+  validates :plan_type, presence: true, inclusion: { in: plan_types.keys }
   validates :title, presence: true, length: { maximum: 250 }
   validates :start_location_name, :start_date, presence: true
   validates_with PlanValidator
