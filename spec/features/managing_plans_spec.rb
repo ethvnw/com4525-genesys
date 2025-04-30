@@ -154,7 +154,7 @@ RSpec.feature("Managing plans") do
 
   feature "Edit a plan" do
     let!(:plan) { create(:plan, trip: trip) }
-    let!(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
+    let(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
