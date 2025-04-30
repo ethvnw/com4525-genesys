@@ -1,10 +1,10 @@
-%section.row.align-items-center.gy-3
-  %h1.display-6 Pricing
+= render("partials/layouts/page_title", page_title: "Pricing")
+%section.row.align-items-center.gy-3.mt-3
   - @subscription_tiers.each do |tier|
     .col-lg-4
       = render("partials/landing/subscription_card", tier: tier.decorate)
-  %h6.text-center.fw-semibold Enjoy flexible payment options
+  %h3.text-center.fs-5 Enjoy flexible payment options
   .d-flex.justify-content-center.gap-3.mb-3
-    = image_pack_tag("images/payment_logos/visa.svg", class: "img-thumbnail payment-vendor-thumbnail")
-    = image_pack_tag("images/payment_logos/mastercard.svg", class: "img-thumbnail payment-vendor-thumbnail")
-    = image_pack_tag("images/payment_logos/american_express.svg", class: "img-thumbnail payment-vendor-thumbnail")
+    = image_pack_tag("images/payment_logos/visa.svg", class: "img-thumbnail payment-vendor-thumbnail", alt: "")
+    = image_pack_tag("images/payment_logos/mastercard.svg", class: "img-thumbnail payment-vendor-thumbnail", alt: "")
+    = image_pack_tag("images/payment_logos/american_express.svg", class: "img-thumbnail payment-vendor-thumbnail", alt: "")

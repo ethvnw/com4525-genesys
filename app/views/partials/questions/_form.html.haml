@@ -8,7 +8,7 @@
                       placeholder: "Enter your question here")
 
   .d-flex.justify-content-end
-    = button_tag(type: "submit", class: "btn btn-primary") do
+    = button_tag(type: "submit", class: "btn btn-primary", tabindex: 0) do
       %i.bi.bi-send-fill{ "aria-hidden": "true" }
       &nbsp;
       Submit Question
