@@ -25,6 +25,7 @@
 #  fk_rails_...  (sender_user_id => users.id)
 #
 require "rails_helper"
+require_relative "../concerns/countable_shared_examples"
 
 RSpec.describe(TripMembership, type: :model) do
   it_behaves_like "countable"

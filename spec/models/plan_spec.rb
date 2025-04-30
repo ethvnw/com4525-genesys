@@ -24,6 +24,7 @@
 #  index_plans_on_trip_id  (trip_id)
 #
 require "rails_helper"
+require_relative "../concerns/countable_shared_examples"
 
 RSpec.describe(Plan, type: :model) do
   it_behaves_like "countable"

@@ -20,6 +20,7 @@
 #  fk_rails_...  (subscription_tier_id => subscription_tiers.id)
 #
 require "rails_helper"
+require_relative "../concerns/countable_shared_examples"
 
 RSpec.describe(Registration, type: :model) do
   it_behaves_like "countable"
