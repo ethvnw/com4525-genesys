@@ -36,3 +36,24 @@
                invitations_sent: @invitation_counts[:all_time],
                time_period: "All Time")
   %hr.mt-3
+  %h4.fw-semibold.mt-3
+    %i.bi.bi-database-add &nbsp;
+    Content Added Per Trip
+
+  .table-responsive
+    %table.table.table-striped
+      %thead
+        %tr
+          %th #
+          %th.wide-column Trip Name
+          %th Regular Plans
+          %th Travel Plans
+          %th Invitations
+      %tbody
+        - @trips.each_with_index do |trip, index|
+          %tr
+            %td= index + 1
+            %td.text-truncate= trip.title
+            %td= trip.regular_plan_count
+            %td= trip.travel_plan_count
+            %td= trip.trip_memberships.count

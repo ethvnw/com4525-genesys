@@ -79,4 +79,8 @@ class Plan < ApplicationRecord
   def travel_plan?
     plan_type.starts_with?("travel_by")
   end
+
+  def regular_plan?
+    !travel_plan?
+  end
 end
