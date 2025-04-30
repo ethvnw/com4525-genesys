@@ -32,10 +32,13 @@ RSpec.feature("Referrals") do
     specify "I cannot refer someone who is already on Roamio" do
       fill_in("email", with: user2.email)
       click_button("Invite to Roamio")
+      expect(page).to(have_content("A user with that email already exists."))
+    end
 
-      within("#toast-list .text-bg-danger") do
-        expect(page).to(have_content("Cannot refer a user that already exists."))
-      end
+    specify "I cannot refer an empty email address" do
+      fill_in("email", with: "")
+      click_button("Invite to Roamio")
+      expect(page).to(have_content("Email is invalid."))
     end
   end
 end
