@@ -25,6 +25,8 @@ module Analytics
         this_month: TripMembership.count_this_month,
         all_time: TripMembership.count,
       }
+
+      @trips = Trip.all.decorate
     end
   end
 end
