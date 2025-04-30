@@ -40,6 +40,11 @@
             %i.bi.bi-input-cursor-text &nbsp;
             Change Display Name
 
+          = link_to(export_pdf_trip_path(@trip),
+                    class: "dropdown-item") do
+            %i.bi.bi-file-earmark-pdf &nbsp;
+            Export PDF
+
           = link_to(trip_path(@trip),
                     class: "dropdown-item text-danger",
                     method: :delete,
