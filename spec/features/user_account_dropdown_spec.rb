@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.feature("User account dropdown") do
   feature "As a user with a regular account" do
-    let!(:user) { create(:user) }
+    let!(:user) { create(:user, username: "ericforeman") }
     before do
       login_as(user, scope: :user)
     end
@@ -63,7 +63,7 @@ RSpec.feature("User account dropdown") do
   end
 
   feature "As a reporter user", js: true do
-    let!(:reporter) { create(:reporter) }
+    let!(:reporter) { create(:reporter, username: "gregoryhouse") }
     before do
       login_as(reporter, scope: :user)
     end
@@ -122,7 +122,7 @@ RSpec.feature("User account dropdown") do
   end
 
   feature "As an admin user", js: true do
-    let!(:admin) { create(:admin) }
+    let!(:admin) { create(:admin, username: "lisacuddy") }
     before do
       login_as(admin, scope: :user)
     end
