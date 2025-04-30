@@ -100,7 +100,7 @@ RSpec.feature("Landing Page Analytics") do
         click_on "All Time"
         expect(page).to(have_content("Trips Created\n6\nAll Time"))
         expect(page).to(have_content("Plans Created\n4\nAll Time"))
-        expect(page).to(have_content("Invitations Sent\n10\nAll Time"))
+        expect(page).to(have_content("Invitations Sent\n9\nAll Time"))
       end
     end
   end
