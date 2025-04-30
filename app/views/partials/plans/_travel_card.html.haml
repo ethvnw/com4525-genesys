@@ -15,10 +15,11 @@
     .col
       %h4.mb-0.text-end.max-height-2-lines= plan.end_location_name
 
-  -# Company name
-  .d-flex.gap-3.align-items-center
-    %i.bi.bi-building
-    %p.mb-0 Company Name
+  -# Provider name
+  - if plan.provider_name.present?
+    .d-flex.gap-3.align-items-center
+      %i.bi.bi-building
+      %p.mb-0= plan.provider_name
 
   - if plan.scannable_tickets.any?
     = render("partials/plans/view_tickets_button", trip: trip, plan: plan)
