@@ -121,6 +121,13 @@ class TripsController < ApplicationController
       turbo_redirect_to(trip_path(params[:id], request.query_parameters.merge({ view: default_view }))) and return
     end
 
+    # Enforce presence of "order" query parameter
+    unless ["ASC", "DESC"].include?(params[:order].to_s)
+      flash.keep(:notifications) # Persist notifications across redirect
+      default_order = session.fetch(:trip_show_order, "ASC")
+      redirect_to(trip_path(params[:id], request.query_parameters.merge({ order: default_order }))) and return
+    end
+
     # Store view so that we can redirect user back to their preferred one when creating/deleting a plan
     session[:trip_show_view] = params[:view]
 
@@ -128,7 +135,8 @@ class TripsController < ApplicationController
 
     @trip = Trip.find(params[:id]).decorate
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
-    @plans = @trip.plans.order(:start_date).decorate
+
+    @plans = @trip.plans.order("start_date #{params[:order]}").decorate
     @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
 
     stream_response("trips/show")

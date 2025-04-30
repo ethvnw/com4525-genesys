@@ -1,7 +1,8 @@
 - if params[:view] == "list"
-  %button.btn.btn-light
-    Sort by &nbsp;
-    %i.bi.bi-chevron-down
+  - if params[:order] == "DESC"
+    = add_param_button(:order, "ASC", "bi-arrow-down")
+  - else
+    = add_param_button(:order, "DESC", "bi-arrow-up")
 
 .d-flex.align-items-center
   = add_param_button(:view, "list", "bi-list-ul")
