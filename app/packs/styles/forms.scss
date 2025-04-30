@@ -55,6 +55,13 @@
   height: 2.375rem;
 }
 
+.form-map {
+  @extend .flex-fill;
+  height: 35rem;
+  max-height: 50vh;
+}
+
+
 // Styling for QR code input
 #qr-navigation {
   @extend .text-center;

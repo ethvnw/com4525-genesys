@@ -1,5 +1,5 @@
-.d-flex.flex-column.flex-md-row.mb-4.justify-content-md-between
-  %div
+.d-flex.justify-content-between
+  .align-self-center
     %h1.mb-0.fw-bold= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
 
@@ -47,34 +47,21 @@
             %i.bi.bi-trash &nbsp;
             Delete Trip
 
+%hr
+
+.d-flex.justify-content-between.mb-2
+  %h3.mb-0.fw-bold Plans
+  #view-buttons.d-flex.gap-2
+    = render("partials/trips/view_buttons")
+
 - if @plan_groups.empty?
   %p No plans have been added to this trip yet.
 - else
-  - @plan_groups.each_with_index do |(start_date, plans), index|
-    %button.btn.collapse-btn.px-0.py-2.w-100.text-uppercase.text-start.text-body-secondary.fs-5.fw-semibold{
-      type: "button",
-      data: {
-        bs_toggle: "collapse",
-        bs_target: "#plans#{index}",
-      },
-      aria: {
-        expanded: "false",
-        controls: "plans#{index}",
-      },
-    }
-      = start_date.strftime("%A %d %b")
-      %i.bi.bi-chevron-up.float-end
-
-    .collapse.show.mb-3{ id: "plans#{index}" }
-      - plans.each do |plan|
-        .row.mb-2
-          .col-sm-2
-            %p.mb-0.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
-          .col
-            - if plan.travel_plan?
-              = render("partials/plans/travel_card", trip: @trip, plan: plan)
-            - else
-              = render("partials/plans/event_card", trip: @trip, plan: plan)
+  #plans-view.h-100.mb-3
+    - if params[:view] == "map"
+      = render("partials/plans/map_view", plans: @plans)
+    - else
+      = render("partials/plans/list_view", trip: @trip, plan_groups: @plan_groups)
 
 #display-name-modal.modal.fade{ tabindex: "-1", aria: { labelledby: "display-name-label", hidden: "true" } }
   .modal-dialog.modal-dialog-centered

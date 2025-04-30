@@ -1,7 +1,7 @@
 = simple_form_for(trip,
                   builder: ValidatedFormBuilder,
-                  errors: errors,
-                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true" }) do |f|
+                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "trip-form" },
+                  errors: errors) do |f|
   = f.validated_input(:title,
                       placeholder: "Enter the title of the trip...")
   = f.validated_input(:description,
@@ -27,7 +27,7 @@
     = form_error_message(errors, :location)
     .valid-feedback Looks good!
 
-  #map.my-1
+  #trip-form-map.form-map
 
   = f.hidden_field(:location_name,
                    id: "trip_location_name_input")
