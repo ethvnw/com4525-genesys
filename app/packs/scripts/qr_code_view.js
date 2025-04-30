@@ -14,7 +14,11 @@ const qrCodes = JSON.parse(document.getElementById('qr-code-data').textContent);
 Promise.all(
   qrCodes.map((ticket) => QRCode.toDataURL(ticket.code)),
 ).then((dataUrls) => {
+  let isTransitioning = false;
+
   function showQR(index) {
+    isTransitioning = true;
+
     img.src = dataUrls[index];
     codeText.textContent = qrCodes[index].code;
     titleText.textContent = qrCodes[index].title_value;
@@ -22,17 +26,22 @@ Promise.all(
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === dataUrls.length - 1;
     counter.textContent = `${index + 1} of ${dataUrls.length}`;
+
+    // A debounce is used to prevent skipping if a user clicks too fast
+    setTimeout(() => {
+      isTransitioning = false;
+    }, 100);
   }
 
   prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) {
+    if (!isTransitioning && currentIndex > 0) {
       currentIndex -= 1;
       showQR(currentIndex);
     }
   });
 
   nextBtn.addEventListener('click', () => {
-    if (currentIndex < dataUrls.length - 1) {
+    if (!isTransitioning && currentIndex < dataUrls.length - 1) {
       currentIndex += 1;
       showQR(currentIndex);
     }
