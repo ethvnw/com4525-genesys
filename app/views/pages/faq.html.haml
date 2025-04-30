@@ -1,9 +1,7 @@
 -# Questions dropdown section
 = append_javascript_pack_tag("scriptpacks/faq")
-%h1.text-center.text-lg-start.py-3
-  FAQ
+= render("partials/layouts/page_title", page_title: "FAQ")
 %section#faq-container.align-items-center
-  %hr
   %h2.text-center.text-lg-start.py-3 Recently Asked by Users
   - @questions.each_with_index do |question, index|
     .accordion.pb-3{ id: "accordion-#{index}" }
@@ -17,7 +15,7 @@
             "data-id": question.id,
             "aria-expanded": "false",
             "aria-controls": "collapse-#{index}",
-            tabindex: 0
+            tabindex: 0,
           }
             = question.question
         .accordion-collapse.collapse{
