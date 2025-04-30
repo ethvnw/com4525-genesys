@@ -1,38 +1,16 @@
 %section.row.align-items-center
-  %h1.fw-bold.display-6.mb-3 Reporter Dashboard
+  = render("partials/layouts/page_title", page_title: "Reporter Dashboard")
+  = render("partials/reporter/reporter_dashboard_hero_tab",
+           landing_page_visits_today: @landing_page_visits_today,
+           registrations_today: @registrations_today,
+           landing_page_visits_this_week: @landing_page_visits_this_week,
+           registrations_this_week: @registrations_this_week,
+           landing_page_visits_this_month: @landing_page_visits_this_month,
+           registrations_this_month: @registrations_this_month,
+           landing_page_visits_all_time: @landing_page_visits_all_time,
+           registrations_all_time: @registrations_all_time)
   %hr.mt-3
-  %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
-    %li.nav-item
-      %button.nav-link.active{ "data-bs-target": "#today-tab", "data-bs-toggle": "pill", type: "button" } Day
-    %li.nav-item
-      %button.nav-link{ "data-bs-target": "#week-tab", "data-bs-toggle": "pill", type: "button" } Week
-    %li.nav-item
-      %button.nav-link{ "data-bs-target": "#month-tab", "data-bs-toggle": "pill", type: "button" } Month
-    %li.nav-item
-      %button.nav-link{ "data-bs-target": "#all-time-tab", "data-bs-toggle": "pill", type: "button" } All Time
-  .tab-content
-    #today-tab.tab-pane.show.active
-      = render("partials/reporter/reporter_dashboard_cards_tab",
-               landing_page_visits: @landing_page_visits_today,
-               registrations: @registrations_today,
-               time_period: "Today")
-    #week-tab.profile.tab-pane
-      = render("partials/reporter/reporter_dashboard_cards_tab",
-               landing_page_visits:  @landing_page_visits_this_week,
-               registrations: @registrations_this_week,
-               time_period: "This Week")
-    #month-tab.tab-pane
-      = render("partials/reporter/reporter_dashboard_cards_tab",
-               landing_page_visits:  @landing_page_visits_this_month,
-               registrations: @registrations_this_month,
-               time_period: "This Month")
-    #all-time-tab.tab-pane
-      = render("partials/reporter/reporter_dashboard_cards_tab",
-               landing_page_visits: @landing_page_visits_all_time,
-               registrations: @registrations_all_time,
-               time_period: "All Time")
-  %hr.mt-3
-  %h4.fw-semibold.mt-3
+  %h2.fs-4.mt-3
     %i.bi.bi-globe-europe-africa &nbsp;
     By Location
   %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
@@ -41,12 +19,16 @@
         "data-bs-target": "#landing-countries",
         "data-bs-toggle": "pill",
         type: "button",
+        "aria-label": "Show landing page visits by country",
+        tabindex: 0,
       } Landing Page Visits
     %li.nav-item
       %button.nav-link{
         "data-bs-target": "#registration-countries",
         "data-bs-toggle": "pill",
         type: "button",
+        "aria-label": "Show registrations by country",
+        tabindex: 0,
       } Registrations
   .tab-content
     #landing-countries.tab-pane.show.active
@@ -64,7 +46,7 @@
                  table_header: ["Country", "Registrations"],
                  table_contents: @registrations_by_country)
   %hr.mt-3
-  %h4.fw-semibold.mt-3
+  %h2.fs-4.mt-3
     %i.bi.bi-bar-chart-line-fill &nbsp;
     Engagement
   %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
@@ -73,12 +55,16 @@
         "data-bs-target": "#engagement-features",
         "data-bs-toggle": "pill",
         type: "button",
+        "aria-label": "Show engagement for each feature",
+        tabindex: 0,
       } Features
     %li.nav-item
       %button.nav-link{
         "data-bs-target": "#engagement-pricing",
         "data-bs-toggle": "pill",
         type: "button",
+        "aria-label": "Show engagement for each pricing option",
+        tabindex: 0,
       } Pricing
   .tab-content
     #engagement-features.tab-pane.show.active
