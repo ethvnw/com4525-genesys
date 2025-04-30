@@ -1,11 +1,14 @@
 = form_with(url: referrals_path,
+            id: "new-referral",
             method: :post,
-            html: { "class": "d-flex gap-3 flex-column flex-lg-row align-items-start", "data-turbo": "true" }) do |f|
-  = f.email_field(:email,
-                  required: true,
-                  placeholder: "Enter their email address",
-                  class: "form-control w-100")
+            html: { "class": "mb-0 d-flex gap-3 flex-column flex-lg-row align-items-start", "data-turbo": "true" },
+            builder: ValidatedFormBuilder,
+            errors: errors) do |f|
+  = f.validated_input(:email,
+                      value: email,
+                      placeholder: "Enter their email address",
+                      class: "referral-input w-50")
 
-  = button_tag(type: "submit", class: "btn btn-primary text-nowrap fw-bold") do
-    %i.bi.bi-bell &nbsp;
+  = button_tag(type: "submit", class: "btn btn-primary text-nowrap fw-bold registration-button") do
+    %i.bi.bi-send &nbsp;
     Invite to Roamio
