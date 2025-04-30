@@ -59,7 +59,7 @@ TripMembership.find_or_create_by!(
   sender_user_id: js.id,
   is_invite_accepted: true,
   created_at: sheffield.created_at + 2.days + 1.minute,
-  invite_accepted_date: sheffield.created_at + 5.days,
+  invite_accepted_date: sheffield.created_at + 2.days + 5.hours,
   user_display_name: "burke",
 )
 
@@ -79,7 +79,7 @@ TripMembership.find_or_create_by!(
   sender_user_id: js.id,
   is_invite_accepted: true,
   created_at: sheffield.created_at + 2.days + 3.minute,
-  invite_accepted_date: sheffield.created_at + 4.days + 39.minutes,
+  invite_accepted_date: sheffield.created_at + 3.days + 39.minutes,
   user_display_name: jm.username,
 )
 
