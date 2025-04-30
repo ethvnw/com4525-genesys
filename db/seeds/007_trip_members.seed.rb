@@ -67,32 +67,40 @@ TripMembership.find_or_create_by!(
   trip_id: sheffield.id,
   user_id: kb.id,
   sender_user_id: js.id,
-  is_invite_accepted: false,
-  created_at: sheffield.created_at + 2.days,
+  is_invite_accepted: true,
+  created_at: sheffield.created_at + 2.days + 2.minutes,
+  invite_accepted_date: sheffield.created_at + 2.days + 1.hour + 31.minutes,
+  user_display_name: kb.username,
 )
 
 TripMembership.find_or_create_by!(
   trip_id: sheffield.id,
   user_id: jm.id,
   sender_user_id: js.id,
-  is_invite_accepted: false,
-  created_at: sheffield.created_at + 2.days + 2.minutes,
+  is_invite_accepted: true,
+  created_at: sheffield.created_at + 2.days + 3.minute,
+  invite_accepted_date: sheffield.created_at + 4.days + 39.minutes,
+  user_display_name: jm.username,
 )
 
 TripMembership.find_or_create_by!(
   trip_id: sheffield.id,
   user_id: nb.id,
   sender_user_id: js.id,
-  is_invite_accepted: false,
-  created_at: sheffield.created_at + 2.days + 3.minutes,
+  is_invite_accepted: true,
+  created_at: sheffield.created_at + 2.days + 4.minute,
+  invite_accepted_date: sheffield.created_at + 2.days + 3.hours,
+  user_display_name: nb.username,
 )
 
 TripMembership.find_or_create_by!(
   trip_id: sheffield.id,
   user_id: ew.id,
   sender_user_id: js.id,
-  is_invite_accepted: false,
-  created_at: sheffield.created_at + 2.days + 4.minutes,
+  is_invite_accepted: true,
+  created_at: sheffield.created_at + 2.days + 5.minutes,
+  invite_accepted_date: sheffield.created_at + 2.days + 7.minutes,
+  user_display_name: ew.username,
 )
 
 ### AUSTRALIA
@@ -116,6 +124,38 @@ TripMembership.find_or_create_by!(
   user_display_name: nb.username,
 )
 
+TripMembership.find_or_create_by!(
+  trip_id: australia.id,
+  user_id: kb.id,
+  sender_user_id: nb.id,
+  is_invite_accepted: false,
+  created_at: australia.created_at + 8.days,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: australia.id,
+  user_id: jm.id,
+  sender_user_id: ew.id,
+  is_invite_accepted: false,
+  created_at: australia.created_at + 9.days,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: australia.id,
+  user_id: js.id,
+  sender_user_id: ew.id,
+  is_invite_accepted: false,
+  created_at: australia.created_at + 10.days,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: australia.id,
+  user_id: jb.id,
+  sender_user_id: nb.id,
+  is_invite_accepted: false,
+  created_at: australia.created_at + 11.days,
+)
+
 ### EUROPE
 TripMembership.find_or_create_by!(
   trip_id: europe.id,
@@ -130,6 +170,38 @@ TripMembership.find_or_create_by!(
 TripMembership.find_or_create_by!(
   trip_id: europe.id,
   user_id: kb.id,
+  sender_user_id: jm.id,
+  is_invite_accepted: false,
+  created_at: europe.created_at + 1.day,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: europe.id,
+  user_id: js.id,
+  sender_user_id: jm.id,
+  is_invite_accepted: false,
+  created_at: europe.created_at + 1.day,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: europe.id,
+  user_id: jb.id,
+  sender_user_id: jm.id,
+  is_invite_accepted: false,
+  created_at: europe.created_at + 1.day,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: europe.id,
+  user_id: nb.id,
+  sender_user_id: jm.id,
+  is_invite_accepted: false,
+  created_at: europe.created_at + 1.day,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: europe.id,
+  user_id: ew.id,
   sender_user_id: jm.id,
   is_invite_accepted: false,
   created_at: europe.created_at + 1.day,

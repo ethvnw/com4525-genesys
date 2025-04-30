@@ -52,8 +52,8 @@ australia = Trip.find_or_create_by!(
   location_longitude: 136.755022,
   start_date: Time.zone.parse("2025-12-01 00:00:00"),
   end_date: Time.zone.parse("2025-12-22 23:59:59"),
-  created_at: Time.zone.parse("2025-04-22 11:05:00"),
-  updated_at: Time.zone.parse("2025-04-22 11:05:00"),
+  created_at: Time.zone.parse("2025-03-22 11:05:00"),
+  updated_at: Time.zone.parse("2025-03-22 11:05:00"),
 )
 
 seed_trip_image(australia, "australia.jpg")
