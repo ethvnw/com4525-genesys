@@ -109,8 +109,24 @@ RSpec.describe(PlanDecorator, type: :decorator) do
   end
 
   describe "#view_icon" do
-    context "when the plan type is 'clubbing' or 'live_music' or 'sport_event' or a travel type" do
+    context "when the plan type is 'clubbing'" do
       before { decorated_plan.plan_type = "clubbing" }
+
+      it "returns the ticket icon" do
+        expect(decorated_plan.view_icon).to(eq("bi-ticket-detailed-fill"))
+      end
+    end
+
+    context "when the plan type is 'live_music'" do
+      before { decorated_plan.plan_type = "live_music" }
+
+      it "returns the ticket icon" do
+        expect(decorated_plan.view_icon).to(eq("bi-ticket-detailed-fill"))
+      end
+    end
+
+    context "when the plan type is a travel plan" do
+      before { decorated_plan.plan_type = "travel_by_boat" }
 
       it "returns the ticket icon" do
         expect(decorated_plan.view_icon).to(eq("bi-ticket-detailed-fill"))
@@ -125,6 +141,38 @@ RSpec.describe(PlanDecorator, type: :decorator) do
       end
     end
 
+    context "when the plan type is 'entertainment'" do
+      before { decorated_plan.plan_type = "entertainment" }
+
+      it "returns the smiley face icon" do
+        expect(decorated_plan.view_icon).to(eq("bi-emoji-smile-fill"))
+      end
+    end
+
+    context "when the plan type is 'wellness'" do
+      before { decorated_plan.plan_type = "wellness" }
+
+      it "returns the heart icon" do
+        expect(decorated_plan.view_icon).to(eq("bi-heart-pulse-fill"))
+      end
+    end
+
+    context "when the plan type is 'active'" do
+      before { decorated_plan.plan_type = "active" }
+
+      it "returns the person icon" do
+        expect(decorated_plan.view_icon).to(eq("bi-person-arms-up"))
+      end
+    end
+
+    context "when the plan type is 'sightseeing'" do
+      before { decorated_plan.plan_type = "sightseeing" }
+
+      it "returns the camera icon" do
+        expect(decorated_plan.view_icon).to(eq("bi-camera-fill"))
+      end
+    end
+
     context "when the plan type is not a known type" do
       before { decorated_plan.plan_type = "other" }
 
@@ -135,8 +183,32 @@ RSpec.describe(PlanDecorator, type: :decorator) do
   end
 
   describe "#view_label" do
-    context "when the plan type is 'clubbing' or 'live_music' or 'sport_event' or a travel type" do
+    context "when the plan type is 'clubbing'" do
       before { decorated_plan.plan_type = "clubbing" }
+
+      it "returns 'View Tickets'" do
+        expect(decorated_plan.view_label).to(eq("View Tickets"))
+      end
+    end
+
+    context "when the plan type is 'live_music'" do
+      before { decorated_plan.plan_type = "live_music" }
+
+      it "returns 'View Tickets'" do
+        expect(decorated_plan.view_label).to(eq("View Tickets"))
+      end
+    end
+
+    context "when the plan type is 'entertainment'" do
+      before { decorated_plan.plan_type = "entertainment" }
+
+      it "returns 'View Tickets'" do
+        expect(decorated_plan.view_label).to(eq("View Tickets"))
+      end
+    end
+
+    context "when the plan type is a travel plan" do
+      before { decorated_plan.plan_type = "travel_by_boat" }
 
       it "returns 'View Tickets'" do
         expect(decorated_plan.view_label).to(eq("View Tickets"))
@@ -154,8 +226,8 @@ RSpec.describe(PlanDecorator, type: :decorator) do
     context "when the plan type is not a known type" do
       before { decorated_plan.plan_type = "other" }
 
-      it "returns 'View Booking'" do
-        expect(decorated_plan.view_label).to(eq("View Booking"))
+      it "returns 'View Plan'" do
+        expect(decorated_plan.view_label).to(eq("View Plan"))
       end
     end
   end

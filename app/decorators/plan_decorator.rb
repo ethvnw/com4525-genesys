@@ -44,10 +44,18 @@ class PlanDecorator < ApplicationDecorator
 
   def view_icon
     case object.plan_type
-    when "clubbing", "live_music", "sport_event", /^travel_by_/
+    when "clubbing", "live_music", /^travel_by_/
       "bi-ticket-detailed-fill"
     when "restaurant"
       "bi-bookmark-dash-fill"
+    when "entertainment"
+      "bi-emoji-smile-fill"
+    when "wellness"
+      "bi-heart-pulse-fill"
+    when "active"
+      "bi-person-arms-up"
+    when "sightseeing"
+      "bi-camera-fill"
     else
       "bi-receipt"
     end
@@ -55,12 +63,12 @@ class PlanDecorator < ApplicationDecorator
 
   def view_label
     case object.plan_type
-    when "clubbing", "live_music", "sport_event", /^travel_by_/
+    when "clubbing", "live_music", "entertainment", /^travel_by_/
       "View Tickets"
     when "restaurant"
       "View Reservation"
     else
-      "View Booking"
+      "View Plan"
     end
   end
 end
