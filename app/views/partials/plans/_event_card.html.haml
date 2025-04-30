@@ -5,10 +5,11 @@
     %h4.fw-bold.mb-0.max-height-2-lines
       = plan.title
 
-  -# Company name
-  .d-flex.gap-3.align-items-center
-    %i.bi.bi-building
-    %p.mb-0 Company Name
+  -# Provider name
+  - if plan.provider_name.present?
+    .d-flex.gap-3.align-items-center
+      %i.bi.bi-building
+      %p.mb-0= plan.provider_name
 
   -# Start location
   .d-flex.gap-3.align-items-center
