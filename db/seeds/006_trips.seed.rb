@@ -14,7 +14,7 @@ brienz_trip = Trip.find_or_create_by!(
   updated_at: Time.zone.parse("2025-04-21 17:34:00"),
 )
 
-seed_trip_image(brienz_trip, "brienz.png")
+seed_trip_image(brienz_trip, "brienz.jpg")
 
 beach_weekend = Trip.find_or_create_by!(
   title: "Beach Weekend Getaway",

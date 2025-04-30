@@ -22,7 +22,7 @@ User.create!(
   invitation_accepted_at: Time.zone.parse("2024-09-03 08:45:12"),
 ) unless User.find_by(email: "reporter@genesys.com").present?
 
-kb = User.create!(
+User.create!(
   email: "kbharakhada1@sheffield.ac.uk",
   username: "barracuda",
   password: "KBGenesys12!",
@@ -30,8 +30,6 @@ kb = User.create!(
   user_role: User.user_roles[:member],
   invitation_accepted_at: Time.zone.parse("2024-11-22 19:36:45"),
 ) unless User.find_by(email: "kbharakhada1@sheffield.ac.uk").present?
-
-seed_avatar(kb, "barracuda.png")
 
 sanders = User.create!(
   email: "jsanders4@sheffield.ac.uk",
@@ -42,7 +40,7 @@ sanders = User.create!(
   invitation_accepted_at: Time.zone.parse("2024-08-30 02:17:51"),
 ) unless User.find_by(email: "jsanders4@sheffield.ac.uk").present?
 
-seed_avatar(sanders, "sanders.png")
+seed_avatar(sanders, "sanders.jpg")
 
 burke = User.create!(
   email: "jburke5@sheffield.ac.uk",

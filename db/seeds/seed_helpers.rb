@@ -31,7 +31,7 @@ end
 # @param location_name [String] the name of the location, which should match up to an image
 def seed_location_image(featured_location, location_name)
   unless featured_location.image.attached?
-    filename = "#{location_name.parameterize.underscore}.png"
+    filename = "#{location_name.parameterize.underscore}.jpg"
 
     featured_location.image.attach(
       io: seed_image_file("featured_locations", filename),

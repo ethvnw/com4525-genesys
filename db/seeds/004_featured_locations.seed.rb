@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "seed_helpers"
+
 # Find coords using Bboxfinder [http://bboxfinder.com]
 locations = [
   { name: "Sheffield",     country_code_iso: "GB", latitude: 53.376871, longitude: -1.500425 },
