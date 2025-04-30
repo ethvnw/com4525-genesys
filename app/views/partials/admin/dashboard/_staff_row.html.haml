@@ -11,4 +11,8 @@
     - if user.you?
       (It's you!)
     - else
-      = link_to("View Account", edit_admin_staff_path(user))
+      = link_to("View Account",
+                edit_admin_staff_path(user),
+                class: "link-secondary",
+                tabindex: 0,
+                "aria-label": "View account #{user.email}")

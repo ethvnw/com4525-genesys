@@ -6,19 +6,37 @@
           = form_with(url: item.order_path,
                       method: :post) do |f|
             = f.hidden_field(:order_change, value: -1)
-            %button.btn.btn-secondary.rounded-circle.p-2.order-up-arrow
+            %button.btn.btn-secondary.rounded-circle.p-2.order-up-arrow{
+              data: {
+                bs_toggle: "tooltip",
+                bs_placement: "bottom",
+                bs_title: "Move Up",
+              },
+              tabindex: 0,
+              "aria-label": "Move Up",
+              "aria-describedby": "item-content-#{item.id}",
+            }
               %i.bi.bi-caret-up-fill
       .flex-grow-evenly.d-flex.align-items-start
         - unless item.last_in_order
           = form_with(url: item.order_path,
                       method: :post) do |f|
             = f.hidden_field(:order_change, value: 1)
-            %button.btn.btn-secondary.rounded-circle.p-2.order-down-arrow
+            %button.btn.btn-secondary.rounded-circle.p-2.order-down-arrowdata{
+              data: {
+                bs_toggle: "tooltip",
+                bs_placement: "bottom",
+                bs_title: "Move Down",
+              },
+              tabindex: 0,
+              "aria-label": "Move Down",
+              "aria-describedby": "item-content-#{item.id}",
+            }
               %i.bi.bi-caret-down-fill
 
   .card-body.px-4
     .d-flex.justify-content-between.gap-2
-      %p.mb-0.card-text.fs-5= item.content
+      %p.mb-0.card-text.fs-5{ id: "item-content-#{item.id}" }= item.content
 
       .d-flex.gap-3.align-items-center.align-self-start.flex-shrink-0
         %p.mb-0
@@ -27,13 +45,34 @@
         = form_with(url: item.visibility_path,
                     method: :post,
                     class: "mb-0") do
-          %button.btn.btn-secondary.fw-bold{ id: "visibility-toggle-#{item.id}" }
+          %button.btn.btn-secondary.fw-bold{
+            id: "visibility-toggle-#{item.id}",
+            data: {
+              bs_toggle: "tooltip",
+              bs_placement: "bottom",
+              bs_title: "Toggle Visibility",
+            },
+            tabindex: 0,
+            "aria-label": "Toggle Visibility",
+            "aria-describedby": "item-content-#{item.id}",
+          }
             - if item.is_hidden
               %i.bi.bi-eye-fill
             - else
               %i.bi.bi-eye-slash-fill
         - if item.question?
-          %button.btn.btn-success{ id: "answer-button-#{item.id}", data: { question_id: item.id } }
+          %button.btn.btn-success{
+            id: "answer-button-#{item.id}",
+            data: {
+              question_id: item.id,
+              bs_toggle: "tooltip",
+              bs_placement: "bottom",
+              bs_title: "Answer Question",
+            },
+            tabindex: 0,
+            "aria-label": "Answer Question",
+            "aria-describedby": "item-content-#{item.id}",
+          }
             Answer
 
     .d-flex.mt-4.justify-content-between.align-items-end.gap-4

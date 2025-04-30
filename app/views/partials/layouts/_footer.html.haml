@@ -2,7 +2,10 @@
   .container
     .d-flex.flex-column
       = link_to(root_path, class: "mt-4", "aria-label": "Home") do
-        = image_pack_tag("images/roamio_brand_icon_l_grey.png", height: 24, alt: "Roamio Logo")
+        = image_pack_tag("images/roamio_brand_icon_l_grey.png",
+                         height: 24,
+                         alt: "Roamio Logo",
+                         "aria-hidden": "true")
       %small.text-secondary.my-2
         &copy; #{Date.today.year} Roamio & Genesys Team 02. All rights reserved &nbsp;
 
