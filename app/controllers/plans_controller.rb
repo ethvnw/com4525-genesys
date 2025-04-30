@@ -37,6 +37,10 @@ class PlansController < ApplicationController
       turbo_redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else
       flash[:errors] = @plan.errors.to_hash(true)
+
+      # Reset the documents to avoid loading the documents card in the create form
+      @plan.documents = []
+
       session[:plan_data] =
         @plan.attributes.slice(
           "title",
@@ -50,10 +54,9 @@ class PlansController < ApplicationController
           "end_location_longitude",
           "start_date",
           "end_date",
-          "documents",
         )
 
-      stream_response("plans/create", new_trip_plan_path(@plan.trip))
+      stream_response("plans/create", new_trip_plan_path(@plan.trip), { type: "danger", content: "pls re-add docs" })
     end
   end
 
