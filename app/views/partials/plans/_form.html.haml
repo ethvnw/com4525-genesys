@@ -5,11 +5,15 @@
                   multipart: true) do |f|
   = f.validated_input(:title,
                       placeholder: "Enter the title of the plan...")
+
   = f.validated_select(:plan_type,
                        options_for_select(Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },
                                           selected: plan.plan_type),
                        prompt: "Select plan type",
                        required: true)
+
+  = f.validated_input(:provider_name,
+                      placeholder: "Enter business or provider name...")
 
   .d-flex.flex-column.mb-3
     = f.label("Start location", class: "mb-1", for: "#start-location-autocomplete")

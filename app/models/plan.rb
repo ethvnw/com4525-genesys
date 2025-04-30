@@ -31,6 +31,7 @@ end
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
 #  plan_type                :integer          not null
+#  provider_name            :string
 #  start_date               :datetime
 #  start_location_latitude  :decimal(, )
 #  start_location_longitude :decimal(, )

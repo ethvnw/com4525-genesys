@@ -40,6 +40,7 @@ class PlansController < ApplicationController
       session[:plan_data] =
         @plan.attributes.slice(
           "title",
+          "provider_name",
           "plan_type",
           "start_location_name",
           "start_location_latitude",
@@ -116,6 +117,7 @@ class PlansController < ApplicationController
   def plan_params
     params.require(:plan).permit(
       :title,
+      :provider_name,
       :plan_type,
       :start_location_name,
       :start_location_latitude,
