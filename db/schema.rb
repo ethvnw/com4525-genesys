@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_30_091300) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_01_195354) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,6 +57,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_30_091300) do
     t.datetime "updated_at", null: false
     t.index ["app_feature_id"], name: "index_app_features_subscription_tiers_on_app_feature_id"
     t.index ["subscription_tier_id"], name: "index_app_features_subscription_tiers_on_subscription_tier_id"
+  end
+
+  create_table "booking_references", force: :cascade do |t|
+    t.string "booking_reference"
+    t.bigint "plan_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_booking_references_on_plan_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -262,6 +270,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_30_091300) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_features_subscription_tiers", "app_features"
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
+  add_foreign_key "booking_references", "plans"
   add_foreign_key "registrations", "subscription_tiers"
   add_foreign_key "trip_memberships", "users", column: "sender_user_id"
 end
