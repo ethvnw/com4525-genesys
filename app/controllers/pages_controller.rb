@@ -3,8 +3,9 @@
 # A basic controller from the template app
 class PagesController < ApplicationController
   layout "user", only: [:home, :inbox]
-  before_action :authorize_members_access, only: [:landing, :faq]
+  before_action :authorize_members_access!, only: [:landing, :faq]
   before_action :authenticate_user!, only: [:home, :inbox]
+  before_action :restrict_admin_and_reporter_access!, only: [:home, :inbox]
 
   def landing
     @script_packs = ["landing"]
