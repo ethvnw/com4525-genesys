@@ -3,54 +3,13 @@
 require "rails_helper"
 
 RSpec.feature("User account dropdown") do
-  let!(:admin) { create(:admin, username: "lisacuddy") }
-  let!(:reporter) { create(:reporter, username: "gregoryhouse") }
-  let!(:member) { create(:user, username: "ericforeman") }
-
-  feature "Admin user dropdown", js: true do
+  feature "As a user with a regular account" do
+    let!(:user) { create(:user, username: "ericforeman") }
     before do
-      login_as(admin, scope: :user)
+      login_as(user, scope: :user)
     end
 
-    scenario "Admin can access admin dashboard through dropdown" do
-      visit root_path
-
-      find("#user-account-dropdown .dropdown-toggle").click
-      within("#user-account-dropdown") do
-        expect(page).to(have_link("Admin Dashboard", href: admin_dashboard_path))
-
-        click_link "Admin Dashboard"
-      end
-
-      expect(page).to(have_content("Admin Dashboard"))
-    end
-
-    scenario "Admin can access reporter dashboard through dropdown" do
-      visit root_path
-
-      find("#user-account-dropdown .dropdown-toggle").click
-      within("#user-account-dropdown") do
-        expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
-
-        click_link "Reporter Dashboard"
-      end
-
-      expect(page).to(have_content("Reporter Dashboard"))
-    end
-
-    scenario "Admin can access account settings through dropdown" do
-      visit root_path
-
-      find("#user-account-dropdown .dropdown-toggle").click
-      within("#user-account-dropdown") do
-        expect(page).to(have_link("My Account", href: edit_user_registration_path))
-        click_link "My Account"
-      end
-
-      expect(page).to(have_content("Personal Details"))
-    end
-
-    scenario "Admin can sign out using dropdown" do
+    scenario "I can sign out using the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -63,59 +22,53 @@ RSpec.feature("User account dropdown") do
       expect(page).to(have_content("Signed out successfully."))
     end
 
-    scenario "Admin can see their username in dropdown" do
+    scenario "I can see my username in the dropdown" do
       visit root_path
 
       within("#user-account-dropdown .dropdown-username") do
-        expect(page).to(have_content("lisacuddy"))
+        expect(page).to(have_content(user.username))
+      end
+    end
+
+    scenario "I can access my account settings through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("My Account", href: edit_user_registration_path))
+      end
+    end
+
+    scenario "I cannot access the reporter dashboard through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).not_to(have_link("Landing Page Analytics", href: analytics_landing_page_path))
+        expect(page).not_to(have_link("Trip Analytics", href: analytics_trips_path))
+      end
+    end
+
+    scenario "I cannot access the admin dashboard through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).not_to(have_link("Admin Dashboard", href: admin_dashboard_path))
       end
     end
   end
 
-  feature "Reporter user dropdown", js: true do
+  feature "As a reporter user", js: true do
+    let!(:reporter) { create(:reporter, username: "gregoryhouse") }
     before do
       login_as(reporter, scope: :user)
     end
 
-    scenario "Reporter can't access admin dashboard through dropdown" do
-      visit root_path
-
-      find("#user-account-dropdown .dropdown-toggle").click
-
-      within("#user-account-dropdown") do
-        expect(page).to_not(have_link("Admin Dashboard", href: admin_dashboard_path))
-      end
-    end
-
-    scenario "Reporter can access reporter dashboard through dropdown" do
-      visit root_path
-
-      find("#user-account-dropdown .dropdown-toggle").click
-
-      within("#user-account-dropdown") do
-        expect(page).to(have_link("Reporter Dashboard", href: reporter_dashboard_path))
-
-        click_link "Reporter Dashboard"
-      end
-
-      expect(page).to(have_content("Reporter Dashboard"))
-    end
-
-    scenario "Reporter can access account settings through dropdown" do
-      visit root_path
-
-      find("#user-account-dropdown .dropdown-toggle").click
-
-      within("#user-account-dropdown") do
-        expect(page).to(have_link("My Account", href: edit_user_registration_path))
-
-        click_link "My Account"
-      end
-
-      expect(page).to(have_content("Personal Details"))
-    end
-
-    scenario "Reporter can sign out using dropdown" do
+    scenario "I can sign out using the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -128,44 +81,53 @@ RSpec.feature("User account dropdown") do
       expect(page).to(have_content("Signed out successfully."))
     end
 
-    scenario "Reporter can see their username in dropdown" do
+    scenario "I can see my username in the dropdown" do
       visit root_path
 
       within("#user-account-dropdown .dropdown-username") do
-        expect(page).to(have_content("gregoryhouse"))
+        expect(page).to(have_content(reporter.username))
+      end
+    end
+
+    scenario "I can access account settings through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("My Account", href: edit_user_registration_path))
+      end
+    end
+
+    scenario "I can access reporter dashboard through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("Landing Page Analytics", href: analytics_landing_page_path))
+        expect(page).to(have_link("Trip Analytics", href: analytics_trips_path))
+      end
+    end
+
+    scenario "I cannot access admin dashboard through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).not_to(have_link("Admin Dashboard", href: admin_dashboard_path))
       end
     end
   end
 
-  feature "Member user dropdown", js: true do
+  feature "As an admin user", js: true do
+    let!(:admin) { create(:admin, username: "lisacuddy") }
     before do
-      login_as(member, scope: :user)
+      login_as(admin, scope: :user)
     end
 
-    scenario "Member can't access admin and reporter dashboards through dropdown" do
-      visit root_path
-
-      find("#user-account-dropdown .dropdown-toggle").click
-      within("#user-account-dropdown") do
-        expect(page).to_not(have_link("Admin Dashboard", href: admin_dashboard_path))
-        expect(page).to_not(have_link("Reporter Dashboard", href: reporter_dashboard_path))
-      end
-    end
-
-    scenario "Member can access account settings through dropdown" do
-      visit root_path
-
-      find("#user-account-dropdown .dropdown-toggle").click
-
-      within("#user-account-dropdown") do
-        expect(page).to(have_link("My Account", href: edit_user_registration_path))
-        click_link "My Account"
-      end
-
-      expect(page).to(have_content("Personal Details"))
-    end
-
-    scenario "Member can sign out using dropdown" do
+    scenario "I can sign out using the dropdown" do
       visit root_path
 
       find("#user-account-dropdown .dropdown-toggle").click
@@ -178,11 +140,42 @@ RSpec.feature("User account dropdown") do
       expect(page).to(have_content("Signed out successfully."))
     end
 
-    scenario "Member can see their username in dropdown" do
+    scenario "I can see my username in the dropdown" do
       visit root_path
 
       within("#user-account-dropdown .dropdown-username") do
-        expect(page).to(have_content("ericforeman"))
+        expect(page).to(have_content(admin.username))
+      end
+    end
+
+    scenario "I can access account settings through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("My Account", href: edit_user_registration_path))
+      end
+    end
+
+    scenario "I can access reporter dashboard through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("Landing Page Analytics", href: analytics_landing_page_path))
+        expect(page).to(have_link("Trip Analytics", href: analytics_trips_path))
+      end
+    end
+
+    scenario "I can access admin dashboard through the dropdown" do
+      visit root_path
+
+      find("#user-account-dropdown .dropdown-toggle").click
+
+      within("#user-account-dropdown") do
+        expect(page).to(have_link("Admin Dashboard", href: admin_dashboard_path))
       end
     end
   end

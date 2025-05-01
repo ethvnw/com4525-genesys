@@ -21,10 +21,14 @@
                 method: :get) do
         Admin Dashboard
     - if can?(:access, :reporter_dashboard)
-      = link_to(reporter_dashboard_path,
+      = link_to(analytics_landing_page_path,
                 class: "dropdown-item",
                 method: :get) do
-        Reporter Dashboard
+        Landing Page Analytics
+      = link_to(analytics_trips_path,
+                class: "dropdown-item",
+                method: :get) do
+        Trip Analytics
     .dropdown-divider
     = link_to(destroy_user_session_path,
               class: "dropdown-item",
