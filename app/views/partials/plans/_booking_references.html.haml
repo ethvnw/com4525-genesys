@@ -1,0 +1,42 @@
+// Booking references
+#booking-references-container.d-flex.flex-column.gap-2.my-2{ "data-controller": "booking-references" }
+  = f.label(:booking_references_data, "Booking references", class: "fw-semibold")
+
+  .d-flex.gap-2.align-items-end
+    = text_field_tag(:booking_reference_name,
+                     nil,
+                     placeholder: "Name",
+                     class: "form-control",
+                     "data-booking-references-target": "name")
+
+    = text_field_tag(:booking_reference_number,
+                     nil,
+                     placeholder: "Reference Number",
+                     class: "form-control",
+                     "data-booking-references-target": "number")
+
+    = button_tag(type: "button",
+                 class: "btn btn-primary d-flex align-items-center gap-1",
+                 "data-action": "booking-references#addReference") do
+      %i.bi.bi-plus-circle-fill
+      Add
+
+  .row
+    .col
+      %small.text-danger.mt-1{ "data-booking-references-target" => "warning" }
+
+    // The params cannot be split up over multiple lines, so the LineLength linter is disabled for the offending line.
+    -# haml-lint:disable LineLength
+    = hidden_field_tag(:booking_references_data,
+                       params[:booking_references_data].presence || plan.booking_references.map { |br| { name: br.name, number: br.reference_number } }.to_json,
+                       data: { booking_references_target: "dataField" })
+    -# haml-lint:enable LineLength
+
+  %table.table.d-none{ "data-booking-references-target": "table" }
+    %thead
+      %tr
+        %th Name
+        %th Reference
+        %th Actions
+    %tbody{ "data-booking-references-target": "tbody" }
+      // Table rows are inserted by Stimulus controller (packs/scripts/controllers/booking_references_controller.js)
