@@ -21,7 +21,7 @@
 #
 FactoryBot.define do
   factory :registration do
-    email { "test@example.com" }
+    sequence(:email) { |n| "test#{n}@example.com" }
     country_code { "GB" }
 
     association :subscription_tier

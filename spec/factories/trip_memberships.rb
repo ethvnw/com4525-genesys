@@ -24,24 +24,15 @@
 #
 #  fk_rails_...  (sender_user_id => users.id)
 #
-class TripMembership < ApplicationRecord
-  include Countable
 
-  MAX_CAPACITY = 20
+FactoryBot.define do
+  factory :trip_membership do
+    is_invite_accepted { true }
+    invite_accepted_date { Time.current }
+    user_display_name { "Mock Display Name" }
 
-  belongs_to :trip
-  belongs_to :user
-  belongs_to :sender_user, class_name: "User"
-  attr_accessor :username
-
-  validate :max_capacity_not_reached
-
-  def max_capacity_not_reached
-    if trip.trip_memberships.count >= MAX_CAPACITY
-      errors.add(
-        :base,
-        "The trip has reached the #{MAX_CAPACITY} member capacity, please remove a member before adding another.",
-      )
-    end
+    association :user
+    association :trip
+    association :sender_user, factory: :user
   end
 end
