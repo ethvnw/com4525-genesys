@@ -99,7 +99,8 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :reporter do
-    get :dashboard, to: "dashboard#index"
+  namespace :analytics do
+    get :landing_page, to: "landing_page#index"
+    resources :trips, only: [:index]
   end
 end

@@ -15,7 +15,7 @@ RSpec.describe(ApplicationDecorator, type: :decorator) do
   describe "#formatted_country_name" do
     context "when the country code is valid" do
       it "returns the country name next to the emoji of the country's flag" do
-        registration2 = create(:registration, country_code: "GB", email: "test2@example.com")
+        registration2 = create(:registration, country_code: "GB")
         decorated_registration2 = registration2.decorate
 
         expect(decorated_registration.formatted_country_name).to(eq("🇳🇱 Netherlands"))
@@ -25,7 +25,7 @@ RSpec.describe(ApplicationDecorator, type: :decorator) do
 
     context "when the country code is invalid" do
       it "returns an empty string" do
-        invalid_registration = create(:registration, country_code: "XX", email: "test3@example.com")
+        invalid_registration = create(:registration, country_code: "XX")
         decorated_invalid_registration = invalid_registration.decorate
 
         expect(decorated_invalid_registration.formatted_country_name).to(eq(""))

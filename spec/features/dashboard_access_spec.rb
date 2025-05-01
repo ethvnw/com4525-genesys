@@ -18,8 +18,11 @@ RSpec.feature("Dashboard access") do
     end
 
     specify "I am authorised to view the reporter dashboard" do
-      visit reporter_dashboard_path
-      expect(page).to(have_content("Reporter Dashboard"))
+      visit analytics_landing_page_path
+      expect(page).to(have_content("Landing Page Analytics"))
+
+      visit analytics_trips_path
+      expect(page).to(have_content("Trip Analytics"))
     end
   end
 
@@ -29,8 +32,11 @@ RSpec.feature("Dashboard access") do
     end
 
     specify "I am authorised to view the reporter dashboard" do
-      visit reporter_dashboard_path
-      expect(page).to(have_content("Reporter Dashboard"))
+      visit analytics_landing_page_path
+      expect(page).to(have_content("Landing Page Analytics"))
+
+      visit analytics_trips_path
+      expect(page).to(have_content("Trip Analytics"))
     end
 
     specify "I am unauthorised to view the admin dashboard" do
@@ -50,7 +56,10 @@ RSpec.feature("Dashboard access") do
     end
 
     specify "I am unauthorised to view the reporter dashboard" do
-      visit reporter_dashboard_path
+      visit analytics_landing_page_path
+      expect(page.status_code).to(eq(401))
+
+      visit analytics_trips_path
       expect(page.status_code).to(eq(401))
     end
   end
