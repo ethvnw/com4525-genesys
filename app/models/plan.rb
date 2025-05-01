@@ -69,11 +69,13 @@ class Plan < ApplicationRecord
     travel_by_plane: 11,
     travel_by_train: 12,
     other: 13,
+    free_time: 14,
   }
 
   validates :plan_type, inclusion: { in: plan_types.keys }
   validates :title, presence: true, length: { maximum: 250 }
-  validates :start_location_name, :start_date, presence: true
+  validates :start_location_name, presence: true, unless: :free_time_plan?
+  validates :start_date, presence: true
   validates_with PlanValidator
   validates_with DateValidator
 
@@ -87,5 +89,9 @@ class Plan < ApplicationRecord
 
   def any_tickets?
     ticket_links.any? || booking_references.any? || scannable_tickets.any?
+  end
+
+  def free_time_plan?
+    plan_type == "free_time"
   end
 end

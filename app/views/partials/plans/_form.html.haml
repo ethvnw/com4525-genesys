@@ -15,7 +15,7 @@
   = f.validated_input(:provider_name,
                       placeholder: "Enter business or provider name...")
 
-  .d-flex.flex-column.mb-3
+  #start-location-container.d-flex.flex-column.mb-3
     // The asterisk (*) is mocked here as the autocomplete fills out hidden fields and is not TECHNICALLY required.
     = label_tag(:start_location_name, class: "mb-1", for: "start-location-autocomplete") do
       Start location
