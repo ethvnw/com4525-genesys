@@ -64,3 +64,9 @@
       %i.bi.bi-chevron-left
     .swiper-button-next
       %i.bi.bi-chevron-right
+
+%hr
+
+%h5.fw-semibold.mb-3 Enjoying Roamio? Invite a Friend!
+.d-flex.flex-column.gap-3.mb-5.align-items-stretch
+  = render("partials/home/referral", errors: @errors, email: @referral_email)

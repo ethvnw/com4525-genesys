@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get :inbox, to: "pages#inbox"
 
+  resource :referrals, only: [:create]
+
   resources :registrations, only: [] do
     resource :avatar, only: [:update, :destroy]
   end
