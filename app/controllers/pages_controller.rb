@@ -39,7 +39,10 @@ class PagesController < ApplicationController
     @script_packs = ["home"]
     @errors = flash[:errors]
     @referral_email = session[:referral_email]
-    @trips = current_user.joined_trips.order(start_date: :asc).limit(9).decorate
+    @trips = current_user.joined_trips.order(start_date: :asc).limit(9).includes([
+      :image_attachment,
+      :trip_memberships,
+    ]).decorate
     @featured_locations = FeaturedLocation.all.decorate
   end
 
