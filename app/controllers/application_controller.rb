@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authorize_members_access
+  def authorize_members_access!
     authorize!(:access, :landing)
     authorize!(:access, :faq)
     authorize!(:access, :subscription)
@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
 
   def restrict_admin_and_reporter_access!
     unless current_user.member?
-      redirect_to(root_path, alert: "Trips and Plans access is not permitted as #{current_user.user_role.capitalize}")
+      redirect_to(root_path, alert: "Unauthorized access as #{current_user.user_role.humanize} user.")
     end
   end
 
