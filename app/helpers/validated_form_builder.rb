@@ -146,7 +146,16 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
     label_text = element_options.fetch(:label, attribute_name)
 
     # Unless label option is explicitly set to nil, set label text
-    label_element = label_text.nil? ? nil : label(label_text, class: "mb-1", for: input_id)
+    label_element = if label_text.nil?
+      nil
+    else
+      label(
+        label_text,
+        class: "mb-1",
+        for: input_id,
+        required: element_options[:required],
+      )
+    end
 
     @template.content_tag(:div, class: "#{element_options[:class]} d-flex flex-column mb-3") do
       child_elements = ActiveSupport::SafeBuffer.new
