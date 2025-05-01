@@ -11,6 +11,15 @@ require_relative "../../lib/middleware/test_ip_mock.rb"
 # and recreated between test runs. Don't rely on the data there!
 
 Rails.application.configure do
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.raise         = true # raise an error if n+1 query occurs
+
+    Bullet.add_safelist(type: :n_plus_one_query, class_name: "ActiveStorage::Attachment", association: :blob)
+    Bullet.add_safelist(type: :n_plus_one_query, class_name: "User", association: :avatar_attachment)
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Turn false under Spring and add config.action_view.cache_template_loading = true.
