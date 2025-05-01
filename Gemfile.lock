@@ -110,6 +110,9 @@ GEM
     brakeman (6.1.2)
       racc
     builder (3.3.0)
+    bullet (8.0.5)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     bundler-audit (0.9.1)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
@@ -458,6 +461,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unaccent (0.4.0)
     unicode-display_width (2.6.0)
+    uniform_notifier (1.16.0)
     unsplash (3.1.1)
       faraday-multipart (~> 1.0.4)
       httparty (~> 0.20)
@@ -503,6 +507,7 @@ DEPENDENCIES
   bcrypt_pbkdf (>= 1.0, < 2.0)
   bootsnap
   brakeman
+  bullet
   bundler-audit
   byebug
   cancancan

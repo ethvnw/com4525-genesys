@@ -65,9 +65,8 @@ class Plan < ApplicationRecord
   include Countable
   attr_accessor :primary_plan_id
 
-  belongs_to :trip
+  belongs_to :trip, counter_cache: true
   belongs_to :backup_plan, class_name: "Plan", optional: true, foreign_key: "backup_plan_id"
-
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
   has_many :booking_references, dependent: :destroy
