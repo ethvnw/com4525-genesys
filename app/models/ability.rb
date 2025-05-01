@@ -43,6 +43,10 @@ class Ability
     end
 
     unless user.member?
+      cannot(:manage, Trip)
+      cannot(:manage, Plan)
+      cannot(:manage, TripMembership)
+      cannot(:access, :home)
       can(:access, [:landing, :faq, :subscription])
     end
 
