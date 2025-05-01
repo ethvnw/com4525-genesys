@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
 
   def restrict_admin_and_reporter_access!
     unless current_user.member?
-      redirect_to(root_path, alert: "Unauthorized access as #{current_user.user_role.humanize} user.")
+      redirect_to(root_path, alert: "Unable to access members-only page as a staff user.")
     end
   end
 
