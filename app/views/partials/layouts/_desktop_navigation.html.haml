@@ -1,13 +1,24 @@
-#sidebar.d-flex.flex-column.flex-shrink-0.pb-3.px-lg-3.bg-light
+#sidebar.d-flex.flex-column.flex-shrink-0.pb-3.px-lg-3.bg-roamio
   .sticky-top.pt-3
-    = link_to(root_path, class: "navbar-brand px-3") do
-      = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 24)
+    = link_to(root_path, class: "navbar-brand px-3", "aria-label": "Home") do
+      = image_pack_tag("images/roamio_brand_logo_white.png",
+                       height: 24,
+                       alt: "Roamio Logo",
+                       "aria-hidden": "true",
+                       class: "d-none d-lg-flex")
+      = image_pack_tag("images/roamio_brand_icon_white.png",
+                       height: 24,
+                       alt: "Roamio Logo",
+                       "aria-hidden": "true",
+                       class: "d-lg-none")
     %hr
+    %p.ps-3.d-none.d-lg-flex.roamio-text Account
     %ul.nav.nav-pills.nav-flush.flex-column
       %li.nav-item
         = render("partials/layouts/navbar_user_dropdown")
-      #inbox-container
+      %li#inbox-container
         = navbar_link_to("Inbox", "bi-inbox", inbox_path, inbox_count)
     %hr
+    %p.ps-3.d-none.d-lg-flex.roamio-text Explore
     %ul#navigation-links.nav.nav-pills.nav-flush.flex-column
       = render("partials/layouts/navigation_links")

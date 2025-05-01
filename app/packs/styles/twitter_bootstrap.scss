@@ -1,6 +1,16 @@
 @import "variables";
 @import "~bootstrap/scss/bootstrap";
 
+// .tooltip {
+//     display: none !important;
+// }
+
+// @include media-breakpoint-between(md, lg) {
+//     .tooltip {
+//       display: flex !important;
+//     }
+// }
+
 /* Roamio Brand */
 .roamio-header, .roamio-text {
     font-family: "Cal Sans";
@@ -36,7 +46,7 @@ label {
     @extend .roamio-text;
 }
 
-#landing-topbar {
+#landing-topbar, #sidebar {
     .nav-link {
         color: $body-bg;
   
@@ -47,6 +57,10 @@ label {
         &:active {
             color: darken($body-bg, 20%);
         }
+    }
+
+    .active {
+        background-color: darken($roamio-secondary, 2%);
     }
 
     .navbar-toggler span {
