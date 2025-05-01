@@ -1,9 +1,9 @@
-@import "~bootstrap/scss/bootstrap";
+@use "base-styles" as bs;
 
 .trip-card {
   height: 15rem;
 
-  @include media-breakpoint-up(md) {
+  @include bs.media-breakpoint-up(md) {
     height: 13rem;
   }
 
@@ -28,7 +28,7 @@
   @extend .rounded-circle;
   @extend .object-fit-cover;
   @extend .align-self-center;
-  
+
   width: 2.7rem;
   height: 2.7rem;
 }
