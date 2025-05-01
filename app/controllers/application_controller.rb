@@ -82,6 +82,12 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  def restrict_admin_and_reporter_access!
+    unless current_user.member?
+      redirect_to(root_path, alert: "Trips and Plans access is not permitted as #{current_user.user_role.capitalize}")
+    end
+  end
+
   def check_for_notifications
     return unless current_user
 

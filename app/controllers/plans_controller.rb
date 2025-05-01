@@ -3,11 +3,13 @@
 # Handles the creation of plans
 class PlansController < ApplicationController
   include Streamable
+  before_action :authenticate_user!
+  before_action :restrict_admin_and_reporter_access!
+
   load_and_authorize_resource :trip
   load_and_authorize_resource :plan, through: :trip
 
   layout "user"
-  before_action :authenticate_user!
 
   def new
     @trip = Trip.find(params[:trip_id])
