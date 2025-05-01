@@ -46,6 +46,8 @@ end
 #  index_plans_on_trip_id  (trip_id)
 #
 class Plan < ApplicationRecord
+  include Countable
+
   belongs_to :trip
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
@@ -76,5 +78,9 @@ class Plan < ApplicationRecord
 
   def travel_plan?
     plan_type.starts_with?("travel_by")
+  end
+
+  def regular_plan?
+    !travel_plan?
   end
 end

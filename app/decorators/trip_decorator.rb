@@ -30,4 +30,12 @@ class TripDecorator < ApplicationDecorator
 
     start_date.strftime(start_date_format) + " - " + end_date.strftime("%d %b %Y")
   end
+
+  def regular_plan_count
+    plans.count(&:regular_plan?)
+  end
+
+  def travel_plan_count
+    plans.count(&:travel_plan?)
+  end
 end

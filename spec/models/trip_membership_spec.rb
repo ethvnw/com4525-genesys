@@ -24,24 +24,9 @@
 #
 #  fk_rails_...  (sender_user_id => users.id)
 #
-class TripMembership < ApplicationRecord
-  include Countable
+require "rails_helper"
+require_relative "../concerns/countable_shared_examples"
 
-  MAX_CAPACITY = 20
-
-  belongs_to :trip
-  belongs_to :user
-  belongs_to :sender_user, class_name: "User"
-  attr_accessor :username
-
-  validate :max_capacity_not_reached
-
-  def max_capacity_not_reached
-    if trip.trip_memberships.count >= MAX_CAPACITY
-      errors.add(
-        :base,
-        "The trip has reached the #{MAX_CAPACITY} member capacity, please remove a member before adding another.",
-      )
-    end
-  end
+RSpec.describe(TripMembership, type: :model) do
+  it_behaves_like "countable"
 end

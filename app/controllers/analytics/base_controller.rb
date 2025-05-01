@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Reporter
+module Analytics
   # Base controller
   class BaseController < ApplicationController
     before_action :authenticate_user!
