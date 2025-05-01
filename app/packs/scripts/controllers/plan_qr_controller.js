@@ -11,6 +11,8 @@ export default class extends Controller {
     const input = document.getElementById('qr_codes_upload');
     this.resultsContainer = document.getElementById('qr-results');
     this.imagesContainer = document.getElementById('qr-images-container');
+    this.resultsContainer.innerHTML = '';
+    this.imagesContainer.innerHTML = '';
     this.prevBtn = document.getElementById('prev-btn');
     this.nextBtn = document.getElementById('next-btn');
     this.counter = document.getElementById('qr-counter');
@@ -33,8 +35,8 @@ export default class extends Controller {
       );
     });
 
-    this.prevBtn.disabled = index === 0;
-    this.nextBtn.disabled = index === this.results.length - 1;
+    this.prevBtn.disabled = index <= 0;
+    this.nextBtn.disabled = index >= this.results.length - 1;
     this.counter.innerText = `${index + 1} of ${this.results.length}`;
   }
 
@@ -54,11 +56,6 @@ export default class extends Controller {
     // If there are no files, do nothing
     if (!files.length) return;
 
-    this.results = [];
-    this.currentIndex = 0;
-
-    this.resultsContainer.innerHTML = '';
-    this.imagesContainer.innerHTML = '';
     this.resultsContainer.classList.replace('d-block', 'd-none');
     this.imagesContainer.classList.replace('d-block', 'd-none');
 
@@ -170,7 +167,7 @@ export default class extends Controller {
       );
 
       document.getElementById('qr-codes-found').classList.replace('d-none', 'd-block');
-      document.getElementById('qr-codes-found').innerHTML = `Codes found in ${this.codesWithTitles.length}/${files.length} images`;
+      document.getElementById('qr-codes-found').innerHTML = `Valid codes found in ${this.codesWithTitles.length}/${this.results.length} images`;
     }
   }
 
