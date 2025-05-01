@@ -42,14 +42,11 @@ class Ability
       can(:read, Registration)
     end
 
-    if user.admin? || user.reporter?
+    unless user.member?
       cannot(:manage, Trip)
       cannot(:manage, Plan)
       cannot(:manage, TripMembership)
       cannot(:access, :home)
-    end
-
-    unless user.member?
       can(:access, [:landing, :faq, :subscription])
     end
 
