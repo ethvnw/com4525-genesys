@@ -8,10 +8,11 @@ require "uri"
 # Handles the creation of trips
 class TripsController < ApplicationController
   include Streamable
-  load_and_authorize_resource
-
-  layout "user"
   before_action :authenticate_user!
+  before_action :restrict_admin_and_reporter_access!
+
+  load_and_authorize_resource
+  layout "user"
 
   def index
     # Enforce presence of "view" query parameter
