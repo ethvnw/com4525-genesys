@@ -29,7 +29,7 @@ class TripMembership < ApplicationRecord
 
   MAX_CAPACITY = 20
 
-  belongs_to :trip
+  belongs_to :trip, counter_cache: true
   belongs_to :user
   belongs_to :sender_user, class_name: "User"
   attr_accessor :username
@@ -37,7 +37,7 @@ class TripMembership < ApplicationRecord
   validate :max_capacity_not_reached
 
   def max_capacity_not_reached
-    if trip.trip_memberships.count >= MAX_CAPACITY
+    if trip.trip_memberships_count >= MAX_CAPACITY
       errors.add(
         :base,
         "The trip has reached the #{MAX_CAPACITY} member capacity, please remove a member before adding another.",
