@@ -1,11 +1,16 @@
 %footer.border-top
   .container
     .d-flex.flex-column
+<<<<<<< HEAD
       = link_to(root_path, class: "mt-4", "aria-label": "Home") do
         = image_pack_tag("images/roamio_brand_icon_l_grey.png",
                          height: 24,
                          alt: "Roamio Logo",
                          "aria-hidden": "true")
+=======
+      = link_to(root_path, class: "mt-4") do
+        = image_pack_tag("images/roamio_brand_icon_l_grey.webp", height: 24)
+>>>>>>> 65a9e7b (fix(images): converted png to webp)
       %small.text-secondary.my-2
         &copy; #{Date.today.year} Roamio & Genesys Team 02. All rights reserved &nbsp;
 
