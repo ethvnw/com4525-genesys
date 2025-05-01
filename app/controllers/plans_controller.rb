@@ -10,7 +10,6 @@ class PlansController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @script_packs = ["plans_create"]
     @trip = Trip.find(params[:trip_id])
     @plan = if session[:plan_data]
       Plan.new(session[:plan_data])
@@ -37,6 +36,13 @@ class PlansController < ApplicationController
       turbo_redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else
       flash[:errors] = @plan.errors.to_hash(true)
+
+      # If the plan is invalid, tickets and documents are lost. This flag is used to alert the user of this
+      lost_uploads_alert = @plan.documents.attached? || params[:scannable_tickets].present?
+
+      # Reset the documents to avoid loading the documents card in the create form with non-existent documents
+      @plan.documents = []
+
       session[:plan_data] =
         @plan.attributes.slice(
           "title",
@@ -50,15 +56,17 @@ class PlansController < ApplicationController
           "end_location_longitude",
           "start_date",
           "end_date",
-          "documents",
         )
 
-      stream_response("plans/create", new_trip_plan_path(@plan.trip))
+      stream_response(
+        "plans/create",
+        new_trip_plan_path(@plan.trip),
+        lost_uploads_alert ? { type: "danger", content: "Please re-add your documents and/or tickets." } : nil,
+      )
     end
   end
 
   def edit
-    @script_packs = ["plans_create"]
     @trip = Trip.find(params[:trip_id])
     @plan = Plan.find(params[:id]).decorate
     @errors = flash[:errors]
