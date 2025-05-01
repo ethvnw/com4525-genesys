@@ -48,11 +48,13 @@ end
 class Plan < ApplicationRecord
   include Countable
 
-  belongs_to :trip, counter_cache: true
+  belongs_to :trip
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
   has_many :booking_references, dependent: :destroy
   has_many :scannable_tickets, dependent: :destroy
+
+  after_save :update_counter_cache
 
   enum plan_type: {
     clubbing: 0,
@@ -87,5 +89,17 @@ class Plan < ApplicationRecord
 
   def any_tickets?
     ticket_links.any? || booking_references.any? || scannable_tickets.any?
+  end
+
+  def update_counter_cache
+    if plan_type_before_last_save != plan_type
+      old_type = travel_plan? ? :regular_plans_count : :travel_plans_count
+      new_type = travel_plan? ? :travel_plans_count : :regular_plans_count
+
+      trip.transaction do
+        trip.decrement!(old_type)
+        trip.increment!(new_type)
+      end
+    end
   end
 end
