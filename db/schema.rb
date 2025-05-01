@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_01_195354) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_01_212331) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,10 +60,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_01_195354) do
   end
 
   create_table "booking_references", force: :cascade do |t|
-    t.string "booking_reference"
+    t.string "reference_number"
     t.bigint "plan_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["plan_id"], name: "index_booking_references_on_plan_id"
   end
 
@@ -200,9 +201,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_01_195354) do
 
   create_table "ticket_links", force: :cascade do |t|
     t.bigint "plan_id"
-    t.string "ticket_link", null: false
+    t.string "link", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["plan_id"], name: "index_ticket_links_on_plan_id"
   end
 

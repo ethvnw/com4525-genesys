@@ -162,6 +162,13 @@ RSpec.feature("Managing plans") do
       click_on "Save"
       expect(page).to(have_content("Please re-add your documents and/or tickets."))
     end
+
+    # TODO
+    # I can add a booking reference and see it on the show page
+    # I can remove a booking reference and see it removed on the new page
+    # I can add multiple booking references and see them on the show page
+    # I can edit a plans booking references and see them on the show page
+    # I can remove all booking references from a plan
   end
 
   feature "Edit a plan" do

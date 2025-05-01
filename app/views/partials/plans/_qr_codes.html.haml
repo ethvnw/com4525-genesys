@@ -1,0 +1,17 @@
+#qr-logic-container{ "data-controller": "plan-qr" }
+  = f.label(:qr_codes, "Upload scannable tickets (QR codes)", class: "mb-1 fw-semibold", for: "#qr_codes_upload")
+  #qr-codes-found.d-none
+  #qr-results.d-none
+  #qr-codes-container.d-flex.flex-column.d-none
+    #qr-images-container.d-none
+      %img#qr-image
+    #qr-navigation.mt-1.mb-2.text-center.d-none
+      %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
+      %span#qr-counter.mx-3
+      %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+
+  // f.file_field is not used as QR code images are not uploaded, instead the code values are
+  = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")
+  // QR code values are stored in a hidden field, and are used to create ScannableTickets in the controller
+  = hidden_field_tag(:scannable_tickets)
+  = hidden_field_tag(:scannable_ticket_titles)
