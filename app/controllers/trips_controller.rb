@@ -151,9 +151,9 @@ class TripsController < ApplicationController
     else
       @trip.image.attach(
         # attach fallback_location_img.png in packs/images
-        io: File.open(Rails.root.join("app", "packs", "images", "fallback_location_img.png")),
-        filename: "fallback_location_img.png",
-        content_type: "image/png",
+        io: File.open(Rails.root.join("app", "packs", "images", "fallback_location_img.webp")),
+        filename: "fallback_location_img.webp",
+        content_type: "image/webp",
       )
     end
   end
