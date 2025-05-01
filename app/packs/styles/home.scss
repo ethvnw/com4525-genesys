@@ -152,11 +152,6 @@
   }
 }
 
-.referral-input {
-  @include media-breakpoint-down(lg) {
-    margin-bottom: 0 !important;
-  }
-}
 
 .registration-button {
   @include media-breakpoint-down(lg) {
