@@ -4,7 +4,6 @@ module Analytics
   # Trip analytics controller
   class TripsController < Analytics::BaseController
     def index
-      Time.current
       @trip_counts = {
         today: Trip.count_today,
         this_week: Trip.count_this_week,
