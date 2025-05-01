@@ -16,11 +16,11 @@ export default class extends Controller {
     this.map.initialise();
 
     this.planTypeDropdown = document.getElementById('plan_plan_type');
-    this.planTypeDropdown.addEventListener('change', this.updateEndLocationInput.bind(this));
+    this.planTypeDropdown.addEventListener('change', this.updateLocationInputsAndMap.bind(this));
 
     this.setupLocationInputs();
     // Set end location visible if necessary
-    this.updateEndLocationInput();
+    this.updateLocationInputsAndMap();
     // Restore existing locations if present
     this.restoreExistingLocation();
   }
@@ -29,6 +29,7 @@ export default class extends Controller {
    * Store location input elements as instance variables
    */
   setupLocationInputs() {
+    this.startLocationContainer = document.getElementById('start-location-container');
     this.startLocationInput = document.getElementById('start_location_name_input');
     this.startLocationLatitudeInput = document.getElementById('start_location_latitude_input');
     this.startLocationLongitudeInput = document.getElementById('start_location_longitude_input');
@@ -51,6 +52,8 @@ export default class extends Controller {
       this.endLocationLongitudeInput.value = item.lng;
       this.updateMarker('end', item);
     });
+
+    this.ticketsContainer = document.getElementById('tickets-container');
   }
 
   /**
@@ -77,25 +80,39 @@ export default class extends Controller {
   }
 
   /**
-   * Show/hide the end location input based on whether the plan type is a travel plan.
+   * Show/hide the start and end location inputs and the map based on the plan type.
    */
-  updateEndLocationInput() {
+  updateLocationInputsAndMap() {
     const typeValue = this.planTypeDropdown.value;
 
+    const isFreeTimePlan = typeValue === 'free_time';
     const isTravelPlan = typeValue.split('_')[0] === 'travel';
 
-    this.endLocationContainer.classList.toggle('d-none', !isTravelPlan);
-    this.endLocationInput.disabled = !isTravelPlan;
-    this.endLocationInput.required = isTravelPlan;
+    document.getElementById('plan-form-map').classList.toggle('d-none', isFreeTimePlan);
 
+    // Clear and disable the start location input
+    this.startLocationContainer.classList.toggle('d-none', isFreeTimePlan);
+    this.startLocationInput.disabled = isFreeTimePlan;
+    this.startLocationInput.required = !isFreeTimePlan;
+    this.startLocationInput.value = '';
+    this.startLocationLatitudeInput.value = '';
+    this.startLocationLongitudeInput.value = '';
+
+    // Clear and disable the end location input
+    this.endLocationContainer.classList.toggle('d-none', isFreeTimePlan || !isTravelPlan);
+    this.endLocationInput.disabled = isFreeTimePlan || !isTravelPlan;
+    this.endLocationInput.required = !isFreeTimePlan && isTravelPlan;
+    this.endLocationInput.value = '';
+    this.endLocationLatitudeInput.value = '';
+    this.endLocationLongitudeInput.value = '';
+
+    this.ticketsContainer.classList.toggle('d-none', isFreeTimePlan);
+
+    if (isFreeTimePlan) {
+      this.map.removeMarker('start-location');
+    }
     if (!isTravelPlan) {
-      // Clear end location data
       this.endLocationAutocomplete.setQuery('');
-      this.endLocationInput.value = '';
-      this.endLocationLatitudeInput.value = '';
-      this.endLocationLongitudeInput.value = '';
-
-      // Clear end map marker and line
       this.map.removeMarker('end-location');
       this.map.removeConnectingLine('connector');
     }

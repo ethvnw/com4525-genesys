@@ -22,10 +22,17 @@ class TripsController < ApplicationController
       redirect_to(trips_path(request.query_parameters.merge({ view: default_view }))) and return
     end
 
+    # Enforce presence of "order" query parameter
+    unless ["ASC", "DESC"].include?(params[:order].to_s)
+      flash.keep(:notifications) # Persist notifications across redirect
+      default_order = session.fetch(:trip_show_order, "ASC")
+      redirect_to(trips_path(request.query_parameters.merge({ order: default_order }))) and return
+    end
+
     # Store view so that we can redirect user back to their preferred one when creating/deleting a trip
     session[:trip_index_view] = params[:view]
 
-    @trips = current_user.joined_trips.decorate
+    @trips = current_user.joined_trips.order("start_date #{params[:order]}").decorate
     stream_response("trips/index")
   end
 
