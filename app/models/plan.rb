@@ -48,7 +48,7 @@ end
 class Plan < ApplicationRecord
   include Countable
 
-  belongs_to :trip
+  belongs_to :trip, counter_cache: true
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
   has_many :booking_references, dependent: :destroy
