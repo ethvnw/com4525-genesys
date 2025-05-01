@@ -40,7 +40,7 @@ sanders = User.create!(
   invitation_accepted_at: Time.zone.parse("2024-08-30 02:17:51"),
 ) unless User.find_by(email: "jsanders4@sheffield.ac.uk").present?
 
-seed_avatar(sanders, "sanders.jpg")
+seed_avatar(sanders, "sanders.jpg") unless sanders.nil?
 
 burke = User.create!(
   email: "REMOVEDke5@sheffield.ac.uk",
@@ -51,7 +51,7 @@ burke = User.create!(
   invitation_accepted_at: Time.zone.parse("2025-01-14 11:09:27"),
 ) unless User.find_by(email: "REMOVEDke5@sheffield.ac.uk").present?
 
-seed_avatar(burke, "burke.jpg")
+seed_avatar(burke, "burke.jpg") unless burke.nil?
 
 james = User.create!(
   email: "jmarch2@sheffield.ac.uk",
@@ -62,7 +62,7 @@ james = User.create!(
   invitation_accepted_at: Time.zone.parse("2024-05-26 15:42:08"),
 ) unless User.find_by(email: "jmarch2@sheffield.ac.uk").present?
 
-seed_avatar(james, "march.jpg")
+seed_avatar(james, "march.jpg") unless james.nil?
 
 User.create!(
   email: "ebarker5@sheffield.ac.uk",
