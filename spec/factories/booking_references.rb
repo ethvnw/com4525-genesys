@@ -4,11 +4,12 @@
 #
 # Table name: booking_references
 #
-#  id                :bigint           not null, primary key
-#  booking_reference :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  plan_id           :bigint           not null
+#  id               :bigint           not null, primary key
+#  name             :string
+#  reference_number :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  plan_id          :bigint           not null
 #
 # Indexes
 #
@@ -20,7 +21,8 @@
 #
 FactoryBot.define do
   factory :booking_reference do
-    booking_reference { "MyString" }
-    plan { nil }
+    name { "Booking Reference" }
+    reference_number { "123" }
+    association :plan
   end
 end
