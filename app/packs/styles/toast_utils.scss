@@ -1,9 +1,7 @@
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/variables';
+@use "base_styles" as bs;
 
 // Prevent text wrapping with long notifications (i.e. lost connection) on larger screens
-@include media-breakpoint-up(md) {
+@include bs.media-breakpoint-up(md) {
   .toast {
     min-width: max-content;
   }
