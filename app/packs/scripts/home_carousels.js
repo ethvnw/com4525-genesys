@@ -75,7 +75,8 @@ function applyBackgroundGradient(currentSlide) {
 
 const latestTripsConfig = {
   direction: 'horizontal',
-  loop: true,
+  loop: false,
+  a11y: true,
   slidesPerView: 1,
   centeredSlides: false,
   navigation: {
@@ -90,7 +91,8 @@ const latestTripsConfig = {
 
 const featuredLocationsConfig = {
   direction: 'horizontal',
-  loop: true,
+  loop: false,
+  a11y: true,
   slidesPerView: 1,
   centeredSlides: false,
   navigation: {
@@ -112,6 +114,10 @@ const featuredLocationsConfig = {
 const latestTripsCarousel = new Swiper('.latest-trips-carousel', {
   ...latestTripsConfig,
   on: {
+    init() {
+      const currentSlide = this.slides[this.activeIndex];
+      applyBackgroundGradient(currentSlide);
+    },
     activeIndexChange() {
       const currentSlide = this.slides[this.activeIndex];
       applyBackgroundGradient(currentSlide);
