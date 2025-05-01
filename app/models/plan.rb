@@ -65,13 +65,15 @@ class Plan < ApplicationRecord
   include Countable
   attr_accessor :primary_plan_id
 
-  belongs_to :trip, counter_cache: true
+  belongs_to :trip
   belongs_to :backup_plan, class_name: "Plan", optional: true, foreign_key: "backup_plan_id"
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
   has_many :booking_references, dependent: :destroy
   has_many :scannable_tickets, dependent: :destroy
   has_one :primary_plan, class_name: "Plan", foreign_key: "backup_plan_id", dependent: :nullify
+
+  after_save :update_counter_cache
 
   enum plan_type: {
     clubbing: 0,
@@ -110,11 +112,24 @@ class Plan < ApplicationRecord
     ticket_links.any? || booking_references.any? || scannable_tickets.any?
   end
 
+<<<<<<< HEAD
   def free_time_plan?
     plan_type == "free_time"
   end
 
   def backup_plan?
     primary_plan.present?
+=======
+  def update_counter_cache
+    if plan_type_before_last_save != plan_type
+      old_type = travel_plan? ? :regular_plans_count : :travel_plans_count
+      new_type = travel_plan? ? :travel_plans_count : :regular_plans_count
+
+      trip.transaction do
+        trip.decrement!(old_type)
+        trip.increment!(new_type)
+      end
+    end
+>>>>>>> 21d414c (fix(performance): added counter caches to plans and trip memberships)
   end
 end

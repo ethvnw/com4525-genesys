@@ -19,6 +19,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-23 17:52:00"),
   updated_at: Time.zone.parse("2025-04-23 17:52:00"),
 )
+brienz.increment!(:regular_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: brienz.id,
@@ -32,6 +33,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-23 17:55:00"),
   updated_at: Time.zone.parse("2025-04-25 20:34:00"),
 )
+brienz.increment!(:regular_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: brienz.id,
@@ -48,6 +50,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-23 17:54:00"),
   updated_at: Time.zone.parse("2025-04-29 09:49:00"),
 )
+brienz.increment!(:travel_plans_count)
 
 ### BRIGHTON
 Plan.find_or_create_by!(
@@ -65,6 +68,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-03-29 17:17:00"),
   updated_at: Time.zone.parse("2025-03-29 17:17:00"),
 )
+brighton.increment!(:travel_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: brighton.id,
@@ -78,6 +82,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-03-30 17:17:00"),
   updated_at: Time.zone.parse("2025-03-30 17:17:00"),
 )
+brighton.increment!(:regular_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: brighton.id,
@@ -94,6 +99,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-03-29 17:20:00"),
   updated_at: Time.zone.parse("2025-03-29 17:20:00"),
 )
+brighton.increment!(:travel_plans_count)
 
 ### SHEFFIELD
 Plan.find_or_create_by!(
@@ -108,6 +114,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-29 12:54:00"),
   updated_at: Time.zone.parse("2025-04-29 12:54:00"),
 )
+sheffield.increment!(:regular_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: sheffield.id,
@@ -145,6 +152,7 @@ Plan.find_or_create_by!(
   updated_at: Time.zone.parse("2025-04-29 13:03:00"),
   backup_plan_id: backup.id,
 )
+sheffield.increment!(:regular_plans_count)
 
 ### AUSTRALIA
 Plan.find_or_create_by!(
@@ -162,6 +170,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-22 13:03:00"),
   updated_at: Time.zone.parse("2025-04-22 14:34:00"),
 )
+australia.increment!(:travel_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: australia.id,
@@ -175,6 +184,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-22 13:05:00"),
   updated_at: Time.zone.parse("2025-04-22 14:47:00"),
 )
+australia.increment!(:regular_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: australia.id,
@@ -188,6 +198,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-22 13:05:00"),
   updated_at: Time.zone.parse("2025-04-22 14:47:00"),
 )
+australia.increment!(:regular_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: australia.id,
@@ -204,6 +215,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-22 13:05:00"),
   updated_at: Time.zone.parse("2025-04-22 14:47:00"),
 )
+australia.increment!(:travel_plans_count)
 
 ### EUROPE
 Plan.find_or_create_by!(
@@ -221,6 +233,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-15 19:05:00"),
   updated_at: Time.zone.parse("2025-04-15 19:47:00"),
 )
+europe.increment!(:travel_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: europe.id,
@@ -237,6 +250,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-15 19:05:00"),
   updated_at: Time.zone.parse("2025-04-15 19:47:00"),
 )
+europe.increment!(:travel_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: europe.id,
@@ -250,6 +264,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-15 18:05:00"),
   updated_at: Time.zone.parse("2025-04-15 18:05:00"),
 )
+europe.increment!(:regular_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: europe.id,
@@ -266,6 +281,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-17 13:05:00"),
   updated_at: Time.zone.parse("2025-04-17 13:05:00"),
 )
+europe.increment!(:travel_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: europe.id,
@@ -282,6 +298,7 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-17 13:05:00"),
   updated_at: Time.zone.parse("2025-04-17 13:05:00"),
 )
+europe.increment!(:travel_plans_count)
 
 Plan.find_or_create_by!(
   trip_id: europe.id,
@@ -298,3 +315,4 @@ Plan.find_or_create_by!(
   created_at: Time.zone.parse("2025-04-17 16:05:00"),
   updated_at: Time.zone.parse("2025-04-17 16:05:00"),
 )
+europe.increment!(:travel_plans_count)
