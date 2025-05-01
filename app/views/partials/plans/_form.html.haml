@@ -40,9 +40,8 @@
   .p.small All files must be selected in one go*
   = f.file_field(:documents, multiple: true, accept: "application/pdf", class: "form-control")
 
-  // QR code upload
   #qr-logic-container{ "data-controller": "plan-qr" }
-    = f.label("Upload scannable tickets (QR codes)", class: "mb-1 fw-semibold", for: "#qr_codes_upload")
+    = f.label(:qr_codes, "Upload scannable tickets (QR codes)", class: "mb-1 fw-semibold", for: "#qr_codes_upload")
     #qr-codes-found.d-none
     #qr-results.d-none
     #qr-codes-container.d-flex.flex-column.d-none
@@ -52,6 +51,7 @@
         %button#prev-btn.btn.btn-secondary{ type: "button", disabled: true } ← Prev
         %span#qr-counter.mx-3
         %button#next-btn.btn.btn-secondary{ type: "button", disabled: true } Next →
+
 
     // f.file_field is not used as QR code images are not uploaded, instead the code values are
     = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")
