@@ -151,6 +151,17 @@ RSpec.feature("Managing plans") do
       # Expect the QR code text to be present on the plan page
       expect(page).to(have_content("Hello World!"))
     end
+
+    scenario "If I add a QR code to an incomplete plan and submit the form, I see an error message", js: true do
+      visit new_trip_plan_path(trip)
+      # Specifically do not fill in any fields
+      click_on "Save"
+      expect(page).not_to(have_content("Please re-add your documents and/or tickets."))
+      # Attach a QR code file
+      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
+      click_on "Save"
+      expect(page).to(have_content("Please re-add your documents and/or tickets."))
+    end
   end
 
   feature "Edit a plan" do
