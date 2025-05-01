@@ -1,7 +1,4 @@
-@import "twitter_bootstrap";
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/variables';
+@use "base-styles" as bs;
 
 #map {
     height: 20rem;
@@ -50,7 +47,7 @@ table {
 
 .btn-document:hover {
   .btn-document-icon {
-    background-color: $gray-200 !important;
+    background-color: bs.$gray-200 !important;
   }
 }
 
@@ -60,7 +57,7 @@ table {
 }
 
 // Used when displaying a truncated code on mobile so it doesn't overflow
-@include media-breakpoint-down(lg) {
+@include bs.media-breakpoint-down(lg) {
   #qr-code-text {
     width: 75vw;
   }

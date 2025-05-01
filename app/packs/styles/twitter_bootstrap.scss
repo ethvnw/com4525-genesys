@@ -1,5 +1,4 @@
-@import "variables";
-@import "~bootstrap/scss/bootstrap";
+@use "base-styles" as bs;
 
 /* Overwrite bg elements with light text */
 .bg-success, .bg-dark, .bg-primary, .btn-primary {
@@ -8,12 +7,18 @@
 
 /* Overwrite button secondary */
 .btn-secondary {
-    @include button-variant(darken($light, 10%), darken($light, 10%));
+    @include bs.button-variant(
+        darken(bs.$light, 10%),
+        darken(bs.$light, 10%),
+    );
     color: var(--bs-navbar-color);
 }
 
 .btn-secondary.active {
-    @include button-variant(darken($light, 2%), darken($light, 2%));
+    @include bs.button-variant(
+        darken(bs.$light, 2%),
+        darken(bs.$light, 2%),
+    );
 }
 
 /* Remove border from toggler */
@@ -93,11 +98,11 @@
     .wide-column {
         width: 33%;
 
-        @include media-breakpoint-up(md) {
+        @include bs.media-breakpoint-up(md) {
             width: 45%;
         }
 
-        @include media-breakpoint-up(lg) {
+        @include bs.media-breakpoint-up(lg) {
             width: 50%;
         }
     }

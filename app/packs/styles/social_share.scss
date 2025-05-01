@@ -1,8 +1,8 @@
-@import "twitter_bootstrap";
+@use "base-styles" as bs;
 
 .social-share-web-icon {
-    min-width: 64px; 
-    min-height: 64px; 
+    min-width: 64px;
+    min-height: 64px;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -41,16 +41,16 @@
 }
 
 .social-share-btn#social-share-facebook {
-    @include button-variant(#3B5998, #3B5998);
-    color: $light;
+    @include bs.button-variant(#3B5998, #3B5998);
+    color: bs.$light;
 }
 
 .social-share-btn#social-share-twitter {
-    @include button-variant(#000000, #000000);
-    color: $light;
+    @include bs.button-variant(#000000, #000000);
+    color: bs.$light;
 }
 
 .social-share-btn#social-share-whatsapp {
-    @include button-variant(#25D366, #25D366);
-    color: $light;   
+    @include bs.button-variant(#25D366, #25D366);
+    color: bs.$light;
 }

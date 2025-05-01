@@ -1,4 +1,4 @@
-@import "twitter_bootstrap";
+@use "base-styles" as bs;
 
 #slideshow-container {
   isolation: isolate;
@@ -7,7 +7,7 @@
   right: 10px;
   bottom: 10px;
 
-  @include media-breakpoint-up(xxl) {
+  @include bs.media-breakpoint-up(xxl) {
     bottom: -10px;
   }
 }
@@ -17,18 +17,18 @@
   }
 
 
-@include media-breakpoint-up(md) {
+@include bs.media-breakpoint-up(md) {
   .login-card {
-    border-width: $border-width !important;
+    border-width: bs.$border-width !important;
   }
 }
 
 #iphone-frame {
-  @include media-breakpoint-up(xl) {
+  @include bs.media-breakpoint-up(xl) {
     width: 150px;
   }
 
-  @include media-breakpoint-up(xxl) {
+  @include bs.media-breakpoint-up(xxl) {
     width: 185px;
   }
 }
@@ -41,12 +41,12 @@
   left: 0;
   right: 0;
 
-  @include media-breakpoint-up(xl) {
+  @include bs.media-breakpoint-up(xl) {
     /* Slightly larger margin on right hand side to account for volume buttons */
     margin: 8px 10px 8px 8px;
   }
 
-  @include media-breakpoint-up(xxl) {
+  @include bs.media-breakpoint-up(xxl) {
     /* Slightly larger margin on right hand side to account for volume buttons */
     margin: 10px 12px 10px 10px;
   }

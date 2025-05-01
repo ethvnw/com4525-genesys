@@ -1,21 +1,14 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-
 /* Overwrite primary color */
-$primary: $body-color;
+$primary: #212529;
 
 /* Overwrite offcanvas height */
 $offcanvas-vertical-height: 300px;
 
-$theme-colors: map-merge($theme-colors, (
-  "primary": $primary
-));
-
 /* Overwrite tabs */
 $nav-link-font-weight: 600;
-$nav-link-color: $secondary;
+$nav-link-color: #6c757d;
 $nav-link-hover-color: $primary;
-$nav-pills-link-active-bg: $gray-200;
+$nav-pills-link-active-bg: #e9ecef;
 $nav-pills-link-active-color: $primary;
 
 /* Set default font to Inter, and default emoji font to Noto Color Emoji */
@@ -29,3 +22,5 @@ $font-family-sans-serif: "Inter", "InterVariable", -apple-system, system-ui, Bli
 $sidebar-lg-width: 280px;
 $sidebar-width: 78px;
 $footer-height: 145px;
+
+@import "~bootstrap/scss/bootstrap";
