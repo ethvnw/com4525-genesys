@@ -17,11 +17,10 @@
 
       .collapse.show.mb-3{ id: "plans#{index}" }
         - plans.each do |plan|
-
           .row.mb-2{ id: "plan-#{plan.id}" }
             .col-sm-2
               %p.mb-0.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
-            
+
             - swiper_class = plan.backup_plan.present? ? "swiper trip-carousel-#{plan.id}" : nil
 
             .col{ class: swiper_class }
@@ -32,7 +31,6 @@
 
                   .swiper-slide
                     = render_plan_partial(plan.backup_plan, trip)
-
 
               - else
                 = render_plan_partial(plan, trip)

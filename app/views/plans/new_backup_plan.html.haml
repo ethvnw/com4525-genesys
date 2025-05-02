@@ -3,4 +3,9 @@
   %span.fst-italic
     = @primary_plan.title
 
-= render("partials/plans/form", trip: @trip, plan: @plan, errors: @errors, backup_plan: true, primary_plan: @primary_plan)
+= render("partials/plans/form",
+         trip: @trip,
+         plan: @plan,
+         errors: @errors,
+         backup_plan: true,
+         primary_plan: @primary_plan)
