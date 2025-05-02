@@ -78,8 +78,22 @@ RSpec.configure do |config|
 
   config.after do
     Warden.test_reset!
+
+    # Purge all ActiveStorage attachments to avoid blobs clogging file system
+    ActiveStorage::Attachment.all.each(&:purge)
     DatabaseCleaner.clean
     time_travel_back
+  end
+
+  config.after(:all) do
+    ##
+    # Clear empty ActiveStorage directories after tests finish
+    # https://github.com/rails/rails/issues/32943#issuecomment-484238137
+    Dir.glob(Rails.root.join("tmp", "storage", "**", "*").to_s).sort_by(&:length).reverse.each do |x|
+      if File.directory?(x) && Dir.empty?(x)
+        Dir.rmdir(x)
+      end
+    end
   end
 
   # Help debug tests
