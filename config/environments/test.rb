@@ -16,8 +16,12 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.raise         = true # raise an error if n+1 query occurs
 
-    Bullet.add_safelist(type: :n_plus_one_query, class_name: "ActiveStorage::Attachment", association: :blob)
-    Bullet.add_safelist(type: :n_plus_one_query, class_name: "User", association: :avatar_attachment)
+    # Don't warn about unused loading of avatar
+    # Eager load needed for most requests, but bullet warns when it is being used in a turbo stream request.
+    # However, it will be needed for the HTML equivalent request of any turbo stream ones, so safer to just
+    # eager-load anyway.
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "User", association: :avatar_attachment)
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "ActiveStorage::Attachment", association: :blob)
   end
 
   # Settings specified here will take precedence over those in config/application.rb.

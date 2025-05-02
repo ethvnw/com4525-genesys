@@ -17,8 +17,8 @@ class TripMembershipsController < ApplicationController
     @trip_membership = TripMembership.new
     @errors = flash[:errors]
 
-    @trip = Trip.find(params[:trip_id])
-    members = @trip.trip_memberships.includes([:user]).map do |member|
+    @trip = Trip.includes(trip_memberships: { user: { avatar_attachment: :blob } }).find(params[:trip_id])
+    members = @trip.trip_memberships.map do |member|
       TripMembershipDecorator.new(member, current_user)
     end
     @members = members.select(&:is_invite_accepted)

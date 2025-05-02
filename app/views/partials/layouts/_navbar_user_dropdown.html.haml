@@ -7,7 +7,7 @@
     role: "button",
     tabindex: 0,
   }
-    = render("partials/layouts/user_avatar", user: current_user.decorate)
+    = render("partials/layouts/user_avatar", user: current_user)
     .dropdown-username
       = current_user.username
 
