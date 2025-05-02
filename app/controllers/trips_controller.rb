@@ -25,7 +25,12 @@ class TripsController < ApplicationController
     # Store view so that we can redirect user back to their preferred one when creating/deleting a trip
     session[:trip_index_view] = params[:view]
 
-    @trips = current_user.joined_trips.includes([:image_attachment, :trip_memberships]).decorate
+    trip_include_list = []
+    if params[:view] == "list"
+      trip_include_list += [trip_memberships: { user: { avatar_attachment: :blob } }, image_attachment: :blob]
+    end
+
+    @trips = current_user.joined_trips.includes(trip_include_list).decorate
     stream_response("trips/index")
   end
 
@@ -126,11 +131,16 @@ class TripsController < ApplicationController
 
     @trips = current_user.joined_trips.decorate
 
-    @trip = Trip.find(params[:id]).decorate
+    trip_include_list = []
+    if params[:view] == "list"
+      trip_include_list += [trip_memberships: { user: { avatar_attachment: :blob } }]
+    end
+
+    @trip = Trip.includes(trip_include_list).find(params[:id]).decorate
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
 
     # Only include tickets/documents if in list view, as they are not visible in map view
-    plans_includes_list = params[:view] == "list" ? [:scannable_tickets, :documents_attachments] : []
+    plans_includes_list = params[:view] == "list" ? [:scannable_tickets, documents_attachments: :blob] : []
     @plans = @trip.plans.order(:start_date).includes(plans_includes_list).decorate
     @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
 
