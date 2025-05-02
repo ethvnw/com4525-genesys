@@ -3,11 +3,13 @@
 # Handles trip memberships
 class TripMembershipsController < ApplicationController
   include Streamable
+  before_action :authenticate_user!
+  before_action :restrict_admin_and_reporter_access!
+
   load_and_authorize_resource :trip, except: [:accept_invite, :decline_invite]
   load_and_authorize_resource :trip_membership, through: :trip, except: [:accept_invite, :decline_invite]
 
   layout "user"
-  before_action :authenticate_user!
 
   def index
     @script_packs = ["trip_memberships"]

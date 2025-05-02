@@ -46,6 +46,8 @@ end
 #  index_plans_on_trip_id  (trip_id)
 #
 class Plan < ApplicationRecord
+  include Countable
+
   belongs_to :trip
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
@@ -55,14 +57,17 @@ class Plan < ApplicationRecord
     clubbing: 0,
     live_music: 1,
     restaurant: 2,
-    sport_event: 3,
-    travel_by_boat: 4,
-    travel_by_bus: 5,
-    travel_by_car: 6,
-    travel_by_foot: 7,
-    travel_by_plane: 8,
-    travel_by_train: 9,
-    other: 10,
+    entertainment: 3,
+    wellness: 4,
+    active: 5,
+    sightseeing: 6,
+    travel_by_boat: 7,
+    travel_by_bus: 8,
+    travel_by_car: 9,
+    travel_by_foot: 10,
+    travel_by_plane: 11,
+    travel_by_train: 12,
+    other: 13,
   }
 
   validates :plan_type, inclusion: { in: plan_types.keys }
@@ -73,5 +78,9 @@ class Plan < ApplicationRecord
 
   def travel_plan?
     plan_type.starts_with?("travel_by")
+  end
+
+  def regular_plan?
+    !travel_plan?
   end
 end

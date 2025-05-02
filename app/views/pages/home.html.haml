@@ -8,7 +8,7 @@
     Change text colour depending on if the user has any tips
     No trips -> show text-primary against bg-light background
     Trips -> text-light against an image background
-  - text_class = @trips.present? ? "text-light" : "text-primary"
+  - text_class = @trips.present? ? "text-light" : "text-dark"
   %h1.fs-4{ class: "#{text_class} z-3" }
     Upcoming Trips
 
@@ -58,3 +58,9 @@
         .swiper-slide
           = render("partials/home/featured_location_card", location: location)
     = render("partials/swiper/swiper_controls")
+
+%hr
+
+%h2.fs-4.mb-3 Enjoying Roamio? Invite a Friend!
+.d-flex.flex-column.gap-3.mb-5.align-items-stretch
+  = render("partials/home/referral", errors: @errors, email: @referral_email)

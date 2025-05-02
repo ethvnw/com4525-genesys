@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get :inbox, to: "pages#inbox"
 
+  resource :referrals, only: [:create]
+
   resources :registrations, only: [] do
     resource :avatar, only: [:update, :destroy]
   end
@@ -97,7 +99,8 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :reporter do
-    get :dashboard, to: "dashboard#index"
+  namespace :analytics do
+    get :landing_page, to: "landing_page#index"
+    resources :trips, only: [:index]
   end
 end

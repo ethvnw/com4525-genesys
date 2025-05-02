@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authorize_members_access
+  def authorize_members_access!
     authorize!(:access, :landing)
     authorize!(:access, :faq)
     authorize!(:access, :subscription)
@@ -80,6 +80,12 @@ class ApplicationController < ActionController::Base
       home_path,
       flash: { notice: flash[:notice], alert: flash[:alert], notifications: flash[:notifications] },
     )
+  end
+
+  def restrict_admin_and_reporter_access!
+    unless current_user.member?
+      redirect_to(root_path, alert: "Unable to access members-only page as a staff user.")
+    end
   end
 
   def check_for_notifications

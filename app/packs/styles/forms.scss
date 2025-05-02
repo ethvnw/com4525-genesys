@@ -1,5 +1,4 @@
-@import "variables";
-@import "~bootstrap/scss/bootstrap";
+@use "base_styles" as bs;
 
 // .aa prefix is for the algolia autocomplete input, used for geolocation
 
@@ -15,26 +14,26 @@
 }
 
 .aa-DetachedSearchButtonPlaceholder {
-  color: $input-placeholder-color;
+  color: bs.$input-placeholder-color;
   opacity: 1;
 }
 
 .aa-SubmitIcon {
-  color: $body-color;
+  color: bs.$body-color;
 }
 
 .aa-Item {
-  background-color: $body-bg;
+  background-color: bs.$body-bg;
   cursor: pointer;
 }
 
 .aa-Item:hover {
-  background-color: darken($body-bg, 5%);
+  background-color: darken(bs.$body-bg, 5%);
 }
 
 .aa-DetachedSearchButton {
   @extend .form-control;
-  color: $body-color;
+  color: bs.$body-color;
   padding: 0;
   display: flex;
   height: 2.375rem;
@@ -43,12 +42,12 @@
 // form-control-btn is used for buttons that look like text inputs (e.g. date range picker)
 .form-control-btn{
   @extend .form-control, .fw-semibold, .text-start;
-  color: $input-placeholder-color;
+  color: bs.$input-placeholder-color;
 }
 
 .form-control-btn-selected{
   @extend .form-control-btn;
-  color: $body-color;
+  color: bs.$body-color;
 }
 
 .membership-button {
@@ -85,7 +84,7 @@
   border-color: transparent;
 }
 
-@include media-breakpoint-down(md) {
+@include bs.media-breakpoint-down(md) {
   #qr-codes-container {
     max-width: 100%;
   }

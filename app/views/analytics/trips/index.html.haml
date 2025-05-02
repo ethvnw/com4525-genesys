@@ -1,0 +1,50 @@
+%section.row.align-items-center
+  = render("partials/layouts/page_title", page_title: "Trip Analytics")
+  = render("partials/analytics/reporter_dashboard_filter_tabs")
+  .tab-content
+    #today-tab.tab-pane.show.active
+      = render("partials/analytics/trip_analytics_card_tab",
+               trips_created: @trip_counts[:today],
+               plans_created: @plan_counts[:today],
+               invitations_sent: @invitation_counts[:today],
+               time_period: "Today")
+    #week-tab.profile.tab-pane
+      = render("partials/analytics/trip_analytics_card_tab",
+               trips_created: @trip_counts[:this_week],
+               plans_created: @plan_counts[:this_week],
+               invitations_sent: @invitation_counts[:this_week],
+               time_period: "This Week")
+    #month-tab.tab-pane
+      = render("partials/analytics/trip_analytics_card_tab",
+               trips_created: @trip_counts[:this_month],
+               plans_created: @plan_counts[:this_month],
+               invitations_sent: @invitation_counts[:this_month],
+               time_period: "This Month")
+    #all-time-tab.tab-pane
+      = render("partials/analytics/trip_analytics_card_tab",
+               trips_created: @trip_counts[:all_time],
+               plans_created: @plan_counts[:all_time],
+               invitations_sent: @invitation_counts[:all_time],
+               time_period: "All Time")
+  %hr.mt-3
+  %h2.fs-4.mt-3
+    %i.bi.bi-database-add &nbsp;
+    Content Added Per Trip
+
+  .table-responsive
+    %table.table.table-striped
+      %thead
+        %tr
+          %th.very-thin-column #
+          %th.wide-column Trip Name
+          %th Regular Plans
+          %th Travel Plans
+          %th Invitations
+      %tbody
+        - @trips.each_with_index do |trip, index|
+          %tr
+            %td= index + 1
+            %td.text-truncate= trip.title
+            %td= trip.regular_plan_count
+            %td= trip.travel_plan_count
+            %td= trip.trip_memberships.count

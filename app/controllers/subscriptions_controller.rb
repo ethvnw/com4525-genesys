@@ -2,7 +2,7 @@
 
 # Handles the displaying of subscription tiers
 class SubscriptionsController < ApplicationController
-  before_action :authorize_members_access
+  before_action :authorize_members_access!
 
   def pricing
     @subscription_tiers = SubscriptionTier.all.order(id: :asc)

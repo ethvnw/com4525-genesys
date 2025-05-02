@@ -46,7 +46,7 @@ module ApplicationHelper
         tabindex: 0,
         aria: {
           label: name,
-          describedby: badge_count&.nonzero? ? "#{name}-badge-desc" : nil 
+          describedby: badge_count&.nonzero? ? "#{name}-badge-desc" : nil,
         },
         data: { bs_toggle: "tooltip", bs_placement: "right", bs_title: name },
       ) do
@@ -64,7 +64,7 @@ module ApplicationHelper
           end,
         )
         concat(content_tag(:span, name, class: "text-center"))
-  
+
         if badge_count&.nonzero?
           concat(content_tag(:div, badge_count, class: "nav-badge-lg"))
           concat(content_tag(:span, "#{badge_count} notifications", class: "visually-hidden", id: "#{name}-badge-desc"))
@@ -72,7 +72,6 @@ module ApplicationHelper
       end
     end
   end
-  
 
   ##
   # Generates a link which adds query parameters to the current path.
