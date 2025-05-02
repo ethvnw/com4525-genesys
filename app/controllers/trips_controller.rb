@@ -31,11 +31,16 @@ class TripsController < ApplicationController
     session[:trip_index_view] = params[:view]
     session[:trip_index_order] = params[:order]
 
+    trip_include_list = []
+    if params[:view] == "list"
+      trip_include_list += [trip_memberships: { user: { avatar_attachment: :blob } }, image_attachment: :blob]
+    end
+
     @trips = current_user
-               .joined_trips
-               .includes([:image_attachment, :trip_memberships])
-               .order(start_date: params[:order].to_sym)
-               .decorate
+      .joined_trips
+      .includes(trip_include_list)
+      .order(start_date: params[:order].to_sym)
+      .decorate
 
     stream_response("trips/index")
   end
@@ -133,16 +138,21 @@ class TripsController < ApplicationController
 
     @trips = current_user.joined_trips.decorate
 
-    @trip = Trip.find(params[:id]).decorate
+    trip_include_list = []
+    if params[:view] == "list"
+      trip_include_list += [trip_memberships: { user: { avatar_attachment: :blob } }]
+    end
+
+    @trip = Trip.includes(trip_include_list).find(params[:id]).decorate
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
 
-<<<<<<< HEAD
-    @plans = get_plans_excluding_backups(@trip).order(start_date: params[:order] || :asc).decorate
-=======
     # Only include tickets/documents if in list view, as they are not visible in map view
-    plans_includes_list = params[:view] == "list" ? [:scannable_tickets, :documents_attachments] : []
-    @plans = @trip.plans.order(:start_date).includes(plans_includes_list).decorate
->>>>>>> 74a0f2c (fix(n+1): added eager loading to pass tests)
+    plans_includes_list = params[:view] == "list" ? [:scannable_tickets, documents_attachments: :blob] : []
+    @plans = get_plans_excluding_backups(@trip)
+      .includes(plans_includes_list)
+      .order(start_date: params[:order] || :asc)
+      .decorate
+
     @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
 
     stream_response("trips/show")

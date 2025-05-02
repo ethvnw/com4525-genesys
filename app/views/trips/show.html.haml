@@ -1,6 +1,6 @@
 .row.d-flex.justify-content-between
   .d-flex.flex-column.gap-3.align-items-end
-    = render("partials/trips/members", members: @trip.trip_memberships.includes([:user]))
+    = render("partials/trips/members", members: @trip.trip_memberships)
   .align-self-center
     %h1.mb-0= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
