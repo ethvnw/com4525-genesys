@@ -10,6 +10,13 @@ Rails.application.configure do
     Bullet.console       = true
     Bullet.rails_logger  = true
     Bullet.add_footer    = true
+
+    # Don't warn about unused loading of avatar
+    # Eager load needed for most requests, but bullet warns when it is being used in a turbo stream request.
+    # However, it will be needed for the HTML equivalent request of any turbo stream ones, so safer to just
+    # eager-load anyway.
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "User", association: :avatar_attachment)
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "ActiveStorage::Attachment", association: :blob)
   end
 
   # Settings specified here will take precedence over those in config/application.rb.
