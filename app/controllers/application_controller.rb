@@ -36,6 +36,10 @@ class ApplicationController < ActionController::Base
     super
   end
 
+  def current_user
+    @current_user ||= super && User.includes(avatar_attachment: :blob).find(current_user.id)
+  end
+
   private
 
   rescue_from CanCan::AccessDenied do
@@ -53,7 +57,12 @@ class ApplicationController < ActionController::Base
   end
 
   def decorate_current_user
-    @current_user = current_user.decorate if current_user.present?
+    # Early exit if current user nil or already been decorated
+    if current_user.nil?
+      return
+    end
+
+    @current_user = current_user.decorate
   end
 
   ##
