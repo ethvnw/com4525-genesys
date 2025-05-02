@@ -94,27 +94,28 @@ export default class extends Controller {
     this.startLocationContainer.classList.toggle('d-none', isFreeTimePlan);
     this.startLocationInput.disabled = isFreeTimePlan;
     this.startLocationInput.required = !isFreeTimePlan;
-    this.startLocationInput.value = '';
-    this.startLocationLatitudeInput.value = '';
-    this.startLocationLongitudeInput.value = '';
 
     // Clear and disable the end location input
     this.endLocationContainer.classList.toggle('d-none', isFreeTimePlan || !isTravelPlan);
     this.endLocationInput.disabled = isFreeTimePlan || !isTravelPlan;
     this.endLocationInput.required = !isFreeTimePlan && isTravelPlan;
-    this.endLocationInput.value = '';
-    this.endLocationLatitudeInput.value = '';
-    this.endLocationLongitudeInput.value = '';
 
     this.ticketsContainer.classList.toggle('d-none', isFreeTimePlan);
 
-    if (isFreeTimePlan) {
-      this.map.removeMarker('start-location');
-    }
     if (!isTravelPlan) {
       this.endLocationAutocomplete.setQuery('');
+      this.endLocationInput.value = '';
+      this.endLocationLatitudeInput.value = '';
+      this.endLocationLongitudeInput.value = '';
       this.map.removeMarker('end-location');
       this.map.removeConnectingLine('connector');
+    }
+    if (isFreeTimePlan) {
+      this.startLocationAutocomplete.setQuery('');
+      this.startLocationInput.value = '';
+      this.startLocationLatitudeInput.value = '';
+      this.startLocationLongitudeInput.value = '';
+      this.map.removeMarker('start-location');
     }
   }
 

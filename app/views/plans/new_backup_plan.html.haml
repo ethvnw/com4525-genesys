@@ -1,0 +1,6 @@
+%h1
+  New backup plan for
+  %span.fst-italic
+    = @primary_plan.title
+
+= render("partials/plans/form", trip: @trip, plan: @plan, errors: @errors, backup_plan: true, primary_plan: @primary_plan)

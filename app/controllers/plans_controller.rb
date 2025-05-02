@@ -22,10 +22,40 @@ class PlansController < ApplicationController
     @plan.attributes = session[:plan_data] if session[:plan_data]
   end
 
+  def new_backup_plan
+    @script_packs = ["plans_create"]
+    @primary_plan = Plan.find(params[:id])
+
+    if @primary_plan.backup_plan.present?
+      redirect_back_or_to(trip_plan_path(@trip), alert: "Plan already has a backup plan.")
+      return
+    end
+
+    @trip = Trip.find(params[:trip_id])
+    @plan = if session[:plan_data]
+      Plan.new(session[:plan_data])
+    else
+      Plan.new(
+        start_date: @primary_plan.start_date,
+        end_date: @primary_plan.end_date,
+      )
+    end
+    @errors = flash[:errors]
+    @plan.attributes = session[:plan_data] if session[:plan_data]
+  end
+
   def create
     @plan = Plan.new(plan_params)
     @plan.trip = Trip.find(params[:trip_id])
+    if @plan.primary_plan_id.present?
+      @plan.is_backup_plan = true
+      @primary_plan = Plan.find(@plan.primary_plan_id)
+    end
+
     if @plan.save
+      if @plan.primary_plan_id.present?
+        @primary_plan.update(backup_plan_id: @plan.id)
+      end
       # Create scannable tickets if provided
       qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
       qr_titles = params[:scannable_ticket_titles].present? ? JSON.parse(params[:scannable_ticket_titles]) : []
@@ -64,11 +94,19 @@ class PlansController < ApplicationController
           "end_date",
         )
 
-      stream_response(
-        "plans/create",
-        new_trip_plan_path(@plan.trip),
-        lost_uploads_alert ? { type: "danger", content: "Please re-add your documents and/or tickets." } : nil,
-      )
+      if @plan.primary_plan_id.present?
+        stream_response(
+          "plans/create_backup",
+          new_backup_plan_trip_plan_path(@plan.trip, @primary_plan),
+          lost_uploads_alert ? { type: "danger", content: "Please re-add your documents and/or tickets." } : nil,
+        )
+      else
+        stream_response(
+          "plans/create",
+          new_trip_plan_path(@plan.trip),
+          lost_uploads_alert ? { type: "danger", content: "Please re-add your documents and/or tickets." } : nil,
+        )
+      end
     end
   end
 
@@ -120,7 +158,12 @@ class PlansController < ApplicationController
       #{any_duplicate_codes ? "Some QR codes already existed..." : ""}")
     else
       flash[:errors] = @plan.errors.to_hash(true)
-      stream_response("plans/update", edit_trip_plan_path(@plan))
+      if @plan.is_backup_plan
+        @primary_plan = Plan.find(@plan.primary_plan_id)
+        stream_response("plans/update_backup", edit_backup_plan_trip_plan_path(@plan.trip, @primary_plan))
+      else
+        stream_response("plans/update", edit_trip_plan_path(@plan.trip))
+      end
     end
   end
 
@@ -156,6 +199,7 @@ class PlansController < ApplicationController
       :start_date,
       :end_date,
       :booking_references_data,
+      :primary_plan_id,
       documents: [],
     )
   end

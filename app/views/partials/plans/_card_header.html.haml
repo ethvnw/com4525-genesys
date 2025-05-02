@@ -1,24 +1,36 @@
 .d-flex.justify-content-between.align-items-center
-  - if plan.plan_type.starts_with?("travel_")
+  - if plan.travel_plan?
     %p.mb-0.text-white= plan.title.titleize
   - else
     %p.mb-0.text-secondary= plan.plan_type.titleize
 
   -# Dropdown menu
-  #plan-settings.dropdown
-    %button.btn.px-0.py-2{ "data-bs-toggle": "dropdown", "aria-expanded": "false" }
-      %i{ class: "bi bi-three-dots-vertical #{"text-light" if plan.travel_plan?}" }
+  .d-flex
+    - if plan.backup_plan.present? || plan.is_backup_plan
+      %button.btn.swiper-toggle-button{ class: "#{"text-light" if plan.travel_plan?}", title: "Toggle viewing backup plan" }
+        %i.bi.bi-reply-fill
 
-    .dropdown-menu
-      = link_to(edit_trip_plan_path(trip, plan),
-                class: "dropdown-item",
-                method: :get) do
-        %i.bi.bi-pencil &nbsp;
-        Edit Plan
+    #plan-settings.dropdown
+      %button.btn.px-0.py-2{ "data-bs-toggle": "dropdown", "aria-expanded": "false" }
+        %i{ class: "bi bi-three-dots-vertical #{"text-light" if plan.travel_plan?}" }
 
-      = link_to(trip_plan_path(trip, plan),
-                class: "dropdown-item text-danger",
-                method: :delete,
-                data: { confirm: "Are you sure you want to delete this plan?" }) do
-        %i.bi.bi-trash &nbsp;
-        Delete Plan
+      .dropdown-menu
+        - unless plan.is_backup_plan || plan.backup_plan.present?      
+          = link_to(new_backup_plan_trip_plan_path(trip, plan),
+                    class: "dropdown-item",
+                    method: :get) do
+            %i.bi.bi-plus-circle &nbsp;
+            Add Backup Plan
+
+        = link_to(edit_trip_plan_path(trip, plan),
+                  class: "dropdown-item",
+                  method: :get) do
+          %i.bi.bi-pencil &nbsp;
+          Edit Plan
+
+        = link_to(trip_plan_path(trip, plan),
+                  class: "dropdown-item text-danger",
+                  method: :delete,
+                  data: { confirm: "Are you sure you want to delete this plan?" }) do
+          %i.bi.bi-trash &nbsp;
+          Delete Plan

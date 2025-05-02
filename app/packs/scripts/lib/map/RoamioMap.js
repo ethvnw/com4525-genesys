@@ -187,6 +187,10 @@ class _RoamioMap {
    * @param {number} maxZoom - the zoom level to set the map to
    */
   fitToFeatures(maxZoom = 12) {
+    if (this.markersFG.getLayers().length === 0) {
+      this.map.setView(MAP_CONFIG.center, MAP_CONFIG.zoom);
+      return;
+    }
     this.map.fitBounds(this.markersFG.getBounds().pad(0.25), { maxZoom });
   }
 
