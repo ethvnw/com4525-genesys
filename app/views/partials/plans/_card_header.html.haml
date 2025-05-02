@@ -7,7 +7,10 @@
   -# Dropdown menu
   .d-flex
     - if plan.backup_plan.present? || plan.is_backup_plan
-      %button.btn.swiper-toggle-button{ class: "#{"text-light" if plan.travel_plan?}", title: "Toggle viewing backup plan" }
+      %button.btn.swiper-toggle-button{
+        class: (plan.travel_plan? ? "text-light" : nil),
+        title: "Toggle viewing backup plan",
+      }
         %i.bi.bi-reply-fill
 
     #plan-settings.dropdown
@@ -15,7 +18,7 @@
         %i{ class: "bi bi-three-dots-vertical #{"text-light" if plan.travel_plan?}" }
 
       .dropdown-menu
-        - unless plan.is_backup_plan || plan.backup_plan.present?      
+        - unless plan.is_backup_plan || plan.backup_plan.present?
           = link_to(new_backup_plan_trip_plan_path(trip, plan),
                     class: "dropdown-item",
                     method: :get) do
