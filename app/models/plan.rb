@@ -73,7 +73,9 @@ class Plan < ApplicationRecord
   has_many :scannable_tickets, dependent: :destroy
   has_one :primary_plan, class_name: "Plan", foreign_key: "backup_plan_id", dependent: :nullify
 
-  after_save :update_counter_cache
+  after_create :add_counter_cache
+  after_update :update_counter_cache
+  after_destroy :remove_counter_cache
 
   enum plan_type: {
     clubbing: 0,
@@ -112,16 +114,38 @@ class Plan < ApplicationRecord
     ticket_links.any? || booking_references.any? || scannable_tickets.any?
   end
 
-<<<<<<< HEAD
   def free_time_plan?
     plan_type == "free_time"
   end
 
   def backup_plan?
     primary_plan.present?
-=======
+  end
+
+  ##
+  # Increments the trip's counter cache for the relevant plan type when creating the plan
+  def add_counter_cache
+    if travel_plan?
+      trip.increment!(:travel_plans_count)
+    else
+      trip.increment!(:regular_plans_count)
+    end
+  end
+
+  ##
+  # Decrements the trip's counter cache for the relevant plan type when deleting the plan
+  def remove_counter_cache
+    if travel_plan?
+      trip.decrement!(:travel_plans_count)
+    else
+      trip.decrement!(:regular_plans_count)
+    end
+  end
+
+  ##
+  # Updates the trip's counter cache for the relevant plan type when editing the plan
   def update_counter_cache
-    if plan_type_before_last_save != plan_type
+    if plan_type_before_last_save.starts_with?("travel_by") != plan_type.starts_with?("travel_by")
       old_type = travel_plan? ? :regular_plans_count : :travel_plans_count
       new_type = travel_plan? ? :travel_plans_count : :regular_plans_count
 
@@ -130,6 +154,5 @@ class Plan < ApplicationRecord
         trip.increment!(new_type)
       end
     end
->>>>>>> 21d414c (fix(performance): added counter caches to plans and trip memberships)
   end
 end
