@@ -6,6 +6,8 @@ export default class extends Controller {
   connect() {
     this.carouselConfig = {
       effect: 'flip',
+      autoHeight: true,
+      speed: 600,
     };
 
     this.carouselClasses = Array.from(
@@ -26,6 +28,15 @@ export default class extends Controller {
             swiper.slideTo(0);
           }
         });
+      });
+
+      // Recalculate the height of the carousel when accordion items are shown or hidden
+      const accordion = document.querySelector('.accordion-collapse');
+      accordion.addEventListener('show.bs.collapse', () => {
+        setTimeout(() => { swiper.updateAutoHeight(50); }, 15);
+      });
+      accordion.addEventListener('hide.bs.collapse', () => {
+        setTimeout(() => { swiper.updateAutoHeight(50); }, 15);
       });
     });
   }

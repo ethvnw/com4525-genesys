@@ -9,7 +9,6 @@
 #  end_location_latitude    :decimal(, )
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
-#  is_backup_plan           :boolean          default(FALSE), not null
 #  plan_type                :integer          not null
 #  provider_name            :string
 #  start_date               :datetime
@@ -29,7 +28,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (backup_plan_id => plans.id) ON DELETE => nullify
+#  fk_rails_...  (backup_plan_id => plans.id)
 #
 FactoryBot.define do
   ##

@@ -143,7 +143,7 @@ class TripsController < ApplicationController
     @trip = Trip.find(params[:id]).decorate
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
 
-    @plans = @trip.plans.where.not(is_backup_plan: true).order("start_date #{params[:order]}").decorate
+    @plans = get_plans_excluding_backups(@trip).order("start_date #{params[:order]}").decorate
     @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
 
     stream_response("trips/show")
@@ -151,7 +151,7 @@ class TripsController < ApplicationController
 
   def export_pdf
     trip = Trip.find(params[:id]).decorate
-    plans = @trip.plans.order(:start_date).decorate
+    plans = get_plans_excluding_backups(@trip).order(:start_date).decorate
     plan_groups = plans.group_by { |plan| plan.start_date.to_date }
 
     html_content = render_to_string(
@@ -164,6 +164,10 @@ class TripsController < ApplicationController
   end
 
   private
+
+  def get_plans_excluding_backups(trip)
+    trip.plans.where.not(id: Plan.where.not(backup_plan_id: nil).pluck(:backup_plan_id))
+  end
 
   def upload_unsplash_image(location_name)
     photo = Unsplash::Photo.search(@trip.location_name.split(",", 2).first).first

@@ -25,12 +25,12 @@
 
             .col{ class: swiper_class }
               - if swiper_class
-                .swiper-wrapper.p-0
+                .swiper-wrapper.p-0.overflow-hidden
                   .swiper-slide
                     = render_plan_partial(plan, trip)
 
                   .swiper-slide
-                    = render_plan_partial(plan.backup_plan, trip)
+                    = render_plan_partial(plan.backup_plan.decorate, trip)
 
               - else
                 = render_plan_partial(plan, trip)

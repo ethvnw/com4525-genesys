@@ -18,6 +18,11 @@ class PlanValidator < ActiveModel::Validator
         record.errors.add(:start_date, "cannot be in the past")
       end
     end
+
+    # Prevent a backup plan from having its own backup
+    if record.backup_plan_id.present? && Plan.exists?(backup_plan_id: record.id)
+      record.errors.add(:base, "A backup plan cannot have its own backup")
+    end
   end
 end
 
@@ -30,7 +35,6 @@ end
 #  end_location_latitude    :decimal(, )
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
-#  is_backup_plan           :boolean          default(FALSE), not null
 #  plan_type                :integer          not null
 #  provider_name            :string
 #  start_date               :datetime
@@ -50,17 +54,20 @@ end
 #
 # Foreign Keys
 #
-#  fk_rails_...  (backup_plan_id => plans.id) ON DELETE => nullify
+#  fk_rails_...  (backup_plan_id => plans.id)
 #
 class Plan < ApplicationRecord
   include Countable
   attr_accessor :primary_plan_id
 
   belongs_to :trip
+  belongs_to :backup_plan, class_name: "Plan", optional: true, foreign_key: "backup_plan_id"
+
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
   has_many :booking_references, dependent: :destroy
   has_many :scannable_tickets, dependent: :destroy
+  has_one :primary_plan, class_name: "Plan", foreign_key: "backup_plan_id", dependent: :nullify
 
   enum plan_type: {
     clubbing: 0,
@@ -80,18 +87,12 @@ class Plan < ApplicationRecord
     free_time: 14,
   }
 
-  belongs_to :backup_plan, class_name: "Plan", optional: true
-
   validates :plan_type, inclusion: { in: plan_types.keys }
   validates :title, presence: true, length: { maximum: 250 }
   validates :start_location_name, presence: true, unless: :free_time_plan?
   validates :start_date, presence: true
   validates_with PlanValidator
   validates_with DateValidator
-
-  # Custom validations
-  validate :only_one_backup_plan
-  validate :backup_plan_cannot_have_its_own_backup
 
   def travel_plan?
     plan_type.starts_with?("travel_by")
@@ -109,19 +110,7 @@ class Plan < ApplicationRecord
     plan_type == "free_time"
   end
 
-  private
-
-  # Ensure a plan can only have one backup plan
-  def only_one_backup_plan
-    if Plan.exists?(backup_plan_id: id)
-      errors.add(:base, "This plan already has a backup plan.")
-    end
-  end
-
-  # Ensure a backup plan cannot have its own backup plan
-  def backup_plan_cannot_have_its_own_backup
-    if is_backup_plan && backup_plan_id.present?
-      errors.add(:base, "A backup plan cannot have its own backup plan.")
-    end
+  def backup_plan?
+    primary_plan.present?
   end
 end

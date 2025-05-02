@@ -123,7 +123,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
     t.datetime "updated_at", null: false
     t.string "provider_name"
     t.bigint "backup_plan_id"
-    t.boolean "is_backup_plan", default: false, null: false
     t.index ["backup_plan_id"], name: "index_plans_on_backup_plan_id"
     t.index ["trip_id"], name: "index_plans_on_trip_id"
   end
@@ -286,7 +285,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
   add_foreign_key "booking_references", "plans"
   add_foreign_key "referrals", "users", column: "sender_user_id"
-  add_foreign_key "plans", "plans", column: "backup_plan_id", on_delete: :nullify
+  add_foreign_key "plans", "plans", column: "backup_plan_id"
   add_foreign_key "registrations", "subscription_tiers"
   add_foreign_key "trip_memberships", "users", column: "sender_user_id"
 end
