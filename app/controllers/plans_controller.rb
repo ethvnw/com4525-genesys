@@ -120,6 +120,13 @@ class PlansController < ApplicationController
         @plan.booking_references.create(name: ref["name"], reference_number: ref["number"])
       end
 
+      # Delete all existing ticket links
+      @plan.ticket_links.destroy_all
+      # Create ticket links if provided
+      JSON.parse(params[:ticket_links_data] || []).each do |link|
+        @plan.ticket_links.create(name: link["name"], link: link["url"])
+      end
+
       # The notice message indicates whether any QR codes already existed to the plan
       turbo_redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.
       #{any_duplicate_codes ? "Some QR codes already existed..." : ""}")

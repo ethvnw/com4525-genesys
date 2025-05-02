@@ -59,7 +59,12 @@ export default class extends Controller {
           <td>${ref.name}</td>
           <td>${ref.number}</td>
           <td>
-            <button type="button" class="btn btn-sm btn-danger" data-action="booking-references#deleteReference" data-index="${index}">
+            <button 
+              type="button" 
+              class="btn btn-sm btn-danger" 
+              data-action="booking-references#deleteReference" 
+              data-index="${index} 
+              aria-label"Delete Booking Reference with name ${ref.name} and number ${ref.number}">
               Delete
             </button>
           </td>

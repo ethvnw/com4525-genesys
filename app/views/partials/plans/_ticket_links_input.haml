@@ -1,5 +1,5 @@
 // Ticket links
-#ticket-links-container.d-flex.flex-column.gap-2.my-2{ "data-controller": "ticket-links" }
+#ticket-links-container.d-flex.flex-column.gap-2.mb-2{ "data-controller": "ticket-links" }
   = f.label(:ticket_links_data, "Ticket links", class: "fw-semibold")
 
   .d-flex.gap-2.align-items-end
@@ -28,7 +28,7 @@
 
     -# haml-lint:disable LineLength
     = hidden_field_tag(:ticket_links_data,
-                       params[:ticket_links_data].presence || plan.ticket_links.map { |tl| { name: tl.name, url: tl.url } }.to_json,
+                       params[:ticket_links_data].presence || plan.ticket_links.map { |tl| { name: tl.name, url: tl.link } }.to_json,
                        data: { ticket_links_target: "dataField" })
     -# haml-lint:enable LineLength
 
