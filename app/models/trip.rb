@@ -16,6 +16,8 @@
 #  updated_at         :datetime         not null
 #
 class Trip < ApplicationRecord
+  include Countable
+
   has_one_attached :image
 
   has_many :plans, dependent: :destroy

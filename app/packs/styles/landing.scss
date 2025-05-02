@@ -1,5 +1,4 @@
-@import "variables";
-@import "~bootstrap/scss/bootstrap";
+@use "base_styles" as bs;
 
 .card-section {
     @extend .card;
@@ -17,7 +16,7 @@
 }
 
 #application-main {
-    margin-top: $landing-navbar-height;
+    margin-top: bs.$landing-navbar-height;
 }
 
 /* Override swiper */

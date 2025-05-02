@@ -1,22 +1,18 @@
 // Imports
-@import 'variables';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/variables';
-@import 'twitter_bootstrap';
+@use "base_styles" as bs;
 
 // Fix for transitioning CSS gradient backgrounds
 // See [https://stackoverflow.com/a/63848864]
 // Credit Mahozad, CC BY-SA 4.0
 @property --top-shade {
   syntax: '<color>';
-  initial-value: $light;
+  initial-value: bs.$light;
   inherits: false;
 }
 
 @property --bottom-shade {
   syntax: '<color>';
-  initial-value: $light;
+  initial-value: bs.$light;
   inherits: false;
 }
 
@@ -75,7 +71,7 @@
   @extend .align-items-center, .justify-content-center;
   @extend .text-secondary, .fw-semibold, .rounded-3;
   @extend .text-decoration-none;
-  border: 1px dashed $secondary;
+  border: 1px dashed bs.$secondary;
 }
 
 // Quick link button
@@ -83,14 +79,14 @@
   @extend .text-decoration-none, .text-start;
   @extend .d-flex, .flex-row, .py-3, .flex-sm-column;
   @extend .border;
-  border-bottom: 3px solid $roamio-primary !important;
+  border-bottom: 3px solid bs.$roamio-primary !important;
   width: 200px;
 
   .btn-icon {
     @extend .d-flex, .align-items-center, .justify-content-center;
     @extend .mb-3, .rounded-circle;
     @extend .me-3;
-    background-color: lighten($roamio-primary, 40%);
+    background-color: lighten(bs.$roamio-primary, 40%);
     width: 48px;
     height: 48px;
 
@@ -104,13 +100,13 @@
   }
 }
 
-@include media-breakpoint-down(lg) {
+@include bs.media-breakpoint-down(lg) {
   .quick-link-btn {
     width: 100%;
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include bs.media-breakpoint-down(sm) {
   .quick-link-btn {
     p, .btn-icon {
       margin-bottom: 0px !important;
@@ -151,5 +147,12 @@
         transform: scale(1.03);
       }
     }
+  }
+}
+
+
+.registration-button {
+  @include bs.media-breakpoint-down(lg) {
+    margin-top: 0;
   }
 }
