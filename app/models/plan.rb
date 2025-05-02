@@ -84,4 +84,8 @@ class Plan < ApplicationRecord
   def regular_plan?
     !travel_plan?
   end
+
+  def any_tickets?
+    ticket_links.any? || booking_references.any? || scannable_tickets.any?
+  end
 end

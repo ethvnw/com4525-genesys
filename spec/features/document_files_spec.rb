@@ -45,7 +45,7 @@ RSpec.feature("Managing Documents") do
       # Delete the document
       visit edit_trip_plan_path(trip, plan)
       # Because the document name is inside a span, it cannot be selected directly
-      # However since there is only one document, we can just select the first one
+      # However since there is only one document, the first one can be selected
       click_on "Remove"
 
       visit trip_path(plan.trip_id)

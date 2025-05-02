@@ -1,0 +1,14 @@
+.row.mt-4
+  .col
+    %h2.fw-bold.mb-0
+      Booking References
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Reference
+  %tbody
+    - plan.booking_references.each do |reference|
+      %tr
+        %td= reference.name
+        %td= reference.reference_number
