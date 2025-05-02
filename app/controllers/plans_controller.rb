@@ -36,7 +36,18 @@ class PlansController < ApplicationController
 
       # Create booking references if provided
       JSON.parse(params[:booking_references_data] || []).each do |ref|
-        @plan.booking_references.create(name: ref["name"], reference_number: ref["number"])
+        @plan.booking_references.create(
+          name: ref["name"],
+          reference_number: ref["number"],
+        )
+      end
+
+      # Create ticket links if provided
+      JSON.parse(params[:ticket_links_data] || []).each do |link|
+        @plan.ticket_links.create(
+          name: link["name"],
+          link: link["url"],
+        )
       end
 
       session.delete(:plan_data)
