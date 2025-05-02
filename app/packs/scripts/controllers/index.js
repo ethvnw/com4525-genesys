@@ -6,6 +6,7 @@ import PlanQRController from './plan_qr_controller';
 import BookingReferencesController from './booking_references_controller';
 import TicketLinksController from './ticket_links_controller';
 import CustomImageController from './custom_image_controller';
+import TripShowController from './trip_show_controller';
 
 application.register('trips-map', TripsMapController);
 application.register('plans-map', TripsMapController);
@@ -15,3 +16,4 @@ application.register('plan-qr', PlanQRController);
 application.register('booking-references', BookingReferencesController);
 application.register('ticket-links', TicketLinksController);
 application.register('custom-image', CustomImageController);
+application.register('trip-show', TripShowController);

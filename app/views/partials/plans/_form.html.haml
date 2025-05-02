@@ -33,8 +33,8 @@
 
   #plan-form-map.form-map
 
-  = f.validated_datetime(:start_date, required: true)
-  = f.validated_datetime(:end_date, required: true)
+  = f.validated_datetime(:start_date, required: true, readonly: backup_plan)
+  = f.validated_datetime(:end_date, required: true, readonly: backup_plan)
 
   = render("partials/plans/documents_input", f: f, plan: plan)
   = render("partials/plans/qr_codes_input", f: f, plan: plan)
@@ -55,6 +55,9 @@
                    id: "end_location_latitude_input")
   = f.hidden_field(:end_location_longitude,
                    id: "end_location_longitude_input")
+
+  - if defined?(primary_plan)
+    = f.hidden_field(:primary_plan_id, value: primary_plan.id)
 
 - if plan.documents.attached?
   %h4.fw-semibold Documents
