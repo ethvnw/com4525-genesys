@@ -36,10 +36,11 @@
   = f.validated_datetime(:start_date, required: true, readonly: backup_plan)
   = f.validated_datetime(:end_date, required: true, readonly: backup_plan)
 
-  = render("partials/plans/documents_input", f: f, plan: plan)
-  = render("partials/plans/qr_codes_input", f: f, plan: plan)
-  = render("partials/plans/booking_references_input", f: f, plan: plan)
-  = render("partials/plans/ticket_links_input", f: f, plan: plan)
+  #tickets-container
+    = render("partials/plans/documents_input", f: f, plan: plan)
+    = render("partials/plans/qr_codes_input", f: f, plan: plan)
+    = render("partials/plans/booking_references_input", f: f, plan: plan)
+    = render("partials/plans/ticket_links_input", f: f, plan: plan)
 
   = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
 

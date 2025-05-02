@@ -23,7 +23,6 @@ class PlansController < ApplicationController
   end
 
   def new_backup_plan
-    @script_packs = ["plans_create"]
     @primary_plan = Plan.find(params[:id])
 
     if @primary_plan.backup_plan.present?
@@ -47,15 +46,16 @@ class PlansController < ApplicationController
   def create
     @plan = Plan.new(plan_params)
     @plan.trip = Trip.find(params[:trip_id])
+
     if @plan.primary_plan_id.present?
-      @plan.is_backup_plan = true
       @primary_plan = Plan.find(@plan.primary_plan_id)
+      if @primary_plan.backup_plan?
+        @plan.errors.add(:base, "A backup plan cannot be a backup of another backup plan")
+      end
     end
 
     if @plan.save
-      if @plan.primary_plan_id.present?
-        @primary_plan.update(backup_plan_id: @plan.id)
-      end
+      @primary_plan&.update(backup_plan_id: @plan.id)
       # Create scannable tickets if provided
       qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
       qr_titles = params[:scannable_ticket_titles].present? ? JSON.parse(params[:scannable_ticket_titles]) : []
@@ -158,9 +158,8 @@ class PlansController < ApplicationController
       #{any_duplicate_codes ? "Some QR codes already existed..." : ""}")
     else
       flash[:errors] = @plan.errors.to_hash(true)
-      if @plan.is_backup_plan
-        @primary_plan = Plan.find(@plan.primary_plan_id)
-        stream_response("plans/update_backup", edit_backup_plan_trip_plan_path(@plan.trip, @primary_plan))
+      if @plan.backup_plan?
+        stream_response("plans/update_backup", edit_backup_plan_trip_plan_path(@plan.trip, plan.primary_plan))
       else
         stream_response("plans/update", edit_trip_plan_path(@plan.trip))
       end
