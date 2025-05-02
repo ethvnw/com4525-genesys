@@ -5,10 +5,8 @@
 %table.table
   %thead
     %tr
-      %th Name
-      %th Link
+      %th
   %tbody
     - plan.ticket_links.each do |link|
       %tr
-        %td= link.name
-        %td= link_to(link.link, link.link, target: "_blank", rel: "noopener")
+        %td= link_to(link.name, link.link, target: "_blank", rel: "noopener")

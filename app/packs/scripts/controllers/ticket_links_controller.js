@@ -63,7 +63,12 @@ export default class extends Controller {
           <td>${link.name}</td>
           <td>${link.url}</td>
           <td>
-            <button type="button" class="btn btn-sm btn-danger" data-action="ticket-links#deleteLink" data-index="${index}">
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              data-action="ticket-links#deleteLink"
+              data-index="${index}"
+              aria-label="Delete Ticket Link with name ${link.name} and URL ${link.url}">
               Delete
             </button>
           </td>
