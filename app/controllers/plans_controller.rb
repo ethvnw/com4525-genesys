@@ -129,7 +129,7 @@ class PlansController < ApplicationController
     @plan = Plan.find(params[:id]).decorate
     @trip = @plan.trip.decorate
     # Redirect back to the trip page if there are no tickets
-    if @plan.scannable_tickets.empty?
+    unless @plan.any_tickets?
       redirect_back_or_to(trip_path(@trip), notice: "No tickets available for this plan.")
     end
   end

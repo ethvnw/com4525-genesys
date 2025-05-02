@@ -1,0 +1,16 @@
+.row.mt-4
+  .col
+    %h2.fw-bold.mb-0
+      Ticket Links
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Link
+  %tbody
+    - plan.ticket_links.each do |link|
+      %tr
+        %td= link.name
+        %td= link.link
+        %td
+          = link_to("View", link.link, target: "_blank", rel: "noopener noreferrer", class: "btn btn-link")

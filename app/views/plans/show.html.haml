@@ -52,3 +52,9 @@
   - codes = @plan.scannable_tickets.map { |ticket| { code: ticket.code, title_value: ticket.decorate.title_value } }
   %script#qr-code-data{ type: "application/json" }
     = raw(codes.to_json)
+
+- if @plan.booking_references.any?
+  = render("partials/plans/booking_references_table", plan: @plan)
+
+- if @plan.ticket_links.any?
+  = render("partials/plans/ticket_links_table", plan: @plan)

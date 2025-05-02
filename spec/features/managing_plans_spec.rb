@@ -163,17 +163,41 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Please re-add your documents and/or tickets."))
     end
 
-    # TODO
-    # I can add a booking reference and see it on the show page
-    # I can remove a booking reference and see it removed on the new page
-    # I can add multiple booking references and see them on the show page
-    # I can edit a plans booking references and see them on the show page
-    # I can remove all booking references from a plan
+    scenario "I can add a booking reference and see it on the show page", js: true do
+      visit new_trip_plan_path(trip)
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      fill_in "Start date", with: Time.current + 1.day
+      # Attach a booking reference
+      within("#booking-references-container") do
+        fill_in "booking_reference_name", with: "Test Name"
+        fill_in "booking_reference_number", with: "123456"
+        click_button "Add"
+      end
+      # Expect new entry to appear in the table dynamically
+      within("#booking-references-container") do
+        within("table") do
+          expect(page).to(have_content("Test Name"))
+          expect(page).to(have_content("123456"))
+        end
+      end
+      click_on "Save"
+      await_message("Plan created successfully")
+      visit trip_plan_path(trip, trip.plans.first)
+      # Expect the booking reference text to be present on the plan page
+      expect(page).to(have_content("Booking References"))
+      expect(page).to(have_content("Test Name"))
+      expect(page).to(have_content("123456"))
+    end
   end
 
   feature "Edit a plan" do
     let!(:plan) { create(:plan, trip: trip) }
     let(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
+    let(:plan_with_booking_reference) { create(:booking_reference, plan: create(:plan, trip: trip)).plan }
+    let(:plan_with_ticket_link) { create(:ticket_link, plan: create(:plan, trip: trip)).plan }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
@@ -288,6 +312,40 @@ RSpec.feature("Managing plans") do
 
       # Check company name is now removed
       expect(page).not_to(have_content(plan.provider_name))
+    end
+
+    scenario "I can add a new booking reference and see it on the plan show page", js: true do
+      visit edit_trip_plan_path(trip, plan)
+      within "#booking-references-container" do
+        fill_in "booking_reference_name", with: "Test Name"
+        fill_in "booking_reference_number", with: "123456"
+        click_button "Add"
+        expect(page).to(have_content("Test Name"))
+        expect(page).to(have_content("123456"))
+      end
+      click_on "Save"
+      await_message("Plan updated successfully")
+      visit trip_plan_path(trip, plan)
+      # Expect the booking reference text to be present on the plan page
+      expect(page).to(have_content("Booking References"))
+      expect(page).to(have_content("Test Name"))
+      expect(page).to(have_content("123456"))
+    end
+    scenario "I can remove a booking reference and see it removed on the new page and show page", js: true do
+      visit edit_trip_plan_path(trip, plan_with_booking_reference)
+      # Remove the booking reference from the plan
+      within "#booking-references-container" do
+        expect(page).to(have_content("Booking Reference"))
+        expect(page).to(have_content("123"))
+        click_on "Delete"
+        expect(page).not_to(have_content("Booking Reference"))
+        expect(page).not_to(have_content("123"))
+      end
+      click_on "Save"
+      await_message("Plan updated successfully")
+      # Can no longer access the trip plan page as the booking reference has been removed
+      visit trip_plan_path(trip, plan_with_booking_reference)
+      expect(page).to(have_content("No tickets available for this plan."))
     end
   end
 
