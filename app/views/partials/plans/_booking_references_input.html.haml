@@ -17,18 +17,22 @@
     }
       .accordion-body
         #booking-references-container.d-flex.flex-column.gap-2.mt-2{ "data-controller": "booking-references" }
-          .d-flex.gap-2.align-items-end
-            = text_field_tag(:booking_reference_name,
-                             nil,
-                             placeholder: "Name",
-                             class: "form-control",
-                             "data-booking-references-target": "name")
+          .d-flex.flex-column.flex-md-row.gap-2.align-items-stretch
+            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
+              = label_tag(:booking_reference_name, "Name:", class: "plan-label")
+              = text_field_tag(:booking_reference_name,
+                               nil,
+                               placeholder: "Name",
+                               class: "form-control flex-grow-1",
+                               "data-booking-references-target": "name")
 
-            = text_field_tag(:booking_reference_number,
-                             nil,
-                             placeholder: "Reference Number",
-                             class: "form-control",
-                             "data-booking-references-target": "number")
+            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
+              = label_tag(:booking_reference_number, "Reference:", class: "plan-label")
+              = text_field_tag(:booking_reference_number,
+                               nil,
+                               placeholder: "Reference Number",
+                               class: "form-control flex-grow-1",
+                               "data-booking-references-target": "number")
 
             = button_tag(type: "button",
                          class: "btn btn-primary d-flex align-items-center gap-1",
@@ -36,6 +40,8 @@
                          "aria-label": "Add booking reference") do
               %i.bi.bi-plus-circle-fill
               Add
+
+
 
           .row
             .col
