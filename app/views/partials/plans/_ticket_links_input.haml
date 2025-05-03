@@ -17,18 +17,22 @@
     }
       .accordion-body
         #ticket-links-container.d-flex.flex-column.gap-2{ "data-controller": "ticket-links" }
-          .d-flex.gap-2.align-items-end
-            = text_field_tag(:ticket_link_name,
-                             nil,
-                             placeholder: "Name",
-                             class: "form-control",
-                             "data-ticket-links-target": "name")
+          .d-flex.flex-column.flex-md-row.gap-2.align-items-stretch
+            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
+              = label_tag(:ticket_link_name, "Name:", class: "plan-label")
+              = text_field_tag(:ticket_link_name,
+                               nil,
+                               placeholder: "Name",
+                               class: "form-control flex-grow-1",
+                               "data-ticket-links-target": "name")
 
-            = text_field_tag(:ticket_link_url,
-                             nil,
-                             placeholder: "URL",
-                             class: "form-control",
-                             "data-ticket-links-target": "url")
+            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
+              = label_tag(:ticket_link_url, "URL:", class: "plan-label")
+              = text_field_tag(:ticket_link_url,
+                               nil,
+                               placeholder: "URL",
+                               class: "form-control flex-grow-1",
+                               "data-ticket-links-target": "url")
 
             = button_tag(type: "button",
                          class: "btn btn-primary d-flex align-items-center gap-1",
@@ -36,6 +40,7 @@
                          "aria-label": "Add ticket link") do
               %i.bi.bi-plus-circle-fill
               Add
+
 
           .row
             .col
