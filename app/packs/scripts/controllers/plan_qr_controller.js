@@ -15,6 +15,9 @@ export default class extends Controller {
     this.nextBtn = document.getElementById('next-btn');
     this.counter = document.getElementById('qr-counter');
 
+    this.resultsContainer.classList.replace('d-block', 'd-none');
+    this.imagesContainer.classList.replace('d-block', 'd-none');
+
     input.addEventListener('change', (event) => this.handleFileChange(event));
     this.prevBtn.addEventListener('click', () => this.prev());
     this.nextBtn.addEventListener('click', () => this.next());
@@ -54,13 +57,7 @@ export default class extends Controller {
     // If there are no files, do nothing
     if (!files.length) return;
 
-    this.results = [];
     this.currentIndex = 0;
-
-    this.resultsContainer.innerHTML = '';
-    this.imagesContainer.innerHTML = '';
-    this.resultsContainer.classList.replace('d-block', 'd-none');
-    this.imagesContainer.classList.replace('d-block', 'd-none');
 
     // Wait for all files to load before processing
     await Promise.all(Array.from(files).map(async (file) => {
@@ -170,7 +167,7 @@ export default class extends Controller {
       );
 
       document.getElementById('qr-codes-found').classList.replace('d-none', 'd-block');
-      document.getElementById('qr-codes-found').innerHTML = `Codes found in ${this.codesWithTitles.length}/${files.length} images`;
+      document.getElementById('qr-codes-found').innerHTML = `Codes found in ${this.codesWithTitles.length}/${this.results.length} images`;
     }
   }
 
