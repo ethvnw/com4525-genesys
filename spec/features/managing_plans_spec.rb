@@ -143,6 +143,7 @@ RSpec.feature("Managing plans") do
       select_location("England")
       fill_in "Start date", with: Time.current + 1.day
       # Attach a QR code file
+      click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
       expect(page).to(have_content("1 of 1")) # Expect the QR code to be loaded
       click_on "Save"
@@ -158,6 +159,7 @@ RSpec.feature("Managing plans") do
       click_on "Save"
       expect(page).not_to(have_content("Please re-add your documents and/or tickets."))
       # Attach a QR code file
+      click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
       click_on "Save"
       expect(page).to(have_content("Please re-add your documents and/or tickets."))
@@ -170,6 +172,7 @@ RSpec.feature("Managing plans") do
       select_location("England")
       fill_in "Start date", with: Time.current + 1.day
       # Attach a booking reference
+      click_on "Booking References"
       within("#booking-references-container") do
         fill_in "booking_reference_name", with: "Test Name"
         fill_in "booking_reference_number", with: "123456"
@@ -193,6 +196,7 @@ RSpec.feature("Managing plans") do
 
     scenario "If I enter a booking reference with the same name twice, I see an error message", js: true do
       visit new_trip_plan_path(trip)
+      click_on "Booking References"
       within("#booking-references-container") do
         fill_in "booking_reference_name", with: "Test Name"
         fill_in "booking_reference_number", with: "123456"
@@ -206,6 +210,7 @@ RSpec.feature("Managing plans") do
 
     scenario "If I enter a booking reference with the same reference number twice, I see an error message", js: true do
       visit new_trip_plan_path(trip)
+      click_on "Booking References"
       within("#booking-references-container") do
         fill_in "booking_reference_name", with: "Test Name"
         fill_in "booking_reference_number", with: "123456"
@@ -224,6 +229,7 @@ RSpec.feature("Managing plans") do
       select_location("England")
       fill_in "Start date", with: Time.current + 1.day
       # Attach a ticket link
+      click_on "Ticket Links"
       within("#ticket-links-container") do
         fill_in "ticket_link_name", with: "Awesome Ticket"
         fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
@@ -246,6 +252,7 @@ RSpec.feature("Managing plans") do
 
     scenario "If I enter a ticket link with the same name twice, I see an approriate error message", js: true do
       visit new_trip_plan_path(trip)
+      click_on "Ticket Links"
       within("#ticket-links-container") do
         fill_in "ticket_link_name", with: "Test Name"
         fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
@@ -259,6 +266,7 @@ RSpec.feature("Managing plans") do
 
     scenario "If I enter a ticket link with the same URL twice, I see an approriate error message", js: true do
       visit new_trip_plan_path(trip)
+      click_on "Ticket Links"
       within("#ticket-links-container") do
         fill_in "ticket_link_name", with: "Test Name"
         fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
@@ -272,6 +280,7 @@ RSpec.feature("Managing plans") do
 
     scenario "If I submit an invalid URL for a ticket link, I see an approriate error message", js: true do
       visit new_trip_plan_path(trip)
+      click_on "Ticket Links"
       within("#ticket-links-container") do
         fill_in "ticket_link_name", with: "Test Name"
         fill_in "ticket_link_url", with: "not a url"
@@ -343,6 +352,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("1 of 1"))
       visit edit_trip_plan_path(trip, plan_with_ticket)
       # Add an new ticket with a different QR code value
+      click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
       click_on "Save"
       # Expect the "already existed" notice to not be present
@@ -359,6 +369,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("1 of 1"))
       visit edit_trip_plan_path(trip, plan_with_ticket)
       # qr_mock.png is a QR code that contains the data "Mock ticket code"
+      click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_mock.png"))
       click_on "Save"
       # Expect a notice indicating the QR code already exists
@@ -404,6 +415,7 @@ RSpec.feature("Managing plans") do
 
     scenario "I can add a new booking reference and see it on the plan show page", js: true do
       visit edit_trip_plan_path(trip, plan)
+      click_on "Booking References"
       within "#booking-references-container" do
         fill_in "booking_reference_name", with: "Test Name"
         fill_in "booking_reference_number", with: "123456"
@@ -423,6 +435,7 @@ RSpec.feature("Managing plans") do
     scenario "I can remove a booking reference and see it removed on the new page and show page", js: true do
       visit edit_trip_plan_path(trip, plan_with_booking_reference)
       # Remove the booking reference from the plan
+      click_on "Booking References"
       within "#booking-references-container" do
         expect(page).to(have_content("Booking Reference"))
         expect(page).to(have_content("123"))
@@ -439,6 +452,7 @@ RSpec.feature("Managing plans") do
 
     scenario "I can add a new ticket link and see it on the plan show page", js: true do
       visit edit_trip_plan_path(trip, plan)
+      click_on "Ticket Links"
       within "#ticket-links-container" do
         fill_in "ticket_link_name", with: "Awesome Ticket"
         fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
@@ -457,6 +471,7 @@ RSpec.feature("Managing plans") do
     scenario "I can remove a ticket link and see it removed on the new page and show page", js: true do
       visit edit_trip_plan_path(trip, plan_with_ticket_link)
       # Remove the booking reference from the plan
+      click_on "Ticket Links"
       within "#ticket-links-container" do
         expect(page).to(have_content("Example Ticket"))
         expect(page).to(have_content("https://example.com/ticket"))
