@@ -41,6 +41,8 @@
 #  index_users_on_username              (username) UNIQUE
 #
 class User < ApplicationRecord
+  include Countable
+
   before_save :downcase_username
   before_save :set_default_role
   validate :password_complexity
