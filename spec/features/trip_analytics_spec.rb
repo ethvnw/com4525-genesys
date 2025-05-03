@@ -4,7 +4,7 @@ require "rails_helper"
 require "active_support/testing/time_helpers"
 require_relative "../support/helpers/collaborative_trips_helper"
 
-RSpec.feature("Landing Page Analytics") do
+RSpec.feature("Trip Analytics") do
   let(:reporter) { create(:reporter) }
   before do
     login_as(reporter, scope: :user)
