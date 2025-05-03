@@ -20,7 +20,7 @@
 #
 FactoryBot.define do
   factory :referral do
-    sender_user { nil }
-    receiver_email { "MyString" }
+    receiver_email { "test@roamio_travel.co.uk" }
+    association :sender_user, factory: :user
   end
 end
