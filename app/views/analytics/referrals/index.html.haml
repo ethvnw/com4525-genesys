@@ -1,0 +1,51 @@
+%section.row.align-items-center
+  %h1.fw-bold.display-6.mb-3 Referral Analytics
+  %hr.mt-3
+  %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
+    %li.nav-item
+      %button.nav-link.active{ "data-bs-target": "#today-tab", "data-bs-toggle": "pill", type: "button" } Day
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#week-tab", "data-bs-toggle": "pill", type: "button" } Week
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#month-tab", "data-bs-toggle": "pill", type: "button" } Month
+    %li.nav-item
+      %button.nav-link{ "data-bs-target": "#all-time-tab", "data-bs-toggle": "pill", type: "button" } All Time
+  .tab-content
+    #today-tab.tab-pane.show.active
+      = render("partials/analytics/user_analytics_card_tab",
+               referrals: @referrals[:today],
+               new_users: @new_users[:today],
+               time_period: "Today")
+    #week-tab.profile.tab-pane
+      = render("partials/analytics/user_analytics_card_tab",
+               referrals: @referrals[:this_week],
+               new_users: @new_users[:this_week],
+               time_period: "This Week")
+    #month-tab.tab-pane
+      = render("partials/analytics/user_analytics_card_tab",
+               referrals: @referrals[:this_month],
+               new_users: @new_users[:this_month],
+               time_period: "This Month")
+    #all-time-tab.tab-pane
+      = render("partials/analytics/user_analytics_card_tab",
+               referrals: @referrals[:all_time],
+               new_users: @new_users[:all_time],
+               time_period: "All Time")
+  %hr.mt-3
+  %h4.fw-semibold.mt-3
+    %i.bi.bi-database-add &nbsp;
+    Referrals Per User
+
+  .table-responsive
+    %table.table.table-striped
+      %thead
+        %tr
+          %th.very-thin-column #
+          %th.wide-column User Email
+          %th Referrals
+      %tbody
+        - @users.each_with_index do |user, index|
+          %tr
+            %td= index + 1
+            %td.text-truncate= user.email
+            %td= user.referrals.count

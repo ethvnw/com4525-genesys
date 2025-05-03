@@ -19,5 +19,7 @@
 #  fk_rails_...  (sender_user_id => users.id)
 #
 class Referral < ApplicationRecord
+  include Countable
+
   belongs_to :sender_user, class_name: "User", foreign_key: "sender_user_id"
 end
