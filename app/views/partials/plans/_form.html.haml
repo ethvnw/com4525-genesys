@@ -36,10 +36,7 @@
   = f.validated_datetime(:start_date, required: true)
   = f.validated_datetime(:end_date, required: true)
 
-  = f.label(:documents, "Upload PDFs", class: "fw-semibold")
-  .p.small All files must be selected in one go
-  = f.file_field(:documents, multiple: true, accept: "application/pdf", class: "form-control")
-
+  = render("partials/plans/documents_input", f: f, plan: plan)
   = render("partials/plans/qr_codes_input", f: f, plan: plan)
   = render("partials/plans/booking_references_input", f: f, plan: plan)
   = render("partials/plans/ticket_links_input", f: f, plan: plan)

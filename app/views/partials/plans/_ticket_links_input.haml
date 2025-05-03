@@ -1,42 +1,57 @@
-// Ticket links
-#ticket-links-container.d-flex.flex-column.gap-2.mb-2{ "data-controller": "ticket-links" }
-  = f.label(:ticket_links_data, "Ticket links", class: "fw-semibold")
+.accordion.mb-2{ id: "accordion-ticket-links" }
+  .accordion-item
+    .accordion-header{ id: "heading-ticket-links" }
+      %button.accordion-button.collapsed{
+        type: "button",
+        "data-bs-toggle": "collapse",
+        "data-bs-target": "#collapse-ticket-links",
+        "aria-expanded": "false",
+        "aria-controls": "collapse-ticket-links",
+        "aria-label": "Toggle ticket links input",
+      }
+        Ticket Links
+    .accordion-collapse.collapse{
+      id: "collapse-ticket-links",
+      "aria-labelledby": "heading-ticket-links",
+      "data-bs-parent": "#accordion-ticket-links",
+    }
+      .accordion-body
+        #ticket-links-container.d-flex.flex-column.gap-2{ "data-controller": "ticket-links" }
+          .d-flex.gap-2.align-items-end
+            = text_field_tag(:ticket_link_name,
+                             nil,
+                             placeholder: "Name",
+                             class: "form-control",
+                             "data-ticket-links-target": "name")
 
-  .d-flex.gap-2.align-items-end
-    = text_field_tag(:ticket_link_name,
-                     nil,
-                     placeholder: "Name",
-                     class: "form-control",
-                     "data-ticket-links-target": "name")
+            = text_field_tag(:ticket_link_url,
+                             nil,
+                             placeholder: "URL",
+                             class: "form-control",
+                             "data-ticket-links-target": "url")
 
-    = text_field_tag(:ticket_link_url,
-                     nil,
-                     placeholder: "URL",
-                     class: "form-control",
-                     "data-ticket-links-target": "url")
+            = button_tag(type: "button",
+                         class: "btn btn-primary d-flex align-items-center gap-1",
+                         "data-action": "ticket-links#addLink",
+                         "aria-label": "Add ticket link") do
+              %i.bi.bi-plus-circle-fill
+              Add
 
-    = button_tag(type: "button",
-                 class: "btn btn-primary d-flex align-items-center gap-1",
-                 "data-action": "ticket-links#addLink",
-                 "aria-label": "Add ticket link") do
-      %i.bi.bi-plus-circle-fill
-      Add
+          .row
+            .col
+              %small.text-danger.mt-1{ "data-ticket-links-target" => "warning" }
 
-  .row
-    .col
-      %small.text-danger.mt-1{ "data-ticket-links-target" => "warning" }
+            -# haml-lint:disable LineLength
+            = hidden_field_tag(:ticket_links_data,
+                               params[:ticket_links_data].presence || plan.ticket_links.map { |tl| { name: tl.name, url: tl.link } }.to_json,
+                               data: { ticket_links_target: "dataField" })
+            -# haml-lint:enable LineLength
 
-    -# haml-lint:disable LineLength
-    = hidden_field_tag(:ticket_links_data,
-                       params[:ticket_links_data].presence || plan.ticket_links.map { |tl| { name: tl.name, url: tl.link } }.to_json,
-                       data: { ticket_links_target: "dataField" })
-    -# haml-lint:enable LineLength
-
-  %table.table.d-none{ "data-ticket-links-target": "table" }
-    %thead
-      %tr
-        %th Name
-        %th URL
-        %th Actions
-    %tbody{ "data-ticket-links-target": "tbody" }
-      // Table rows are inserted by Stimulus controller (packs/scripts/controllers/ticket_links_controller.js)
+          %table.table.d-none{ "data-ticket-links-target": "table" }
+            %thead
+              %tr
+                %th Name
+                %th URL
+                %th Actions
+            %tbody{ "data-ticket-links-target": "tbody" }
+              // Table rows are inserted by Stimulus controller (packs/scripts/controllers/ticket_links_controller.js)
