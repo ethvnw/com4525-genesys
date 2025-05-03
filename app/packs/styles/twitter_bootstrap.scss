@@ -1,11 +1,7 @@
 @use "base_styles" as bs;
 
 input, textarea, select {
-    @extend .bg-light;
-}
-
-.btn-primary {
-    @extend .bg-primary;
+    --bs-body-bg: #{bs.$light};
 }
 
 .bg-roamio {
@@ -14,7 +10,8 @@ input, textarea, select {
 }
 
 .btn {
-    @extend .roamio-text;
+    @extend .roamio-base;
+    @extend .fw-semibold;
 }
 
 h1, h2, h3, h4, h5 {
@@ -50,25 +47,6 @@ label {
 /* Overwrite bg elements with light text */
 .bg-success, .bg-dark, .bg-primary, .btn-primary {
     @extend .text-light;
-}
-
-.btn-tertiary {
-    @include bs.button-variant(bs.$roamio-tertiary, bs.$roamio-tertiary);    
-}
-
-.btn-secondary {
-    @include bs.button-variant(
-        darken(bs.$body-bg, 10%),
-        darken(bs.$body-bg, 10%),
-    );
-    color: bs.$secondary;
-}
-
-.btn-secondary.active {
-    @include bs.button-variant(
-        darken(bs.$body-bg, 2%),
-        darken(bs.$body-bg, 2%),
-    );
 }
 
 /* Remove border from toggler */

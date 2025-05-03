@@ -22,15 +22,33 @@
     }
   }
 
-}
+  .text-light {
+    @extend .text-break;
+  }
 
-.avatar-img {
-  @extend .rounded-circle;
-  @extend .object-fit-cover;
-  @extend .align-self-center;
+  .trip-card-details {
+    height: bs.$trip-card-icon-size;
+  }
 
-  width: 2.7rem;
-  height: 2.7rem;
+  .avatar-img {
+    @extend .rounded-circle;
+    @extend .object-fit-cover;
+    @extend .align-self-center;
+  
+    width: bs.$trip-card-icon-size;
+    height: bs.$trip-card-icon-size;
+  }
+
+  @include bs.media-breakpoint-down(xl) {
+    .trip-card-details {
+      height: bs.$trip-card-icon-size-xl;
+    }
+    
+    .avatar-img {
+      width: bs.$trip-card-icon-size-xl;
+      height: bs.$trip-card-icon-size-xl;
+    }
+  }
 }
 
 .overlay {

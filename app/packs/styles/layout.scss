@@ -238,22 +238,12 @@ footer {
     @extend .justify-content-center;
     @extend .p-2;
     @extend .nav-link;
-    @extend .bg-light;
     @extend .gap-1;
-
-    border-radius: 0;
+    @extend .rounded;
+    @extend .fw-semibold;
 
     &.active {
-        background-color: bs.$nav-pills-link-active-bg !important;
-    }
-
-    &:first-child {
-        border-bottom-left-radius: bs.$border-radius;
-        border-top-left-radius: bs.$border-radius;
-    }
-
-    &:last-child {
-        border-bottom-right-radius: bs.$border-radius;
-        border-top-right-radius: bs.$border-radius;
+        @extend .btn;
+        @extend .btn-secondary;
     }
 }

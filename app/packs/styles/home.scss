@@ -46,22 +46,13 @@
 
 // Latest trips carousel
 .latest-trips-carousel {
-  a {
+  .trip-card-container {
     width: 386px;
     height: 230px;
   }
 
   .trip-card {
     height: 230px;
-
-    .avatar-img {
-      width: 36px;
-      height: 36px;
-    }
-
-    .text-light {
-      @extend .text-break;
-    }
   }
 }
 
