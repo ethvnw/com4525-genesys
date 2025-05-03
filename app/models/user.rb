@@ -79,6 +79,7 @@ class User < ApplicationRecord
 
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
+  has_many :referrals, foreign_key: :sender_user_id, dependent: :destroy
 
   # Used to save the username in lowercase
   def downcase_username
