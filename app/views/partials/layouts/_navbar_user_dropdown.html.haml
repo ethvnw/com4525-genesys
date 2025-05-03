@@ -12,10 +12,8 @@
       = current_user.username
 
   .dropdown-menu.dropdown-menu-end
-    %p.dropdown-header.text-dark.fw-semibold.pb-0
+    .dropdown-header.text-secondary.fw-semibold
       = current_user.email
-    %p.small.dropdown-header.text-secondary.pt-0
-      @#{current_user.username}
     .dropdown-divider
     = link_to(edit_user_registration_path,
               class: "dropdown-item",

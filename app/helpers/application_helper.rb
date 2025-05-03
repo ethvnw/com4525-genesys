@@ -89,6 +89,8 @@ module ApplicationHelper
       url_for(request.query_parameters.merge({ key => value })),
       class: "#{"active " if params[key] == value}change-view-link",
       data: { turbo: "true", turbo_stream: "true" },
+      aria: { label: "View #{value} tab" },
+      tabindex: 0,
     ) do
       concat(content_tag(:i, nil, class: "#{icon} bi"))
       concat(content_tag(:span, value.humanize))

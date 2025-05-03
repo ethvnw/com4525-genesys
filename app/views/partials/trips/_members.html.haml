@@ -4,7 +4,8 @@
   - filtered_members.first(3).each do |member|
     = image_tag(member.user.decorate.avatar_or_default,
                 class: "avatar-img",
-                data: { bs_toggle: "tooltip", bs_placement: "bottom", bs_title: member.user.username })
+                data: { bs_toggle: "tooltip", bs_placement: "bottom", bs_title: member.user.username },
+                alt: member.user.username)
 
   - if filtered_members.count > 3
     .avatar-img.bg-dark.d-flex.align-items-center.justify-content-center
