@@ -21,6 +21,8 @@ services:
       - postgres_socket:/var/run/postgresql
     expose:
       - "3000"
+    ports:
+      - "3000:3000"
     depends_on:
       - postgres
     env_file:
