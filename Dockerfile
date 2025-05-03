@@ -29,7 +29,8 @@ ENV RAILS_ENV="production" \
     BUNDLE_WITHOUT="development"
 
 # Throw-away build stage to reduce size of final image
-FROM base AS build
+# Doesn't work as final version needs node installed to server precompiled assets
+#FROM base AS build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
@@ -67,14 +68,14 @@ COPY . .
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
-
+RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
 
 # Final stage for app image
-FROM base
+#FROM base
 
 # Copy built artifacts: gems, application
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
+#COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+#COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
