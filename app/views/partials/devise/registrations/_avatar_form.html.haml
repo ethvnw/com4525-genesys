@@ -1,19 +1,19 @@
 = simple_form_for(user,
                   url: registration_avatar_path(user),
                   method: :patch,
-                  html: { id: "avatar-form", multipart: true, "data-turbo": "true" }) do |f|
+                  html: { id: "image-form", multipart: true, "data-turbo": "true" }) do |f|
   .form-group
     = image_tag(user.avatar_or_default,
-                id: "avatar-preview",
+                id: "image-preview",
                 height: 100,
                 width: 100,
                 class: "rounded")
     .my-2
       // Original file input is hidden, so a custom button can be styled
-      = f.file_field(:avatar, id: "avatar-input", class: "d-none")
-      %button#avatar-custom.btn.btn-secondary{ type: "button" }
+      = f.file_field(:avatar, id: "image-input", class: "d-none")
+      %button#image-custom.btn.btn-secondary{ type: "button" }
         Attach Avatar
-      %span#avatar-file-name No file selected
+      %span#image-file-name No file selected
     = f.submit("Save", class: "btn btn-primary mt-1")
 
 - if user.avatar.attached? && user.avatar.persisted?

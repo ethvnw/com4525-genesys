@@ -1,10 +1,10 @@
 // Used to call the browse images button when pressed by a custom button
 
-function setupAvatar() {
-  const browseButton = document.getElementById('avatar-input');
-  const customButton = document.getElementById('avatar-custom');
-  const fileNameSpan = document.getElementById('avatar-file-name');
-  const avatarPreview = document.getElementById('avatar-preview');
+function setupImage() {
+  const browseButton = document.getElementById('image-input');
+  const customButton = document.getElementById('image-custom');
+  const fileNameSpan = document.getElementById('image-file-name');
+  const avatarPreview = document.getElementById('image-preview');
 
   // If any of the elements are not found, return
   if (!browseButton || !customButton || !fileNameSpan || !avatarPreview) {
@@ -26,7 +26,7 @@ function setupAvatar() {
       if (validTypes.includes(file.type)) {
         fileNameSpan.textContent = fileName;
 
-        // Update the avatar preview
+        // Update the image preview
         const reader = new FileReader();
         reader.onload = (e) => {
           avatarPreview.src = e.target.result;
@@ -42,13 +42,13 @@ function setupAvatar() {
 }
 
 document.addEventListener('turbo:load', () => {
-  setupAvatar();
+  setupImage();
 
-  const form = document.getElementById('avatar-form-container');
+  const form = document.getElementById('form-container');
   if (!form) {
     return;
   }
 
-  const formObserver = new MutationObserver(setupAvatar);
+  const formObserver = new MutationObserver(setupImage);
   formObserver.observe(form, { childList: true });
 });
