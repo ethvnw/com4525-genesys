@@ -132,7 +132,7 @@ class TripsController < ApplicationController
 
     if any_params_enforced?
       flash.keep(:notifications) # Persist notifications across redirect
-      redirect_to(trip_path(params[:id], enforced_query_params)) and return
+      turbo_redirect_to(trip_path(params[:id], enforced_query_params)) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a plan
