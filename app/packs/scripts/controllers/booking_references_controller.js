@@ -55,20 +55,29 @@ export default class extends Controller {
 
       this.references.forEach((ref, index) => {
         const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${ref.name}</td>
-          <td>${ref.number}</td>
-          <td>
-            <button 
-              type="button" 
-              class="btn btn-sm btn-danger" 
-              data-action="booking-references#deleteReference" 
-              data-index="${index} 
-              aria-label"Delete Booking Reference with name ${ref.name} and number ${ref.number}">
-              Delete
-            </button>
-          </td>
-        `;
+
+        // Sanitise inputs and buttons by setting textContent
+        const nameCell = document.createElement('td');
+        nameCell.textContent = ref.name;
+
+        const numberCell = document.createElement('td');
+        numberCell.textContent = ref.number;
+
+        const deleteButtonCell = document.createElement('td');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.classList.add('btn', 'btn-sm', 'btn-danger');
+        button.setAttribute('data-action', 'booking-references#deleteReference');
+        button.setAttribute('data-index', index);
+        button.setAttribute('aria-label', `Delete Booking Reference with name ${ref.name} and number ${ref.number}`);
+        button.textContent = 'Delete';
+
+        deleteButtonCell.appendChild(button);
+
+        row.appendChild(nameCell);
+        row.appendChild(numberCell);
+        row.appendChild(deleteButtonCell);
+
         this.tbodyTarget.appendChild(row);
       });
     }

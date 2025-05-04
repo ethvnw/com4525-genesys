@@ -34,21 +34,9 @@ class PlansController < ApplicationController
         @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
       end
 
-      # Create booking references if provided
-      JSON.parse(params[:booking_references_data] || []).each do |ref|
-        @plan.booking_references.create(
-          name: ref["name"],
-          reference_number: ref["number"],
-        )
-      end
-
-      # Create ticket links if provided
-      JSON.parse(params[:ticket_links_data] || []).each do |link|
-        @plan.ticket_links.create(
-          name: link["name"],
-          link: link["url"],
-        )
-      end
+      # Create booking references and ticket libks if provided
+      Plans::BookingReferencesSaver.call(plan: @plan, data: params[:booking_references_data])
+      Plans::TicketLinksSaver.call(plan: @plan, data: params[:ticket_links_data])
 
       session.delete(:plan_data)
       turbo_redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")

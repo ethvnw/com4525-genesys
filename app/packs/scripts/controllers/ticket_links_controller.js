@@ -29,7 +29,7 @@ export default class extends Controller {
       this.showWarning('A ticket link with this URL already exists.');
       return;
     } if (!isValidHttpUrl(url)) {
-      this.showWarning('Please enter a valid URL.');
+      this.showWarning('Please enter a valid URL (beginning with http:// or https://).');
       return;
     }
 
@@ -59,20 +59,29 @@ export default class extends Controller {
 
       this.links.forEach((link, index) => {
         const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${link.name}</td>
-          <td>${link.url}</td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-sm btn-danger"
-              data-action="ticket-links#deleteLink"
-              data-index="${index}"
-              aria-label="Delete Ticket Link with name ${link.name} and URL ${link.url}">
-              Delete
-            </button>
-          </td>
-        `;
+
+        // Sanitise inputs by setting textContent for name and URL and the button
+        const nameCell = document.createElement('td');
+        nameCell.textContent = link.name;
+
+        const urlCell = document.createElement('td');
+        urlCell.textContent = link.url;
+
+        const deleteButtonCell = document.createElement('td');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.classList.add('btn', 'btn-sm', 'btn-danger');
+        button.setAttribute('data-action', 'ticket-links#deleteLink');
+        button.setAttribute('data-index', index);
+        button.setAttribute('aria-label', `Delete Ticket Link with name ${link.name} and URL ${link.url}`);
+        button.textContent = 'Delete';
+
+        deleteButtonCell.appendChild(button);
+
+        row.appendChild(nameCell);
+        row.appendChild(urlCell);
+        row.appendChild(deleteButtonCell);
+
         this.tbodyTarget.appendChild(row);
       });
     }
