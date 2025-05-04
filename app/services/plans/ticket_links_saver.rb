@@ -3,14 +3,9 @@
 module Plans
   # Service object to save ticket links associated with a plan.
   # Accepts JSON data and creates TicketLink records.
-  class TicketLinksSaver
-    class << self
-      def call(plan:, data:)
-        new(plan, data).call
-      end
-    end
-
-    def initialize(plan, data)
+  class TicketLinksSaver < ApplicationService
+    def initialize(plan:, data:)
+      super()
       @plan = plan
       @data = data
     end

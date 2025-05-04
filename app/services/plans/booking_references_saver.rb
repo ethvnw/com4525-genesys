@@ -3,19 +3,13 @@
 module Plans
   # Service object to save booking references associated with a plan.
   # Accepts JSON data and creates BookingReference records.
-  class BookingReferencesSaver
-    class << self
-      def call(plan:, data:)
-        new(plan, data).call
-      end
-    end
-
-    def initialize(plan, data)
+  class BookingReferencesSaver < ApplicationService
+    def initialize(plan:, data:)
+      super()
       @plan = plan
       @data = data
     end
 
-    # Parses the JSON data and creates BookingReference records for each reference.
     def call
       return if @data.blank?
 
