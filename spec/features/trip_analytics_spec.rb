@@ -47,7 +47,7 @@ RSpec.feature("Trip Analytics") do
       end
     end
 
-    context "When no trips have been created" do
+    context "When trips have been created" do
       before do
         trip = create(:trip, created_at: Time.zone.parse("2023-12-12"))
         create(:trip, created_at: Time.zone.parse("2023-12-31"))

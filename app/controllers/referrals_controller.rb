@@ -23,10 +23,7 @@ class ReferralsController < ApplicationController
       session.delete(:referral_email)
       message = { type: "success", content: "Referral email sent to #{email}." }
       # Create a referral record
-      referral = Referral.new
-      referral.sender_user = current_user
-      referral.receiver_email = email
-      referral.save
+      Referral.create(sender_user: current_user, receiver_email: email)
     end
 
     stream_response("referrals/create", home_path, message)
