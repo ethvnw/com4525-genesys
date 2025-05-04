@@ -21,8 +21,10 @@ class TripsController < ApplicationController
     enforce_required_parameter(:order, ["asc", "desc"], :trip_index_order)
 
     if any_params_enforced?
+      # puts params[:view]
+      # puts enforced_query_params
       flash.keep(:notifications) # Persist notifications across redirect
-      redirect_to(trips_path, enforced_query_params) and return
+      redirect_to(trips_path(enforced_query_params)) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a trip
