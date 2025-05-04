@@ -12,8 +12,9 @@
                        prompt: "Select plan type",
                        required: true)
 
-  = f.validated_input(:provider_name,
-                      placeholder: "Enter business or provider name...")
+  #provider-name-container
+    = f.validated_input(:provider_name,
+                        placeholder: "Enter business or provider name...")
 
   #start-location-container.d-flex.flex-column.mb-3
     // The asterisk (*) is mocked here as the autocomplete fills out hidden fields and is not TECHNICALLY required.

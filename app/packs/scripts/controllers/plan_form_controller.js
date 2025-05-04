@@ -54,6 +54,7 @@ export default class extends Controller {
     });
 
     this.ticketsContainer = document.getElementById('tickets-container');
+    this.providerContainer = document.getElementById('provider-name-container');
   }
 
   /**
@@ -101,6 +102,7 @@ export default class extends Controller {
     this.endLocationInput.required = !isFreeTimePlan && isTravelPlan;
 
     this.ticketsContainer.classList.toggle('d-none', isFreeTimePlan);
+    this.providerContainer.classList.toggle('d-none', isFreeTimePlan);
 
     if (!isTravelPlan) {
       this.endLocationAutocomplete.setQuery('');

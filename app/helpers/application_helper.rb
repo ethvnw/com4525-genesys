@@ -128,10 +128,11 @@ module ApplicationHelper
   # @param location_points [Array, nil] an array of plans/trips
   # @return [String] a JSONified string of important information from the events
   def convert_events_to_json(location_points)
+    return "[]" unless location_points
+
     ruby_hash = location_points&.map do |point|
-      if point.is_a?(Plan) && point.free_time_plan?
-        next
-      end
+      # Skip if point is a plan and plan type is free_time
+      next if point.is_a?(Plan) && point.plan_type == "free_time"
 
       datapoint = {
         id: point.id,
@@ -152,7 +153,7 @@ module ApplicationHelper
       datapoint
     end
 
-    ruby_hash&.to_json&.html_safe || "[]"
+    ruby_hash.compact.to_json.html_safe
   end
 
   ##
