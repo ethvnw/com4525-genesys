@@ -52,7 +52,6 @@ class RegistrationsController < Devise::RegistrationsController
       resource.username = flash[:edited_data][:username]
     end
     @errors = flash[:errors]
-    @script_packs = ["registrations"]
 
     super
   end

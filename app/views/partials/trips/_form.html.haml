@@ -38,17 +38,31 @@
   = f.hidden_field(:location_longitude,
                    id: "trip_location_longitude_input")
 
-  - if trip.image.attached? # The trip image select should only appear in the edit form
-    .d-flex.flex-column.mb-3
-      = f.label("Upload new trip image", class: "fw-semibold", for: "#trip-image")
-      = f.file_field(:image, id: "image-input", class: "d-none")
-      %button#image-custom.btn.btn-secondary.d-inline-flex.align-items-center.align-self-start{ type: "button" }
-        %i.bi.bi-paperclip
-        &nbsp;
-        Attach New Trip Image
+  .d-flex.flex-column.mb-3{ data: { controller: "custom-image" } }
+    = f.label("Upload new trip image", class: "fw-semibold", for: "image-input")
 
-      %span#image-file-name No file selected
-      = image_tag(trip.image, class: "trip-image-preview", id: "image-preview")
+    = f.file_field(:image,
+                   id: "image-input",
+                   class: "d-none",
+                   accept: "image/png, image/jpeg, image/jpg",
+                   data: { "custom-image-target": "browseButton" })
+
+    %button.btn.btn-secondary.d-inline-flex.align-items-center.align-self-start{
+      type: "button",
+      data: { "custom-image-target": "customButton" },
+    }
+
+      %i.bi.bi-paperclip
+      &nbsp;
+      Attach New Trip Image
+
+    %span{ data: { "custom-image-target": "fileNameSpan" } } No file selected
+
+    // Only show preview inage if the preview actually exists, which is false for incomplete trip
+    - if trip.image.attached? && File.file?(ActiveStorage::Blob.service.path_for(trip.image.key))
+      = image_tag(trip.image, class: "trip-image-preview", data: { "custom-image-target": "preview" })
+    - else
+      = image_tag("", class: "trip-image-preview d-none", data: { "custom-image-target": "preview" })
 
   .d-flex.justify-content-end.mt-1
     = button_tag(type: "submit", class: "btn btn-secondary fw-bold") do

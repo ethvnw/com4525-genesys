@@ -1,24 +1,28 @@
-= simple_form_for(user,
-                  url: registration_avatar_path(user),
-                  method: :patch,
-                  html: { id: "image-form", multipart: true, "data-turbo": "true" }) do |f|
-  .form-group
-    = image_tag(user.avatar_or_default,
-                id: "image-preview",
-                height: 100,
-                width: 100,
-                class: "rounded")
-    .my-2
-      // Original file input is hidden, so a custom button can be styled
-      = f.file_field(:avatar, id: "image-input", class: "d-none")
-      %button#image-custom.btn.btn-secondary{ type: "button" }
-        Attach Avatar
-      %span#image-file-name No file selected
-    = f.submit("Save", class: "btn btn-primary mt-1")
+#avatar-form{ data: { controller: "custom-image" } }
+  = simple_form_for(user,
+                    url: registration_avatar_path(user),
+                    method: :patch,
+                    html: { id: "image-form", multipart: true, "data-turbo": "true" }) do |f|
+    .form-group
+      = image_tag(user.avatar_or_default,
+                  height: 100,
+                  width: 100,
+                  class: "rounded",
+                  data: { "custom-image-target": "preview" })
+      .my-2
+        // Original file input is hidden, so a custom button can be styled
+        = f.file_field(:avatar,
+                       class: "d-none",
+                       accept: "image/png, image/jpeg, image/jpg",
+                       data: { "custom-image-target": "browseButton" })
+        %button#image-custom.btn.btn-secondary{ type: "button", data: { "custom-image-target": "customButton" } }
+          Attach Avatar
+        %span{ data: { "custom-image-target": "fileNameSpan" } } No file selected
+      = f.submit("Save", class: "btn btn-primary mt-1")
 
-- if user.avatar.attached? && user.avatar.persisted?
-  = button_to("Remove Avatar Photo",
-              registration_avatar_path(user),
-              method: :delete,
-              form: { data: { turbo: "true", turbo_confirm: "Are you sure you want to remove your avatar photo?" } },
-              class: "btn btn-danger")
+  - if user.avatar.attached? && user.avatar.persisted?
+    = button_to("Remove Avatar Photo",
+                registration_avatar_path(user),
+                method: :delete,
+                form: { data: { turbo: "true", turbo_confirm: "Are you sure you want to remove your avatar photo?" } },
+                class: "btn btn-danger")

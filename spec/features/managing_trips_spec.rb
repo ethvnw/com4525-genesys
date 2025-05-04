@@ -99,6 +99,9 @@ RSpec.feature("Managing trips") do
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
+      # Remove the d-none class so the file input becomes visible, as it is hidden by js by default
+      page.execute_script("document.getElementById('image-input').classList.remove('d-none')")
+      attach_file("trip[image]", Rails.root.join("spec", "support", "files", "edit_trip_image.jpg"))
       click_button "Create Trip"
       await_message("Trip created successfully")
       # Expect the trip to be displayed on the page, identified by the title
@@ -106,6 +109,8 @@ RSpec.feature("Managing trips") do
       # The trip details should be displayed, with the title and dates
       expect(page).to(have_content("Mock Trip Title", wait: 5))
       expect(page).to(have_content("01 - 03 Jan 2020"))
+      # Expect the right file to be attached
+      expect(Trip.first.image.filename.to_s).to(eq("edit_trip_image.jpg"))
     end
 
     scenario "Preserving data on error", js: true do
@@ -199,7 +204,7 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Title can't be blank"))
     end
 
-    scenario "Uploading a valid image file (PNG, JPG, JPEG)" do
+    scenario "I can upload a trip image when editing a trip and see it attached" do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Edit Trip"
