@@ -4,7 +4,7 @@
                    "aria-describedby": "trip-date-#{trip.id}",
                    tabindex: 0) do
   .trip-card.d-flex.flex-column.justify-content-end.rounded-3.position-relative
-    = image_tag(url_for(trip.image),
+    = image_tag(url_for(trip.image.variant(resize_to_limit: [500, 500], convert: :webp, format: :webp)),
                 class: "w-100 h-100 object-fit-cover position-absolute top-0 start-0 rounded-3 z-n1",
                 alt: "")
     .overlay.w-100.h-100.position-absolute.top-0.start-0.rounded-3.z-n1
