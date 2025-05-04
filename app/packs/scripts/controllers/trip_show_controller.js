@@ -31,7 +31,8 @@ export default class extends Controller {
       });
 
       // Recalculate the height of the carousel when accordion items are shown or hidden
-      const accordion = document.querySelector('.accordion-collapse');
+      const accordion = document.querySelector(`.${carousel} .accordion-collapse`);
+      if (!accordion) return;
       accordion.addEventListener('show.bs.collapse', () => {
         setTimeout(() => { swiper.updateAutoHeight(50); }, 15);
       });

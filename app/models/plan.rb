@@ -19,8 +19,13 @@ class PlanValidator < ActiveModel::Validator
       end
     end
 
+    # Prevent a plan from being its own backup
+    if record.backup_plan_id.present? && record.backup_plan_id == record.id
+      record.errors.add(:base, "A plan cannot be a backup of itself")
+    end
+
     # Prevent a backup plan from having its own backup
-    if record.backup_plan_id.present? && Plan.exists?(backup_plan_id: record.id)
+    if record.id.present? && record.backup_plan_id.present? && Plan.exists?(backup_plan_id: record.id)
       record.errors.add(:base, "A backup plan cannot have its own backup")
     end
   end

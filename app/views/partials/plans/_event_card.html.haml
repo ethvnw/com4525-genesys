@@ -1,4 +1,6 @@
-%section.p-3.rounded.mb-2.bg-danger-subtle.flex-grow-1
+%section.p-3.rounded.mb-2.flex-grow-1{
+  class: plan.free_time_plan? ? "border-dashed border-2 border-danger-subtle" : "bg-danger-subtle",
+}
   = render("partials/plans/card_header", trip: trip, plan: plan)
 
   .mb-4
