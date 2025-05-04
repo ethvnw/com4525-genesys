@@ -49,7 +49,7 @@
 
             -# haml-lint:disable LineLength
             = hidden_field_tag(:booking_references_data,
-                               params[:booking_references_data].presence || plan.booking_references.map { |br| { name: br.name, number: br.reference_number } }.to_json,
+                               booking_reference_value(params[:booking_references_data], plan),
                                data: { booking_references_target: "dataField" })
             -# haml-lint:enable LineLength
 

@@ -286,7 +286,7 @@ RSpec.feature("Managing plans") do
         fill_in "ticket_link_url", with: "not a url"
         click_button "Add"
       end
-      expect(page).to(have_content("Please enter a valid URL."))
+      expect(page).to(have_content("Please enter a valid URL (beginning with http:// or https://)."))
     end
   end
 

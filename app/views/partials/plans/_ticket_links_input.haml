@@ -45,12 +45,9 @@
           .row
             .col
               %small.text-danger.mt-1{ "data-ticket-links-target" => "warning" }
-
-            -# haml-lint:disable LineLength
             = hidden_field_tag(:ticket_links_data,
-                               params[:ticket_links_data].presence || plan.ticket_links.map { |tl| { name: tl.name, url: tl.link } }.to_json,
+                               ticket_link_value(params[:ticket_links_data], plan),
                                data: { ticket_links_target: "dataField" })
-            -# haml-lint:enable LineLength
 
           %table.table.d-none{ "data-ticket-links-target": "table" }
             %thead
