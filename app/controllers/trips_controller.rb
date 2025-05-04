@@ -82,6 +82,7 @@ class TripsController < ApplicationController
   end
 
   def edit
+    @script_packs = ["trips_edit"]
     @trip = Trip.find(params[:id])
     @errors = flash[:errors]
   end
@@ -91,6 +92,8 @@ class TripsController < ApplicationController
     if @trip.update(trip_params)
       if @trip.saved_change_to_location_name?
         upload_unsplash_image(@trip.location_name)
+      elsif params[:trip][:image].present?
+        @trip.image.attach(params[:trip][:image])
       end
       view_param = session.fetch(:trips_index_view, "list")
       turbo_redirect_to(trips_path(view: view_param), notice: "Trip updated successfully.")
@@ -161,6 +164,7 @@ class TripsController < ApplicationController
       :location_name,
       :location_latitude,
       :location_longitude,
+      :image,
     )
   end
 end

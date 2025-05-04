@@ -198,6 +198,16 @@ RSpec.feature("Managing trips") do
       click_button "Create Trip"
       expect(page).to(have_content("Title can't be blank"))
     end
+
+    scenario "Uploading a valid image file (PNG, JPG, JPEG)" do
+      visit trip_path(trip)
+      click_on "Settings"
+      click_on "Edit Trip"
+      attach_file("trip[image]", Rails.root.join("spec", "support", "files", "edit_trip_image.jpg"))
+      click_button "Create Trip"
+      expect(page).to(have_content("Trip updated successfully."))
+      expect(trip.reload.image.filename.to_s).to(eq("edit_trip_image.jpg"))
+    end
   end
 
   context "When Deleting a trip" do
