@@ -31,8 +31,8 @@ class PlansController < ApplicationController
     end
 
     @trip = Trip.find(params[:trip_id])
-    @plan = if session[:plan_data]
-      Plan.new(session[:plan_data])
+    @plan = if session[:backup_plan_data]
+      Plan.new(session[:backup_plan_data])
     else
       Plan.new(
         start_date: @primary_plan.start_date,
@@ -64,7 +64,7 @@ class PlansController < ApplicationController
         @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
       end
 
-      # Create booking references and ticket libks if provided
+      # Create booking references and ticket links if provided
       Plans::BookingReferencesSaver.call(plan: @plan, data: params[:booking_references_data])
       Plans::TicketLinksSaver.call(plan: @plan, data: params[:ticket_links_data])
 
