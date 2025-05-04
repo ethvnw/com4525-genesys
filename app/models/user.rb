@@ -20,6 +20,7 @@
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  locked_at              :datetime
+#  referrals_count        :integer          default(0), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -61,6 +62,7 @@ class User < ApplicationRecord
 
   # User roles for RBAC
   enum user_role: { reporter: "Reporter", admin: "Admin", member: "Member" }
+  scope :members, -> { where(user_role: :member) }
 
   # Ensuring username follows specific rules
   validates :username, presence: true, uniqueness: { case_sensitive: false }
