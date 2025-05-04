@@ -8,6 +8,8 @@ require "uri"
 # Handles the creation of trips
 class TripsController < ApplicationController
   include Streamable
+  include ParamPresenceEnforceable
+
   before_action :authenticate_user!
   before_action :restrict_admin_and_reporter_access!
 
@@ -15,24 +17,19 @@ class TripsController < ApplicationController
   layout "user"
 
   def index
-    # Enforce presence of "view" query parameter
-    unless ["list", "map"].include?(params[:view].to_s)
-      flash.keep(:notifications) # Persist notifications across redirect
-      default_view = session.fetch(:trip_index_view, "list")
-      redirect_to(trips_path(request.query_parameters.merge({ view: default_view }))) and return
-    end
+    enforce_required_parameter(:view, ["list", "map"], :trip_index_view)
+    enforce_required_parameter(:order, ["asc", "desc"], :trip_index_order)
 
-    # Enforce presence of "order" query parameter
-    unless ["ASC", "DESC"].include?(params[:order].to_s)
+    if any_params_enforced?
       flash.keep(:notifications) # Persist notifications across redirect
-      default_order = session.fetch(:trip_show_order, "ASC")
-      redirect_to(trips_path(request.query_parameters.merge({ order: default_order }))) and return
+      redirect_to(trips_path, enforced_query_params) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a trip
     session[:trip_index_view] = params[:view]
+    session[:trip_index_order] = params[:order]
 
-    @trips = current_user.joined_trips.order("start_date #{params[:order]}").decorate
+    @trips = current_user.joined_trips.order(start_date: params[:order].to_sym).decorate
     stream_response("trips/index")
   end
 
@@ -121,29 +118,35 @@ class TripsController < ApplicationController
   end
 
   def show
-    # Enforce presence of "view" query parameter
-    unless ["list", "map"].include?(params[:view].to_s)
-      flash.keep(:notifications) # Persist notifications across redirect
-      default_view = session.fetch(:trip_index_view, "list")
-      turbo_redirect_to(trip_path(params[:id], request.query_parameters.merge({ view: default_view }))) and return
+    # Enforce presence of required query parameters
+    enforce_required_parameter(:view, ["list", "map"], :trip_show_view)
+
+    # If viewing trip in map view, enforce nil order param and avoid lines between plans going to wrong way
+    if param_enforced_as?(:view, "map")
+      enforce_required_parameter(:order, [nil], :null_key)
+    else
+      enforce_required_parameter(:order, ["asc", "desc"], :trip_show_order)
     end
 
-    # Enforce presence of "order" query parameter
-    unless ["ASC", "DESC"].include?(params[:order].to_s)
+    if any_params_enforced?
       flash.keep(:notifications) # Persist notifications across redirect
-      default_order = session.fetch(:trip_show_order, "ASC")
-      redirect_to(trip_path(params[:id], request.query_parameters.merge({ order: default_order }))) and return
+      redirect_to(trip_path(params[:id], enforced_query_params)) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a plan
     session[:trip_show_view] = params[:view]
+
+    # Don't update saved order if in map view
+    if params[:view] != "map"
+      session[:trip_show_order] = params[:order]
+    end
 
     @trips = current_user.joined_trips.decorate
 
     @trip = Trip.find(params[:id]).decorate
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
 
-    @plans = get_plans_excluding_backups(@trip).order("start_date #{params[:order]}").decorate
+    @plans = get_plans_excluding_backups(@trip).order(start_date: params[:order] || :asc).decorate
     @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
 
     stream_response("trips/show")
