@@ -38,12 +38,11 @@ RSpec.feature("Referral Analytics") do
       scenario "Viewing analytics for all time" do
         click_on "All Time"
         expect(page).to(have_content("Users Referred\n0\nAll Time"))
-        # 1 user created by default (reporter)
-        expect(page).to(have_content("Users Created\n1\nAll Time"))
+        expect(page).to(have_content("Users Created\n0\nAll Time"))
       end
     end
 
-    context "When no trips have been created" do
+    context "When users have been created" do
       before do
         create(:user, created_at: Time.zone.parse("2023-12-31"))
         create(:user, created_at: Time.zone.parse("2024-01-01"))
@@ -79,8 +78,7 @@ RSpec.feature("Referral Analytics") do
       scenario "Viewing analytics for all time" do
         click_on "All Time"
         expect(page).to(have_content("Users Referred\n4\nAll Time"))
-        # 1 user created by default (reporter) + 5 users created
-        expect(page).to(have_content("Users Created\n6\nAll Time"))
+        expect(page).to(have_content("Users Created\n5\nAll Time"))
       end
     end
   end
