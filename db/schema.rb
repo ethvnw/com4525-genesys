@@ -240,6 +240,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
     t.datetime "end_date", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "regular_plans_count", default: 0, null: false
+    t.integer "travel_plans_count", default: 0, null: false
+    t.integer "trip_memberships_count", default: 0, null: false
   end
 
   create_table "users", force: :cascade do |t|
