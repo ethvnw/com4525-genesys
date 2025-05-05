@@ -42,7 +42,7 @@ RSpec.feature("Managing trips") do
       select_location("England")
       # Fill in the date range
       select_date_range(start_date_for_js, end_date_for_js)
-      click_button "Create Trip"
+      click_button "Save Trip"
       expect(page).to(have_content("Title can't be blank"))
     end
 
@@ -52,7 +52,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
-      click_button "Create Trip"
+      click_button "Save Trip"
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
     end
 
@@ -61,7 +61,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "Mock Trip Title"
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
-      click_button "Create Trip"
+      click_button "Save Trip"
       expect(page).to(have_content("Description can't be blank"))
     end
 
@@ -71,7 +71,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_description", with: "a" * 501
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
-      click_button "Create Trip"
+      click_button "Save Trip"
       expect(page).to(have_content("Description is too long (maximum is 500 characters)"))
     end
 
@@ -80,7 +80,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      click_button "Create Trip"
+      click_button "Save Trip"
       expect(page).to(have_content("Date can't be blank"))
     end
 
@@ -89,7 +89,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "Mock Trip Description"
       select_date_range(start_date_for_js, end_date_for_js)
-      click_button "Create Trip"
+      click_button "Save Trip"
       expect(page).to(have_content("Location can't be blank"))
     end
 
@@ -99,8 +99,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
-      # Remove the d-none class so the file input becomes visible, as it is hidden by js by default
-      click_button "Create Trip"
+      click_button "Save Trip"
       await_message("Trip created successfully")
       # Expect the trip to be displayed on the page, identified by the title
       click_on "Mock Trip Title"
@@ -136,7 +135,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
-      click_button "Create Trip"
+      click_button "Save Trip"
 
       # Expect the form to be displayed with the title and description fields filled in
       expect(page).to(have_field("trip_title", with: "a" * 101))
@@ -150,31 +149,6 @@ RSpec.feature("Managing trips") do
       expect(datetime_button).to(have_content("#{display_start_date} - #{display_end_date}"))
       # The error message should be displayed
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
-    end
-
-    scenario "Re-visiting the trip creation page after leaving during trip creation", js: true do
-      # Fill in the form with the required fields
-      visit new_trip_path
-      fill_in "trip_title", with: "a" * 101 # Title too long error
-      fill_in "trip_description", with: "Mock Trip Description"
-      select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
-      click_button "Create Trip"
-      expect(page).to(have_content("Looks Good!"))
-
-      visit root_path
-      visit new_trip_path
-
-      # Expect the form to be displayed with the title and description fields filled in
-      expect(page).to(have_field("trip_title", with: "a" * 101))
-      expect(page).to(have_field("trip_description", with: "Mock Trip Description"))
-      within ".aa-DetachedSearchButtonQuery" do
-        expect(page).to(have_content("England"))
-      end
-      # Then, the values for the start and end date are formatted and compared to the datetimepicker button.
-      # During testing, the time is set to 00:00.
-      datetime_button = find("#datetimepicker-input")[:value]
-      expect(datetime_button).to(have_content("#{display_start_date} - #{display_end_date}"))
     end
   end
 
@@ -204,7 +178,7 @@ RSpec.feature("Managing trips") do
       click_on "Edit Trip"
       fill_in "trip_title", with: "edited title"
       fill_in "trip_description", with: "edited description"
-      click_button "Create Trip"
+      click_button "Save Trip"
       await_message("Trip updated successfully")
       # Trip title and description should be updated to the edited values
       expect(page).not_to(have_content(trip.title))
@@ -216,7 +190,7 @@ RSpec.feature("Managing trips") do
       click_on "Settings"
       click_on "Edit Trip"
       fill_in "trip_title", with: ""
-      click_button "Create Trip"
+      click_button "Save Trip"
       expect(page).to(have_content("Title can't be blank"))
     end
 

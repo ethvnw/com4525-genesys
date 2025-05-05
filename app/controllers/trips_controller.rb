@@ -36,7 +36,8 @@ class TripsController < ApplicationController
   end
 
   def new
-    @trip = Trip.new
+    # Prefill with featured location data if available
+    @trip = Trip.new(session[:featured_location] || {})
     @errors = flash[:errors]
   end
 
