@@ -36,17 +36,11 @@ class TripsController < ApplicationController
   end
 
   def new
-    @trip = if session[:trip_data]
-      Trip.new(session[:trip_data])
-    else
-      Trip.new
-    end
-
+    @trip = Trip.new
     @errors = flash[:errors]
   end
 
   def create
-    # First, the trip is created using the form params
     @trip = Trip.new(trip_params)
 
     if @trip.save
@@ -55,32 +49,20 @@ class TripsController < ApplicationController
       else
         upload_unsplash_image(@trip.location_name)
       end
-      session.delete(:trip_data)
-      # Next, a TripMembership is created between the current logged in user and the new trip
-      membership = TripMembership.new
-      membership.trip_id = @trip.id
-      membership.user_id = current_user.id
-      # It is assumed that the creator of a trip accepts the invite.
-      membership.is_invite_accepted = true
-      membership.invite_accepted_date = Time.current
-      membership.user_display_name = current_user.username
-      membership.sender_user_id = current_user.id
-      membership.save
+
+      TripMembership.create(
+        trip_id: @trip.id,
+        user_id: current_user.id,
+        is_invite_accepted: true,
+        invite_accepted_date: Time.current,
+        user_display_name: current_user.username,
+        sender_user_id: current_user.id,
+      )
 
       view_param = session.fetch(:trips_index_view, "list")
       turbo_redirect_to(trips_path(view: view_param), notice: "Trip created successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
-      session[:trip_data] =
-        @trip.attributes.slice(
-          "title",
-          "description",
-          "start_date",
-          "end_date",
-          "location_name",
-          "location_latitude",
-          "location_longitude",
-        )
 
       # Merge the errors from start_date and end_date into the date error, as this is the one used by the date field
       flash[:errors][:date] ||= []
