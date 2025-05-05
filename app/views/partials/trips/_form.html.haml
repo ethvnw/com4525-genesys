@@ -41,6 +41,11 @@
   .d-flex.flex-column.mb-3{ data: { controller: "custom-image" } }
     = f.label("Upload new trip image", class: "fw-semibold", for: "image-input")
 
+    .mb-1
+      .mb-0{ class: get_error_class_with(errors, :image) }
+      = form_error_message(errors, :image)
+      .valid-feedback.mb-1 Please resubmit image
+
     = f.file_field(:image,
                    id: "image-input",
                    class: "d-none",
