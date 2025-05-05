@@ -1,7 +1,10 @@
 #!/usr/bin/zsh
 
+target_hash=$(git log --oneline --grep="feat(deployment): configured project to deploy with docker" | head -c 7)
+
 docker compose down
 git fetch
-git rebase origin/$1
+# Rebase onto new branch, taking only commits for dev deploy
+git rebase --onto origin/$1 "$target_hash^"
 git push --no-verify origin dev/docker-deployment -f
 docker compose up -d
