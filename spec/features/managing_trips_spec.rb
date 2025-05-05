@@ -28,7 +28,7 @@ RSpec.feature("Managing trips") do
   before do
     login_as(user, scope: :user)
     allow(Unsplash::Photo).to(receive(:search).and_return([
-      PhotoMock.new({ "regular" => "https://images.unsplash.com/photo-1502602898657-3e91760cbb34" }),
+      PhotoMock.new({ "regular" => "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?h=108&w=192" }),
     ]))
 
     time_travel_everywhere(Time.zone.parse("2020-01-01 00:00:00"))
@@ -99,6 +99,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
+      # Remove the d-none class so the file input becomes visible, as it is hidden by js by default
       click_button "Create Trip"
       await_message("Trip created successfully")
       # Expect the trip to be displayed on the page, identified by the title
@@ -106,6 +107,26 @@ RSpec.feature("Managing trips") do
       # The trip details should be displayed, with the title and dates
       expect(page).to(have_content("Mock Trip Title", wait: 5))
       expect(page).to(have_content("01 - 03 Jan 2020"))
+    end
+
+    scenario "With valid information and a custom image", js: true do
+      visit new_trip_path
+      fill_in "trip_title", with: "Mock Trip Title"
+      fill_in "trip_description", with: "Mock Trip Description"
+      select_location("England")
+      select_date_range(start_date_for_js, end_date_for_js)
+      # Remove the d-none class so the file input becomes visible, as it is hidden by js by default
+      page.execute_script("document.getElementById('image-input').classList.remove('d-none')")
+      attach_file("trip[image]", Rails.root.join("spec", "support", "files", "edit_trip_image.jpg"))
+      click_button "Create Trip"
+      await_message("Trip created successfully")
+      # Expect the trip to be displayed on the page, identified by the title
+      click_on "Mock Trip Title"
+      # The trip details should be displayed, with the title and dates
+      expect(page).to(have_content("Mock Trip Title", wait: 5))
+      expect(page).to(have_content("01 - 03 Jan 2020"))
+      # Expect the right file to be attached
+      expect(Trip.first.image.filename.to_s).to(eq("edit_trip_image.jpg"))
     end
 
     scenario "Preserving data on error", js: true do
@@ -197,6 +218,16 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: ""
       click_button "Create Trip"
       expect(page).to(have_content("Title can't be blank"))
+    end
+
+    scenario "I can upload a trip image when editing a trip and see it attached" do
+      visit trip_path(trip)
+      click_on "Settings"
+      click_on "Edit Trip"
+      attach_file("trip[image]", Rails.root.join("spec", "support", "files", "edit_trip_image.jpg"))
+      click_button "Create Trip"
+      expect(page).to(have_content("Trip updated successfully."))
+      expect(trip.reload.image.filename.to_s).to(eq("edit_trip_image.jpg"))
     end
   end
 
