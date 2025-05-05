@@ -15,7 +15,7 @@
     }
   ],
   "orientation": "any",
-  "theme_color": "#ffffff",
+  "theme_color": "#002E3E",
   "background_color": "#F8F9FA",
   "display": "standalone",
   "start_url": "/users/sign_in",
