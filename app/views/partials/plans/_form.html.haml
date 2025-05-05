@@ -43,7 +43,11 @@
     = render("partials/plans/booking_references_input", f: f, plan: plan)
     = render("partials/plans/ticket_links_input", f: f, plan: plan)
 
-  = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
+  .d-flex.justify-content-end.mt-2
+    = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0 fw-bold") do
+      %i.bi.bi-send-fill
+      &nbsp;
+      Save Plan
 
   = f.hidden_field(:start_location_name,
                    id: "start_location_name_input")
