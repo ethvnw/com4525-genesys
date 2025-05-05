@@ -6,7 +6,7 @@
     -# Render any necessary toasts
     = render("partials/layouts/toasts")
 
-    %main
+    %main#user-main
       -# Render navigation for desktop
       = render("partials/layouts/desktop_navigation", inbox_count: @inbox_count)
       #content.d-flex.flex-column.flex-fill
