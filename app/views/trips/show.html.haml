@@ -33,28 +33,25 @@
             label: "View settings",
           },
         }
-          %i.bi.bi-gear-fill
-
+          %i.bi.bi-gear-fill{ "aria-hidden": "true" }
+          .visually-hidden Settings
         .dropdown-menu
           = link_to(edit_trip_path(@trip),
                     class: "dropdown-item",
                     tabindex: 0) do
             %i.bi.bi-pencil{ "aria-hidden": "true" } &nbsp;
             Edit Trip
-
           = link_to(trip_trip_memberships_path(@trip),
                     class: "dropdown-item",
                     tabindex: 0) do
             %i.bi.bi-person-gear{ "aria-hidden": "true" } &nbsp;
             Manage Members
-
           = button_tag(class: "dropdown-item",
                        type: "button",
                        data: { bs_toggle: "modal", bs_target: "#display-name-modal" },
                        tabindex: 0) do
             %i.bi.bi-input-cursor-text{ "aria-hidden": "true" } &nbsp;
             Change Display Name
-
           = link_to(trip_path(@trip),
                     class: "dropdown-item text-danger",
                     method: :delete,
@@ -62,7 +59,6 @@
                     tabindex: 0) do
             %i.bi.bi-trash{ "aria-hidden": "true" } &nbsp;
             Delete Trip
-
   %hr
 
 .d-flex.justify-content-between.mb-2
