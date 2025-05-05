@@ -1,5 +1,14 @@
 @use "base_styles" as bs;
 
+.avatar-img {
+  @extend .rounded-circle;
+  @extend .object-fit-cover;
+  @extend .align-self-center;
+
+  width: bs.$trip-avatar-icon-size;
+  height: bs.$trip-avatar-icon-size;
+}
+
 .trip-card {
   height: 15rem;
 
@@ -31,10 +40,6 @@
   }
 
   .avatar-img {
-    @extend .rounded-circle;
-    @extend .object-fit-cover;
-    @extend .align-self-center;
-  
     width: bs.$trip-card-icon-size;
     height: bs.$trip-card-icon-size;
   }
