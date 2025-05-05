@@ -37,3 +37,17 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0) 45%);
   pointer-events: none;
 }
+
+.trip-image-preview {
+  @extend .object-fit-cover;
+  @extend .rounded-top;
+
+  height: 10rem;
+  width: 33%; // Simulate how the trip preview cards look
+}
+
+@include bs.media-breakpoint-down(lg) {
+  .trip-image-preview{
+    width: 100%;
+  }
+}
