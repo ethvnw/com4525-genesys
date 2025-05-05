@@ -5,12 +5,31 @@ class PlanDecorator < ApplicationDecorator
   delegate_all
   decorates_association :documents, with: DocumentDecorator
 
+  # Formats the start date to the formats:
+  # - "dd" for the same month and year
+  # - "dd mmm" for the same year
+  # - "dd mmm yyyy  for different years
+  # - end date is always formatted as "dd mmm yyyy"
   def formatted_date_range
-    if object.end_date.present?
-      "#{object.start_date.strftime("%H:%M")} to #{formatted_end_date}"
-    else
-      object.start_date.strftime("%H:%M")
+    unless end_date.present?
+      return start_date.strftime("%H:%M %d %b %Y")
     end
+
+    start_date_format = if start_date.year == end_date.year
+      if start_date.month == end_date.month
+        if start_date.day == end_date.day
+          "%H:%M to "
+        else
+          "%H:%M %d to "
+        end
+      else
+        "%H:%M %d %b to "
+      end
+    else
+      "%H:%M %d %b %Y to "
+    end
+
+    start_date.strftime(start_date_format) + end_date.strftime("%H:%M %d %b %Y")
   end
 
   def formatted_end_date

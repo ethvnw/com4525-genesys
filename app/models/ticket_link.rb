@@ -4,11 +4,12 @@
 #
 # Table name: ticket_links
 #
-#  id          :bigint           not null, primary key
-#  ticket_link :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  plan_id     :bigint
+#  id         :bigint           not null, primary key
+#  link       :string           not null
+#  name       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  plan_id    :bigint
 #
 # Indexes
 #

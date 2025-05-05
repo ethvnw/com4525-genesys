@@ -143,6 +143,7 @@ RSpec.feature("Managing plans") do
       select_location("England")
       fill_in "Start date", with: Time.current + 1.day
       # Attach a QR code file
+      click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
       expect(page).to(have_content("1 of 1")) # Expect the QR code to be loaded
       click_on "Save"
@@ -158,15 +159,142 @@ RSpec.feature("Managing plans") do
       click_on "Save"
       expect(page).not_to(have_content("Please re-add your documents and/or tickets."))
       # Attach a QR code file
+      click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
       click_on "Save"
       expect(page).to(have_content("Please re-add your documents and/or tickets."))
+    end
+
+    scenario "I can add a booking reference and see it on the show page", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      fill_in "Start date", with: Time.current + 1.day
+      # Attach a booking reference
+      click_on "Booking References"
+      within("#booking-references-container") do
+        fill_in "booking_reference_name", with: "Test Name"
+        fill_in "booking_reference_number", with: "123456"
+        click_button "Add"
+      end
+      # Expect new entry to appear in the table dynamically
+      within("#booking-references-container") do
+        within("table") do
+          expect(page).to(have_content("Test Name"))
+          expect(page).to(have_content("123456"))
+        end
+      end
+      click_on "Save"
+      await_message("Plan created successfully")
+      visit trip_plan_path(trip, trip.plans.first)
+      # Expect the booking reference text to be present on the plan page
+      expect(page).to(have_content("Booking References"))
+      expect(page).to(have_content("Test Name"))
+      expect(page).to(have_content("123456"))
+    end
+
+    scenario "If I enter a booking reference with the same name twice, I see an error message", js: true do
+      visit new_trip_plan_path(trip)
+      click_on "Booking References"
+      within("#booking-references-container") do
+        fill_in "booking_reference_name", with: "Test Name"
+        fill_in "booking_reference_number", with: "123456"
+        click_button "Add"
+        fill_in "booking_reference_name", with: "Test Name"
+        fill_in "booking_reference_number", with: "654321"
+        click_button "Add"
+      end
+      expect(page).to(have_content("A booking reference with this name already exists."))
+    end
+
+    scenario "If I enter a booking reference with the same reference number twice, I see an error message", js: true do
+      visit new_trip_plan_path(trip)
+      click_on "Booking References"
+      within("#booking-references-container") do
+        fill_in "booking_reference_name", with: "Test Name"
+        fill_in "booking_reference_number", with: "123456"
+        click_button "Add"
+        fill_in "booking_reference_name", with: "Test Name 2"
+        fill_in "booking_reference_number", with: "123456"
+        click_button "Add"
+      end
+      expect(page).to(have_content("A booking reference with this reference number already exists."))
+    end
+
+    scenario "I can add a ticket link and see it on the show page", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      fill_in "Start date", with: Time.current + 1.day
+      # Attach a ticket link
+      click_on "Ticket Links"
+      within("#ticket-links-container") do
+        fill_in "ticket_link_name", with: "Awesome Ticket"
+        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
+        click_button "Add"
+      end
+      # Expect new entry to appear in the table dynamically
+      within("#ticket-links-container") do
+        within("table") do
+          expect(page).to(have_content("Awesome Ticket"))
+          expect(page).to(have_content("https://roamiotravel.co.uk"))
+        end
+      end
+      click_on "Save"
+      await_message("Plan created successfully")
+      visit trip_plan_path(trip, trip.plans.first)
+      # Expect the ticket link to be a link to the URL with the correct text
+      expect(page).to(have_content("Ticket Links"))
+      expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
+    end
+
+    scenario "If I enter a ticket link with the same name twice, I see an approriate error message", js: true do
+      visit new_trip_plan_path(trip)
+      click_on "Ticket Links"
+      within("#ticket-links-container") do
+        fill_in "ticket_link_name", with: "Test Name"
+        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
+        click_button "Add"
+        fill_in "ticket_link_name", with: "Test Name"
+        fill_in "ticket_link_url", with: "https://example.com"
+        click_button "Add"
+      end
+      expect(page).to(have_content("A ticket link with this name already exists."))
+    end
+
+    scenario "If I enter a ticket link with the same URL twice, I see an approriate error message", js: true do
+      visit new_trip_plan_path(trip)
+      click_on "Ticket Links"
+      within("#ticket-links-container") do
+        fill_in "ticket_link_name", with: "Test Name"
+        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
+        click_button "Add"
+        fill_in "ticket_link_name", with: "Test Name 2"
+        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
+        click_button "Add"
+      end
+      expect(page).to(have_content("A ticket link with this URL already exists."))
+    end
+
+    scenario "If I submit an invalid URL for a ticket link, I see an approriate error message", js: true do
+      visit new_trip_plan_path(trip)
+      click_on "Ticket Links"
+      within("#ticket-links-container") do
+        fill_in "ticket_link_name", with: "Test Name"
+        fill_in "ticket_link_url", with: "not a url"
+        click_button "Add"
+      end
+      expect(page).to(have_content("Please enter a valid URL (beginning with http:// or https://)."))
     end
   end
 
   feature "Edit a plan" do
     let!(:plan) { create(:plan, trip: trip) }
     let(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
+    let(:plan_with_booking_reference) { create(:booking_reference, plan: create(:plan, trip: trip)).plan }
+    let(:plan_with_ticket_link) { create(:ticket_link, plan: create(:plan, trip: trip)).plan }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
@@ -224,6 +352,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("1 of 1"))
       visit edit_trip_plan_path(trip, plan_with_ticket)
       # Add an new ticket with a different QR code value
+      click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
       click_on "Save"
       # Expect the "already existed" notice to not be present
@@ -240,6 +369,7 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("1 of 1"))
       visit edit_trip_plan_path(trip, plan_with_ticket)
       # qr_mock.png is a QR code that contains the data "Mock ticket code"
+      click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_mock.png"))
       click_on "Save"
       # Expect a notice indicating the QR code already exists
@@ -281,6 +411,79 @@ RSpec.feature("Managing plans") do
 
       # Check company name is now removed
       expect(page).not_to(have_content(plan.provider_name))
+    end
+
+    scenario "I can add a new booking reference and see it on the plan show page", js: true do
+      visit edit_trip_plan_path(trip, plan)
+      click_on "Booking References"
+      within "#booking-references-container" do
+        fill_in "booking_reference_name", with: "Test Name"
+        fill_in "booking_reference_number", with: "123456"
+        click_button "Add"
+        expect(page).to(have_content("Test Name"))
+        expect(page).to(have_content("123456"))
+      end
+      click_on "Save"
+      await_message("Plan updated successfully")
+      visit trip_plan_path(trip, plan)
+      # Expect the booking reference text to be present on the plan page
+      expect(page).to(have_content("Booking References"))
+      expect(page).to(have_content("Test Name"))
+      expect(page).to(have_content("123456"))
+    end
+
+    scenario "I can remove a booking reference and see it removed on the new page and show page", js: true do
+      visit edit_trip_plan_path(trip, plan_with_booking_reference)
+      # Remove the booking reference from the plan
+      click_on "Booking References"
+      within "#booking-references-container" do
+        expect(page).to(have_content("Booking Reference"))
+        expect(page).to(have_content("123"))
+        click_on "Delete"
+        expect(page).not_to(have_content("Booking Reference"))
+        expect(page).not_to(have_content("123"))
+      end
+      click_on "Save"
+      await_message("Plan updated successfully")
+      # Can no longer access the trip plan page as the booking reference has been removed
+      visit trip_plan_path(trip, plan_with_booking_reference)
+      expect(page).to(have_content("No tickets available for this plan."))
+    end
+
+    scenario "I can add a new ticket link and see it on the plan show page", js: true do
+      visit edit_trip_plan_path(trip, plan)
+      click_on "Ticket Links"
+      within "#ticket-links-container" do
+        fill_in "ticket_link_name", with: "Awesome Ticket"
+        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
+        click_button "Add"
+        expect(page).to(have_content("Awesome Ticket"))
+        expect(page).to(have_content("https://roamiotravel.co.uk"))
+      end
+      click_on "Save"
+      await_message("Plan updated successfully")
+      visit trip_plan_path(trip, plan)
+      # Expect the booking reference text to be present on the plan page
+      expect(page).to(have_content("Ticket Links"))
+      expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
+    end
+
+    scenario "I can remove a ticket link and see it removed on the new page and show page", js: true do
+      visit edit_trip_plan_path(trip, plan_with_ticket_link)
+      # Remove the booking reference from the plan
+      click_on "Ticket Links"
+      within "#ticket-links-container" do
+        expect(page).to(have_content("Example Ticket"))
+        expect(page).to(have_content("https://example.com/ticket"))
+        click_on "Delete"
+        expect(page).not_to(have_content("Example Ticket"))
+        expect(page).not_to(have_content("https://example.com/ticket"))
+      end
+      click_on "Save"
+      await_message("Plan updated successfully")
+      # Can no longer access the trip plan page as the booking reference has been removed
+      visit trip_plan_path(trip, plan_with_ticket_link)
+      expect(page).to(have_content("No tickets available for this plan."))
     end
   end
 

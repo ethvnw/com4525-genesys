@@ -16,7 +16,7 @@
     %i.bi.bi-geo-alt
     %p.mb-0= plan.start_location_name
 
-  - if plan.scannable_tickets.any?
+  - if plan.any_tickets?
     = render("partials/plans/view_tickets_button", trip: trip, plan: plan)
 
   - if plan.documents.attached?

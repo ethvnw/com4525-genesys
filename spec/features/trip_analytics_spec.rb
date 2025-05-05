@@ -4,7 +4,7 @@ require "rails_helper"
 require "active_support/testing/time_helpers"
 require_relative "../support/helpers/collaborative_trips_helper"
 
-RSpec.feature("Landing Page Analytics") do
+RSpec.feature("Trip Analytics") do
   let(:reporter) { create(:reporter) }
   before do
     login_as(reporter, scope: :user)
@@ -47,7 +47,7 @@ RSpec.feature("Landing Page Analytics") do
       end
     end
 
-    context "When no trips have been created" do
+    context "When trips have been created" do
       before do
         trip = create(:trip, created_at: Time.zone.parse("2023-12-12"))
         create(:trip, created_at: Time.zone.parse("2023-12-31"))

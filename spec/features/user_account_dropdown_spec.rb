@@ -48,6 +48,7 @@ RSpec.feature("User account dropdown") do
       within("#user-account-dropdown") do
         expect(page).not_to(have_link("Landing Page Analytics", href: analytics_landing_page_path))
         expect(page).not_to(have_link("Trip Analytics", href: analytics_trips_path))
+        expect(page).not_to(have_link("Referrals Analytics", href: analytics_referrals_path))
       end
     end
 
@@ -107,6 +108,7 @@ RSpec.feature("User account dropdown") do
       within("#user-account-dropdown") do
         expect(page).to(have_link("Landing Page Analytics", href: analytics_landing_page_path))
         expect(page).to(have_link("Trip Analytics", href: analytics_trips_path))
+        expect(page).to(have_link("Referrals Analytics", href: analytics_referrals_path))
       end
     end
 
@@ -166,6 +168,7 @@ RSpec.feature("User account dropdown") do
       within("#user-account-dropdown") do
         expect(page).to(have_link("Landing Page Analytics", href: analytics_landing_page_path))
         expect(page).to(have_link("Trip Analytics", href: analytics_trips_path))
+        expect(page).to(have_link("Referrals Analytics", href: analytics_referrals_path))
       end
     end
 
