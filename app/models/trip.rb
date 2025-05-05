@@ -19,6 +19,12 @@ class Trip < ApplicationRecord
   include Countable
 
   has_one_attached :image
+  validates :image,
+    content_type: ["image/png", "image/jpeg"],
+    size: { less_than: 10.megabytes },
+    # 3840px accounts for 4k resolution
+    dimension: { width: { min: 32, max: 3840 }, height: { min: 32, max: 3840 } },
+    if: -> { image.attached? }
 
   has_many :plans, dependent: :destroy
   has_many :ticket_links, through: :plans
