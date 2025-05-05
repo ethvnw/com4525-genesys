@@ -117,7 +117,7 @@ RSpec.feature("Managing trips") do
       # Remove the d-none class so the file input becomes visible, as it is hidden by js by default
       page.execute_script("document.getElementById('image-input').classList.remove('d-none')")
       attach_file("trip[image]", Rails.root.join("spec", "support", "files", "edit_trip_image.jpg"))
-      click_button "Create Trip"
+      click_button "Save Trip"
       await_message("Trip created successfully")
       # Expect the trip to be displayed on the page, identified by the title
       click_on "Mock Trip Title"
@@ -199,7 +199,7 @@ RSpec.feature("Managing trips") do
       click_on "Settings"
       click_on "Edit Trip"
       attach_file("trip[image]", Rails.root.join("spec", "support", "files", "edit_trip_image.jpg"))
-      click_button "Create Trip"
+      click_button "Save Trip"
       expect(page).to(have_content("Trip updated successfully."))
       expect(trip.reload.image.filename.to_s).to(eq("edit_trip_image.jpg"))
     end

@@ -37,7 +37,7 @@ module PlansHelper
   ##
   # Renders the appropriate plan partial based on the plan type.
   #
-  ## @param plan [Plan]: the plan object to be rendered
+  # @param plan [Plan]: the plan object to be rendered
   # @param trip [Trip]: the trip object associated with the plan
   def render_plan_partial(plan, trip)
     if plan.travel_plan?
