@@ -24,7 +24,8 @@ RSpec.feature("Member home") do
       # Get the trip titles in the displayed order in the carousel
       within(".latest-trips-carousel") do
         trip_titles = all(".trip-title").map(&:text)
-        expect(trip_titles).to(eq(["Trip 2", "Trip 3", "Trip 1"]))
+        # View\n is part of the accessibility screen reader
+        expect(trip_titles).to(eq(["View\nTrip 2", "View\nTrip 3", "View\nTrip 1"]))
       end
     end
 
