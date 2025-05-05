@@ -16,7 +16,7 @@
 }
 
 #application-main {
-    margin-top: bs.$landing-navbar-height;
+    margin-top: calc( bs.$landing-navbar-height  + env(safe-area-inset-top));
 }
 
 /* Override swiper */
