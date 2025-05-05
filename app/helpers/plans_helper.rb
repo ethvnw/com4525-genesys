@@ -2,7 +2,7 @@
 
 # Module containing helper methods for plans
 module PlansHelper
-  # Whilst it would've been nice to have these as a songle method, the structure of ticket links and
+  # Whilst it would've been nice to have these as a single method, the structure of ticket links and
   # booking references are different, impacting both retrieval and creation.
 
   # Returns the booking reference data in JSON format.
