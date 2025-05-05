@@ -4,6 +4,12 @@ input, textarea, select {
     --bs-body-bg: #{bs.$light};
 }
 
+@include bs.media-breakpoint-down(sm) {
+    .tooltip {
+        display: none !important;
+    }
+}
+
 .bg-roamio {
     background-color: bs.$roamio-primary;
     @extend .text-light;
