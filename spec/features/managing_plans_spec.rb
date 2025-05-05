@@ -527,11 +527,11 @@ RSpec.feature("Managing plans") do
           find("button").click
           click_on "Add Backup Plan"
         end
-  
+
         fill_in "plan_title", with: "Backup Title"
         select "Free Time", from: "plan_plan_type"
         click_on "Save"
-  
+
         await_message("Plan created successfully")
         find("button.swiper-toggle-button").click
         expect(page).to(have_content("Backup Title"))
@@ -541,7 +541,7 @@ RSpec.feature("Managing plans") do
     context "When the plan created already has a backup plan" do
       let!(:plan_backup) { create(:plan, trip: trip, title: "Premade Backup") }
       let!(:plan) { create(:plan, trip: trip, backup_plan_id: plan_backup.id, title: "Premade Plan") }
-  
+
       scenario "I cannot create a backup plan for a plan that already has a backup plan" do
         visit trip_path(plan.trip_id)
         within(:css, "section #plan-settings.dropdown") do
@@ -549,7 +549,7 @@ RSpec.feature("Managing plans") do
           expect(page).not_to(have_content("Add Backup Plan"))
         end
       end
-  
+
       scenario "I cannot create a backup plan for a backup plan" do
         visit trip_path(plan.trip_id)
         find("button.swiper-toggle-button").click
