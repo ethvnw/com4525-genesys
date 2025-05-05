@@ -3,4 +3,5 @@
 docker compose down
 git fetch
 git rebase origin/$1
+git push origin dev/docker-deployment -f
 docker compose up -d
