@@ -17,6 +17,12 @@ body {
     }
 }
 
+#toast-list {
+    @include bs.media-breakpoint-down(sm) {
+        margin-top: calc( bs.$topbar-height + env(safe-area-inset-top) + 1rem) !important;
+    }
+}
+
 #hidden-reviews .review {
     background-color: bs.$gray-200;
 }
