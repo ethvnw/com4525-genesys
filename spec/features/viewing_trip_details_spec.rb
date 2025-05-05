@@ -145,5 +145,17 @@ RSpec.feature("Viewing trip details") do
         "href" => "/trips/#{trip.id}/plans/#{travel_plan.id}/edit",
       }))
     end
+
+    scenario "Viewing my trip as a downloadable PDF", js: true, with_downloads: true do
+      visit trip_path(trip)
+      click_on "Settings"
+      click_on "Export PDF"
+
+      wait_for_download
+      expect(downloads.length).to(eq(1))
+      expect(File.basename(last_download)).to(eq("#{trip.title}.pdf"))
+      last_pdf = File.read(last_download)
+      expect(last_pdf).to(include("Mock Trip 1"))
+    end
   end
 end
