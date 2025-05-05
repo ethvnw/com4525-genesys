@@ -40,6 +40,7 @@
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
     "shakapacker": "8.0.1",
+    "stimulus-controller-resolver": "^3.2.0",
     "style-loader": "^3.3.1",
     "swiper": "^11.1.15",
     "terser-webpack-plugin": "5",

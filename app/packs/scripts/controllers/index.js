@@ -1,4 +1,7 @@
+/* eslint-disable import/no-unresolved */
+import StimulusControllerResolver from 'stimulus-controller-resolver';
 import application from './application';
+<<<<<<< HEAD
 import TripsMapController from './trips_map_controller';
 import PlanFormController from './plan_form_controller';
 import TripFormController from './trip_form_controller';
@@ -17,3 +20,9 @@ application.register('booking-references', BookingReferencesController);
 application.register('ticket-links', TicketLinksController);
 application.register('custom-image', CustomImageController);
 application.register('trip-show', TripShowController);
+=======
+
+StimulusControllerResolver.install(application, async (controllerName) => (
+  (await import(`./${controllerName}-controller.js`)).default
+));
+>>>>>>> 7f427db (fix(js-loading): added stimulus resolver for lazy controller loading)
