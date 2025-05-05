@@ -24,6 +24,18 @@
   transition: --top-shade 0.5s ease, --bottom-shade 0.5s ease;
 }
 
+.referral-input {
+  @include bs.media-breakpoint-down(sm) {
+    width: 100% !important;
+  }
+}
+
+#new-referral {
+  @include bs.media-breakpoint-down(lg) {
+    gap: 0 !important;
+  }
+}
+
 // Base class for carousels
 .home-carousels {
   .swiper-slide {
