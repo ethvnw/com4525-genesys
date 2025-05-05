@@ -1,0 +1,59 @@
+.accordion.mb-2{ id: "accordion-ticket-links" }
+  .accordion-item
+    .accordion-header{ id: "heading-ticket-links" }
+      %button.accordion-button.collapsed{
+        type: "button",
+        "data-bs-toggle": "collapse",
+        "data-bs-target": "#collapse-ticket-links",
+        "aria-expanded": "false",
+        "aria-controls": "collapse-ticket-links",
+        "aria-label": "Toggle ticket links input",
+      }
+        Ticket Links
+    .accordion-collapse.collapse{
+      id: "collapse-ticket-links",
+      "aria-labelledby": "heading-ticket-links",
+      "data-bs-parent": "#accordion-ticket-links",
+    }
+      .accordion-body
+        #ticket-links-container.d-flex.flex-column.gap-2{ "data-controller": "ticket-links" }
+          .d-flex.flex-column.flex-md-row.gap-2.align-items-stretch
+            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
+              = label_tag(:ticket_link_name, "Name:", class: "plan-label")
+              = text_field_tag(:ticket_link_name,
+                               nil,
+                               placeholder: "Name",
+                               class: "form-control flex-grow-1",
+                               "data-ticket-links-target": "name")
+
+            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
+              = label_tag(:ticket_link_url, "URL:", class: "plan-label")
+              = text_field_tag(:ticket_link_url,
+                               nil,
+                               placeholder: "URL",
+                               class: "form-control flex-grow-1",
+                               "data-ticket-links-target": "url")
+
+            = button_tag(type: "button",
+                         class: "btn btn-primary d-flex align-items-center gap-1",
+                         "data-action": "ticket-links#addLink",
+                         "aria-label": "Add ticket link") do
+              %i.bi.bi-plus-circle-fill
+              Add
+
+
+          .row
+            .col
+              %small.text-danger.mt-1{ "data-ticket-links-target" => "warning" }
+            = hidden_field_tag(:ticket_links_data,
+                               ticket_link_value(params[:ticket_links_data], plan),
+                               data: { ticket_links_target: "dataField" })
+
+          %table.table.d-none{ "data-ticket-links-target": "table" }
+            %thead
+              %tr
+                %th Name
+                %th URL
+                %th Actions
+            %tbody{ "data-ticket-links-target": "tbody" }
+              // Table rows are inserted by Stimulus controller (packs/scripts/controllers/ticket_links_controller.js)

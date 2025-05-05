@@ -15,6 +15,9 @@ export default class extends Controller {
     this.nextBtn = document.getElementById('next-btn');
     this.counter = document.getElementById('qr-counter');
 
+    this.resultsContainer.classList.replace('d-block', 'd-none');
+    this.imagesContainer.classList.replace('d-block', 'd-none');
+
     input.addEventListener('change', (event) => this.handleFileChange(event));
     this.prevBtn.addEventListener('click', () => this.prev());
     this.nextBtn.addEventListener('click', () => this.next());
@@ -54,13 +57,7 @@ export default class extends Controller {
     // If there are no files, do nothing
     if (!files.length) return;
 
-    this.results = [];
     this.currentIndex = 0;
-
-    this.resultsContainer.innerHTML = '';
-    this.imagesContainer.innerHTML = '';
-    this.resultsContainer.classList.replace('d-block', 'd-none');
-    this.imagesContainer.classList.replace('d-block', 'd-none');
 
     // Wait for all files to load before processing
     await Promise.all(Array.from(files).map(async (file) => {
@@ -118,6 +115,14 @@ export default class extends Controller {
             const qrUrl = await QRCode.toDataURL(code.data, { width: 200, height: 200 });
             resultImage.src = qrUrl;
 
+            const titleGroup = document.createElement('div');
+            titleGroup.classList.add('d-flex', 'align-items-center', 'mb-2', 'gap-2');
+
+            const label = document.createElement('label');
+            label.innerText = 'Title:';
+            label.classList.add('form-label', 'mb-0', 'fw-semibold');
+            label.style.minWidth = '40px';
+
             const titleInput = document.createElement('input');
             titleInput.type = 'text';
             titleInput.name = 'qr_titles[]';
@@ -129,7 +134,9 @@ export default class extends Controller {
               this.updateTitles(edit.target.value, code.data);
             });
 
-            textContainer.appendChild(titleInput);
+            titleGroup.appendChild(label);
+            titleGroup.appendChild(titleInput);
+            textContainer.appendChild(titleGroup);
           } catch (err) {
             // If an error or a duplicate is found, show an error message and the original image.
             textContainer.innerHTML = '<p class="qr-error">Error generating QR image</p>';
@@ -170,7 +177,7 @@ export default class extends Controller {
       );
 
       document.getElementById('qr-codes-found').classList.replace('d-none', 'd-block');
-      document.getElementById('qr-codes-found').innerHTML = `Codes found in ${this.codesWithTitles.length}/${files.length} images`;
+      document.getElementById('qr-codes-found').innerHTML = `Codes found in ${this.codesWithTitles.length}/${this.results.length} images`;
     }
   }
 

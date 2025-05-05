@@ -34,6 +34,10 @@ class PlansController < ApplicationController
         @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
       end
 
+      # Create booking references and ticket libks if provided
+      Plans::BookingReferencesSaver.call(plan: @plan, data: params[:booking_references_data])
+      Plans::TicketLinksSaver.call(plan: @plan, data: params[:ticket_links_data])
+
       session.delete(:plan_data)
       turbo_redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else
@@ -97,6 +101,20 @@ class PlansController < ApplicationController
         end
       end
 
+      # Delete all existing booking references
+      @plan.booking_references.destroy_all
+      # Create booking references if provided
+      JSON.parse(params[:booking_references_data] || []).each do |ref|
+        @plan.booking_references.create(name: ref["name"], reference_number: ref["number"])
+      end
+
+      # Delete all existing ticket links
+      @plan.ticket_links.destroy_all
+      # Create ticket links if provided
+      JSON.parse(params[:ticket_links_data] || []).each do |link|
+        @plan.ticket_links.create(name: link["name"], link: link["url"])
+      end
+
       # The notice message indicates whether any QR codes already existed to the plan
       turbo_redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.
       #{any_duplicate_codes ? "Some QR codes already existed..." : ""}")
@@ -117,7 +135,7 @@ class PlansController < ApplicationController
     @plan = Plan.find(params[:id]).decorate
     @trip = @plan.trip.decorate
     # Redirect back to the trip page if there are no tickets
-    if @plan.scannable_tickets.empty?
+    unless @plan.any_tickets?
       redirect_back_or_to(trip_path(@trip), notice: "No tickets available for this plan.")
     end
   end
@@ -137,6 +155,7 @@ class PlansController < ApplicationController
       :end_location_longitude,
       :start_date,
       :end_date,
+      :booking_references_data,
       documents: [],
     )
   end
