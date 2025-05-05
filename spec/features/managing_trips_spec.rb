@@ -218,4 +218,26 @@ RSpec.feature("Managing trips") do
       expect(page).not_to(have_content(trip.title))
     end
   end
+
+  context "When viewing trips" do
+    let!(:trip) { create(:trip) }
+    let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
+    let!(:trip_later) do
+      create(
+        :trip,
+        title: "Later Trip",
+        start_date: Time.current + 3.days,
+        end_date: Time.current + 4.days,
+      )
+    end
+    let!(:trip_membership_later) { create(:trip_membership, user: user, trip: trip_later) }
+
+    scenario "If I click 'Desc' to sort trips, the order in which trips are displayed is changed", js: true do
+      visit trips_path
+      expect(page.first(".trip-card")).to(have_content("Mock Trip"))
+      click_on "Desc"
+      expect(page).to(have_content("Asc"))
+      expect(page.first(".trip-card")).to(have_content("Later Trip"))
+    end
+  end
 end
