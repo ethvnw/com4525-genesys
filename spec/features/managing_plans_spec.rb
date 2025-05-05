@@ -99,6 +99,21 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_selector("#end-location-autocomplete", visible: true))
     end
 
+    scenario "I can create a plan with fewer fields to fill if I choose a free time plan", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Free Time", from: "plan_plan_type"
+      fill_in "plan_start_date", with: Time.current + 1.day
+      expect(page).to(have_selector("#start-location-autocomplete", visible: false))
+      click_on "Save"
+
+      await_message("Plan created successfully")
+
+      expect(page).to(have_content("Test Title"))
+      expect(page).to(have_content("Free Time"))
+      expect(page).to(have_content(Time.current.strftime("%H:%M")))
+    end
+
     scenario "I can create a plan and see its information on the plans index page", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
@@ -504,12 +519,29 @@ RSpec.feature("Managing plans") do
 
   feature "Viewing plans" do
     let!(:plan) { create(:plan, trip: trip) }
+    let!(:plan_later) do
+      create(
+        :plan,
+        trip: trip,
+        title: "Later Plan",
+        start_date: Time.current + 3.days,
+        end_date: Time.current + 4.days,
+      )
+    end
     let!(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
 
     scenario "If a plan doesn't have a scannable ticket, I see a message indicating that", js: true do
       visit trip_plan_path(trip, plan)
       # Expect a notice indicating no scannable tickets to be present
       expect(page).to(have_content("No tickets available for this plan."))
+    end
+
+    scenario "If I click 'Desc' to sort plans, the order in which plans are displayed is changed", js: true do
+      visit trip_path(plan.trip_id)
+      expect(page.first("[id^='plan-']")).to(have_content("Mock Plan"))
+      click_on "Desc"
+      expect(page).to(have_content("Asc"))
+      expect(page.first("[id^='plan-']")).to(have_content("Later Plan"))
     end
   end
 end
