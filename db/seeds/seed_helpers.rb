@@ -15,13 +15,11 @@ end
 # @param user [User] the user for which to seed an avatar
 # @param filename [String] the filename of the avatar, within db/seeds/images/avatars
 def seed_avatar(user, filename)
-  unless user.avatar.attached?
-    user.avatar.attach(
-      io: seed_image_file("avatars", filename),
-      filename: filename,
-      content_type: "image/jpeg",
-    )
-  end
+  user.avatar.attach(
+    io: seed_image_file("avatars", filename),
+    filename: filename,
+    content_type: "image/jpeg",
+  )
 end
 
 ##
@@ -30,15 +28,13 @@ end
 # @param featured_location [FeaturedLocation] the location for which to seed an image
 # @param location_name [String] the name of the location, which should match up to an image
 def seed_location_image(featured_location, location_name)
-  unless featured_location.image.attached?
-    filename = "#{location_name.parameterize.underscore}.jpg"
+  filename = "#{location_name.parameterize.underscore}.webp"
 
-    featured_location.image.attach(
-      io: seed_image_file("featured_locations", filename),
-      filename: filename,
-      content_type: "image/jpeg",
-    )
-  end
+  featured_location.image.attach(
+    io: seed_image_file("featured_locations", filename),
+    filename: filename,
+    content_type: "image/webp",
+  )
 end
 
 ##
@@ -47,11 +43,9 @@ end
 # @param trip [Trip] the trip for which to seed an image
 # @param filename [String] the filename of the avatar, within db/seeds/images/trips
 def seed_trip_image(trip, filename)
-  unless trip.image.attached?
-    trip.image.attach(
-      io: seed_image_file("trips", filename),
-      filename: filename,
-      content_type: "image/jpeg",
-    )
-  end
+  trip.image.attach(
+    io: seed_image_file("trips", filename),
+    filename: filename,
+    content_type: "image/jpeg",
+  )
 end
