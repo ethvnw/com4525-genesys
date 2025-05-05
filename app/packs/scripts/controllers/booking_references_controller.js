@@ -1,5 +1,16 @@
 import { Controller } from '@hotwired/stimulus';
 
+/* A Stimulus controller for handling the addition and deletion of booking references for plans.
+To use, include the following elements:
+  data-controller="booking-references" - Calls the controller
+  data-booking-references-target="name" - The input field for the reference name
+  data-booking-references-target="number" - The input field for the reference number
+  data-booking-references-target="dataField" - The hidden input field, storing the refs as JSON
+  data-booking-references-target="tbody" - The table body element where the refs are displayed
+  data-booking-references-target="table" - The table element that contains the refs
+  data-booking-references-target="warning" - The span element that displays warning messages
+*/
+
 export default class extends Controller {
   static get targets() {
     return ['name', 'number', 'dataField', 'tbody', 'table', 'warning'];

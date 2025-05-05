@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module Plans
-  # Service object to save booking references associated with a plan.
-  # Accepts JSON data and creates BookingReference records.
+  # Service to save booking references for a plan.
+  # Usage:
+  # Plans::BookingReferencesSaver.call(plan: @plan, data: params[:booking_references_data])
+  # Creates a booking reference for each entry in the JSON data, linked to the plan.
   class BookingReferencesSaver < ApplicationService
     def initialize(plan:, data:)
       super()
