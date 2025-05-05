@@ -20,6 +20,7 @@
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  locked_at              :datetime
+#  referrals_count        :integer          default(0), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -41,6 +42,8 @@
 #  index_users_on_username              (username) UNIQUE
 #
 class User < ApplicationRecord
+  include Countable
+
   before_save :downcase_username
   before_save :set_default_role
   validate :password_complexity
@@ -59,6 +62,7 @@ class User < ApplicationRecord
 
   # User roles for RBAC
   enum user_role: { reporter: "Reporter", admin: "Admin", member: "Member" }
+  scope :members, -> { where(user_role: :member) }
 
   # Ensuring username follows specific rules
   validates :username, presence: true, uniqueness: { case_sensitive: false }
@@ -79,6 +83,7 @@ class User < ApplicationRecord
 
   has_many :trip_memberships, dependent: :destroy
   has_many :trips, through: :trip_memberships
+  has_many :referrals, foreign_key: :sender_user_id, dependent: :destroy
 
   # Used to save the username in lowercase
   def downcase_username

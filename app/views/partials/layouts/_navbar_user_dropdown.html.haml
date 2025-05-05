@@ -37,6 +37,10 @@
                 method: :get,
         tabindex: 0) do
         Trip Analytics
+      = link_to(analytics_referrals_path,
+                class: "dropdown-item",
+                method: :get) do
+        Referrals Analytics
     .dropdown-divider
     = link_to(destroy_user_session_path,
               class: "dropdown-item",

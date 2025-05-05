@@ -1,0 +1,39 @@
+.accordion.mb-2{ id: "accordion-qr" }
+  .accordion-item
+    .accordion-header{ id: "heading-qr" }
+      %button.accordion-button.collapsed{
+        type: "button",
+        "data-bs-toggle": "collapse",
+        "data-bs-target": "#collapse-qr",
+        "aria-expanded": "false",
+        "aria-controls": "collapse-qr",
+        "aria-label": "Toggle QR Codes input",
+      }
+        QR Codes
+    .accordion-collapse.collapse{
+      id: "collapse-qr",
+      "aria-labelledby": "heading-qr",
+      "data-bs-parent": "#accordion-qr",
+    }
+      .accordion-body
+        #qr-logic-container{ "data-controller": "plan-qr" }
+          #qr-codes-found.d-none
+          #qr-results.d-none.mb-1
+          #qr-codes-container.d-flex.flex-column.d-none
+            #qr-images-container.d-none
+            #qr-navigation.mt-1.mb-2.text-center.d-none
+              %button#prev-btn.btn.btn-secondary{
+                type: "button",
+                disabled: true,
+                "aria-label": "Previous QR code",
+              } ← Prev
+              %span#qr-counter.mx-3
+              %button#next-btn.btn.btn-secondary{
+                type: "button",
+                disabled: true,
+                "aria-label": "Next QR code",
+              } Next →
+
+          = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")
+          = hidden_field_tag(:scannable_tickets)
+          = hidden_field_tag(:scannable_ticket_titles)

@@ -1,4 +1,4 @@
-.d-flex.flex-column.flex-md-row.justify-content-md-between.mb-4
+.d-flex.flex-column.flex-md-row.justify-content-md-between
   .mb-2
     %h1.mb-0.fw-bold= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary
@@ -10,6 +10,13 @@
 
 
 %p.mb-0.fs-5.text-primary= @plan.formatted_date_range
+
+-# Company name
+- if @plan.provider_name.present?
+  .d-flex.gap-3.align-items-center
+    %i.bi.bi-building
+    %p.mb-0= @plan.provider_name
+
 - if @plan.travel_plan?
   -# Start location and date
   .row.align-items-center.mb-3
@@ -25,15 +32,11 @@
     .col
       %p.mb-0.text-end.max-height-2-lines= @plan.end_location_name
 - else
-  -# Company name
-  .d-flex.gap-3.align-items-center
-    %i.bi.bi-building
-    %p.mb-0 Company Name
-
   -# Start location
   .d-flex.gap-3.align-items-center
     %i.bi.bi-geo-alt
     %p.mb-0= @plan.start_location_name
+
 
 - if @plan.scannable_tickets.any?
   -# QR codes
@@ -52,3 +55,9 @@
   - codes = @plan.scannable_tickets.map { |ticket| { code: ticket.code, title_value: ticket.decorate.title_value } }
   %script#qr-code-data{ type: "application/json" }
     = raw(codes.to_json)
+
+- if @plan.booking_references.any?
+  = render("partials/plans/booking_references_table", plan: @plan)
+
+- if @plan.ticket_links.any?
+  = render("partials/plans/ticket_links_table", plan: @plan)
