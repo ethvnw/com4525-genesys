@@ -25,7 +25,8 @@ class UserDecorator < ApplicationDecorator
   def avatar_or_default
     # Check whether avatar is persisted to ensure there were no validation errors
     if object.avatar.attached? && object.avatar.persisted?
-      object.avatar
+      # Convert avatar to webp to improve page load speed. Call .processed to save converted avatar to DB after
+      object.avatar.variant(resize_to_limit: [100, 100], convert: :webp, format: :webp).processed
     else
       avatar_url
     end
