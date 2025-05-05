@@ -22,6 +22,23 @@
   color: bs.$body-color;
 }
 
+.aa-Label svg {
+  color: bs.$body-color;
+}
+
+.aa-DetachedFormContainer {
+  background-color: bs.$roamio-secondary;
+  padding-top: max(8px, env(safe-area-inset-top));
+}
+
+.aa-DetachedCancelButton {
+  @extend .fw-semibold, .text-light;
+}
+
+.aa-PanelLayout {
+  background-color: bs.$body-bg;
+}
+
 .aa-Item {
   background-color: bs.$body-bg;
   cursor: pointer;
@@ -33,6 +50,7 @@
 
 .aa-DetachedSearchButton {
   @extend .form-control;
+  @extend .bg-light;
   color: bs.$body-color;
   padding: 0;
   display: flex;
@@ -41,7 +59,7 @@
 
 // form-control-btn is used for buttons that look like text inputs (e.g. date range picker)
 .form-control-btn{
-  @extend .form-control, .fw-semibold, .text-start;
+  @extend .form-control, .text-start;
   color: bs.$input-placeholder-color;
 }
 
@@ -87,5 +105,21 @@
 @include bs.media-breakpoint-down(md) {
   #qr-codes-container {
     max-width: 100%;
+  }
+}
+
+.tempus-dominus-widget {
+  --td-active-bg: #{bs.$roamio-primary};
+  --td-range-bg: #{darken(bs.$roamio-primary, 10%)};
+
+  @extend .border;
+  padding-top: 10px;
+
+  .picker-switch {
+      @extend .roamio-header;
+  }
+  
+  .dow, .month, .year, .decade {
+      @extend .fw-semibold;
   }
 }
