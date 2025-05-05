@@ -14,8 +14,8 @@
 #   result = MyService.call(args) # Calls `MyService.new(args).call`
 class ApplicationService
   class << self
-    def call(*args, &block)
-      new(*args, &block).call
+    def call(*args, **kwargs, &block)
+      new(*args, **kwargs, &block).call
     end
   end
 end

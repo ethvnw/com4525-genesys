@@ -15,6 +15,10 @@
 #
 #  index_ticket_links_on_plan_id  (plan_id)
 #
-class TicketLink < ApplicationRecord
-  belongs_to :plan
+FactoryBot.define do
+  factory :ticket_link do
+    link { "https://example.com/ticket" }
+    name { "Example Ticket" }
+    association :plan
+  end
 end

@@ -59,6 +59,15 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
     t.index ["subscription_tier_id"], name: "index_app_features_subscription_tiers_on_subscription_tier_id"
   end
 
+  create_table "booking_references", force: :cascade do |t|
+    t.string "reference_number"
+    t.bigint "plan_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.index ["plan_id"], name: "index_booking_references_on_plan_id"
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -200,9 +209,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
 
   create_table "ticket_links", force: :cascade do |t|
     t.bigint "plan_id"
-    t.string "ticket_link", null: false
+    t.string "link", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["plan_id"], name: "index_ticket_links_on_plan_id"
   end
 
@@ -271,6 +281,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_features_subscription_tiers", "app_features"
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
+  add_foreign_key "booking_references", "plans"
   add_foreign_key "referrals", "users", column: "sender_user_id"
   add_foreign_key "registrations", "subscription_tiers"
   add_foreign_key "trip_memberships", "users", column: "sender_user_id"

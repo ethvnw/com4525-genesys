@@ -56,7 +56,12 @@ table {
   height: 200px;
 }
 
-// Used when displaying a truncated code on mobile so it doesn't overflow
+.plan-label {
+  @extend .form-label, .mb-0, .fw-semibold, .text-md-end;
+  min-width: 80px;
+}
+
+// Used when displaying a truncated code on mobile so it doesnt overflow
 @include bs.media-breakpoint-down(lg) {
   #qr-code-text {
     width: 75vw;

@@ -51,6 +51,7 @@ class Plan < ApplicationRecord
   belongs_to :trip
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
+  has_many :booking_references, dependent: :destroy
   has_many :scannable_tickets, dependent: :destroy
 
   enum plan_type: {
@@ -82,5 +83,9 @@ class Plan < ApplicationRecord
 
   def regular_plan?
     !travel_plan?
+  end
+
+  def any_tickets?
+    ticket_links.any? || booking_references.any? || scannable_tickets.any?
   end
 end
