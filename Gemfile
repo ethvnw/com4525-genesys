@@ -111,6 +111,7 @@ group :test do
   gem "simplecov"
   gem "webmock"
   gem "vcr"
+  gem "so_many_devices"
 end
 
 group :development, :test do
