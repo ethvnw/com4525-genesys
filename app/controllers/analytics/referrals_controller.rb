@@ -4,7 +4,6 @@ module Analytics
   # Trip analytics controller
   class ReferralsController < Analytics::BaseController
     def index
-      Time.current
       @referrals = {
         today: Referral.count_today,
         this_week: Referral.count_this_week,
