@@ -15,13 +15,13 @@ RSpec.feature("Viewing trips") do
     scenario "On the list view" do
       visit trips_path
       click_on "List"
-      expect(page).to(have_content("no trips"))
+      expect(page).to(have_content("No Trips Created"))
     end
 
     scenario "On the map view" do
       visit trips_path
       click_on "Map"
-      expect(page).to(have_content("no trips"))
+      expect(page).to(have_content("No Trips Created"))
     end
   end
 
