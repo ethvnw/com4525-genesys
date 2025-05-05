@@ -9,7 +9,7 @@ let mapObject;
 export default class extends Controller {
   connect() {
     if (!mapObject) {
-      mapObject = newRoamioMap(this.identifier);
+      mapObject = newRoamioMap(this.element.id);
     }
 
     this.map = mapObject;
