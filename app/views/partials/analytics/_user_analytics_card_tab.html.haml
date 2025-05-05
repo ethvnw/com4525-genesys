@@ -1,0 +1,13 @@
+.row
+  .col-lg-6.mb-3
+    = render("partials/analytics/reporter_dashboard_card",
+             card_icons: "bi bi-person-add",
+             card_title: "Users Referred",
+             card_metric: referrals,
+             card_time_period: time_period)
+  .col-lg-6.mb-3
+    = render("partials/analytics/reporter_dashboard_card",
+             card_icons: "bi bi-person",
+             card_title: "Users Created",
+             card_metric: new_users,
+             card_time_period: time_period)
