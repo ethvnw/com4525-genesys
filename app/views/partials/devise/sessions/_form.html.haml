@@ -2,15 +2,19 @@
                   as: resource_name,
                   url: session_path(resource_name)) do |f|
   .form-inputs.py-2
+    - login_input_html = { placeholder: "Email address or Username", class: "mb-3" }
+    - login_input_html["aria-label"] = "Email address or Username"
     = f.input(:login,
               required: false,
               autofocus: true,
-              input_html: { placeholder: "Email address or Username", class: "mb-3" },
-              label: false)
+              input_html: login_input_html,
+              label: "Email address or Username")
+    - password_input_html = { placeholder: "Password", class: "mb-3", autocomplete: "new-password" }
+    - password_input_html["aria-label"] = "Password"
     = f.input(:password,
               required: false,
-              input_html: { placeholder: "Password", class: "mb-3", autocomplete: "new-password" },
-              label: false)
+              input_html: password_input_html,
+              label: "Password")
   .form-actions.d-flex.justify-content-center
     = f.button(:submit,
                "Log In",

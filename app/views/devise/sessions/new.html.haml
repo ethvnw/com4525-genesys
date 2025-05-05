@@ -1,29 +1,39 @@
 - content_for(:title, "Log In")
 - append_javascript_pack_tag("scriptpacks/login")
 
-.d-flex.flex-fill.justify-content-center
+.d-flex.flex-fill.justify-content-center.align-items-center.flex-column
   .row.w-100
     .col-xl-6.d-none.d-xl-flex.justify-content-center.align-items-center.position-relative
       .position-relative.pe-5.pb-5
-        = image_pack_tag("images/laptop.png", class: "d-block img-fluid")
+        = image_pack_tag("images/laptop.png", class: "d-block img-fluid", alt: "")
         #slideshow-container.background-container.position-absolute
           #login-slideshow.bg-white
             .login-slideshow-image.show
-              = image_pack_tag("images/placeholder_ios_screen.png", class: "d-block img-fluid screen")
+              = image_pack_tag("images/placeholder_ios_screen.png", class: "d-block img-fluid screen", alt: "")
             .login-slideshow-image
-              = image_pack_tag("images/placeholder_ios_screen_2.png", class: "d-block img-fluid screen")
+              = image_pack_tag("images/placeholder_ios_screen_2.png", class: "d-block img-fluid screen", alt: "")
             .login-slideshow-image
-              = image_pack_tag("images/placeholder_ios_screen_3.png", class: "d-block img-fluid screen")
-          = image_pack_tag("images/iphone11-frame.png", id: "iphone-frame", class: "d-block")
+              = image_pack_tag("images/placeholder_ios_screen_3.png", class: "d-block img-fluid screen", alt: "")
+          = image_pack_tag("images/iphone11-frame.png", id: "iphone-frame", class: "d-block", alt: "")
 
     .col-xl-6.d-flex.justify-content-center.align-items-center
       .card.login-card.px-md-5.py-3
         .card-body
-          .container
-            .d-flex.flex-column.align-items-center.pb-4
-              = link_to("/", class: "mt-4") do
-                = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 40)
+          .d-flex.flex-column.align-items-center.py-3
+            = link_to("/", "aria-label": "Home") do
+              = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 40, alt: "Roamio Logo")
+            %h1.mt-1 Log in
 
           = render("partials/devise/sessions/form")
           .d-flex.flex-column
             = render("partials/devise/shared/links")
+  .w-100.mt-5.d-flex.justify-content-center
+    %nav#login-nav
+      = link_to(root_path, tabindex: 0) do
+        Home
+      = link_to(faq_path, tabindex: 0) do
+        FAQ
+      = link_to(root_path(anchor: "reviews-carousel"), tabindex: 0) do
+        Reviews
+      = link_to(pricing_subscriptions_path, tabindex: 0) do
+        Pricing
