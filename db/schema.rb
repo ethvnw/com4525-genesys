@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_30_091300) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -134,6 +134,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_30_091300) do
     t.integer "order", default: -1, null: false
   end
 
+  create_table "referrals", force: :cascade do |t|
+    t.bigint "sender_user_id", null: false
+    t.string "receiver_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sender_user_id"], name: "index_referrals_on_sender_user_id"
+  end
+
   create_table "registrations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -250,6 +258,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_30_091300) do
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
     t.string "username"
+    t.integer "referrals_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
@@ -262,6 +271,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_30_091300) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_features_subscription_tiers", "app_features"
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
+  add_foreign_key "referrals", "users", column: "sender_user_id"
   add_foreign_key "registrations", "subscription_tiers"
   add_foreign_key "trip_memberships", "users", column: "sender_user_id"
 end

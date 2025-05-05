@@ -22,6 +22,8 @@ class ReferralsController < ApplicationController
       ReferralMailer.with(email: email, referrer: current_user).send_referral.deliver_later
       session.delete(:referral_email)
       message = { type: "success", content: "Referral email sent to #{email}." }
+      # Create a referral record
+      Referral.create(sender_user: current_user, receiver_email: email)
     end
 
     stream_response("referrals/create", home_path, message)
