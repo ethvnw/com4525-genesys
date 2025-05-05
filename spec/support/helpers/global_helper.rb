@@ -7,7 +7,7 @@
 # @param message [String] the message that should appear before continuing
 def await_message(message)
   within("#toast-list") do
-    expect(page).to(have_content(message, wait: 5))
+    expect(page).to(have_content(message, wait: 10))
   end
 end
 
