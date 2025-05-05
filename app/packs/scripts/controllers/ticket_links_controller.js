@@ -1,6 +1,17 @@
 import { Controller } from '@hotwired/stimulus';
 import isValidHttpUrl from '../lib/URLUtils';
 
+/* This is a Stimulus controller for handling the addition and deletion of ticket links for plans.
+To use, include the following elements:
+  data-controller="ticket-links" - Calls the controller
+  data-ticket-links-target="name" - The input field for the link name
+  data-ticket-links-target="url" - The input field for the link URL
+  data-ticket-links-target="dataField" - The hidden input field that stores the links as JSON
+  data-ticket-links-target="tbody" - The table body element where the links are displayed
+  data-ticket-links-target="table" - The table element that contains the links
+  data-ticket-links-target="warning" - The span element that displays warning messages
+*/
+
 export default class extends Controller {
   static get targets() {
     return ['name', 'url', 'dataField', 'tbody', 'table', 'warning'];
@@ -29,6 +40,7 @@ export default class extends Controller {
       this.showWarning('A ticket link with this URL already exists.');
       return;
     } if (!isValidHttpUrl(url)) {
+      // isValidHttpUrl is a utility function that checks if the URL starts with http:// or https://
       this.showWarning('Please enter a valid URL (beginning with http:// or https://).');
       return;
     }

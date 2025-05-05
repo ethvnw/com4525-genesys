@@ -1,5 +1,15 @@
 import { Controller } from '@hotwired/stimulus';
 
+/* This is a Stimulus controller for handling custom image uploads and displaying a preview.
+It is used for custom trip and user avatar images.
+To use, include the following elements:
+  data-controller="custom-image" - Calls the controller
+  data-custom-image-target="browseButton" - The file input element for selecting images
+  data-custom-image-target="customButton" - The button that triggers the file input
+  data-custom-image-target="fileNameSpan" - The span element that displays the selected file name
+  data-custom-image-target="preview" - The image element displaying a preview of the new image
+*/
+
 export default class extends Controller {
   static get targets() {
     return ['browseButton', 'customButton', 'fileNameSpan', 'preview'];

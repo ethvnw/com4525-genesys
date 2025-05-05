@@ -102,5 +102,6 @@ Rails.application.routes.draw do
   namespace :analytics do
     get :landing_page, to: "landing_page#index"
     resources :trips, only: [:index]
+    resources :referrals, only: [:index]
   end
 end

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module Plans
-  # Service object to save ticket links associated with a plan.
-  # Accepts JSON data and creates TicketLink records.
+  # Service to save ticket links for a plan.
+  # Usage:
+  # Plans::TicketLinksSaver.call(plan: @plan, data: params[:ticket_links_data])
+  # Creates a ticket link for each entry in the JSON data, linked to the plan.
   class TicketLinksSaver < ApplicationService
     def initialize(plan:, data:)
       super()
