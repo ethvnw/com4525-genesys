@@ -10,6 +10,14 @@
 
 
 %p.mb-0.fs-5.text-primary= @plan.formatted_date_range
+%p.mb-0.fs-4.text-primary= @plan.formatted_time_range
+
+-# Company name
+- if @plan.provider_name.present?
+  .d-flex.gap-3.align-items-center
+    %i.bi.bi-building
+    %p.mb-0= @plan.provider_name
+
 - if @plan.travel_plan?
   -# Start location and date
   .row.align-items-center.mb-3
@@ -25,15 +33,11 @@
     .col
       %p.mb-0.text-end.max-height-2-lines= @plan.end_location_name
 - else
-  -# Company name
-  .d-flex.gap-3.align-items-center
-    %i.bi.bi-building
-    %p.mb-0= @plan.provider_name
-
   -# Start location
   .d-flex.gap-3.align-items-center
     %i.bi.bi-geo-alt
     %p.mb-0= @plan.start_location_name
+
 
 - if @plan.scannable_tickets.any?
   -# QR codes
