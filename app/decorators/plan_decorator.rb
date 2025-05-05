@@ -11,25 +11,25 @@ class PlanDecorator < ApplicationDecorator
   # - "dd mmm yyyy  for different years
   # - end date is always formatted as "dd mmm yyyy"
   def formatted_date_range
+    unless end_date.present?
+      return start_date.strftime("%H:%M %d %b %Y")
+    end
+
     start_date_format = if start_date.year == end_date.year
       if start_date.month == end_date.month
         if start_date.day == end_date.day
-          ""
+          "%H:%M to "
         else
-          "%d - "
+          "%H:%M %d to "
         end
       else
-        "%d %b - "
+        "%H:%M %d %b to "
       end
     else
-      "%d %b %Y - "
+      "%H:%M %d %b %Y to "
     end
 
-    start_date.strftime(start_date_format) + end_date.strftime("%d %b %Y")
-  end
-
-  def formatted_time_range
-    start_date.strftime("%H:%M") + " - " + end_date.strftime("%H:%M")
+    start_date.strftime(start_date_format) + end_date.strftime("%H:%M %d %b %Y")
   end
 
   def formatted_end_date
