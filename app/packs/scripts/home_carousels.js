@@ -41,7 +41,7 @@ function calculateLuminance(r, g, b) {
  * Applies a background gradient to the trips carousel
  * @param {HTMLDivElement} currentSlide - The currently selected slide in the carousel
  */
-function applyBackgroundGradient(currentSlide) {
+async function applyBackgroundGradient(currentSlide) {
   const currentImage = currentSlide?.querySelector('img');
   const background = document.getElementById('home-bg');
   if (!currentImage || !background) return;
@@ -116,11 +116,15 @@ const latestTripsCarousel = new Swiper('.latest-trips-carousel', {
   on: {
     init() {
       const currentSlide = this.slides[this.activeIndex];
-      applyBackgroundGradient(currentSlide);
+      (async () => {
+        await applyBackgroundGradient(currentSlide);
+      })();
     },
     activeIndexChange() {
       const currentSlide = this.slides[this.activeIndex];
-      applyBackgroundGradient(currentSlide);
+      (async () => {
+        await applyBackgroundGradient(currentSlide);
+      })();
     },
   },
 });
@@ -133,13 +137,15 @@ const featuredLocationsCarousel = new Swiper(
 /**
  * Reverts the background gradient to the first slide in the trips carousel
  */
-function revertBackgroundGradient() {
-  applyBackgroundGradient(latestTripsCarousel.slides[latestTripsCarousel.activeIndex]);
+async function revertBackgroundGradient() {
+  await applyBackgroundGradient(latestTripsCarousel.slides[latestTripsCarousel.activeIndex]);
 }
 
 document.querySelectorAll('.latest-trips-carousel .swiper-slide').forEach((slide) => {
   slide.addEventListener('mouseenter', () => {
-    applyBackgroundGradient(slide);
+    (async () => {
+      await applyBackgroundGradient(slide);
+    })();
   });
   slide.addEventListener('mouseleave', () => {
     revertBackgroundGradient();
