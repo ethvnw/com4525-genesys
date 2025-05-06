@@ -93,6 +93,8 @@ class Plan < ApplicationRecord
     ticket_links.any? || booking_references.any? || scannable_tickets.any?
   end
 
+  ##
+  # Increments the trip's counter cache for the relevant plan type when creating the plan
   def add_counter_cache
     if travel_plan?
       trip.increment!(:travel_plans_count)
@@ -101,8 +103,20 @@ class Plan < ApplicationRecord
     end
   end
 
+  ##
+  # Decrements the trip's counter cache for the relevant plan type when deleting the plan
+  def remove_counter_cache
+    if travel_plan?
+      trip.decrement!(:travel_plans_count)
+    else
+      trip.decrement!(:regular_plans_count)
+    end
+  end
+
+  ##
+  # Updates the trip's counter cache for the relevant plan type when editing the plan
   def update_counter_cache
-    if plan_type_before_last_save != plan_type
+    if plan_type_before_last_save.starts_with?("travel_by") != plan_type.starts_with?("travel_by")
       old_type = travel_plan? ? :regular_plans_count : :travel_plans_count
       new_type = travel_plan? ? :travel_plans_count : :regular_plans_count
 
@@ -110,14 +124,6 @@ class Plan < ApplicationRecord
         trip.decrement!(old_type)
         trip.increment!(new_type)
       end
-    end
-  end
-
-  def remove_counter_cache
-    if travel_plan?
-      trip.decrement!(:travel_plans_count)
-    else
-      trip.decrement!(:regular_plans_count)
     end
   end
 end

@@ -47,4 +47,25 @@ RSpec.describe(TripDecorator, type: :decorator) do
       end
     end
   end
+
+  describe "#webp_image" do
+    context "when there is no trip image" do
+      let(:trip) { create(:trip, image: nil) }
+      it "returns nil" do
+        expect(decorated_trip.webp_image).to(eq(nil))
+      end
+    end
+
+    context "when there is a trip image" do
+      let(:trip) { create(:trip) } # Use default mock image
+      let(:image) { trip.image }
+      it "returns a variant of the image that has been converted to webp" do
+        expect(decorated_trip.webp_image.variation.transformations).to(include({ format: :webp, convert: :webp }))
+      end
+
+      it "returns a variant of the image that has been resized to fit within 1000x1000" do
+        expect(decorated_trip.webp_image.variation.transformations).to(include({ resize_to_limit: [1000, 1000] }))
+      end
+    end
+  end
 end
