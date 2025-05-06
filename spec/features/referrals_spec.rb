@@ -13,6 +13,7 @@ RSpec.feature("Referrals") do
 
   feature "Referral form visibility" do
     specify "A referral form will be visible on the homepage" do
+      save_page
       expect(page).to(have_content("Enjoying Roamio? Invite a Friend!"))
       expect(page).to(have_button("Invite to Roamio"))
     end
