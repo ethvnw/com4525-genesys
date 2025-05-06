@@ -13,11 +13,10 @@
                        class: "d-lg-none")
     %hr
     %p.ps-3.d-none.d-lg-flex.roamio-text Account
-    %ul.nav.nav-pills.nav-flush.flex-column
+    %ul#account-links.nav.nav-pills.nav-flush.flex-column
       %li.nav-item
         = render("partials/layouts/navbar_user_dropdown")
-      %li#inbox-container
-        = navbar_link_to("Inbox", "bi-inbox", inbox_path, inbox_count)
+      = navbar_link_to("Inbox", "bi-inbox", inbox_path, inbox_count)
     %hr
     %p.ps-3.d-none.d-lg-flex.roamio-text Explore
     %ul#navigation-links.nav.nav-pills.nav-flush.flex-column

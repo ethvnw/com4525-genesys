@@ -48,6 +48,10 @@
   background-color: darken(bs.$body-bg, 5%);
 }
 
+.aa-Form {
+  @extend .rounded;
+}
+
 .aa-DetachedSearchButton {
   @extend .form-control;
   @extend .bg-light;
