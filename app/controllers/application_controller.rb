@@ -57,12 +57,7 @@ class ApplicationController < ActionController::Base
   end
 
   def decorate_current_user
-    # Early exit if current user nil or already been decorated
-    if current_user.nil?
-      return
-    end
-
-    @current_user = current_user.decorate
+    @current_user = current_user.decorate if current_user.present?
   end
 
   ##
