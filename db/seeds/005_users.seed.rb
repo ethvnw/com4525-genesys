@@ -11,7 +11,8 @@ User.create(
   password_confirmation: "AdminGenesys#1",
   user_role: User.user_roles[:admin],
   invitation_accepted_at: Time.zone.parse("2024-06-17 14:23:36"),
-) unless User.find_by(email: "admin@genesys.com").or(User.find_by(username: "admin1")).present?
+) unless User.find_by(email: "admin@genesys.com").present? \
+  || User.find_by(username: "admin1").present?
 
 User.create(
   email: "reporter@genesys.com",
@@ -20,7 +21,8 @@ User.create(
   password_confirmation: "ReporterGenesys#1",
   user_role: User.user_roles[:reporter],
   invitation_accepted_at: Time.zone.parse("2024-09-03 08:45:12"),
-) unless User.find_by(email: "reporter@genesys.com").or(User.find_by(username: "reporter1")).present?
+) unless User.find_by(email: "reporter@genesys.com").present? \
+  || User.find_by(username: "reporter1").present?
 
 User.create(
   email: "kbharakhada1@sheffield.ac.uk",
@@ -29,7 +31,8 @@ User.create(
   password_confirmation: "KBGenesys12!",
   user_role: User.user_roles[:member],
   invitation_accepted_at: Time.zone.parse("2024-11-22 19:36:45"),
-) unless User.find_by(email: "kbharakhada1@sheffield.ac.uk").or(User.find_by(username: "barracuda")).present?
+) unless User.find_by(email: "kbharakhada1@sheffield.ac.uk").present? \
+  || User.find_by(username: "barracuda").present?
 
 sanders = User.create(
   email: "jsanders4@sheffield.ac.uk",
@@ -38,7 +41,8 @@ sanders = User.create(
   password_confirmation: "JSGenesys12!",
   user_role: User.user_roles[:member],
   invitation_accepted_at: Time.zone.parse("2024-08-30 02:17:51"),
-) unless User.find_by(email: "jsanders4@sheffield.ac.uk").or(User.find_by(username: "jacksanders")).present?
+) unless User.find_by(email: "jsanders4@sheffield.ac.uk").present? \
+  || User.find_by(username: "jacksanders").present?
 
 seed_avatar(sanders, "sanders.jpg") unless sanders.nil?
 
@@ -49,7 +53,8 @@ burke = User.create(
   password_confirmation: "JBGenesys12!",
   user_role: User.user_roles[:member],
   invitation_accepted_at: Time.zone.parse("2025-01-14 11:09:27"),
-) unless User.find_by(email: "REMOVEDke5@sheffield.ac.uk").or(User.find_by(username: "jackburke")).present?
+) unless User.find_by(email: "REMOVEDke5@sheffield.ac.uk").present? \
+  || User.find_by(username: "jackburke").present?
 
 seed_avatar(burke, "burke.jpg") unless burke.nil?
 
@@ -60,7 +65,8 @@ james = User.create(
   password_confirmation: "JMGenesys12!",
   user_role: User.user_roles[:member],
   invitation_accepted_at: Time.zone.parse("2024-05-26 15:42:08"),
-) unless User.find_by(email: "jmarch2@sheffield.ac.uk").or(User.find_by(username: "jamesmarch")).present?
+) unless User.find_by(email: "jmarch2@sheffield.ac.uk").present? \
+  || User.find_by(username: "jamesmarch").present?
 
 seed_avatar(james, "march.jpg") unless james.nil?
 
@@ -71,7 +77,8 @@ User.create(
   password_confirmation: "NBGenesys12!",
   user_role: User.user_roles[:member],
   invitation_accepted_at: Time.zone.parse("2025-02-08 21:33:40"),
-) unless User.find_by(email: "ebarker5@sheffield.ac.uk").or(User.find_by(username: "ninabarker")).present?
+) unless User.find_by(email: "ebarker5@sheffield.ac.uk").present? \
+    || User.find_by(username: "ninabarker").present?
 
 User.create(
   email: "eawatts1@sheffield.ac.uk",
@@ -80,4 +87,5 @@ User.create(
   password_confirmation: "EWGenesys12!",
   user_role: User.user_roles[:member],
   invitation_accepted_at: Time.zone.parse("2024-07-19 05:58:22"),
-) unless User.find_by(email: "eawatts1@sheffield.ac.uk").or(User.find_by(username: "ethanwatts")).present?
+) unless User.find_by(email: "eawatts1@sheffield.ac.uk").present? \
+  || User.find_by(username: "ethanwatts").present?
