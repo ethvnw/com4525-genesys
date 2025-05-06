@@ -85,7 +85,7 @@ RSpec.feature("Member navbar") do
         visit home_path
 
         within("#account-links") do
-          expect(find("a", text: "Inbox")).to have_content("1")
+          expect(find("a", text: "Inbox")).to(have_content("1"))
         end
       end
     end
@@ -102,7 +102,7 @@ RSpec.feature("Member navbar") do
         visit home_path
 
         within("#account-links") do
-          expect(find("a", text: "Inbox")).to have_content("2")
+          expect(find("a", text: "Inbox")).to(have_content("2"))
         end
       end
     end
