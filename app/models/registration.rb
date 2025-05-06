@@ -47,9 +47,9 @@ class Registration < ApplicationRecord
   end
 
   def landing_page_journey
-    feature_shares = FeatureShare.where(registration_id: id).includes([:app_feature]).decorate
-    question_clicks = QuestionClick.where(registration_id: id).includes([:question]).decorate
-    review_likes = ReviewLike.where(registration_id: id).includes([:review]).decorate
+    feature_shares = FeatureShare.includes(:app_feature).where(registration_id: id).decorate
+    question_clicks = QuestionClick.includes(:question).where(registration_id: id).decorate
+    review_likes = ReviewLike.includes(:review).where(registration_id: id).decorate
 
     landing_page_journey = feature_shares + question_clicks + review_likes
 
