@@ -140,7 +140,11 @@ class TripsController < ApplicationController
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
 
     # Only include tickets/documents if in list view, as they are not visible in map view
-    plans_includes_list = params[:view] == "list" ? [:scannable_tickets, documents_attachments: :blob] : []
+    plans_includes_list = if params[:view] == "list"
+      [:scannable_tickets, :ticket_links, :booking_references, documents_attachments: :blob]
+    else
+      []
+    end
     @plans = @trip.plans.order(:start_date).includes(plans_includes_list).decorate
     @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
 
