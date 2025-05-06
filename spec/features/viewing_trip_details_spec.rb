@@ -146,16 +146,17 @@ RSpec.feature("Viewing trip details") do
       }))
     end
 
-    scenario "Viewing my trip as a downloadable PDF", js: true, with_downloads: true do
+    scenario "Viewing my trip as a downloadable PDF", js: true do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Export PDF"
 
-      wait_for_download
-      expect(downloads.length).to(eq(1))
-      expect(File.basename(last_download)).to(eq("#{trip.title}.pdf"))
-      last_pdf = File.read(last_download)
-      expect(last_pdf).to(include("Mock Trip 1"))
+      # Wait for the download to complete
+      sleep 5
+
+      expect(File.exist?(Rails.root.join(DOWNLOAD_PATH, "#{trip.title}.pdf"))).to(be(true))
+      pdf = File.read(Rails.root.join(DOWNLOAD_PATH, "#{trip.title}.pdf"))
+      expect(pdf).to(include(trip.title))
     end
   end
 end

@@ -51,8 +51,6 @@ RSpec.configure do |config|
   # Allows us to travel to specific time periods
   config.include(ActiveSupport::Testing::TimeHelpers)
 
-  config.include(SoManyDevices::DownloadsHelper)
-
   # Ensure our database is definitely empty before running the suite
   # (e.g. if a process got killed and things weren't cleaned up)
   config.before(:suite) do
@@ -71,16 +69,6 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation
   end
 
-  # Use driver that supports downloads for tests tagged with `with_downloads`
-  config.before(:each, js: true, with_downloads: true) do
-    Capybara.current_driver = :selenium_chrome_with_download_headless
-  end
-
-  config.after(:each, js: true, with_downloads: true) do
-    Capybara.use_default_driver
-    clear_downloads
-  end
-
   config.before do
     DatabaseCleaner.start
 
@@ -95,6 +83,10 @@ RSpec.configure do |config|
     ActiveStorage::Attachment.all.each(&:purge)
     DatabaseCleaner.clean
     time_travel_back
+  end
+
+  config.after(:each, :js) do
+    FileUtils.rm_rf(DOWNLOAD_PATH)
   end
 
   config.after(:all) do
