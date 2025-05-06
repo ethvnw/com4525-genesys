@@ -37,4 +37,7 @@ FileUtils.chdir(APP_ROOT) do
   system! "bin/rails log:clear tmp:clear"
 
   system! "git config --local core.hooksPath git-hooks"
+
+  puts "\n== Installing Puppeteer dependencies =="
+  system!("npx puppeteer browsers install chrome")
 end
