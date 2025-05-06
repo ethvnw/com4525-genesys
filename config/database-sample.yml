@@ -7,6 +7,10 @@ development:
   <<: *default
   database: com4525_team02_development
 
+performance_test:
+  <<: *default
+  database: com4525_team02_performance_test
+
 test:
   <<: *default
   database: com4525_team02_test
