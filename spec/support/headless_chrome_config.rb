@@ -13,8 +13,12 @@ Capybara.register_driver(:headless_chrome) do |app|
   chrome_options.add_argument("--disable-popup-blocking")
   chrome_options.add_argument("--window-size=1920,1080")
 
-  chrome_options.add_preference("download.default_directory", DOWNLOAD_PATH)
-  chrome_options.add_preference(:download, default_directory: DOWNLOAD_PATH)
+  chrome_options.add_preference(
+    :download,
+    prompt_for_download: false,
+    default_directory: DOWNLOAD_PATH,
+  )
+  chrome_options.add_preference(:browser, set_download_behavior: { behavior: "allow" })
 
   if ENV["SELENIUM_HOST"]
     Capybara::Selenium::Driver.new(
@@ -22,10 +26,38 @@ Capybara.register_driver(:headless_chrome) do |app|
       browser: :remote,
       url: "http://#{ENV["SELENIUM_HOST"]}:#{ENV["SELENIUM_PORT"]}/wd/hub",
       capabilities: chrome_options,
-    )
+    ) do |driver|
+      bridge = driver.browser.send(:bridge)
+
+      path = "/session/:session_id/chromium/send_command"
+      path[":session_id"] = bridge.session_id
+
+      bridge.http.call(
+        :post,
+        path,
+        cmd: "Page.setDownloadBehavior",
+        params: {
+          behavior: "allow",
+          downloadPath: DOWNLOAD_PATH,
+        },
+      )
+    end
   else
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: chrome_options) do |driver|
-      driver.browser.download_path = DOWNLOAD_PATH
+      bridge = driver.browser.send(:bridge)
+
+      path = "/session/:session_id/chromium/send_command"
+      path[":session_id"] = bridge.session_id
+
+      bridge.http.call(
+        :post,
+        path,
+        cmd: "Page.setDownloadBehavior",
+        params: {
+          behavior: "allow",
+          downloadPath: DOWNLOAD_PATH,
+        },
+      )
     end
   end
 end
