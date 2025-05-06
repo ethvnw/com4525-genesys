@@ -57,6 +57,10 @@
   height: 2.375rem;
 }
 
+.aa-Form {
+  @extend .rounded;
+}
+
 // form-control-btn is used for buttons that look like text inputs (e.g. date range picker)
 .form-control-btn{
   @extend .form-control, .text-start;
