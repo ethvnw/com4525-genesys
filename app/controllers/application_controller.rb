@@ -73,10 +73,10 @@ class ApplicationController < ActionController::Base
 
     if flash[:alert].present?
       flash[:notifications] << { message: flash[:alert], notification_type: "danger" }
-      flash.discard(:alert)
+      flash[:alert] = nil
     elsif flash[:notice].present?
       flash[:notifications] << { message: flash[:notice], notification_type: "success" }
-      flash.discard(:notice)
+      flash[:notice] = nil
     end
   end
 
