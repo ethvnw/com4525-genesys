@@ -25,7 +25,7 @@ RSpec.feature("Dashboard access") do
       expect(page).to(have_content("Trip Analytics"))
 
       visit analytics_referrals_path
-      expect(page).to(have_content("Referral Analytics"))
+      expect(page).to(have_content("Referrals Analytics"))
     end
   end
 
@@ -42,7 +42,7 @@ RSpec.feature("Dashboard access") do
       expect(page).to(have_content("Trip Analytics"))
 
       visit analytics_referrals_path
-      expect(page).to(have_content("Referral Analytics"))
+      expect(page).to(have_content("Referrals Analytics"))
     end
 
     specify "I am unauthorised to view the admin dashboard" do
