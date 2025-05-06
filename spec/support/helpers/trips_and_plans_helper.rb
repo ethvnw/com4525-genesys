@@ -49,7 +49,7 @@ def expect_to_have_trip_as_list_item(trip, readable_date_range)
   within("a[href='/trips/#{trip.id}']") do |trip_card|
     expect(trip_card).to(have_content(trip.title))
     expect(trip_card).to(have_content(readable_date_range))
-    expect(trip_card).to(have_selector("img[src='#{url_for(trip.image).sub("http://www.example.com", "")}']"))
+    expect(trip_card).to(have_selector("img[src='#{url_for(trip.decorate.webp_image)}']"))
   end
 end
 
