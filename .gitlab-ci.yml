@@ -126,6 +126,8 @@ rspec:
 
     - "echo -e \"test:\n  adapter: postgresql\n  host: postgres\n  database: ci_test\n  username: runner\n  password: runner\" > config/database.yml"
     - bundle check
+
+    - npx puppeteer browsers install chrome
     - RAILS_ENV=test bundle exec rails db:test:prepare
   extends: .except
   needs:
