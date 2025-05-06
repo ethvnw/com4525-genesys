@@ -101,6 +101,18 @@ class Plan < ApplicationRecord
     end
   end
 
+  def update_counter_cache
+    if plan_type_before_last_save != plan_type
+      old_type = travel_plan? ? :regular_plans_count : :travel_plans_count
+      new_type = travel_plan? ? :travel_plans_count : :regular_plans_count
+
+      trip.transaction do
+        trip.decrement!(old_type)
+        trip.increment!(new_type)
+      end
+    end
+  end
+
   def remove_counter_cache
     if travel_plan?
       trip.decrement!(:travel_plans_count)
