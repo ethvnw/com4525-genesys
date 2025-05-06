@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-ew = User.find_by(email: "eawatts1@sheffield.ac.uk")
-nb = User.find_by(email: "ebarker5@sheffield.ac.uk")
-jb = User.find_by(email: "REMOVEDke5@sheffield.ac.uk")
-jm = User.find_by(email: "jmarch2@sheffield.ac.uk")
-js = User.find_by(email: "jsanders4@sheffield.ac.uk")
-kb = User.find_by(email: "kbharakhada1@sheffield.ac.uk")
+ew = User.find_by(email: "eawatts1@sheffield.ac.uk") || User.find_by(username: "ethanwatts")
+nb = User.find_by(email: "ebarker5@sheffield.ac.uk") || User.find_by(username: "ninabarker")
+jb = User.find_by(email: "REMOVEDke5@sheffield.ac.uk") || User.find_by(username: "jackburke")
+jm = User.find_by(email: "jmarch2@sheffield.ac.uk") || User.find_by(username: "jamesmarch")
+js = User.find_by(email: "jsanders4@sheffield.ac.uk") || User.find_by(username: "jacksanders")
+kb = User.find_by(email: "kbharakhada1@sheffield.ac.uk") || User.find_by(username: "barracuda")
 
 brienz = Trip.find_by(location_name: "Brienz, Switzerland")
 brighton = Trip.find_by(location_name: "Brighton, United Kingdom")
