@@ -151,11 +151,13 @@ RSpec.feature("Viewing trip details") do
       click_on "Settings"
       click_on "Export PDF"
 
-      # Wait for the download to complete
-      sleep 5
+      download_file = Rails.root.join(DOWNLOAD_PATH, "#{trip.title}.pdf")
+      Timeout.timeout(15) do
+        sleep(0.1) until File.exist?(download_file)
+      end
 
-      expect(File.exist?(Rails.root.join(DOWNLOAD_PATH, "#{trip.title}.pdf"))).to(be(true))
-      pdf = File.read(Rails.root.join(DOWNLOAD_PATH, "#{trip.title}.pdf"))
+      expect(File).to(exist(download_file))
+      pdf = File.read(download_file)
       expect(pdf).to(include(trip.title))
     end
   end
