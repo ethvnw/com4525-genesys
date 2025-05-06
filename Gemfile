@@ -75,7 +75,7 @@ gem "unsplash"
 gem "active_storage_validations"
 gem "ruby-vips"
 
-group :development do
+group :development, :performance_test do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
@@ -113,7 +113,7 @@ group :test do
   gem "vcr"
 end
 
-group :development, :test do
+group :development, :test, :performance_test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "rspec-rails"
   gem "factory_bot_rails"
