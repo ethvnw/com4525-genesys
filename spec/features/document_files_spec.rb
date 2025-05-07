@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.feature("Managing Documents") do
   let!(:user) { create(:user) }
-  let!(:trip) { FactoryBot.create(:trip) }
+  let!(:trip) { create(:trip) }
   let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
   given!(:plan) { create(:plan, trip: trip) }
 
