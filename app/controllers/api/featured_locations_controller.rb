@@ -7,11 +7,8 @@ module Api
   class FeaturedLocationsController < ApplicationController
     def show
       featured_location = FeaturedLocation.find(params[:id]).decorate
-      session[:trip_data] = {
+      session[:featured_location] = {
         title: featured_location.trip_name,
-        description: nil,
-        start_date: nil,
-        end_date: nil,
         location_name: featured_location.location_name,
         location_latitude: featured_location.latitude,
         location_longitude: featured_location.longitude,

@@ -20,7 +20,13 @@ Rails.application.routes.draw do
   get :faq, to: "pages#faq"
 
   resources :trips do
+    member do
+      get :export_pdf
+    end
     resources :plans do
+      member do
+        get :new_backup_plan
+      end
       resources :scannable_tickets, only: [:destroy]
       resources :documents, only: [:destroy]
     end

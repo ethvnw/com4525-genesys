@@ -1,0 +1,21 @@
+%p.mb-1{ class: plan.backup_plan? ? "mt-3" : nil }
+  - if plan.backup_plan?
+    %span.fw-semibold.text-body-secondary
+      Backup Plan:
+  = plan.title
+
+- unless plan.start_location_name.blank?
+  .d-flex.mb-1.align-items-center
+    .flex-grow-0.px-3
+      %i.bi.bi-geo-alt-fill
+    .flex-grow-1
+      = plan.start_location_name
+      - unless plan.end_location_name.blank?
+        = " - #{plan.end_location_name}"
+
+- unless plan.provider_name.blank?
+  .d-flex.align-items-center
+    .flex-grow-0.px-3
+      %i.bi.bi-building-fill
+    .flex-grow-1
+      = plan.provider_name

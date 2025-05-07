@@ -8,6 +8,8 @@ require "uri"
 # Handles the creation of trips
 class TripsController < ApplicationController
   include Streamable
+  include ParamPresenceEnforceable
+
   before_action :authenticate_user!
   before_action :restrict_admin_and_reporter_access!
 
@@ -15,32 +17,31 @@ class TripsController < ApplicationController
   layout "user"
 
   def index
-    # Enforce presence of "view" query parameter
-    unless ["list", "map"].include?(params[:view].to_s)
+    enforce_required_parameter(:view, ["list", "map"], :trip_index_view)
+    enforce_required_parameter(:order, ["asc", "desc"], :trip_index_order)
+
+    if any_params_enforced?
+      # puts params[:view]
+      # puts enforced_query_params
       flash.keep(:notifications) # Persist notifications across redirect
-      default_view = session.fetch(:trip_index_view, "list")
-      redirect_to(trips_path(request.query_parameters.merge({ view: default_view }))) and return
+      redirect_to(trips_path(enforced_query_params)) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a trip
     session[:trip_index_view] = params[:view]
+    session[:trip_index_order] = params[:order]
 
-    @trips = current_user.joined_trips.decorate
+    @trips = current_user.joined_trips.order(start_date: params[:order].to_sym).decorate
     stream_response("trips/index")
   end
 
   def new
-    @trip = if session[:trip_data]
-      Trip.new(session[:trip_data])
-    else
-      Trip.new
-    end
-
+    # Prefill with featured location data if available
+    @trip = Trip.new(session[:featured_location] || {})
     @errors = flash[:errors]
   end
 
   def create
-    # First, the trip is created using the form params
     @trip = Trip.new(trip_params)
 
     if @trip.save
@@ -49,32 +50,20 @@ class TripsController < ApplicationController
       else
         upload_unsplash_image(@trip.location_name)
       end
-      session.delete(:trip_data)
-      # Next, a TripMembership is created between the current logged in user and the new trip
-      membership = TripMembership.new
-      membership.trip_id = @trip.id
-      membership.user_id = current_user.id
-      # It is assumed that the creator of a trip accepts the invite.
-      membership.is_invite_accepted = true
-      membership.invite_accepted_date = Time.current
-      membership.user_display_name = current_user.username
-      membership.sender_user_id = current_user.id
-      membership.save
+
+      TripMembership.create(
+        trip_id: @trip.id,
+        user_id: current_user.id,
+        is_invite_accepted: true,
+        invite_accepted_date: Time.current,
+        user_display_name: current_user.username,
+        sender_user_id: current_user.id,
+      )
 
       view_param = session.fetch(:trips_index_view, "list")
       turbo_redirect_to(trips_path(view: view_param), notice: "Trip created successfully.")
     else
       flash[:errors] = @trip.errors.to_hash(true)
-      session[:trip_data] =
-        @trip.attributes.slice(
-          "title",
-          "description",
-          "start_date",
-          "end_date",
-          "location_name",
-          "location_latitude",
-          "location_longitude",
-        )
 
       # Merge the errors from start_date and end_date into the date error, as this is the one used by the date field
       flash[:errors][:date] ||= []
@@ -114,27 +103,59 @@ class TripsController < ApplicationController
   end
 
   def show
-    # Enforce presence of "view" query parameter
-    unless ["list", "map"].include?(params[:view].to_s)
+    # Enforce presence of required query parameters
+    enforce_required_parameter(:view, ["list", "map"], :trip_show_view)
+
+    # If viewing trip in map view, enforce nil order param and avoid lines between plans going to wrong way
+    if param_enforced_as?(:view, "map")
+      enforce_required_parameter(:order, [nil], :null_key)
+    else
+      enforce_required_parameter(:order, ["asc", "desc"], :trip_show_order)
+    end
+
+    if any_params_enforced?
       flash.keep(:notifications) # Persist notifications across redirect
-      default_view = session.fetch(:trip_index_view, "list")
-      turbo_redirect_to(trip_path(params[:id], request.query_parameters.merge({ view: default_view }))) and return
+      turbo_redirect_to(trip_path(params[:id], enforced_query_params)) and return
     end
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a plan
     session[:trip_show_view] = params[:view]
 
+    # Don't update saved order if in map view
+    if params[:view] != "map"
+      session[:trip_show_order] = params[:order]
+    end
+
     @trips = current_user.joined_trips.decorate
 
     @trip = Trip.find(params[:id]).decorate
     @trip_membership = TripMembership.find_by(trip_id: @trip.id, user_id: current_user.id)
-    @plans = @trip.plans.order(:start_date).decorate
+
+    @plans = get_plans_excluding_backups(@trip).order(start_date: params[:order] || :asc).decorate
     @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
 
     stream_response("trips/show")
   end
 
+  def export_pdf
+    trip = Trip.find(params[:id]).decorate
+    plans = get_plans_excluding_backups(@trip).order(:start_date).decorate
+    plan_groups = plans.group_by { |plan| plan.start_date.to_date }
+
+    html_content = render_to_string(
+      template: "pdf_templates/trip",
+      layout: false,
+      locals: { trip: trip, plan_groups: plan_groups },
+    )
+    pdf = Grover.new(html_content).to_pdf
+    send_data(pdf, filename: "#{trip.title}.pdf", type: "application/pdf", disposition: "attachment")
+  end
+
   private
+
+  def get_plans_excluding_backups(trip)
+    trip.plans.where.not(id: Plan.where.not(backup_plan_id: nil).pluck(:backup_plan_id))
+  end
 
   def upload_unsplash_image(location_name)
     photo = Unsplash::Photo.search(@trip.location_name.split(",", 2).first).first

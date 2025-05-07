@@ -85,6 +85,10 @@ RSpec.configure do |config|
     time_travel_back
   end
 
+  config.after(:each, :js) do
+    FileUtils.rm_rf(DOWNLOAD_PATH)
+  end
+
   config.after(:all) do
     ##
     # Clear empty ActiveStorage directories after tests finish
