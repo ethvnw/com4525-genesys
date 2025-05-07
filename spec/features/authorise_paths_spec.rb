@@ -128,12 +128,12 @@ RSpec.feature("General Path Authorisation") do
 
   # Avoid duplicate unit tests for staff users who are unauthorised on member pages
   # https://railsware.com/blog/using-configurable-shared-examples-in-rspec/
-  shared_examples "A staff user with unauthorised access" do |user_role|
+  shared_examples "A staff user" do |user_role|
     before do
       login_as(send(user_role), scope: :user)
     end
 
-    scenario "I am not authorised to access the landing page" do
+    scenario "I am authorised to access the landing page" do
       visit root_path
       expect(page.status_code).to(eq(200))
       expect(page).to(have_current_path(root_path))
@@ -161,10 +161,10 @@ RSpec.feature("General Path Authorisation") do
   end
 
   feature "As a reporter user" do
-    it_behaves_like("A staff user with unauthorised access", :reporter)
+    it_behaves_like("A staff user", :reporter)
   end
 
   feature "As an admin user" do
-    it_behaves_like("A staff user with unauthorised access", :admin)
+    it_behaves_like("A staff user", :admin)
   end
 end
