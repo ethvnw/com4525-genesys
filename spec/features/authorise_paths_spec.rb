@@ -13,7 +13,6 @@
 ##
 
 require "rails_helper"
-require_relative "../support/helpers/trips_and_plans_helper"
 
 RSpec.feature("General Path Authorisation") do
   let!(:admin) { create(:admin) }
@@ -23,17 +22,35 @@ RSpec.feature("General Path Authorisation") do
   let!(:user) { create(:user) }
   let!(:trip) { create(:trip) }
   let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
-  given!(:plan) { create(:plan, trip: trip) }
+  let!(:plan) { create(:plan, trip: trip) }
 
   # Trip and plan for user 2
   let!(:user2) { create(:user) }
   let!(:trip2) { create(:trip) }
   let!(:trip_membership2) { create(:trip_membership, user: user2, trip: trip2) }
-  given!(:plan2) { create(:plan, trip: trip2) }
+  let!(:plan2) { create(:plan, trip: trip2) }
 
-  before do
-    trip_membership
-    trip_membership2
+  feature "As a user not logged in" do
+    [
+      ["homepage", let(:path) { home_path }],
+      ["inbox page", let(:path) { inbox_path }],
+      ["plan form page", let(:path) { new_trip_plan_path(trip) }],
+      ["trip form page", let(:path) { new_trip_path }],
+      ["trips page", let(:path) { trips_path }],
+      ["trip memberships page", let(:path) { trip_trip_memberships_path(trip) }],
+      ["editing plan page", let(:path) { edit_trip_plan_path(trip, plan) }],
+      ["editing trip page", let(:path) { edit_trip_path(trip) }],
+    ].each do |test_desc, _|
+      scenario "I am unauthorised to access #{test_desc}" do
+        visit path
+
+        # Expect user to be redirected to login path
+        expect(page.status_code).to(eq(200))
+        expect(page).to(have_current_path(new_user_session_path))
+
+        expect(page).to(have_content("You need to sign in or sign up before continuing."))
+      end
+    end
   end
 
   feature "As a member user" do
@@ -96,15 +113,15 @@ RSpec.feature("General Path Authorisation") do
     end
 
     # User 1 is currently logged in trying to access user 2's plans and trips (which user 1 is not part of)
-    scenario "I am not authorised to access trips and plans pages that I am not part of" do
-      [
-        ["plan form page", -> { new_trip_plan_path(trip2) }],
-        ["trip memberships page", -> { trip_trip_memberships_path(trip2) }],
-        ["editing plan page", -> { edit_trip_plan_path(trip2, plan2) }],
-        ["editing trip page", -> { edit_trip_path(trip2) }],
-      ].each do |test_desc, path|
-        visit path.call
-        expect(page.status_code).to(eq(401), "Error (Status 401): #{test_desc}")
+    [
+      ["plan form page", let(:path) { new_trip_plan_path(trip2) }],
+      ["trip memberships page", let(:path) { trip_trip_memberships_path(trip2) }],
+      ["editing plan page", let(:path) { edit_trip_plan_path(trip2, plan2) }],
+      ["editing trip page", let(:path) { edit_trip_path(trip2) }],
+    ].each do |test_desc, _|
+      scenario "I am not authorised to access #{test_desc} for a trip that I am not part of" do
+        visit path
+        expect(page.status_code).to(eq(401))
       end
     end
   end
@@ -122,58 +139,32 @@ RSpec.feature("General Path Authorisation") do
       expect(page).to(have_current_path(root_path))
     end
 
-    scenario "I am not authorised to access member pages" do
-      [
-        ["homepage", -> { home_path }],
-        ["inbox page", -> { inbox_path }],
-        ["plan form page", -> { new_trip_plan_path(trip) }],
-        ["trip form page", -> { new_trip_path }],
-        ["trips page", -> { trips_path }],
-        ["trip memberships page", -> { trip_trip_memberships_path(trip) }],
-        ["editing plan page", -> { edit_trip_plan_path(trip, plan) }],
-        ["editing trip page", -> { edit_trip_path(trip) }],
-      ].each do |test_desc, path|
-        visit path.call
-        # Error code 200 as they are re-directed with an error message
-        expect(page.status_code).to(eq(200), "Error (Status 200): #{test_desc}")
-        expect(page).to(have_current_path(root_path), "Error (Path): #{test_desc}")
-        expect(page).to(
-          have_content("Unable to access members-only page as a staff user."),
-          "Error (Content): #{test_desc}",
-        )
+    [
+      ["homepage", let(:path) { home_path }],
+      ["inbox page", let(:path) { inbox_path }],
+      ["plan form page", let(:path) { new_trip_plan_path(trip) }],
+      ["trip form page", let(:path) { new_trip_path }],
+      ["trips page", let(:path) { trips_path }],
+      ["trip memberships page", let(:path) { trip_trip_memberships_path(trip) }],
+      ["editing plan page", let(:path) { edit_trip_plan_path(trip, plan) }],
+      ["editing trip page", let(:path) { edit_trip_path(trip) }],
+    ].each do |_test_desc, _|
+      scenario "I am not authorised to access member pages" do
+        visit path
+
+        # Expect user to be redirected to landing page
+        expect(page.status_code).to(eq(200))
+        expect(page).to(have_current_path(root_path))
+        expect(page).to(have_content("Unable to access members-only page as a staff user."))
       end
     end
-  end
-
-  feature "As an admin user" do
-    it_behaves_like("A staff user with unauthorised access", :admin)
   end
 
   feature "As a reporter user" do
     it_behaves_like("A staff user with unauthorised access", :reporter)
   end
 
-  feature "As a user not logged in" do
-    scenario "I am not authorised to access signed in pages" do
-      [
-        ["homepage", -> { home_path }],
-        ["inbox page", -> { inbox_path }],
-        ["plan form page", -> { new_trip_plan_path(trip) }],
-        ["trip form page", -> { new_trip_path }],
-        ["trips page", -> { trips_path }],
-        ["trip memberships page", -> { trip_trip_memberships_path(trip) }],
-        ["editing plan page", -> { edit_trip_plan_path(trip, plan) }],
-        ["editing trip page", -> { edit_trip_path(trip) }],
-      ].each do |test_desc, path|
-        visit path.call
-        # Error code 200 as they are re-directed with an error message
-        expect(page.status_code).to(eq(200), "Error (Status 200): #{test_desc}")
-        expect(page).to(have_current_path(new_user_session_path), "Error (Path): #{test_desc}")
-        expect(page).to(
-          have_content("You need to sign in or sign up before continuing."),
-          "Error (Content): #{test_desc}",
-        )
-      end
-    end
+  feature "As an admin user" do
+    it_behaves_like("A staff user with unauthorised access", :admin)
   end
 end
