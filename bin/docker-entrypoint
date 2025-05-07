@@ -7,4 +7,6 @@ bundle exec rake db:prepare
 bundle exec rake db:seed
 bundle exec rails assets:precompile
 
+# Change to non-root user for runtime security
+su - rails
 exec "${@}"
