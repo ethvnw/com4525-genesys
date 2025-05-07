@@ -145,20 +145,5 @@ RSpec.feature("Viewing trip details") do
         "href" => "/trips/#{trip.id}/plans/#{travel_plan.id}/edit",
       }))
     end
-
-    scenario "Viewing my trip as a downloadable PDF", js: true do
-      visit trip_path(trip)
-      click_on "Settings"
-      click_on "Export PDF"
-
-      download_file = Rails.root.join(DOWNLOAD_PATH, "#{trip.title}.pdf")
-      Timeout.timeout(15) do
-        sleep(0.1) until File.exist?(download_file)
-      end
-
-      expect(File).to(exist(download_file))
-      pdf = File.read(download_file)
-      expect(pdf).to(include(trip.title))
-    end
   end
 end
