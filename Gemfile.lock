@@ -199,8 +199,6 @@ GEM
     factory_bot_rails (6.4.3)
       factory_bot (~> 6.4)
       railties (>= 5.0.0)
-    faker (3.5.1)
-      i18n (>= 1.8.11, < 2)
     faraday (2.12.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
@@ -316,6 +314,7 @@ GEM
       version_gem (~> 1.1)
     orm_adapter (0.5.0)
     package_json (0.1.0)
+    pagy (9.3.4)
     parallel (1.26.3)
     parser (3.3.6.0)
       ast (~> 2.4.1)
@@ -539,7 +538,6 @@ DEPENDENCIES
   ed25519 (>= 1.2, < 2.0)
   epi_deploy!
   factory_bot_rails
-  faker
   geocoder (~> 1.8, >= 1.8.3)
   haml_lint
   hamlit
@@ -548,6 +546,7 @@ DEPENDENCIES
   launchy
   letter_opener
   mutex_m
+  pagy
   pg (~> 1.1)
   puma (~> 6.0)
   rails (>= 7.0.8, < 7.1)

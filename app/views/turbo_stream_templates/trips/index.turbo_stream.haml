@@ -1,13 +1,27 @@
 = turbo_stream.update("view-buttons",
                       partial: "partials/trips/view_buttons")
 
-= turbo_stream.action("changeUrl", trips_url(view: params[:view]))
-
+= turbo_stream.action("changeUrl", trips_url(@query_params))
+- puts @trips.inspect
 - if params[:view] == "map"
-  = turbo_stream.update("trips-view",
+  = turbo_stream.update("trips-list-header", "")
+  = turbo_stream.update("trip-cards", "")
+  = turbo_stream.update("pager", "")
+  = turbo_stream.append("trips-view",
                         partial: "partials/trips/map_view",
                         locals: { trips: @trips })
 - else
-  = turbo_stream.update("trips-view",
-                        partial: "partials/trips/list_view",
+  = turbo_stream.remove("trips-map")
+  = turbo_stream.remove("map-variables")
+
+  = turbo_stream.update("trips-list-header",
+                        partial: "partials/trips/trips_list_header",
                         locals: { trips: @trips })
+
+  = turbo_stream.append("trip-cards",
+                        partial: "partials/trips/trip_cards_list",
+                        locals: { trips: @trips })
+
+  = turbo_stream.update("pager",
+                        partial: "partials/layouts/pager",
+                        locals: { pagy: @pagy })

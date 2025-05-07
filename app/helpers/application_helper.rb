@@ -4,6 +4,8 @@ require "json"
 
 # Module containing global helper functions
 module ApplicationHelper
+  include Pagy::Frontend
+
   ##
   # Converts a list of script pack names into a list of paths
   # Will return an empty list if `script_packs` is nil
