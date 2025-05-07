@@ -99,6 +99,21 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_selector("#end-location-autocomplete", visible: true))
     end
 
+    scenario "I can create a plan with fewer fields to fill if I choose a free time plan", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Free Time", from: "plan_plan_type"
+      fill_in "plan_start_date", with: Time.current + 1.day
+      expect(page).to(have_selector("#start-location-autocomplete", visible: false))
+      click_on "Save"
+
+      await_message("Plan created successfully")
+
+      expect(page).to(have_content("Test Title"))
+      expect(page).to(have_content("Free Time"))
+      expect(page).to(have_content(Time.current.strftime("%H:%M")))
+    end
+
     scenario "I can create a plan and see its information on the plans index page", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
@@ -502,14 +517,75 @@ RSpec.feature("Managing plans") do
     end
   end
 
+  feature "Creating backup plans" do
+    context "When the plan created doesn't already have a backup plan" do
+      let!(:plan) { create(:plan, trip: trip) }
+
+      scenario "I can create a backup plan for a pre-existing plan and view its details" do
+        visit trip_path(plan.trip_id)
+        within(:css, "section #plan-settings.dropdown") do
+          find("button").click
+          click_on "Add Backup Plan"
+        end
+
+        fill_in "plan_title", with: "Backup Title"
+        select "Free Time", from: "plan_plan_type"
+        click_on "Save"
+
+        await_message("Plan created successfully")
+        find("button.swiper-toggle-button").click
+        expect(page).to(have_content("Backup Title"))
+      end
+    end
+
+    context "When the plan created already has a backup plan" do
+      let!(:plan_backup) { create(:plan, trip: trip, title: "Premade Backup") }
+      let!(:plan) { create(:plan, trip: trip, backup_plan_id: plan_backup.id, title: "Premade Plan") }
+
+      scenario "I cannot create a backup plan for a plan that already has a backup plan" do
+        visit trip_path(plan.trip_id)
+        within(:css, "section #plan-settings.dropdown") do
+          find("button").click
+          expect(page).not_to(have_content("Add Backup Plan"))
+        end
+      end
+
+      scenario "I cannot create a backup plan for a backup plan" do
+        visit trip_path(plan.trip_id)
+        find("button.swiper-toggle-button").click
+        within(:css, "section #plan-settings.dropdown") do
+          find("button").click
+          expect(page).not_to(have_content("Add Backup Plan"))
+        end
+      end
+    end
+  end
+
   feature "Viewing plans" do
     let!(:plan) { create(:plan, trip: trip) }
+    let!(:plan_later) do
+      create(
+        :plan,
+        trip: trip,
+        title: "Later Plan",
+        start_date: Time.current + 3.days,
+        end_date: Time.current + 4.days,
+      )
+    end
     let!(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
 
     scenario "If a plan doesn't have a scannable ticket, I see a message indicating that", js: true do
       visit trip_plan_path(trip, plan)
       # Expect a notice indicating no scannable tickets to be present
       expect(page).to(have_content("No tickets available for this plan."))
+    end
+
+    scenario "If I click 'Desc' to sort plans, the order in which plans are displayed is changed", js: true do
+      visit trip_path(plan.trip_id)
+      expect(page.first("[id^='plan-']")).to(have_content("Mock Plan"))
+      click_on "Desc"
+      expect(page).to(have_content("Asc"))
+      expect(page.first("[id^='plan-']")).to(have_content("Later Plan"))
     end
   end
 end

@@ -68,21 +68,23 @@ class TripMembershipsController < ApplicationController
   end
 
   def accept_invite
-    @trip_membership = TripMembership.find(params[:id])
-    authorize!(:respond_invite, @trip_membership)
+    trip_membership = TripMembership.find(params[:id])
+    authorize!(:respond_invite, trip_membership)
 
-    @trip_membership.is_invite_accepted = true
-    @trip_membership.invite_accepted_date = Time.current
-    @trip_membership.user_display_name = current_user.username
-    @trip_membership.save
+    trip_membership.update!(
+      is_invite_accepted: true,
+      invite_accepted_date: Time.current,
+      user_display_name: current_user.username,
+    )
+
     redirect_to(inbox_path, notice: "Invite accepted successfully.")
   end
 
   def decline_invite
-    @trip_membership = TripMembership.find(params[:id])
-    authorize!(:respond_invite, @trip_membership)
+    trip_membership = TripMembership.find(params[:id])
+    authorize!(:respond_invite, trip_membership)
 
-    @trip_membership.destroy
+    trip_membership.destroy
     redirect_to(inbox_path, notice: "Invite declined successfully.")
   end
 

@@ -213,6 +213,8 @@ GEM
       rchardet (~> 1.8)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    grover (1.2.3)
+      nokogiri (~> 1)
     haml (6.3.0)
       temple (>= 0.8.2)
       thor
@@ -252,7 +254,7 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    logger (1.6.0)
+    logger (1.7.0)
     loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -291,9 +293,9 @@ GEM
       net-protocol
     net-ssh (7.2.3)
     nio4r (2.7.4)
-    nokogiri (1.18.4-arm64-darwin)
+    nokogiri (1.18.8-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.4-x86_64-linux-gnu)
+    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -309,7 +311,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.7)
-    public_suffix (6.0.1)
+    public_suffix (6.0.2)
     puma (6.4.3)
       nio4r (~> 2.0)
     pwned (2.4.1)
@@ -358,7 +360,7 @@ GEM
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     rchardet (1.8.0)
-    regexp_parser (2.9.2)
+    regexp_parser (2.10.0)
     request_store (1.7.0)
       rack (>= 1.4)
     responders (3.1.1)
@@ -401,11 +403,11 @@ GEM
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
-    rubyzip (2.3.2)
+    rubyzip (2.4.1)
     sanitize_email (2.0.8)
       mail (~> 2.0)
       version_gem (~> 1.1, >= 1.1.4)
-    selenium-webdriver (4.23.0)
+    selenium-webdriver (4.32.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
@@ -526,6 +528,7 @@ DEPENDENCIES
   epi_deploy!
   factory_bot_rails
   geocoder (~> 1.8, >= 1.8.3)
+  grover
   haml_lint
   hamlit
   hamlit-rails

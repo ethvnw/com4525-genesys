@@ -1,0 +1,5 @@
+- locals = { trip: @plan.trip, plan: @plan, errors: flash[:errors], backup_plan: true, primary_plan: @primary_plan }
+
+= turbo_stream.replace("edit_plan_#{@plan.id}",
+                       partial: "partials/plans/form",
+                       locals: locals)

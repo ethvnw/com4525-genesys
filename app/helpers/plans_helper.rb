@@ -33,4 +33,17 @@ module PlansHelper
       { name: tl.name, url: tl.link }
     end.to_json
   end
+
+  ##
+  # Renders the appropriate plan partial based on the plan type.
+  #
+  # @param plan [Plan]: the plan object to be rendered
+  # @param trip [Trip]: the trip object associated with the plan
+  def render_plan_partial(plan, trip)
+    if plan.travel_plan?
+      render("partials/plans/travel_card", trip: trip, plan: plan)
+    else
+      render("partials/plans/event_card", trip: trip, plan: plan)
+    end
+  end
 end

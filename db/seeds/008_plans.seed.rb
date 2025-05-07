@@ -111,6 +111,29 @@ Plan.find_or_create_by!(
 
 Plan.find_or_create_by!(
   trip_id: sheffield.id,
+  title: "Chill Out",
+  plan_type: Plan.plan_types[:free_time],
+  start_date: Time.zone.parse("2025-07-25 15:00:00"),
+  end_date: Time.zone.parse("2025-07-25 18:00:00"),
+  created_at: Time.zone.parse("2025-04-29 13:00:00"),
+  updated_at: Time.zone.parse("2025-04-29 13:00:00"),
+)
+
+backup = Plan.find_or_create_by!(
+  trip_id: sheffield.id,
+  title: "Poptarts",
+  plan_type: Plan.plan_types[:entertainment],
+  start_location_name: "Foundry, Sheffield, United Kingdom",
+  start_location_latitude: 53.3807499,
+  start_location_longitude: -1.4873464,
+  start_date: Time.zone.parse("2025-07-26 00:00:00"),
+  end_date: Time.zone.parse("2025-07-26 03:00:00"),
+  created_at: Time.zone.parse("2025-04-29 13:33:00"),
+  updated_at: Time.zone.parse("2025-04-29 13:33:00"),
+)
+
+Plan.find_or_create_by!(
+  trip_id: sheffield.id,
   title: "Post-Graduation Shenanigans",
   plan_type: Plan.plan_types[:wellness],
   start_location_name: "West Street Live, Sheffield, United Kingdom",
@@ -120,6 +143,7 @@ Plan.find_or_create_by!(
   end_date: Time.zone.parse("2025-07-26 03:00:00"),
   created_at: Time.zone.parse("2025-04-29 13:03:00"),
   updated_at: Time.zone.parse("2025-04-29 13:03:00"),
+  backup_plan_id: backup.id,
 )
 
 ### AUSTRALIA
