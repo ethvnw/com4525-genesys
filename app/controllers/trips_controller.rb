@@ -30,7 +30,9 @@ class TripsController < ApplicationController
       trip_include_list += [trip_memberships: { user: { avatar_attachment: :blob } }, image_attachment: :blob]
     end
 
-    @trips = current_user.joined_trips.includes(trip_include_list).decorate
+    @pagy, @trips = pagy(current_user.joined_trips.includes(trip_include_list))
+    @trips = @trips.decorate
+    @query_params = request.query_parameters
     stream_response("trips/index")
   end
 
