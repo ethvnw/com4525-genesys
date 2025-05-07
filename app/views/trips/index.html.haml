@@ -19,8 +19,19 @@
            button_path: new_trip_path)
 
 - if @trips.present?
-  #trips-view.row
-    - if params[:view] == "map"
-      = render("partials/trips/map_view", trips: @trips)
-    - else
-      = render("partials/trips/list_view", trips: @trips)
+  .row.flex-fill
+    -# Render this ID always, so it can be updated by turbo stream response
+    #trips-list-header
+      - if params[:view] == "list"
+        = render("partials/trips/trips_list_header", trips: @trips)
+    #trips-view
+      - if params[:view] == "map"
+        = render("partials/trips/map_view", trips: @trips)
+
+      #trip-cards.row.gy-3.flex-fill.px-0.mx-0
+        - if params[:view] == "list"
+          = render("partials/trips/trip_cards_list", trips: @trips)
+
+      #pager.w-100.my-5.d-flex.justify-content-center
+        - if params[:view] == "list"
+          = render("partials/layouts/pager", pagy: @pagy)

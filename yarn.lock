@@ -5871,6 +5871,11 @@ stimulus-controller-resolver@^3.2.0:
   resolved "https://registry.yarnpkg.com/stimulus-controller-resolver/-/stimulus-controller-resolver-3.2.0.tgz#8696b7f5ec816811f77724f292a372413bce0032"
   integrity sha512-ROpOk7Sbze+c2iDok9mc9DjdDV1dcbzf3FkPIMrlvRv9W+6PbcrNYtKnwb2DC6jaLD0Rdw0lZj64iPCj+5+zUw==
 
+stimulus-use@^0.52.3:
+  version "0.52.3"
+  resolved "https://registry.yarnpkg.com/stimulus-use/-/stimulus-use-0.52.3.tgz#d6f35fa93277274957a2ed98a7b04b4d702cb1d6"
+  integrity sha512-stZ5dID6FUrGCR/ChWUa0FT5Z8iqkzT6lputOAb50eF+Ayg7RzJj4U/HoRlp2NV333QfvoRidru9HLbom4hZVw==
+
 streamx@^2.15.0, streamx@^2.21.0:
   version "2.22.0"
   resolved "https://registry.yarnpkg.com/streamx/-/streamx-2.22.0.tgz#cd7b5e57c95aaef0ff9b2aef7905afa62ec6e4a7"
