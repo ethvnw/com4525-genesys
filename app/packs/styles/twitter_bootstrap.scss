@@ -30,6 +30,7 @@ label {
 
 #landing-topbar, #sidebar {
     .nav-link {
+        @extend .rounded;
         color: bs.$body-bg;
   
         &:hover {
