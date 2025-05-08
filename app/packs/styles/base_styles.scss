@@ -1,15 +1,30 @@
-/* Overwrite primary color */
-$primary: #212529;
+/* Roamio Brand Colours */
+$roamio-primary: #d12c4f;
+$roamio-secondary: #002E3E;
+$roamio-tertiary: #4E525A;
+
+/* Overwrite primary and secondary colours */
+$primary: $roamio-secondary;
+$secondary: $roamio-tertiary;
+
+/* Overwrite background colour */
+$body-bg: #f2f2f2;
 
 /* Overwrite offcanvas height */
 $offcanvas-vertical-height: 300px;
 
 /* Overwrite tabs */
 $nav-link-font-weight: 600;
-$nav-link-color: #6c757d;
-$nav-link-hover-color: $primary;
-$nav-pills-link-active-bg: #e9ecef;
-$nav-pills-link-active-color: $primary;
+$nav-link-color: $secondary;
+$nav-link-hover-color: darken($secondary, 10%);
+$nav-pills-link-active-bg: darken($body-bg, 5%);
+$nav-pills-link-active-color: darken($secondary, 10%);
+$dropdown-link-hover-bg: darken($body-bg, 5%);
+$dropdown-link-active-bg: darken($body-bg, 10%);
+$dropdown-link-active-color: #212529;
+$accordion-button-active-bg: darken($body-bg, 10%);
+$accordion-button-active-color: #212529;
+$accordion-button-bg: darken($body-bg, 10%);
 
 /* Set default font to Inter, and default emoji font to Noto Color Emoji */
 $font-family-sans-serif: "Inter", "InterVariable", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Color Emoji", sans-serif;
@@ -19,8 +34,57 @@ $font-family-sans-serif: "Inter", "InterVariable", -apple-system, system-ui, Bli
   --swiper-theme-color: $primary
 }
 
+$landing-navbar-height: 63px;
 $sidebar-lg-width: 280px;
 $sidebar-width: 78px;
 $footer-height: 145px;
+$topbar-height: 57px;
+
+$roamio-text-spacing: 0.5px;
+
+$trip-card-icon-size: 28px;
+$trip-card-icon-size-xl: 36px;
+$trip-avatar-icon-size: 30px;
+
+$link-color: #0C5CD4;
+
+$navbar-icon-colour: #D3D3D3;
+
+/* Roamio Brand */
+.roamio-header, .roamio-text {
+  font-family: "Cal Sans" !important;
+  font-weight: 400 !important;
+}
+
+.roamio-text {
+  letter-spacing: $roamio-text-spacing;
+}
+
+.roamio-base {
+  font-family: $font-family-sans-serif !important;
+  letter-spacing: 0;
+}
 
 @import "~bootstrap/scss/bootstrap";
+
+.btn-primary {
+  @include button-variant(
+    $roamio-primary,
+    darken($roamio-primary, 10%),
+  );
+}
+
+.btn-tertiary {
+  @include button-variant(
+    $roamio-tertiary, 
+    darken($roamio-tertiary, 10%)
+  );    
+}
+
+.btn-secondary {
+  @include button-variant(
+      darken($body-bg, 10%),
+      darken($body-bg, 15%),
+  );
+  color: $dark;
+}

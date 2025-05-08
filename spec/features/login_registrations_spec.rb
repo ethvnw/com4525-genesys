@@ -28,6 +28,17 @@ RSpec.feature("Login and Registrations") do
       expect(page).to(have_current_path(home_path))
       expect(page).to(have_content("Signed in successfully."))
     end
+
+    scenario "Login page nav links are correct" do
+      visit new_user_session_path
+
+      within("#login-nav") do
+        expect(page).to(have_link("Home", href: root_path))
+        expect(page).to(have_link("FAQ", href: faq_path))
+        expect(page).to(have_link("Reviews", href: root_path(anchor: "reviews-carousel")))
+        expect(page).to(have_link("Pricing", href: pricing_subscriptions_path))
+      end
+    end
   end
 
   feature "Editing username" do

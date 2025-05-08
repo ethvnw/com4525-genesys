@@ -22,14 +22,17 @@
     border-radius: 8px;
 }
 
-.social-share-btn small {
+.social-share-btn span {
+    @extend .roamio-base;
+    @extend .fw-semibold;
     position: absolute;
-    bottom: -25px;
+    bottom: -30px;
+    letter-spacing: 0;
 }
 
-.social-share-btn#social-share-clipboard small {
+.social-share-btn#social-share-clipboard span {
     position: absolute;
-    bottom: -46px;
+    bottom: -51px;
 }
 
 .social-share-btn#social-share-clipboard {

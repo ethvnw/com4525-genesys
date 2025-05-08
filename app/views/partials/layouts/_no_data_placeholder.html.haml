@@ -1,0 +1,10 @@
+.flex-grow-1.d-flex.justify-content-center.align-items-center.flex-column
+  %i{ class: "#{icon_class} display-1 mb-3 p-3" }
+  %h1= heading_text
+  %p.fs-5.text-secondary.text-center.fw-semibold.mb-3= sub_text
+  = link_to(button_path,
+            class: "btn btn-primary py-2",
+            "aria-label": button_aria_label,
+            tabindex: 0) do
+    %i{ class: button_icon_class, "aria-hidden": "true" } &nbsp;
+    = button_text

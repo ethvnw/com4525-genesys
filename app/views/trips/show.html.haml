@@ -1,15 +1,24 @@
-.d-flex.justify-content-between
+.row.d-flex.justify-content-between
+  .d-flex.flex-column.gap-3.align-items-end
+    = render("partials/trips/members", members: @trip.trip_memberships)
   .align-self-center
-    %h1.mb-0.fw-bold= @trip.title
+    %h1.mb-0= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
 
-  .d-flex.flex-column.gap-3.align-items-md-end
-    = render("partials/trips/members", members: @trip.trip_memberships)
-
-    .d-flex.gap-2
-      = link_to(new_trip_plan_path(@trip), class: "btn btn-primary py-2") do
-        %i.bi.bi-plus-circle &nbsp
+    .d-flex.gap-2.my-2
+      = link_to(new_trip_plan_path(@trip),
+                class: "btn btn-primary py-2",
+                "aria-label": "Add Plan",
+                tabindex: 0) do
+        %i.bi.bi-plus-square &nbsp
         Add Plan
+
+      = link_to(trip_trip_memberships_path(@trip),
+                class: "btn btn-secondary py-2",
+                "aria-label": "View Members",
+                tabindex: 0) do
+        %i.bi.bi-person-fill-gear &nbsp;
+        Members
 
       #trip-settings.dropdown
         %button.h-100.btn.btn-secondary.dropdown-toggle.py-2{
@@ -19,25 +28,27 @@
           },
           aria: {
             expanded: "false",
+            label: "View settings",
           },
         }
-          %i.bi.bi-gear-fill &nbsp;
-          Settings
-
+          %i.bi.bi-gear-fill{ "aria-hidden": "true" }
+          .visually-hidden Settings
         .dropdown-menu
-          = link_to(edit_trip_path(@trip), class: "dropdown-item") do
-            %i.bi.bi-pencil &nbsp;
+          = link_to(edit_trip_path(@trip),
+                    class: "dropdown-item",
+                    tabindex: 0) do
+            %i.bi.bi-pencil{ "aria-hidden": "true" } &nbsp;
             Edit Trip
-
           = link_to(trip_trip_memberships_path(@trip),
-                    class: "dropdown-item") do
-            %i.bi.bi-person-gear &nbsp;
+                    class: "dropdown-item",
+                    tabindex: 0) do
+            %i.bi.bi-person-gear{ "aria-hidden": "true" } &nbsp;
             Manage Members
-
           = button_tag(class: "dropdown-item",
                        type: "button",
-                       data: { bs_toggle: "modal", bs_target: "#display-name-modal" }) do
-            %i.bi.bi-input-cursor-text &nbsp;
+                       data: { bs_toggle: "modal", bs_target: "#display-name-modal" },
+                       tabindex: 0) do
+            %i.bi.bi-input-cursor-text{ "aria-hidden": "true" } &nbsp;
             Change Display Name
 
           = link_to(export_pdf_trip_path(@trip),
@@ -48,19 +59,26 @@
           = link_to(trip_path(@trip),
                     class: "dropdown-item text-danger",
                     method: :delete,
-                    data: { confirm: "Are you sure you want to delete this trip?" }) do
-            %i.bi.bi-trash &nbsp;
+                    data: { confirm: "Are you sure you want to delete this trip?" },
+                    tabindex: 0) do
+            %i.bi.bi-trash{ "aria-hidden": "true" } &nbsp;
             Delete Trip
-
-%hr
+  %hr
 
 .d-flex.justify-content-between.mb-2
-  %h3.mb-0.fw-bold Plans
+  %h2.mb-0 Plans
   #view-buttons.d-flex.gap-2
     = render("partials/trips/view_buttons")
 
 - if @plan_groups.empty?
-  %p No plans have been added to this trip yet.
+  = render("partials/layouts/no_data_placeholder",
+           icon_class: "bi bi-luggage-fill",
+           heading_text: "No Plans Added",
+           sub_text: "Start planning your trip now!",
+           button_text: "Add Plan",
+           button_aria_label: "Add Plan",
+           button_icon_class: "bi bi-plus-square",
+           button_path: new_trip_plan_path(@trip))
 - else
   #plans-view.h-100.mb-3
     - if params[:view] == "map"

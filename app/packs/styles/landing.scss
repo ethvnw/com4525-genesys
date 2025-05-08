@@ -1,3 +1,5 @@
+@use "base_styles" as bs;
+
 .card-section {
     @extend .card;
 
@@ -6,6 +8,15 @@
         border-right: 0;
         border-radius: 0;
     }
+}
+#landing-topbar {
+    #user-account-dropdown {
+        @extend .py-1;
+    }
+}
+
+#application-main {
+    margin-top: calc( bs.$landing-navbar-height  + env(safe-area-inset-top));
 }
 
 /* Override swiper */
@@ -24,16 +35,16 @@
         height: 491px;
     }
 
-    h4, p {
+    h3, p {
         display: -webkit-box;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
-    h4 {
+    h3 {
         -webkit-line-clamp: 2;
         line-clamp: 2;
-        min-height: 60px;
+        min-height: 68px;
     }
 
     p {

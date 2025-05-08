@@ -40,18 +40,34 @@ module ApplicationHelper
   # @return [String] a Bootstrap HTML element containing the link
   def navbar_link_to(name, icon, path, badge_count = 0)
     content_tag(:li, class: "nav-item") do
-      link_to(path, class: "#{"active" if current_page?(path)} nav-link") do
+      link_to(
+        path,
+        class: "#{"active" if current_page?(path)} nav-link",
+        tabindex: 0,
+        aria: {
+          label: name,
+          describedby: badge_count&.nonzero? ? "#{name}-badge-desc" : nil,
+        },
+        data: { bs_toggle: "tooltip", bs_placement: "right", bs_title: name },
+      ) do
         concat(
           content_tag(:div, class: "position-relative") do
-            concat(content_tag(:i, nil, class: "#{current_page?(path) ? "#{icon}-fill" : icon} bi"))
+            concat(content_tag(
+              :i,
+              nil,
+              class: "#{current_page?(path) ? "#{icon}-fill" : icon} bi",
+              aria: { hidden: true },
+            ))
             if badge_count&.nonzero?
-              concat(content_tag(:div, badge_count, class: "nav-badge"))
+              concat(content_tag(:div, badge_count, class: "nav-badge", id: "#{name}-badge"))
             end
           end,
         )
         concat(content_tag(:span, name, class: "text-center"))
+
         if badge_count&.nonzero?
           concat(content_tag(:div, badge_count, class: "nav-badge-lg"))
+          concat(content_tag(:span, "#{badge_count} notifications", class: "visually-hidden", id: "#{name}-badge-desc"))
         end
       end
     end
@@ -73,6 +89,8 @@ module ApplicationHelper
       url_for(request.query_parameters.merge({ key => value })),
       class: "#{"active " if params[key] == value}change-view-link",
       data: { turbo: "true", turbo_stream: "true" },
+      aria: { label: "View #{value} tab" },
+      tabindex: 0,
     ) do
       concat(content_tag(:i, nil, class: "#{icon} bi"))
       concat(content_tag(:span, value.humanize))

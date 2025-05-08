@@ -1,10 +1,10 @@
-%h1.fw-bold.display-6.mb-3 Admin Dashboard
+= render("partials/layouts/page_title", page_title: "Admin Dashboard")
 .d-flex.gap-4
-  = link_to("Manage Reviews", manage_admin_reviews_path, class: "btn btn-secondary")
-  = link_to("Manage Questions", manage_admin_questions_path, class: "btn btn-secondary")
+  = link_to("Manage Reviews", manage_admin_reviews_path, class: "btn btn-secondary", tabindex: 0)
+  = link_to("Manage Questions", manage_admin_questions_path, class: "btn btn-secondary", tabindex: 0)
 
 %hr.mt-3
-%h4.fw-semibold.mt-3
+%h2.fs-4.mt-3
   %i.bi.bi-person-fill &nbsp;
   My Account
 
@@ -16,14 +16,14 @@
   = current_user.show_role
 
 %hr.mt-3
-%h4.fw-semibold.mt-3
+%h2.fs-4.mt-3
   %i.bi.bi-person-fill-add &nbsp;
   Create Staff Account
 
 = render("partials/admin/dashboard/invite_form", user: @user, errors: @errors)
 
 %hr.mt-3
-%h4.fw-semibold.mt-3
+%h2.fs-4.mt-3
   %i.bi.bi-people-fill &nbsp;
   Staff Accounts
 
@@ -41,7 +41,7 @@
         = render("partials/admin/dashboard/staff_row", user: user)
 
 %hr.mt-3
-%h4.fw-semibold.mt-3
+%h2.fs-4.mt-3
   %i.bi.bi-bar-chart-line-fill &nbsp;
   Registrations
 

@@ -1,19 +1,27 @@
-.mb-4.d-flex.justify-content-between
-  = link_to(new_trip_path, class: "btn btn-primary") do
-    %i.bi.bi-plus-circle &nbsp;
-    Create Trip
-  #view-buttons.d-flex.gap-2
-    = render("partials/trips/view_buttons")
+.row
+  .pb-3.d-flex.justify-content-between.align-items-start.border-bottom
+    = link_to(new_trip_path,
+              class: "btn btn-primary py-2",
+              "aria-label": "Create Trip",
+              tabindex: 0) do
+      %i.bi.bi-plus-square{ "aria-hidden": "true" } &nbsp;
+      Create Trip
+    #view-buttons.d-flex.gap-2
+      = render("partials/trips/view_buttons")
 
 - if @trips.empty?
-  .d-flex.flex-column.gap-4.align-items-center.justify-content-center.h-75.fs-1.text-dark-emphasis
-    %i.bi.bi-postcard-heart
-    .text-center
-      %p.mb-0 You have no trips!
-      %p.mb-0 Create a trip to get started.
+  = render("partials/layouts/no_data_placeholder",
+           icon_class: "bi bi-luggage-fill",
+           heading_text: "No Trips Created",
+           sub_text: "Create a trip to start planning your next adventure!",
+           button_text: "Create Trip",
+           button_aria_label: "Create Trip",
+           button_icon_class: "bi bi-plus-square",
+           button_path: new_trip_path)
 
-#trips-view.flex-fill.mb-3
-  - if params[:view] == "map"
-    = render("partials/trips/map_view", trips: @trips)
-  - else
-    = render("partials/trips/list_view", trips: @trips)
+- if @trips.present?
+  #trips-view.row
+    - if params[:view] == "map"
+      = render("partials/trips/map_view", trips: @trips)
+    - else
+      = render("partials/trips/list_view", trips: @trips)

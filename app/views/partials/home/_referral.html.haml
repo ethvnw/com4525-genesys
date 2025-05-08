@@ -7,8 +7,12 @@
   = f.validated_input(:email,
                       value: email,
                       placeholder: "Enter their email address",
-                      class: "referral-input w-50")
+                      class: "referral-input w-50",
+                      "aria-label": "Invite email to Roamio")
 
-  = button_tag(type: "submit", class: "btn btn-primary text-nowrap fw-bold registration-button") do
-    %i.bi.bi-send &nbsp;
+  = button_tag(type: "submit",
+               class: "btn btn-primary text-nowrap registration-button",
+               "aria-label": "Invite email to Roamio",
+               tabindex: 0) do
+    %i.bi.bi-send{ "aria-hidden": "true" } &nbsp;
     Invite to Roamio

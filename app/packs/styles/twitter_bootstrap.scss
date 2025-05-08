@@ -1,24 +1,60 @@
 @use "base_styles" as bs;
 
-/* Overwrite bg elements with light text */
-.bg-success, .bg-dark, .bg-primary, .btn-primary {
+input, textarea, select {
+    --bs-body-bg: #{bs.$light};
+}
+
+@include bs.media-breakpoint-down(sm) {
+    .tooltip {
+        display: none !important;
+    }
+}
+
+.bg-roamio {
+    background-color: bs.$roamio-primary;
     @extend .text-light;
 }
 
-/* Overwrite button secondary */
-.btn-secondary {
-    @include bs.button-variant(
-        darken(bs.$light, 10%),
-        darken(bs.$light, 10%),
-    );
-    color: var(--bs-navbar-color);
+.btn {
+    @extend .roamio-base;
+    @extend .fw-semibold;
 }
 
-.btn-secondary.active {
-    @include bs.button-variant(
-        darken(bs.$light, 2%),
-        darken(bs.$light, 2%),
-    );
+h1, h2, h3, h4, h5 {
+    @extend .roamio-header; 
+}
+
+label {
+    @extend .roamio-text;
+}
+
+#landing-topbar, #sidebar {
+    .nav-link {
+        @extend .rounded;
+        color: bs.$body-bg;
+  
+        &:hover {
+            background-color: darken(bs.$roamio-secondary, 1%);
+            color: darken(bs.$body-bg, 10%);
+        }
+  
+        &:active {
+            color: darken(bs.$body-bg, 20%);
+        }
+    }
+
+    .active {
+        background-color: darken(bs.$roamio-secondary, 2%);
+    }
+
+    .navbar-toggler span {
+        background-color: bs.$body-bg;
+    }
+}
+
+/* Overwrite bg elements with light text */
+.bg-success, .bg-dark, .bg-primary, .btn-primary {
+    @extend .text-light;
 }
 
 /* Remove border from toggler */

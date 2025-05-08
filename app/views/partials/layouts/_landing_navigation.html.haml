@@ -1,7 +1,10 @@
-%nav#landing-topbar.navbar.sticky-top.navbar-expand-lg.bg-light.mb-3
+%nav#landing-topbar.navbar.fixed-top.navbar-expand-lg.bg-primary.mb-3.border-bottom.shadow
   .container
-    = link_to(root_path, class: "navbar-brand") do
-      = image_pack_tag("images/roamio_brand_logo_d_grey.png", height: 40)
+    = link_to(root_path, class: "navbar-brand", "aria-label": "Home", tabindex: 0) do
+      = image_pack_tag("images/roamio_brand_logo_white.png",
+                       height: 36,
+                       alt: "Roamio Logo",
+                       "aria-hidden": "true")
     %button.navbar-toggler.collapsed{
       type: :button,
       data: {
@@ -13,17 +16,18 @@
         expanded: "false",
         label: "Toggle navigation",
       },
+      tabindex: 0,
     }
       %span.toggler-icon.top-bar
       %span.toggler-icon.middle-bar
       %span.toggler-icon.bottom-bar
     #navbar-content.navbar-collapse.collapse
-      .navbar-nav.fw-semibold.text-center
-        = link_to(faq_path, class: "nav-link") do
+      .navbar-nav.fw-normal.text-center
+        = link_to(faq_path, class: "nav-link", tabindex: 0) do
           FAQ
-        = link_to(root_path(anchor: "reviews-carousel"), class: "nav-link") do
+        = link_to(root_path(anchor: "reviews-carousel"), class: "nav-link", tabindex: 0) do
           Reviews
-        = link_to(pricing_subscriptions_path, class: "nav-link") do
+        = link_to(pricing_subscriptions_path, class: "nav-link", tabindex: 0) do
           Pricing
       .d-flex.ms-auto.gap-2.flex-column.flex-lg-row
         %hr.d-flex.d-lg-none.my-1
@@ -32,10 +36,13 @@
 
         - else
           = link_to(new_user_session_path,
-                    class: "btn btn-secondary fw-semibold d-flex justify-content-center",
+                    class: "btn btn-secondary d-flex justify-content-center",
+                    tabindex: 0,
                     method: :get) do
             Log in
           = link_to(pricing_subscriptions_path,
-                    class: "btn btn-primary fw-semibold d-flex justify-content-center gap-1") do
+                    class: "btn btn-primary d-flex justify-content-center gap-1",
+                    tabindex: 0,
+                    "aria-label": "Sign up for Roamio") do
             %i.bi.bi-compass &nbsp;
             Join the travel revolution

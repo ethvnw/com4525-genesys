@@ -1,7 +1,8 @@
 = simple_form_for(trip,
                   builder: ValidatedFormBuilder,
-                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "trip-form" },
+                  html: { class: "d-flex row flex-column gap-2", "data-turbo": "true", "data-controller": "trip-form" },
                   errors: errors) do |f|
+  %hr.mt-3
   = f.validated_input(:title,
                       placeholder: "Enter the title of the trip...")
   = f.validated_input(:description,
@@ -22,7 +23,7 @@
   = render("partials/datetime_picker", errors: errors)
 
   .d-flex.flex-column.mb-3
-    = f.label("Trip location", class: "fw-semibold", for: "#trip-location-autocomplete")
+    = f.label("Trip location", for: "#trip-location-autocomplete")
     #trip-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :location) }
     = form_error_message(errors, :location)
     .valid-feedback Looks good!
@@ -39,7 +40,7 @@
                    id: "trip_location_longitude_input")
 
   .d-flex.flex-column.mb-3{ data: { controller: "custom-image" } }
-    = f.label("Upload new trip image", class: "fw-semibold", for: "image-input")
+    = f.label("Upload new trip image", for: "image-input")
 
     .mb-1
       .mb-0{ class: get_error_class_with(errors, :image) }
@@ -70,7 +71,7 @@
       = image_tag("", class: "trip-image-preview d-none", data: { "custom-image-target": "preview" })
 
   .d-flex.justify-content-end.mt-2
-    = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0 fw-bold") do
+    = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0") do
       %i.bi.bi-send-fill
       &nbsp;
       Save Trip

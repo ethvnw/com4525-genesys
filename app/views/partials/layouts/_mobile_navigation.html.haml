@@ -1,10 +1,13 @@
-%nav#topbar.navbar.d-sm-none.border-bottom.sticky-top.px-3
+%nav#topbar.navbar.d-sm-none.border-bottom.fixed-top.px-3
   .col.d-flex.justify-content-start
     %ul.nav
       = navbar_link_to("Inbox", "bi-inbox", inbox_path, inbox_count)
   .col.d-flex.justify-content-center
-    = link_to(root_path) do
-      = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 36)
+    = link_to(root_path, "aria-label": "Home", tabindex: 0) do
+      = image_pack_tag("images/roamio_brand_icon_white.png",
+                       height: 36,
+                       "aria-hidden": "true",
+                       alt: "Roamio Logo")
   .col.d-flex.justify-content-end
     = render("partials/layouts/navbar_user_dropdown")
 #container-parent.position-relative.d-flex.flex-column

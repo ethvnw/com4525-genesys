@@ -1,15 +1,6 @@
 %section.row.align-items-center
-  %h1.fw-bold.display-6.mb-3 Trip Analytics
-  %hr.mt-3
-  %ul.nav.nav-pills.fw-semibold.mb-3.ms-3
-    %li.nav-item
-      %button.nav-link.active{ "data-bs-target": "#today-tab", "data-bs-toggle": "pill", type: "button" } Day
-    %li.nav-item
-      %button.nav-link{ "data-bs-target": "#week-tab", "data-bs-toggle": "pill", type: "button" } Week
-    %li.nav-item
-      %button.nav-link{ "data-bs-target": "#month-tab", "data-bs-toggle": "pill", type: "button" } Month
-    %li.nav-item
-      %button.nav-link{ "data-bs-target": "#all-time-tab", "data-bs-toggle": "pill", type: "button" } All Time
+  = render("partials/layouts/page_title", page_title: "Trip Analytics")
+  = render("partials/analytics/reporter_dashboard_filter_tabs")
   .tab-content
     #today-tab.tab-pane.show.active
       = render("partials/analytics/trip_analytics_card_tab",
@@ -36,7 +27,7 @@
                invitations_sent: @invitation_counts[:all_time],
                time_period: "All Time")
   %hr.mt-3
-  %h4.fw-semibold.mt-3
+  %h2.fs-4.mt-3
     %i.bi.bi-database-add &nbsp;
     Content Added Per Trip
 

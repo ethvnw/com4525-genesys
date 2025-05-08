@@ -10,7 +10,7 @@
     - unless sign_in_page?
       = render("partials/layouts/landing_navigation")
 
-    %main.container.d-flex.flex-column.flex-fill
+    %main#application-main.container.d-flex.flex-column.flex-fill
       = yield
 
     -# Render footer

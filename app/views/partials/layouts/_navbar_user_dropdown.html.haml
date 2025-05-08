@@ -1,33 +1,41 @@
 #user-account-dropdown.dropdown
-  %a.nav-link.d-flex.align-items-center.link-dark.text-decoration-none.dropdown-toggle{
-    "aria-expanded": "false",
+  %a.nav-link.d-flex.align-items-center.text-decoration-none.dropdown-toggle{
     "data-bs-toggle": "dropdown",
+    "aria-label": "Account menu Button for #{current_user.username}",
+    "aria-haspopup": "true",
+    "aria-expanded": "false",
     role: "button",
+    tabindex: 0,
   }
     = render("partials/layouts/user_avatar", user: current_user.decorate)
     .dropdown-username
       = current_user.username
 
   .dropdown-menu.dropdown-menu-end
-    %h6.dropdown-header.fw-semibold.text-secondary
+    .dropdown-header.text-secondary.fw-semibold
       = current_user.email
+    .dropdown-divider
     = link_to(edit_user_registration_path,
               class: "dropdown-item",
-              method: :get) do
+              method: :get,
+      tabindex: 0) do
       My Account
     - if can?(:access, :admin_dashboard)
       = link_to(admin_dashboard_path,
                 class: "dropdown-item",
-                method: :get) do
+                method: :get,
+        tabindex: 0) do
         Admin Dashboard
     - if can?(:access, :reporter_dashboard)
       = link_to(analytics_landing_page_path,
                 class: "dropdown-item",
-                method: :get) do
+                method: :get,
+                tabindex: 0) do
         Landing Page Analytics
       = link_to(analytics_trips_path,
                 class: "dropdown-item",
-                method: :get) do
+                method: :get,
+        tabindex: 0) do
         Trip Analytics
       = link_to(analytics_referrals_path,
                 class: "dropdown-item",
@@ -36,5 +44,6 @@
     .dropdown-divider
     = link_to(destroy_user_session_path,
               class: "dropdown-item",
-              method: :delete) do
+              method: :delete,
+      tabindex: 0) do
       Sign Out
