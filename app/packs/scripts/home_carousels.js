@@ -48,6 +48,8 @@ async function applyBackgroundGradient(currentSlide) {
 
   // Apply a gradient to the background based on the colour of the current slide image
   const applyGradientFromColour = () => {
+    if (!currentImage.complete) return;
+
     let [r, g, b] = colourThief.getColor(currentImage);
     const luminance = calculateLuminance(r, g, b);
 
