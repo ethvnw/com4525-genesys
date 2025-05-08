@@ -61,7 +61,7 @@ RSpec.feature("General Path Authorisation") do
     scenario "I am authorised to access the homepage" do
       visit home_path
       expect(page.status_code).to(eq(200))
-      expect(page).to(have_content("My Trips"))
+      expect(page).to(have_content("Upcoming Trips"))
     end
 
     scenario "I am authorised to access the inbox page" do
