@@ -1,3 +1,9 @@
+- if params[:view] == "list"
+  - if params[:order] == "desc"
+    = add_param_button(:order, "asc", "bi-arrow-down")
+  - else
+    = add_param_button(:order, "desc", "bi-arrow-up")
+
 .d-flex.align-items-center
   = add_param_button(:view, "list", "bi-list-ul")
   = add_param_button(:view, "map", "bi-pin-map")

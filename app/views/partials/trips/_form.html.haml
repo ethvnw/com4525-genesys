@@ -70,7 +70,8 @@
     - else
       = image_tag("", class: "trip-image-preview d-none", data: { "custom-image-target": "preview" })
 
-  .d-flex.mt-1
-    = button_tag(type: "submit", class: "btn btn-primary w-100") do
-      %i.bi.bi-plus-square{ "aria-hidden": "true" } &nbsp;
-      Create Trip
+  .d-flex.justify-content-end.mt-2
+    = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0") do
+      %i.bi.bi-send-fill
+      &nbsp;
+      Save Trip

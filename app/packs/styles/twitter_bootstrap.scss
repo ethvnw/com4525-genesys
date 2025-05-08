@@ -149,3 +149,7 @@ label {
         min-width: 750px;
     }
 }
+
+.border-dashed {
+    border: 1px dashed var(--bs-border-color);
+}

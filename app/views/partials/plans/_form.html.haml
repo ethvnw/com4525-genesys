@@ -12,10 +12,11 @@
                        prompt: "Select plan type",
                        required: true)
 
-  = f.validated_input(:provider_name,
-                      placeholder: "Enter business or provider name...")
+  #provider-name-container
+    = f.validated_input(:provider_name,
+                        placeholder: "Enter business or provider name...")
 
-  .d-flex.flex-column.mb-3
+  #start-location-container.d-flex.flex-column.mb-3
     // The asterisk (*) is mocked here as the autocomplete fills out hidden fields and is not TECHNICALLY required.
     = label_tag(:start_location_name, class: "mb-1", for: "start-location-autocomplete") do
       Start location
@@ -33,15 +34,20 @@
 
   #plan-form-map.form-map
 
-  = f.validated_datetime(:start_date, required: true)
-  = f.validated_datetime(:end_date, required: true)
+  = f.validated_datetime(:start_date, required: true, readonly: backup_plan)
+  = f.validated_datetime(:end_date, required: true, readonly: backup_plan)
 
-  = render("partials/plans/documents_input", f: f, plan: plan)
-  = render("partials/plans/qr_codes_input", f: f, plan: plan)
-  = render("partials/plans/booking_references_input", f: f, plan: plan)
-  = render("partials/plans/ticket_links_input", f: f, plan: plan)
+  #tickets-container
+    = render("partials/plans/documents_input", f: f, plan: plan)
+    = render("partials/plans/qr_codes_input", f: f, plan: plan)
+    = render("partials/plans/booking_references_input", f: f, plan: plan)
+    = render("partials/plans/ticket_links_input", f: f, plan: plan)
 
-  = f.button(:submit, "Save", class: "btn btn-primary fw-semibold")
+  .d-flex.justify-content-end.mt-2
+    = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0 fw-bold") do
+      %i.bi.bi-send-fill
+      &nbsp;
+      Save Plan
 
   = f.hidden_field(:start_location_name,
                    id: "start_location_name_input")
@@ -55,6 +61,9 @@
                    id: "end_location_latitude_input")
   = f.hidden_field(:end_location_longitude,
                    id: "end_location_longitude_input")
+
+  - if defined?(primary_plan)
+    = f.hidden_field(:primary_plan_id, value: primary_plan.id)
 
 - if plan.documents.attached?
   %h4.fw-semibold Documents

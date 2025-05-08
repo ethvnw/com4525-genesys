@@ -18,6 +18,16 @@ class PlanValidator < ActiveModel::Validator
         record.errors.add(:start_date, "cannot be in the past")
       end
     end
+
+    # Prevent a plan from being its own backup
+    if record.backup_plan_id.present? && record.backup_plan_id == record.id
+      record.errors.add(:base, "A plan cannot be a backup of itself")
+    end
+
+    # Prevent a backup plan from having its own backup
+    if record.id.present? && record.backup_plan_id.present? && Plan.exists?(backup_plan_id: record.id)
+      record.errors.add(:base, "A backup plan cannot have its own backup")
+    end
   end
 end
 
@@ -39,20 +49,30 @@ end
 #  title                    :string           not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  backup_plan_id           :bigint
 #  trip_id                  :bigint
 #
 # Indexes
 #
-#  index_plans_on_trip_id  (trip_id)
+#  index_plans_on_backup_plan_id  (backup_plan_id)
+#  index_plans_on_trip_id         (trip_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (backup_plan_id => plans.id)
 #
 class Plan < ApplicationRecord
   include Countable
+  attr_accessor :primary_plan_id
 
   belongs_to :trip
+  belongs_to :backup_plan, class_name: "Plan", optional: true, foreign_key: "backup_plan_id"
+
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
   has_many :booking_references, dependent: :destroy
   has_many :scannable_tickets, dependent: :destroy
+  has_one :primary_plan, class_name: "Plan", foreign_key: "backup_plan_id", dependent: :nullify
 
   enum plan_type: {
     clubbing: 0,
@@ -69,11 +89,13 @@ class Plan < ApplicationRecord
     travel_by_plane: 11,
     travel_by_train: 12,
     other: 13,
+    free_time: 14,
   }
 
   validates :plan_type, inclusion: { in: plan_types.keys }
   validates :title, presence: true, length: { maximum: 250 }
-  validates :start_location_name, :start_date, presence: true
+  validates :start_location_name, presence: true, unless: :free_time_plan?
+  validates :start_date, presence: true
   validates_with PlanValidator
   validates_with DateValidator
 
@@ -87,5 +109,13 @@ class Plan < ApplicationRecord
 
   def any_tickets?
     ticket_links.any? || booking_references.any? || scannable_tickets.any?
+  end
+
+  def free_time_plan?
+    plan_type == "free_time"
+  end
+
+  def backup_plan?
+    primary_plan.present?
   end
 end
