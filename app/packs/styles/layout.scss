@@ -11,12 +11,41 @@ body {
     flex-direction: column;
 }
 
+#user-main {
+    @include bs.media-breakpoint-down(sm) {
+        margin-top: calc( bs.$topbar-height + env(safe-area-inset-top));
+    }
+}
+
+#toast-list {
+    @include bs.media-breakpoint-down(sm) {
+        margin-top: calc( bs.$topbar-height + env(safe-area-inset-top) + 1rem) !important;
+    }
+}
+
 #hidden-reviews .review {
     background-color: bs.$gray-200;
 }
 
 .login-card {
   width: 30rem;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  @extend .btn, .btn-tertiary !optional;
+  @extend .rounded-circle;
+  @extend .d-flex, .align-items-center, .justify-content-center;
+  width: 44px;
+  height: 44px;
+
+  i {
+    @extend .fs-2, .mb-0;
+  }
+
+  &::after {
+    content: "";
+  }
 }
 
 main {
@@ -37,13 +66,14 @@ main {
 #sidebar {
     @extend .d-none;
     @extend .d-sm-flex;
-    @extend .border-end;
+    border-right: 1px solid bs.$roamio-tertiary;
     // IOS Safe Area
     padding-left: env(safe-area-inset-left);
 
     .nav i {
         @extend .h4;
         @extend .mb-0;
+        color: bs.$navbar-icon-colour;
     }
 
     a.nav-link {
@@ -51,7 +81,6 @@ main {
         @extend .align-items-center;
         @extend .justify-content-center;
         @extend .rounded-0;
-        @extend .link-dark;
         // Desktop lg
         @extend .justify-content-lg-start;
     }
@@ -97,7 +126,7 @@ main {
 }
 
 #topbar {
-    background-color: bs.$accordion-bg;
+    @extend .bg-primary;
     // IOS Safe Area
     padding-top: calc(#{bs.$navbar-padding-y} + env(safe-area-inset-top));
 
@@ -111,7 +140,8 @@ main {
 
     // Formatting for the inbox button on the topbar
     ul.nav {
-        @extend .text-primary;
+
+        @extend .text-light;
 
         span {
             @extend .d-none;
@@ -119,12 +149,16 @@ main {
 
         i {
             @extend .h1;
+            color: bs.$navbar-icon-colour;
         }
 
         .nav-link {
             @extend .p-0;
-            @extend .link-dark;
         }
+    }
+
+    .dropdown-toggle {
+        color: bs.$navbar-icon-colour;
     }
 }
 
@@ -221,22 +255,12 @@ footer {
     @extend .justify-content-center;
     @extend .p-2;
     @extend .nav-link;
-    @extend .bg-light;
     @extend .gap-1;
-
-    border-radius: 0;
+    @extend .rounded;
+    @extend .fw-semibold;
 
     &.active {
-        background-color: bs.$nav-pills-link-active-bg !important;
-    }
-
-    &:first-child {
-        border-bottom-left-radius: bs.$border-radius;
-        border-top-left-radius: bs.$border-radius;
-    }
-
-    &:last-child {
-        border-bottom-right-radius: bs.$border-radius;
-        border-top-right-radius: bs.$border-radius;
+        @extend .btn;
+        @extend .btn-secondary;
     }
 }

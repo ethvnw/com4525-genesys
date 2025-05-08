@@ -27,14 +27,14 @@ RSpec.feature("Viewing trip details") do
       visit trip_path(trip)
       click_on "List"
 
-      expect(page).to(have_content("No plans have been added to this trip yet"))
+      expect(page).to(have_content("No Plans Added"))
     end
 
     scenario "Viewing my trip as a map" do
       visit trip_path(trip)
       click_on "Map"
 
-      expect(page).to(have_content("No plans have been added to this trip yet"))
+      expect(page).to(have_content("No Plans Added"))
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.feature("Viewing trip details") do
       click_on "List"
 
       within(".collapse-btn[data-bs-target='#plans0']") do |collapse_button|
-        expect(collapse_button).to(have_content("Thursday 02 Jan"))
+        expect(collapse_button).to(have_content("Thursday 02 Jan 2020"))
       end
 
       within("#plans0 #plan-#{plan.id}") do |plan_card|
@@ -82,7 +82,7 @@ RSpec.feature("Viewing trip details") do
       end
 
       within(".collapse-btn[data-bs-target='#plans1']") do |collapse_button|
-        expect(collapse_button).to(have_content("Sunday 05 Jan"))
+        expect(collapse_button).to(have_content("Sunday 05 Jan 2020"))
       end
 
       within("#plans1 #plan-#{plan2.id}") do |plan_card|

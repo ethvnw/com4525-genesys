@@ -1,8 +1,8 @@
 .review-slide
-  .card
+  .card.bg-light
     .card-body
-      %p.card-text.fw-semibold.text-secondary= review_obj.content
-      %p.card-text.fw-bold= review_obj.name
+      %p.card-text.text-secondary{ id: "review-content-#{review_obj.id}" }= review_obj.content
+      %p.card-text.roamio-text= review_obj.name
     .card-body.pt-0
       = form_with(url: like_api_review_path(review_obj),
                   method: :post,

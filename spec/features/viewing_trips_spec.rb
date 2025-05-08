@@ -15,13 +15,13 @@ RSpec.feature("Viewing trips") do
     scenario "On the list view" do
       visit trips_path
       click_on "List"
-      expect(page).to(have_content("no trips"))
+      expect(page).to(have_content("No Trips Created"))
     end
 
     scenario "On the map view" do
       visit trips_path
       click_on "Map"
-      expect(page).to(have_content("no trips"))
+      expect(page).to(have_content("No Trips Created"))
     end
   end
 
@@ -75,6 +75,10 @@ RSpec.feature("Viewing trips") do
       expect_to_have_trip_as_list_item(trip1, "02 - 16 Jan 2020")
       expect_to_have_trip_as_list_item(trip2, "18 - 20 Jan 2020")
       expect_to_have_trip_as_list_item(collaborative_trip, "25 Jan - 12 Feb 2020")
+
+      within("#trips-planned-header") do
+        expect(page).to(have_content("3 Trips Planned"))
+      end
 
       within("a[href='/trips/#{collaborative_trip.id}']") do |trip_card|
         expect(trip_card).to(have_selector("img[data-bs-title='#{user2.username}']"))

@@ -11,8 +11,12 @@
                       id: "answer_#{item.id}",
                       class: "card-text fw-bold",
                       input_class: "form-control-plaintext fw-bold text-secondary resize-none pe-auto",
-                      data: { default_value: item.subcontent })
-  = button_tag(type: "submit", class: "btn btn-secondary fw-bold d-none mt-3") do
+                      data: { default_value: item.subcontent },
+                      "aria-label": "Answer Question",
+                      "aria-describedby": "item-content-#{item.id}")
+  = button_tag(type: "submit",
+               class: "btn btn-secondary d-none mt-3",
+               "aria-label": "Submit Answer") do
     %i.bi.bi-send-fill
     &nbsp;
     Submit Answer

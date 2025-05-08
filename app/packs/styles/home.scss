@@ -24,6 +24,18 @@
   transition: --top-shade 0.5s ease, --bottom-shade 0.5s ease;
 }
 
+.referral-input {
+  @include bs.media-breakpoint-down(sm) {
+    width: 100% !important;
+  }
+}
+
+#new-referral {
+  @include bs.media-breakpoint-down(lg) {
+    gap: 0 !important;
+  }
+}
+
 // Base class for carousels
 .home-carousels {
   .swiper-slide {
@@ -32,21 +44,6 @@
 
   .swiper-wrapper {
     @extend .pb-2;
-  }
-
-  .swiper-button-prev,
-  .swiper-button-next {
-    @extend .bg-dark, .rounded-circle;
-    width: 44px;
-    height: 44px;
-
-    i {
-      @extend .h2, .mb-0;
-    }
-
-    &::after {
-      content: "";
-    }
   }
 }
 
@@ -61,22 +58,13 @@
 
 // Latest trips carousel
 .latest-trips-carousel {
-  a {
+  .trip-card-container {
     width: 386px;
     height: 230px;
   }
 
   .trip-card {
     height: 230px;
-
-    .avatar-img {
-      width: 36px;
-      height: 36px;
-    }
-
-    .text-light {
-      @extend .text-break;
-    }
   }
 }
 
@@ -92,14 +80,16 @@
 // Quick link button
 .quick-link-btn {
   @extend .text-decoration-none, .text-start;
-  @extend .d-flex, .flex-column, .py-3;
-  border-bottom: 3px solid bs.$body-color !important;
+  @extend .d-flex, .flex-row, .py-3, .flex-sm-column;
+  @extend .border;
+  border-bottom: 3px solid bs.$roamio-primary !important;
   width: 200px;
 
   .btn-icon {
     @extend .d-flex, .align-items-center, .justify-content-center;
     @extend .mb-3, .rounded-circle;
-    background-color: bs.$gray-200;
+    @extend .me-3;
+    background-color: lighten(bs.$roamio-primary, 40%);
     width: 48px;
     height: 48px;
 
@@ -110,13 +100,28 @@
 
   .btn-body {
     @extend .d-flex, .flex-column, .align-items-start;
-    @extend .fw-semibold;
   }
 }
 
 @include bs.media-breakpoint-down(lg) {
   .quick-link-btn {
     width: 100%;
+  }
+}
+
+@include bs.media-breakpoint-down(sm) {
+  .quick-link-btn {
+    p, .btn-icon {
+      margin-bottom: 0px !important;
+    }
+    .btn-body {
+      display: flex !important;
+      justify-content: center !important;
+
+      h3 {
+        margin-bottom: 4px !important;
+      }
+    }
   }
 }
 

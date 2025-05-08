@@ -1,13 +1,17 @@
 .card.bg-light{ id: "#{tier.name.downcase}-tier-card" }
   .card-body
     - if tier.premium_subscription?
-      = image_pack_tag("images/roamio_explorer_brand_logo_d_grey.png", height: 20)
+      = image_pack_tag("images/roamio_explorer_brand_logo_d_grey.png",
+                       height: 20,
+                       alt: "Roamio explorer logo")
     - else
-      = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 20)
-    %h2.card-title.fw-bold.mt-2= tier.name
+      = image_pack_tag("images/roamio_brand_icon_d_grey.png",
+                       height: 20,
+                       alt: "Roamio explorer logo")
+    %h2.card-title.mt-2= tier.name
     .subscription-tier-price-option
-      %h6.card-subtitle.mb-2.text-body-secondary= tier.discount_description
-      %h6.card-subtitle.mb-2.text-body-secondary= tier.formatted_price
+      %p.card-subtitle.mb-1.text-body-secondary.fw-semibold= tier.discount_description
+      %p.card-subtitle.mb-2.text-body-secondary.fw-semibold= tier.formatted_price
     %hr
     %ul.subscription-tier-features.card-text.fw-semibold.small
       - tier.app_features.each do |app_feature|
@@ -15,11 +19,13 @@
 
     - if tier.premium_subscription?
       = link_to(new_subscription_path(s_id: tier.id),
-                class: "btn btn d-flex justify-content-center fw-bold btn-primary") do
+                class: "btn btn d-flex justify-content-center btn-primary",
+                tabindex: 0) do
         = tier.formatted_cta
     - else
       = link_to(new_user_registration_path,
-                class: "btn btn d-flex justify-content-center fw-bold btn-primary") do
+                class: "btn btn d-flex justify-content-center btn-primary",
+                tabindex: 0) do
         = tier.formatted_cta
 
     %p.subscription-tier-footer.card-text.small.text-body-secondary.text-center.mt-2= tier.terms_description

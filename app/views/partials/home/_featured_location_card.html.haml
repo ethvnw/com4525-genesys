@@ -1,8 +1,13 @@
-= link_to(api_featured_location_path(location), class: "featured-location-card") do
+= link_to(api_featured_location_path(location),
+          class: "featured-location-card",
+                   "aria-labelledby": "location-name-#{location.id}",
+                   tabindex: 0) do
   .featured-location-img
-    = image_tag(url_for(location.image))
-  %h6.fw-semibold.mb-0.mt-2
+    = image_tag(url_for(location.image), alt: "")
+  %h3.fs-6.mb-0.mt-2.roamio-text{ id: "location-name-#{location.id}", role: "presentation", "aria-hidden": "false" }
+    %span.visually-hidden Create trip to
     = location.name
+    %span.visually-hidden= location.truncated_country_name(13)
   %small.text-secondary.fw-semibold
     %i.bi.bi-geo-alt &nbsp;
     = location.truncated_country_name(13)

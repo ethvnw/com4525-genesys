@@ -5,10 +5,6 @@
   height: 100%;
 }
 
-#trips-map {
-  @extend .border, .rounded;
-}
-
 .leaflet-div-icon {
   isolation: isolate;
 
@@ -34,7 +30,7 @@
 }
 
 .btn-trip {
-  @extend .btn, .btn-sm, .btn-primary, .fw-semibold;
+  @extend .btn, .btn-sm, .btn-primary, .fw-semibold, .text-light;
   position: relative;
   max-width: 200px;
 
@@ -45,10 +41,11 @@
     text-overflow: ellipsis;
     width: 100%;
     text-align: left;
+    @extend .roamio-text;
   }
 
   span.marker-description {
-    @extend .small, .text-secondary;
+    @extend .small, .roamio-base, .fw-semibold;
     display: flex;
     padding-left: 18px;
   }

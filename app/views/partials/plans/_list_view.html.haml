@@ -1,7 +1,7 @@
 %div{ "data-controller": "trip-show" }
   - plan_groups.each_with_index do |(start_date, plans), index|
     .plan-group
-      %button.btn.collapse-btn.px-0.py-2.w-100.text-uppercase.text-start.text-body-secondary.fs-5.fw-semibold{
+      %button.roamio-header.btn.collapse-btn.px-0.py-2.w-100.text-uppercase.text-start.fs-5{
         type: "button",
         data: {
           bs_toggle: "collapse",
@@ -12,7 +12,7 @@
           controls: "plans#{index}",
         },
       }
-        = start_date.strftime("%A %d %b")
+        = start_date.strftime("%A %d %b %Y")
         %i.bi.bi-chevron-up.float-end
 
       .collapse.show.mb-3{ id: "plans#{index}" }

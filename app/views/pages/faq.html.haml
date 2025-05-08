@@ -1,13 +1,13 @@
 -# Questions dropdown section
 = append_javascript_pack_tag("scriptpacks/faq")
-%section#faq-container.row.align-items-center.py-5
-  %h2.text-center.text-lg-start.fw-bold
-    Frequently Asked Questions
+= render("partials/layouts/page_title", page_title: "FAQ")
+%section#faq-container.align-items-center
+  %h2.text-center.text-lg-start.py-3 Recently Asked by Users
   - @questions.each_with_index do |question, index|
-    .accordion.mb-2{ id: "accordion-#{index}" }
+    .accordion.pb-3{ id: "accordion-#{index}" }
       .accordion-item
         .accordion-header{ id: "heading-#{index}" }
-          %button.accordion-button.collapsed{
+          %button.accordion-button.collapsed.roamio-header{
             id: "question_#{question.id}",
             type: "button",
             "data-bs-toggle": "collapse",
@@ -15,18 +15,19 @@
             "data-id": question.id,
             "aria-expanded": "false",
             "aria-controls": "collapse-#{index}",
+            tabindex: 0,
           }
             = question.question
         .accordion-collapse.collapse{
           id: "collapse-#{index}",
-          "aria-labelledby": "heading-#{index}",
+          "aria-labelledby": "question_#{question.id}",
           "data-bs-parent": "#accordion-#{index}",
         }
           .accordion-body
             %p
               %strong Answer:
               = question.answer || "No answer yet"
-
-  %h4.text-center.text-lg-start.fw-bold.mt-5
+  %hr
+  %h2.text-center.text-lg-start.py-3
     Got a question? Submit it here!
   = render("partials/questions/form", question: @question, errors: @errors)
