@@ -77,7 +77,7 @@ RSpec.feature("Viewing trips") do
       expect_to_have_trip_as_list_item(collaborative_trip, "25 Jan - 12 Feb 2020")
 
       within("#trips-planned-header") do
-        expect(page).to have_content("3 Trips Planned")
+        expect(page).to(have_content("3 Trips Planned"))
       end
 
       within("a[href='/trips/#{collaborative_trip.id}']") do |trip_card|
