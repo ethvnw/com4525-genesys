@@ -33,6 +33,7 @@ label {
         color: bs.$body-bg;
   
         &:hover {
+            background-color: darken(bs.$roamio-secondary, 1%);
             color: darken(bs.$body-bg, 10%);
         }
   
