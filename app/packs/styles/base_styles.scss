@@ -50,6 +50,10 @@ $link-color: #0C5CD4;
 
 $navbar-icon-colour: #D3D3D3;
 
+$user-avatar-size-base: 40px;
+$user-avatar-size-sm: 32px;
+$user-avatar-size-lg: 24px;
+
 /* Roamio Brand */
 .roamio-header, .roamio-text {
   font-family: "Cal Sans" !important;
@@ -76,9 +80,9 @@ $navbar-icon-colour: #D3D3D3;
 
 .btn-tertiary {
   @include button-variant(
-    $roamio-tertiary, 
+    $roamio-tertiary,
     darken($roamio-tertiary, 10%)
-  );    
+  );
 }
 
 .btn-secondary {

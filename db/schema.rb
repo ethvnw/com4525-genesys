@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_09_093201) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -123,6 +123,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
     t.datetime "updated_at", null: false
     t.string "provider_name"
     t.bigint "backup_plan_id"
+    t.integer "scannable_tickets_count", default: 0, null: false
+    t.integer "booking_references_count", default: 0, null: false
+    t.integer "ticket_links_count", default: 0, null: false
     t.index ["backup_plan_id"], name: "index_plans_on_backup_plan_id"
     t.index ["trip_id"], name: "index_plans_on_trip_id"
   end
@@ -242,6 +245,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_04_132212) do
     t.datetime "end_date", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "regular_plans_count", default: 0, null: false
+    t.integer "travel_plans_count", default: 0, null: false
+    t.integer "trip_memberships_count", default: 0, null: false
   end
 
   create_table "users", force: :cascade do |t|

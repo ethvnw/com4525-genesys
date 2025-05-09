@@ -10,7 +10,7 @@ RSpec.describe(UserDecorator, type: :decorator) do
     context "when the user has an avatar attached" do
       it "returns the avatar attached to the user" do
         # Mock user should already have an avatar attached
-        expect(decorated_user.avatar_or_default).to(be_an_instance_of(ActiveStorage::Attached::One))
+        expect(decorated_user.avatar_or_default).to(be_an_instance_of(ActiveStorage::VariantWithRecord))
         expect(user.avatar.filename.to_s).to(eq("mock_avatar.png"))
       end
     end

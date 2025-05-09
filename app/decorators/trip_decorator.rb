@@ -31,11 +31,11 @@ class TripDecorator < ApplicationDecorator
     start_date.strftime(start_date_format) + " - " + end_date.strftime("%d %b %Y")
   end
 
-  def regular_plan_count
-    plans.count(&:regular_plan?)
-  end
-
-  def travel_plan_count
-    plans.count(&:travel_plan?)
+  ##
+  # Converts the trip image to webp format, resizes it, and provides the URL for that variant
+  # Improves application performance by minimising data transfer to the client
+  # @return [ActiveStorage::Variant, nil] the transformed trip image
+  def webp_image
+    image&.variant(resize_to_limit: [1000, 1000], convert: :webp, format: :webp)
   end
 end

@@ -8,4 +8,21 @@ namespace :db do
     Rake::Task["db:migrate"].invoke
     Rake::Task["db:seed"].invoke
   end
+
+  task set_counter_caches: :environment do
+    desc "Set counter caches so that they are accurate after seeding"
+    Trip.all.each do |t|
+      t.regular_plans_count = t.plans.count(&:regular_plan?)
+      t.travel_plans_count = t.plans.count(&:travel_plan?)
+      t.save
+
+      Trip.reset_counters(t.id, :trip_memberships)
+    end
+
+    Plan.all.each do |p|
+      Plan.reset_counters(p.id, :scannable_tickets)
+      Plan.reset_counters(p.id, :ticket_links)
+      Plan.reset_counters(p.id, :booking_references)
+    end
+  end
 end

@@ -5,7 +5,7 @@ class SubscriptionsController < ApplicationController
   before_action :authorize_members_access!
 
   def pricing
-    @subscription_tiers = SubscriptionTier.all.order(id: :asc)
+    @subscription_tiers = SubscriptionTier.includes(:app_features).order(id: :asc)
   end
 
   def new
