@@ -43,6 +43,9 @@ export default class extends Controller {
       // isValidHttpUrl is a utility function that checks if the URL starts with http:// or https://
       this.showWarning('Please enter a valid URL (beginning with http:// or https://).');
       return;
+    } if (this.links.length >= 10) {
+      this.showWarning('You can only add up to 10 ticket links.');
+      return;
     }
 
     this.links.push({ name, url });
@@ -72,7 +75,6 @@ export default class extends Controller {
       this.links.forEach((link, index) => {
         const row = document.createElement('tr');
 
-        // Sanitise inputs by setting textContent for name and URL and the button
         const nameCell = document.createElement('td');
         nameCell.textContent = link.name;
 
@@ -82,11 +84,16 @@ export default class extends Controller {
         const deleteButtonCell = document.createElement('td');
         const button = document.createElement('button');
         button.type = 'button';
-        button.classList.add('btn', 'btn-sm', 'btn-danger');
-        button.setAttribute('data-action', 'ticket-links#deleteLink');
+        button.classList.add('btn', 'btn-sm', 'btn-danger', 'd-inline-flex', 'align-items-center', 'gap-1');
+        button.setAttribute('data-action', 'ticket-links#confirmAndDelete');
         button.setAttribute('data-index', index);
         button.setAttribute('aria-label', `Delete Ticket Link with name ${link.name} and URL ${link.url}`);
-        button.textContent = 'Delete';
+
+        const icon = document.createElement('i');
+        icon.classList.add('bi', 'bi-trash');
+
+        button.appendChild(icon);
+        button.appendChild(document.createTextNode('Delete'));
 
         deleteButtonCell.appendChild(button);
 
@@ -102,6 +109,13 @@ export default class extends Controller {
   // Update the hidden input field with the current links
   updateField() {
     this.dataFieldTarget.value = JSON.stringify(this.links);
+  }
+
+  confirmAndDelete(event) {
+    // eslint-disable-next-line no-restricted-globals, no-alert
+    if (confirm('Are you sure you want to delete this ticket link?')) {
+      this.deleteLink(event);
+    }
   }
 
   // For the edit page, reload existing links from the hidden input field
