@@ -34,6 +34,10 @@ class TripMembership < ApplicationRecord
   belongs_to :sender_user, class_name: "User", inverse_of: :sent_invites, optional: true
   attr_accessor :username
 
+  after_create :add_counter_cache
+  after_update :update_counter_cache
+  after_destroy :remove_counter_cache
+
   validate :max_capacity_not_reached
   validates_length_of :user_display_name, maximum: 30, allow_blank: true
   after_update :nullify_sender_user
@@ -53,6 +57,34 @@ class TripMembership < ApplicationRecord
   def nullify_sender_user
     if is_invite_accepted && sender_user.present?
       update_column(:sender_user_id, nil)
+    end
+  end
+
+  ##
+  # Increments the trip's counter cache on creation
+  def add_counter_cache
+    if is_invite_accepted
+      user.increment!(:trips_count)
+    end
+  end
+
+  ##
+  # Decrements the user's trip count when removing from the trip
+  def remove_counter_cache
+    if is_invite_accepted
+      user.decrement!(:trips_count)
+    end
+  end
+
+  ##
+  # Updates the user's trip count when accepting/rejecting the invite
+  def update_counter_cache
+    if is_invite_accepted_before_last_save != is_invite_accepted
+      if is_invite_accepted
+        user.increment!(:trips_count)
+      else
+        user.decrement!(:trips_count)
+      end
     end
   end
 end

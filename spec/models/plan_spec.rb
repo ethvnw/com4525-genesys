@@ -75,7 +75,7 @@ RSpec.describe(Plan, type: :model) do
       end
 
       it "doesn't change regular_plans_count" do
-        expect { plan }.to(change(trip, :regular_plans_count).by(0))
+        expect { subject }.to(change(trip, :regular_plans_count).by(0))
       end
     end
 
