@@ -18,5 +18,11 @@ namespace :db do
 
       Trip.reset_counters(t.id, :trip_memberships)
     end
+
+    Plan.all.each do |p|
+      Plan.reset_counters(p.id, :scannable_tickets)
+      Plan.reset_counters(p.id, :ticket_links)
+      Plan.reset_counters(p.id, :booking_references)
+    end
   end
 end

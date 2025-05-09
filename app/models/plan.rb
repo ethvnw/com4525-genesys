@@ -36,16 +36,19 @@ end
 # Table name: plans
 #
 #  id                       :bigint           not null, primary key
+#  booking_references_count :integer          default(0), not null
 #  end_date                 :datetime
 #  end_location_latitude    :decimal(, )
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
 #  plan_type                :integer          not null
 #  provider_name            :string
+#  scannable_tickets_count  :integer          default(0), not null
 #  start_date               :datetime
 #  start_location_latitude  :decimal(, )
 #  start_location_longitude :decimal(, )
 #  start_location_name      :string
+#  ticket_links_count       :integer          default(0), not null
 #  title                    :string           not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
@@ -111,7 +114,7 @@ class Plan < ApplicationRecord
   end
 
   def any_tickets?
-    ticket_links.any? || booking_references.any? || scannable_tickets.any?
+    ticket_links_count > 0 || booking_references_count > 0 || scannable_tickets_count > 0
   end
 
   def free_time_plan?
