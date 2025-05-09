@@ -38,6 +38,9 @@ export default class extends Controller {
     } if (this.references.some((ref) => ref.number === number)) {
       this.showWarning('A booking reference with this reference number already exists.');
       return;
+    } if (this.references.length >= 10) {
+      this.showWarning('You can only add up to 10 booking references.');
+      return;
     }
 
     this.references.push({ name, number });
@@ -67,7 +70,6 @@ export default class extends Controller {
       this.references.forEach((ref, index) => {
         const row = document.createElement('tr');
 
-        // Sanitise inputs and buttons by setting textContent
         const nameCell = document.createElement('td');
         nameCell.textContent = ref.name;
 
@@ -77,11 +79,16 @@ export default class extends Controller {
         const deleteButtonCell = document.createElement('td');
         const button = document.createElement('button');
         button.type = 'button';
-        button.classList.add('btn', 'btn-sm', 'btn-danger');
-        button.setAttribute('data-action', 'booking-references#deleteReference');
+        button.classList.add('btn', 'btn-sm', 'btn-danger', 'd-inline-flex', 'align-items-center', 'gap-1');
+        button.setAttribute('data-action', 'booking-references#confirmAndDelete');
         button.setAttribute('data-index', index);
         button.setAttribute('aria-label', `Delete Booking Reference with name ${ref.name} and number ${ref.number}`);
-        button.textContent = 'Delete';
+
+        const icon = document.createElement('i');
+        icon.classList.add('bi', 'bi-trash');
+
+        button.appendChild(icon);
+        button.appendChild(document.createTextNode('Delete'));
 
         deleteButtonCell.appendChild(button);
 
@@ -97,6 +104,13 @@ export default class extends Controller {
   // Update the hidden input field with the current references to synchronise with the server
   updateField() {
     this.dataFieldTarget.value = JSON.stringify(this.references);
+  }
+
+  confirmAndDelete(event) {
+    // eslint-disable-next-line no-restricted-globals, no-alert
+    if (confirm('Are you sure you want to delete this booking reference?')) {
+      this.deleteReference(event);
+    }
   }
 
   // For the edit page, reload existing references from the hidden input field
