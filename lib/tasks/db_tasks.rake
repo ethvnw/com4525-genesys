@@ -24,5 +24,13 @@ namespace :db do
       Plan.reset_counters(p.id, :ticket_links)
       Plan.reset_counters(p.id, :booking_references)
     end
+
+    User.all.each do |u|
+      User.reset_counters(u.id, :referrals)
+    end
+  end
+
+  Rake::Task["db:migrate"].enhance do
+    Rake::Task["db:set_counter_caches"].invoke
   end
 end
