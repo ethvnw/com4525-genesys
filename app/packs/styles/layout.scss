@@ -130,10 +130,6 @@ main {
     // IOS Safe Area
     padding-top: calc(#{bs.$navbar-padding-y} + env(safe-area-inset-top));
 
-    img {
-        height: 40px;
-    }
-
     #user-account-dropdown .dropdown-username {
         @extend .d-none;
     }
@@ -206,6 +202,21 @@ main {
     }
     #user-account-dropdown .dropdown-username {
         @extend .fw-semibold;
+    }
+}
+
+#user-navbar-avatar {
+    width: bs.$user-avatar-size-base;
+    height: bs.$user-avatar-size-base;
+
+    @include bs.media-breakpoint-up(sm) {
+        width: bs.$user-avatar-size-sm;
+        height: bs.$user-avatar-size-sm;
+    }
+
+    @include bs.media-breakpoint-up(lg) {
+        width: bs.$user-avatar-size-lg;
+        height: bs.$user-avatar-size-lg;
     }
 }
 

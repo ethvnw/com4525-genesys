@@ -11,7 +11,6 @@ brienz_trip = Trip.find_or_create_by!(
   start_date: Time.zone.parse("2025-06-17 00:00:00"),
   end_date: Time.zone.parse("2025-06-22 23:59:59"),
   created_at: Time.zone.parse("2025-04-21 17:34:00"),
-  updated_at: Time.zone.parse("2025-04-21 17:34:00"),
 )
 
 seed_trip_image(brienz_trip, "brienz.jpg")
@@ -25,7 +24,6 @@ beach_weekend = Trip.find_or_create_by!(
   start_date: Time.zone.parse("2025-06-21 00:00:00"),
   end_date: Time.zone.parse("2025-06-22 23:59:59"),
   created_at: Time.zone.parse("2025-03-28 20:17:00"),
-  updated_at: Time.zone.parse("2025-03-28 20:17:00"),
 )
 
 seed_trip_image(beach_weekend, "brighton.jpg")
@@ -39,7 +37,6 @@ graduation = Trip.find_or_create_by!(
   start_date: Time.zone.parse("2025-07-24 00:00:00"),
   end_date: Time.zone.parse("2025-07-26 23:59:59"),
   created_at: Time.zone.parse("2025-04-27 12:23:00"),
-  updated_at: Time.zone.parse("2025-04-27 12:23:00"),
 )
 
 seed_trip_image(graduation, "sheffield.jpg")
@@ -53,7 +50,6 @@ australia = Trip.find_or_create_by!(
   start_date: Time.zone.parse("2025-12-01 00:00:00"),
   end_date: Time.zone.parse("2025-12-22 23:59:59"),
   created_at: Time.zone.parse("2025-03-22 11:05:00"),
-  updated_at: Time.zone.parse("2025-03-22 11:05:00"),
 )
 
 seed_trip_image(australia, "australia.jpg")
@@ -67,7 +63,6 @@ interrailing = Trip.find_or_create_by!(
   start_date: Time.zone.parse("2026-08-01 00:00:00"),
   end_date: Time.zone.parse("2026-08-15 23:59:59"),
   created_at: Time.zone.parse("2025-04-15 18:30:00"),
-  updated_at: Time.zone.parse("2025-04-15 18:30:00"),
 )
 
 seed_trip_image(interrailing, "europe.jpg")

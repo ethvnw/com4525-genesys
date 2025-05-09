@@ -307,9 +307,9 @@ RSpec.feature("Managing plans") do
 
   feature "Edit a plan" do
     let!(:plan) { create(:plan, trip: trip) }
-    let(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
-    let(:plan_with_booking_reference) { create(:booking_reference, plan: create(:plan, trip: trip)).plan }
-    let(:plan_with_ticket_link) { create(:ticket_link, plan: create(:plan, trip: trip)).plan }
+    let(:plan_with_ticket) { create(:plan, :with_ticket, trip: trip) }
+    let(:plan_with_booking_reference) { create(:plan, :with_booking_reference, trip: trip) }
+    let(:plan_with_ticket_link) { create(:plan, :with_ticket_link, trip: trip) }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
@@ -572,7 +572,7 @@ RSpec.feature("Managing plans") do
         end_date: Time.current + 4.days,
       )
     end
-    let!(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
+    let!(:plan_with_ticket) { create(:plan, :with_ticket, trip: trip) }
 
     scenario "If a plan doesn't have a scannable ticket, I see a message indicating that", js: true do
       visit trip_plan_path(trip, plan)

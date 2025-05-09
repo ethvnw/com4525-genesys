@@ -36,6 +36,10 @@ class ApplicationController < ActionController::Base
     super
   end
 
+  def current_user
+    @current_user ||= super && User.includes(avatar_attachment: :blob).find(current_user.id)
+  end
+
   private
 
   rescue_from CanCan::AccessDenied do
@@ -64,10 +68,10 @@ class ApplicationController < ActionController::Base
 
     if flash[:alert].present?
       flash[:notifications] << { message: flash[:alert], notification_type: "danger" }
-      flash.discard(:alert)
+      flash[:alert] = nil
     elsif flash[:notice].present?
       flash[:notifications] << { message: flash[:notice], notification_type: "success" }
-      flash.discard(:notice)
+      flash[:notice] = nil
     end
   end
 

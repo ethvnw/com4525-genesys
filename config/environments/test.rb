@@ -11,6 +11,22 @@ require_relative "../../lib/middleware/test_ip_mock.rb"
 # and recreated between test runs. Don't rely on the data there!
 
 Rails.application.configure do
+  config.after_initialize do
+    Bullet.enable        = true
+    Bullet.bullet_logger = true
+    Bullet.raise         = true # raise an error if n+1 query occurs
+
+    # Don't warn about unused eager loading
+    # Eager load needed for most requests, but bullet warns when it is being used in a turbo stream request.
+    # However, it will be needed for the HTML equivalent request of any turbo stream ones, so safer to just
+    # eager-load anyway.
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "User", association: :avatar_attachment)
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "ActiveStorage::Attachment", association: :blob)
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "Plan", association: :documents_attachments)
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "Trip", association: :trip_memberships)
+    Bullet.add_safelist(type: :unused_eager_loading, class_name: "TripMembership", association: :user)
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Turn false under Spring and add config.action_view.cache_template_loading = true.
