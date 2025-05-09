@@ -309,7 +309,7 @@ RSpec.feature("Managing plans") do
     let!(:plan) { create(:plan, trip: trip) }
     let(:plan_with_ticket) { create(:plan, :with_ticket, trip: trip) }
     let(:plan_with_booking_reference) { create(:plan, :with_booking_reference, trip: trip) }
-    let(:plan_with_ticket_link) { create(:plan, :with_ticket, trip: trip) }
+    let(:plan_with_ticket_link) { create(:plan, :with_ticket_link, trip: trip) }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
