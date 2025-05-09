@@ -23,7 +23,7 @@
     -# Render this ID always, so it can be updated by turbo stream response
     #trips-list-header
       - if params[:view] == "list"
-        = render("partials/trips/trips_list_header", trips: @trips)
+        = render("partials/trips/trips_list_header", user: @current_user)
     #trips-view
       - if params[:view] == "map"
         = render("partials/trips/map_view", trips: @trips)

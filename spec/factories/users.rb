@@ -25,6 +25,7 @@
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
+#  trips_count            :integer          default(0), not null
 #  unlock_token           :string
 #  user_role              :string
 #  username               :string
