@@ -148,7 +148,11 @@ class TripsController < ApplicationController
 
     # Only include tickets/documents if in list view, as they are not visible in map view
     plans_includes_list = if params[:view] == "list"
-      [:scannable_tickets, :ticket_links, :booking_references, documents_attachments: :blob]
+      [
+        :documents_attachments,
+        :backup_plan,
+        :primary_plan,
+      ]
     else
       []
     end
@@ -159,7 +163,6 @@ class TripsController < ApplicationController
       .decorate
 
     @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
-
     stream_response("trips/show")
   end
 

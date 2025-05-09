@@ -22,10 +22,6 @@ Rails.application.configure do
     # eager-load anyway.
     Bullet.add_safelist(type: :unused_eager_loading, class_name: "User", association: :avatar_attachment)
     Bullet.add_safelist(type: :unused_eager_loading, class_name: "ActiveStorage::Attachment", association: :blob)
-
-    Bullet.add_safelist(type: :unused_eager_loading, class_name: "Plan", association: :scannable_tickets)
-    Bullet.add_safelist(type: :unused_eager_loading, class_name: "Plan", association: :ticket_links)
-    Bullet.add_safelist(type: :unused_eager_loading, class_name: "Plan", association: :booking_references)
   end
 
   # Settings specified here will take precedence over those in config/application.rb.
