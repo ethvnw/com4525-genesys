@@ -86,6 +86,7 @@ export default class extends Controller {
         button.type = 'button';
         button.classList.add('btn', 'btn-sm', 'btn-danger', 'd-inline-flex', 'align-items-center', 'gap-1');
         button.setAttribute('data-action', 'ticket-links#confirmAndDelete');
+        button.setAttribute('data-confirm', 'Are you sure you want to delete this ticket link?');
         button.setAttribute('data-index', index);
         button.setAttribute('aria-label', `Delete Ticket Link with name ${link.name} and URL ${link.url}`);
 
@@ -112,10 +113,7 @@ export default class extends Controller {
   }
 
   confirmAndDelete(event) {
-    // eslint-disable-next-line no-restricted-globals, no-alert
-    if (confirm('Are you sure you want to delete this ticket link?')) {
-      this.deleteLink(event);
-    }
+    this.deleteLink(event);
   }
 
   // For the edit page, reload existing links from the hidden input field
