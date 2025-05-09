@@ -81,6 +81,7 @@ export default class extends Controller {
         button.type = 'button';
         button.classList.add('btn', 'btn-sm', 'btn-danger', 'd-inline-flex', 'align-items-center', 'gap-1');
         button.setAttribute('data-action', 'booking-references#confirmAndDelete');
+        button.setAttribute('data-confirm', 'Are you sure you want to delete this booking reference?');
         button.setAttribute('data-index', index);
         button.setAttribute('aria-label', `Delete Booking Reference with name ${ref.name} and number ${ref.number}`);
 
@@ -107,10 +108,7 @@ export default class extends Controller {
   }
 
   confirmAndDelete(event) {
-    // eslint-disable-next-line no-restricted-globals, no-alert
-    if (confirm('Are you sure you want to delete this booking reference?')) {
-      this.deleteReference(event);
-    }
+    this.deleteReference(event);
   }
 
   // For the edit page, reload existing references from the hidden input field
