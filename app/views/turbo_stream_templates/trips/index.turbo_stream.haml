@@ -16,7 +16,7 @@
 
   = turbo_stream.update("trips-list-header",
                         partial: "partials/trips/trips_list_header",
-                        locals: { trips: @trips })
+                        locals: { user: @current_user })
 
   = turbo_stream.append("trip-cards",
                         partial: "partials/trips/trip_cards_list",
