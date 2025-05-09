@@ -1,11 +1,12 @@
 - if pagy.next
-  = link_to(trips_path(page: pagy.next),
-            data: { turbo: "true", turbo_stream: "true", controller: "infinite-scroll" }) do
-    = image_pack_tag("images/roamio_brand_icon_d_grey.webp",
-                     height: 18,
-                     width: 24,
-                     "aria-hidden": "true",
-                     alt: "Roamio Logo")
+  .my-5
+    = link_to(trips_path(page: pagy.next),
+              data: { turbo: "true", turbo_stream: "true", controller: "infinite-scroll" }) do
+      = image_pack_tag("images/roamio_brand_icon_d_grey.webp",
+                       height: 18,
+                       width: 24,
+                       "aria-hidden": "true",
+                       alt: "Roamio Logo")
     -# - pagy.series.each do |item|
     -#   - if item.is_a?(Integer)
     -#     = link_to(item.to_s,

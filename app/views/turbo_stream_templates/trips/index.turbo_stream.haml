@@ -7,7 +7,7 @@
   = turbo_stream.update("trips-list-header", "")
   = turbo_stream.update("trip-cards", "")
   = turbo_stream.update("pager", "")
-  = turbo_stream.append("trips-view",
+  = turbo_stream.prepend("trips-view",
                         partial: "partials/trips/map_view",
                         locals: { trips: @trips })
 - else
