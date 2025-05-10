@@ -28,7 +28,8 @@
     = form_error_message(errors, :location)
     .valid-feedback Looks good!
 
-  #trip-form-map.form-map
+  #trip-form-map.form-map.position-relative.px-0
+    = render("partials/trips/form_map_overlay")
 
   = f.hidden_field(:location_name,
                    id: "trip_location_name_input")
