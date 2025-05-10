@@ -1,10 +1,18 @@
-%p
-  Hi #{@recipient.username},
+%body{ style: "font-family: Arial, sans-serif; background-color: #f2f2f2; color: black;" }
+  %div{ style: "max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" }
 
-%p
-  = @sender.username
-  has invited you to join the trip "#{@trip.title}".
+    %p{ style: "font-size: 1em; color: #575757;" }
+      Hi #{@recipient.username},
 
-%p If you do not wish to join, you can ignore this email.
-%p Best,
-%p Roamio
+    %p{ style: "font-size: 1em;" }
+      %strong= @sender.username
+      has invited you to join a trip
+      %strong= @trip.title
+
+    %p{ style: "font-size: 1em;" }
+      If you do not wish to join, you can ignore this email.
+
+    %p{ style: "font-size: 0.8em; color: #8f8f8f; margin-top: 40px;" }
+      Best,
+      %br
+      The Roamio Team
