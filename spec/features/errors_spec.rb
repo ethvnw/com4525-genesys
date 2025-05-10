@@ -19,17 +19,17 @@ RSpec.feature("Error Pages") do
 
   scenario "shows the 401 page for unauthorized access" do
     login_as(user)
-    
+
     # Visit a route not available to users
     visit admin_dashboard_path
 
-    expect(page).to have_content("Response Status Code 401")
-    expect(page.status_code).to eq(401)
+    expect(page).to(have_content("Response Status Code 401"))
+    expect(page.status_code).to(eq(401))
   end
 
   scenario "shows the 404 page for a non-existent route" do
     visit "/non-existent-route"
-    
+
     expect(page).to(have_content("Response Status Code 404"))
     expect(page.status_code).to(eq(404))
   end
