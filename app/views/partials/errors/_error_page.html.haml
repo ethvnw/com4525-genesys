@@ -10,7 +10,14 @@
     %i.bi.bi-house-fill{ "aria-hidden": "true" } &nbsp;
     = button_text
   %p.mt-3.text-secondary
-    %i.bi.bi-info-circle{ "aria-hidden": "true" } &nbsp;
+    %i.bi.bi-info-circle{
+      data: {
+        bs_toggle: "tooltip",
+        bs_placement: "bottom",
+        bs_title: "Include this status code if you need help from support",
+      },
+      "aria-hidden": "true",
+    } &nbsp;
     Response Status Code
     %span.font-monospace
       = status_code
