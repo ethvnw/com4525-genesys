@@ -1,7 +1,22 @@
-%p Hello #{@resource.email}!
+%body{ style: "font-family: Arial, sans-serif; background-color: #f2f2f2; color: black;" }
+  %div{ style: "max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" }
 
-%p Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+    %p{ style: "font-size: 1em; color: #575757;" }
+      Hello
+      %strong #{@resource.email}!
 
-%p Click the link below to unlock your account:
+    %p{ style: "font-size: 1em;" }
+      Your account has been locked due to an excessive number of unsuccessful sign in attempts.
 
-%p= link_to("Unlock my account", unlock_url(@resource, unlock_token: @token))
+    %p{ style: "font-size: 1em;" }
+      Click the link below to unlock your account:
+
+    %p{ style: "text-align: center; margin: 35px 0;" }
+      = link_to("Unlock My Account",
+                unlock_url(@resource, unlock_token: @token),
+                style: "background-color: #d12c4f; color: white; padding: 12px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block;")
+
+    %p{ style: "font-size: 0.8em; color: #8f8f8f; margin-top: 40px;" }
+      Best,
+      %br
+      The Roamio Team

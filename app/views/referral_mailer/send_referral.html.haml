@@ -1,16 +1,23 @@
-%p
-  You've been invited to join Roamio!,
+%body{ style: "font-family: Arial, sans-serif; background-color: #f2f2f2; color: black;" }
+  %div{ style: "max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" }
 
-%p
-  = @referrer.username
-  wants you to join Roamio, a collaborative app to organise trip tickets, bookings, and activities!
+    %p{ style: "font-size: 1em; color: #575757;" }
+      You've been invited to join
+      %strong Roamio!
 
-%p
-  No more searching through files, emails, and group chats!
+    %p{ style: "font-size: 1em;" }
+      %strong= @referrer.username
+      wants you to join Roamio, a collaborative app to organise trip tickets, bookings, and activities!
 
-%p
-  = link_to("Click here", @signup_url)
-  to sign up and start exploring!
+    %p{ style: "font-size: 1em;" }
+      No more searching through files, emails, and group chats!
 
-%p Best,
-%p Roamio
+    %p{ style: "text-align: center; margin: 35px 0;" }
+      = link_to("Click here to sign up and start exploring!",
+                @signup_url,
+                style: "background-color: #d12c4f; color: white; padding: 12px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block;")
+
+    %p{ style: "font-size: 0.8em; color: #8f8f8f; margin-top: 40px;" }
+      Best,
+      %br
+      The Roamio Team
