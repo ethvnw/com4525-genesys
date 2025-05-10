@@ -81,7 +81,7 @@ export default class extends Controller {
       this.map.enableMapInteraction();
     } else {
       showOverlay();
-      this.map.disableMapInteraction();     
+      this.map.disableMapInteraction();
     }
     if (endLat && endLng) {
       this.endLocationAutocomplete.setQuery(endName);
