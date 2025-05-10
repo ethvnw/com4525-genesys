@@ -4,16 +4,19 @@
 #
 # Table name: trips
 #
-#  id                 :bigint           not null, primary key
-#  description        :string
-#  end_date           :datetime
-#  location_latitude  :decimal(, )
-#  location_longitude :decimal(, )
-#  location_name      :string
-#  start_date         :datetime
-#  title              :string           not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                     :bigint           not null, primary key
+#  description            :string
+#  end_date               :datetime
+#  location_latitude      :decimal(, )
+#  location_longitude     :decimal(, )
+#  location_name          :string
+#  regular_plans_count    :integer          default(0), not null
+#  start_date             :datetime
+#  title                  :string           not null
+#  travel_plans_count     :integer          default(0), not null
+#  trip_memberships_count :integer          default(0), not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 class Trip < ApplicationRecord
   include Countable

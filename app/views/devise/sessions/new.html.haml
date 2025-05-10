@@ -5,23 +5,23 @@
   .row.w-100
     .col-xl-6.d-none.d-xl-flex.justify-content-center.align-items-center.position-relative
       .position-relative.pe-5.pb-5
-        = image_pack_tag("images/laptop.png", class: "d-block img-fluid", alt: "")
+        = image_pack_tag("images/laptop.webp", class: "d-block img-fluid", alt: "")
         #slideshow-container.background-container.position-absolute
           #login-slideshow.bg-white
             .login-slideshow-image.show
-              = image_pack_tag("images/placeholder_ios_screen.png", class: "d-block img-fluid screen", alt: "")
+              = image_pack_tag("images/placeholder_ios_screen.webp", class: "d-block img-fluid screen", alt: "")
             .login-slideshow-image
-              = image_pack_tag("images/placeholder_ios_screen_2.png", class: "d-block img-fluid screen", alt: "")
+              = image_pack_tag("images/placeholder_ios_screen_2.webp", class: "d-block img-fluid screen", alt: "")
             .login-slideshow-image
-              = image_pack_tag("images/placeholder_ios_screen_3.png", class: "d-block img-fluid screen", alt: "")
-          = image_pack_tag("images/iphone11-frame.png", id: "iphone-frame", class: "d-block", alt: "")
+              = image_pack_tag("images/placeholder_ios_screen_3.webp", class: "d-block img-fluid screen", alt: "")
+          = image_pack_tag("images/iphone11-frame.webp", id: "iphone-frame", class: "d-block", alt: "")
 
     .col-xl-6.d-flex.justify-content-center.align-items-center
       .card.login-card.px-md-5.py-3
         .card-body
           .d-flex.flex-column.align-items-center.py-3
             = link_to("/", "aria-label": "Home") do
-              = image_pack_tag("images/roamio_brand_icon_d_grey.png", height: 40, alt: "Roamio Logo")
+              = image_pack_tag("images/roamio_brand_icon_d_grey.webp", height: 40, alt: "Roamio Logo")
 
           = render("partials/devise/sessions/form")
           .d-flex.flex-column

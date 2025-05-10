@@ -1,5 +1,11 @@
 @use "base_styles" as bs;
 
+
+.toast-container {
+  // Always show toasts on top of anything else
+  z-index: 2147483647;
+}
+
 // Prevent text wrapping with long notifications (i.e. lost connection) on larger screens
 @include bs.media-breakpoint-up(md) {
   .toast {

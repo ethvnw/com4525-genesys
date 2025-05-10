@@ -17,7 +17,7 @@
 #  index_scannable_tickets_on_plan_id  (plan_id)
 #
 class ScannableTicket < ApplicationRecord
-  belongs_to :plan
+  belongs_to :plan, counter_cache: true
 
   enum ticket_format: [:qr, :code_39, :code_128]
 

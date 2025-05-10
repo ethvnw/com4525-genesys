@@ -36,16 +36,19 @@ end
 # Table name: plans
 #
 #  id                       :bigint           not null, primary key
+#  booking_references_count :integer          default(0), not null
 #  end_date                 :datetime
 #  end_location_latitude    :decimal(, )
 #  end_location_longitude   :decimal(, )
 #  end_location_name        :string
 #  plan_type                :integer          not null
 #  provider_name            :string
+#  scannable_tickets_count  :integer          default(0), not null
 #  start_date               :datetime
 #  start_location_latitude  :decimal(, )
 #  start_location_longitude :decimal(, )
 #  start_location_name      :string
+#  ticket_links_count       :integer          default(0), not null
 #  title                    :string           not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
@@ -67,12 +70,15 @@ class Plan < ApplicationRecord
 
   belongs_to :trip
   belongs_to :backup_plan, class_name: "Plan", optional: true, foreign_key: "backup_plan_id"
-
   has_many_attached :documents
   has_many :ticket_links, dependent: :destroy
   has_many :booking_references, dependent: :destroy
   has_many :scannable_tickets, dependent: :destroy
   has_one :primary_plan, class_name: "Plan", foreign_key: "backup_plan_id", dependent: :nullify
+
+  after_create :add_counter_cache
+  after_update :update_counter_cache
+  after_destroy :remove_counter_cache
 
   enum plan_type: {
     clubbing: 0,
@@ -108,7 +114,7 @@ class Plan < ApplicationRecord
   end
 
   def any_tickets?
-    ticket_links.any? || booking_references.any? || scannable_tickets.any?
+    ticket_links_count > 0 || booking_references_count > 0 || scannable_tickets_count > 0
   end
 
   def free_time_plan?
@@ -117,5 +123,39 @@ class Plan < ApplicationRecord
 
   def backup_plan?
     primary_plan.present?
+  end
+
+  ##
+  # Increments the trip's counter cache for the relevant plan type when creating the plan
+  def add_counter_cache
+    if travel_plan?
+      trip.increment!(:travel_plans_count)
+    else
+      trip.increment!(:regular_plans_count)
+    end
+  end
+
+  ##
+  # Decrements the trip's counter cache for the relevant plan type when deleting the plan
+  def remove_counter_cache
+    if travel_plan?
+      trip.decrement!(:travel_plans_count)
+    else
+      trip.decrement!(:regular_plans_count)
+    end
+  end
+
+  ##
+  # Updates the trip's counter cache for the relevant plan type when editing the plan
+  def update_counter_cache
+    if plan_type_before_last_save.starts_with?("travel_by") != plan_type.starts_with?("travel_by")
+      old_type = travel_plan? ? :regular_plans_count : :travel_plans_count
+      new_type = travel_plan? ? :travel_plans_count : :regular_plans_count
+
+      trip.transaction do
+        trip.decrement!(old_type)
+        trip.increment!(new_type)
+      end
+    end
   end
 end
