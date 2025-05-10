@@ -8,11 +8,23 @@ RSpec.feature("Managing scannable tickets") do
   let(:trip) { create(:trip) }
   let(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
+  let(:start_time) { Time.current }
+  let(:end_time) { start_time + 2.days }
+
+  # Create timestamps with 0-indexed months for use in the JS datepicker
+  let(:start_date_for_js) do
+    "#{start_time.year}-#{format("%02d", start_time.month - 1)}-#{format("%02d", start_time.day)}"
+  end
+  let(:end_date_for_js) do
+    "#{end_time.year}-#{format("%02d", end_time.month - 1)}-#{format("%02d", end_time.day)}"
+  end
+
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
     # Time travel and stubbing the API is dont for creating plans
-    travel_to(Time.parse("2025-01-10 1:30:00"))
+    time_travel_everywhere(Time.zone.parse("2020-01-01 00:00:00"))
+    freeze_time
     stub_photon_api
   end
 
@@ -22,7 +34,7 @@ RSpec.feature("Managing scannable tickets") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "Start date", with: Time.current + 1.day
+      select_date_range(start_date_for_js, end_date_for_js)
       # Attach a QR code file
       click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))

@@ -20,7 +20,12 @@
                    label: false,
                    placeholder: "Enter the trip end date...")
 
-  = render("partials/datetime_picker", errors: errors, trip: trip)
+  .d-flex.flex-column.mb-3
+    = label_tag("Dates")
+    .form-check.form-switch
+      %input#single-day-switch.form-check-input{ type: "checkbox", checked: trip.single_day? }
+      = label_tag("Single Day Trip?")
+    = render("partials/datetime_picker", errors: errors)
 
   .d-flex.flex-column.mb-3
     = f.label("Trip location", for: "#trip-location-autocomplete")

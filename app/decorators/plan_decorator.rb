@@ -5,6 +5,10 @@ class PlanDecorator < ApplicationDecorator
   delegate_all
   decorates_association :documents, with: DocumentDecorator
 
+  def single_day?
+    start_date == end_date && start_date.present? && end_date.present?
+  end
+
   # Formats the start date to the formats:
   # - "dd" for the same month and year
   # - "dd mmm" for the same year
