@@ -3,6 +3,9 @@
     = render("partials/layouts/head", style_packs: @style_packs, script_packs: @script_packs)
 
   %body
+    -# Render any necessary toasts
+    = render("partials/layouts/toasts")
+
     %nav.navbar.fixed-top.bg-primary.mb-3.border-bottom.shadow
       .container
         = link_to(root_path, class: "navbar-brand", "aria-label": "Home", tabindex: 0) do
@@ -15,3 +18,6 @@
 
     -# Render footer
     = render("partials/layouts/footer")
+
+    #js-variables{ data: @js_data || flash[:js_data] || {} }
+    - flash.discard(:js_data) # Discard flash messages after use to prevent them from being shown twice

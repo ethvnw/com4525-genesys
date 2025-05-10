@@ -1,0 +1,7 @@
+= render("partials/errors/error_page",
+         title: "Oops! You’re not authorised to view this page",
+         message: "It’s not you, it’s us. You might need to log in or don’t have permission to access this content",
+         button_text: "Back to Roamio Home",
+         button_path: root_path,
+         icon_class: "bi bi-shield-lock",
+         status_code: @status_code)
