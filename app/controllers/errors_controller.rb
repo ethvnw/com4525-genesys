@@ -19,7 +19,7 @@ class ErrorsController < ApplicationController
   private
 
   def view_for_code(code)
-    supported_error_codes.fetch(code, "404")
+    supported_error_codes.fetch(code, "500")
   end
 
   def supported_error_codes

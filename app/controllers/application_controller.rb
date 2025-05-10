@@ -47,6 +47,11 @@ class ApplicationController < ActionController::Base
     render("errors/401", status: :unauthorized, layout: "error")
   end
 
+  rescue_from ActionController::InvalidAuthenticityToken do
+    @status_code = 401
+    render("errors/401", status: :unauthorized, layout: "error")
+  end
+
   def update_headers_to_disable_caching
     response.headers["Cache-Control"] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'
     response.headers["Pragma"] = "no-cache"
