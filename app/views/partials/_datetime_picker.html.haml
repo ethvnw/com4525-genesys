@@ -5,7 +5,10 @@
 //         2) The date_range_picker.js file must be loaded
 
 .d-flex.flex-column.mb-3
-  %label{ for: "datetimepicker-input" } Dates
+  = label_tag("Dates")
+  .form-check.form-switch
+    %input#single-day-switch.form-check-input{ type: "checkbox", checked: trip.single_day? }
+    = label_tag("Single Day Trip?")
   #datetimepicker-target.col-sm-12{ data: { controller: "datetimepicker" } }
     #datetimepicker-element.input-group.log-event{
       "data-td-target-input" => "nearest",

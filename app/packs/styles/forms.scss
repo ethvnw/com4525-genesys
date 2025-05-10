@@ -126,4 +126,14 @@
   .dow, .month, .year, .decade {
       @extend .fw-semibold;
   }
+
+  .day:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+
+  .active:focus, .range-start:focus, .range-end:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0;
+  }
 }
