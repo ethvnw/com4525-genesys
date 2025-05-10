@@ -20,5 +20,5 @@
 #  fk_rails_...  (plan_id => plans.id)
 #
 class BookingReference < ApplicationRecord
-  belongs_to :plan
+  belongs_to :plan, counter_cache: true
 end

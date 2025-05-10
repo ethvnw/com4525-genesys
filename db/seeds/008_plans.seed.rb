@@ -17,7 +17,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-06-19 06:00:00"),
   end_date: Time.zone.parse("2025-06-19 17:00:00"),
   created_at: Time.zone.parse("2025-04-23 17:52:00"),
-  updated_at: Time.zone.parse("2025-04-23 17:52:00"),
 )
 
 Plan.find_or_create_by!(
@@ -30,7 +29,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-06-20 11:45:00"),
   end_date: Time.zone.parse("2025-06-20 17:45:00"),
   created_at: Time.zone.parse("2025-04-23 17:55:00"),
-  updated_at: Time.zone.parse("2025-04-25 20:34:00"),
 )
 
 Plan.find_or_create_by!(
@@ -46,7 +44,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-06-20 11:00:00"),
   end_date: Time.zone.parse("2025-06-20 11:30:00"),
   created_at: Time.zone.parse("2025-04-23 17:54:00"),
-  updated_at: Time.zone.parse("2025-04-29 09:49:00"),
 )
 
 ### BRIGHTON
@@ -63,7 +60,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-06-21 10:00:00"),
   end_date: Time.zone.parse("2025-06-21 10:40:00"),
   created_at: Time.zone.parse("2025-03-29 17:17:00"),
-  updated_at: Time.zone.parse("2025-03-29 17:17:00"),
 )
 
 Plan.find_or_create_by!(
@@ -76,7 +72,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-06-21 16:00:00"),
   end_date: Time.zone.parse("2025-06-21 18:00:00"),
   created_at: Time.zone.parse("2025-03-30 17:17:00"),
-  updated_at: Time.zone.parse("2025-03-30 17:17:00"),
 )
 
 Plan.find_or_create_by!(
@@ -92,7 +87,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-06-22 17:00:00"),
   end_date: Time.zone.parse("2025-06-22 17:40:00"),
   created_at: Time.zone.parse("2025-03-29 17:20:00"),
-  updated_at: Time.zone.parse("2025-03-29 17:20:00"),
 )
 
 ### SHEFFIELD
@@ -106,7 +100,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-07-25 12:00:00"),
   end_date: Time.zone.parse("2025-07-25 14:00:00"),
   created_at: Time.zone.parse("2025-04-29 12:54:00"),
-  updated_at: Time.zone.parse("2025-04-29 12:54:00"),
 )
 
 Plan.find_or_create_by!(
@@ -142,7 +135,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-07-26 00:00:00"),
   end_date: Time.zone.parse("2025-07-26 03:00:00"),
   created_at: Time.zone.parse("2025-04-29 13:03:00"),
-  updated_at: Time.zone.parse("2025-04-29 13:03:00"),
   backup_plan_id: backup.id,
 )
 
@@ -160,7 +152,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-12-01 08:45:00"),
   end_date: Time.zone.parse("2025-12-02 18:50:00"),
   created_at: Time.zone.parse("2025-04-22 13:03:00"),
-  updated_at: Time.zone.parse("2025-04-22 14:34:00"),
 )
 
 Plan.find_or_create_by!(
@@ -173,7 +164,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-12-14 18:20:00"),
   end_date: Time.zone.parse("2025-12-14 21:00:00"),
   created_at: Time.zone.parse("2025-04-22 13:05:00"),
-  updated_at: Time.zone.parse("2025-04-22 14:47:00"),
 )
 
 Plan.find_or_create_by!(
@@ -186,7 +176,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-12-07 11:20:00"),
   end_date: Time.zone.parse("2025-12-14 16:00:00"),
   created_at: Time.zone.parse("2025-04-22 13:05:00"),
-  updated_at: Time.zone.parse("2025-04-22 14:47:00"),
 )
 
 Plan.find_or_create_by!(
@@ -202,7 +191,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2025-12-21 20:20:00"),
   end_date: Time.zone.parse("2025-12-22 11:30:00"),
   created_at: Time.zone.parse("2025-04-22 13:05:00"),
-  updated_at: Time.zone.parse("2025-04-22 14:47:00"),
 )
 
 ### EUROPE
@@ -219,7 +207,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2026-08-01 09:54:00"),
   end_date: Time.zone.parse("2026-08-01 14:30:00"),
   created_at: Time.zone.parse("2025-04-15 19:05:00"),
-  updated_at: Time.zone.parse("2025-04-15 19:47:00"),
 )
 
 Plan.find_or_create_by!(
@@ -235,7 +222,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2026-08-01 15:00:00"),
   end_date: Time.zone.parse("2026-08-01 17:30:00"),
   created_at: Time.zone.parse("2025-04-15 19:05:00"),
-  updated_at: Time.zone.parse("2025-04-15 19:47:00"),
 )
 
 Plan.find_or_create_by!(
@@ -248,7 +234,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2026-08-02 11:15:00"),
   end_date: Time.zone.parse("2026-08-02 12:30:00"),
   created_at: Time.zone.parse("2025-04-15 18:05:00"),
-  updated_at: Time.zone.parse("2025-04-15 18:05:00"),
 )
 
 Plan.find_or_create_by!(
@@ -264,7 +249,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2026-08-15 09:15:00"),
   end_date: Time.zone.parse("2026-08-15 12:30:00"),
   created_at: Time.zone.parse("2025-04-17 13:05:00"),
-  updated_at: Time.zone.parse("2025-04-17 13:05:00"),
 )
 
 Plan.find_or_create_by!(
@@ -280,7 +264,6 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2026-08-15 13:00:00"),
   end_date: Time.zone.parse("2026-08-15 17:30:00"),
   created_at: Time.zone.parse("2025-04-17 13:05:00"),
-  updated_at: Time.zone.parse("2025-04-17 13:05:00"),
 )
 
 Plan.find_or_create_by!(
@@ -296,5 +279,4 @@ Plan.find_or_create_by!(
   start_date: Time.zone.parse("2026-08-15 19:00:00"),
   end_date: Time.zone.parse("2026-08-15 22:30:00"),
   created_at: Time.zone.parse("2025-04-17 16:05:00"),
-  updated_at: Time.zone.parse("2025-04-17 16:05:00"),
 )
