@@ -33,6 +33,7 @@
     .valid-feedback Looks good!
 
   #plan-form-map.form-map
+    = render("partials/trips/form_map_overlay")
 
   = f.validated_datetime(:start_date, required: true, readonly: backup_plan)
   = f.validated_datetime(:end_date, required: true, readonly: backup_plan)
