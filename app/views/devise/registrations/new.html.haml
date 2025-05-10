@@ -1,6 +1,14 @@
-.col-lg-5.m-auto
-  %h2.mt-3 Sign Up
+.d-flex.flex-fill.justify-content-center.align-items-center.flex-column.my-2
+  .row.w-100
+    .d-flex.justify-content-center.align-items-center
+      .card.login-card.px-md-5.py-3
+        .card-body
+          .d-flex.flex-column.align-items-center.py-3
+            = link_to("/", "aria-label": "Home") do
+              = image_pack_tag("images/roamio_brand_icon_d_grey.webp", height: 40, alt: "Roamio Logo")
 
-  = render("partials/devise/registrations/new", errors: @errors)
-
-  = render("partials/devise/shared/links")
+          .d-flex.flex-column.pb-2
+            = render("partials/devise/registrations/new", errors: @errors)
+          .d-flex.flex-column
+            %hr
+            = render("partials/devise/shared/links")

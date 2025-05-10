@@ -46,7 +46,7 @@ RSpec.feature("Pricing page", type: :feature) do
     click_on "Get #{free_tier.name}"
 
     expect(page).to(have_current_path(new_user_registration_path))
-    expect(page).to(have_content("Sign Up"))
+    expect(page).to(have_button("Sign Up"))
   end
 
   scenario "I can select the explorer individual tier option" do
