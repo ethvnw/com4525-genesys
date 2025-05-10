@@ -16,6 +16,15 @@
     = f.validated_input(:provider_name,
                         placeholder: "Enter business or provider name...")
 
+  .d-flex.flex-column.mb-3
+    = label_tag(:start_date) do
+      Times
+      %abbr{ title: "required" } *
+    #single-day-toggle-container.form-check.form-switch
+      %input#single-day-switch.form-check-input{ type: "checkbox", checked: plan.single_day? }
+      = label_tag("No end time?")
+    = render("partials/datetime_picker", errors: errors)
+
   #start-location-container.d-flex.flex-column.mb-3
     // The asterisk (*) is mocked here as the autocomplete fills out hidden fields and is not TECHNICALLY required.
     = label_tag(:start_location_name, class: "mb-1", for: "start-location-autocomplete") do
@@ -33,9 +42,6 @@
     .valid-feedback Looks good!
 
   #plan-form-map.form-map
-
-  = f.validated_datetime(:start_date, required: true, readonly: backup_plan)
-  = f.validated_datetime(:end_date, required: true, readonly: backup_plan)
 
   #tickets-container
     = render("partials/plans/documents_input", f: f, plan: plan)
@@ -61,6 +67,14 @@
                    id: "end_location_latitude_input")
   = f.hidden_field(:end_location_longitude,
                    id: "end_location_longitude_input")
+  = f.hidden_field(:start_date,
+                   id: "start_date_input",
+                   label: false,
+                   placeholder: "Enter the trip start date...")
+  = f.hidden_field(:end_date,
+                   id: "end_date_input",
+                   label: false,
+                   placeholder: "Enter the trip end date...")
 
   - if defined?(primary_plan)
     = f.hidden_field(:primary_plan_id, value: primary_plan.id)

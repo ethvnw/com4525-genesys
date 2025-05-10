@@ -3,6 +3,7 @@ import L from 'leaflet';
 import { newRoamioMap } from '../lib/map/RoamioMap';
 import createAutocomplete from '../lib/AlgoliaAutocomplete';
 import { MAP_ICONS } from '../lib/map/map_config';
+import setupPicker from '../date_range_picker';
 
 let mapObject;
 
@@ -23,6 +24,8 @@ export default class extends Controller {
     this.updateLocationInputsAndMap();
     // Restore existing locations if present
     this.restoreExistingLocation();
+
+    setupPicker(true);
   }
 
   /**
@@ -90,6 +93,20 @@ export default class extends Controller {
     const isTravelPlan = typeValue.split('_')[0] === 'travel';
 
     document.getElementById('plan-form-map').classList.toggle('d-none', isFreeTimePlan);
+
+    //
+    document.getElementById('single-day-toggle-container').classList.toggle('d-none', isTravelPlan);
+    const singleDaySwitch = document.getElementById('single-day-switch');
+    const alreadyChecked = singleDaySwitch.checked;
+    if (isTravelPlan) {
+      singleDaySwitch.checked = false;
+      if (alreadyChecked) {
+        singleDaySwitch.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      singleDaySwitch.disabled = true;
+    } else {
+      singleDaySwitch.disabled = false;
+    }
 
     // Clear and disable the start location input
     this.startLocationContainer.classList.toggle('d-none', isFreeTimePlan);

@@ -3,24 +3,21 @@
 // To use:
 //         1) The form must include a hidden start_date and end_date text field,
 //         2) The date_range_picker.js file must be loaded
+//         3) The a single-day mode toggle switch must be present, created as follows:
+//            %input#single-day-switch.form-check-input{ type: "checkbox", checked: trip.single_day? }
 
-.d-flex.flex-column.mb-3
-  = label_tag("Dates")
-  .form-check.form-switch
-    %input#single-day-switch.form-check-input{ type: "checkbox", checked: trip.single_day? }
-    = label_tag("Single Day Trip?")
-  #datetimepicker-target.col-sm-12{ data: { controller: "datetimepicker" } }
-    #datetimepicker-element.input-group.log-event{
-      "data-td-target-input" => "nearest",
-      "data-td-target-toggle" => "nearest",
+#datetimepicker-target.col-sm-12{ data: { controller: "datetimepicker" } }
+  #datetimepicker-element.input-group.log-event{
+    "data-td-target-input" => "nearest",
+    "data-td-target-toggle" => "nearest",
+  }
+    %input#datetimepicker-input.form-control-btn.rounded.fw-normal.my-1{
+      "data-td-target" => "#datetimepicker-element",
+      "data-td-toggle" => "datetimepicker",
+      type: "button",
+      value: "Input the date range...",
+      class: get_error_class_with(errors, :date),
     }
-      %input#datetimepicker-input.form-control-btn.rounded.fw-normal.my-1{
-        "data-td-target" => "#datetimepicker-element",
-        "data-td-toggle" => "datetimepicker",
-        type: "button",
-        value: "Input the date range...",
-        class: get_error_class_with(errors, :date),
-      }
-      = form_error_message(errors, :date)
-      .valid-feedback
-        Looks good!
+    = form_error_message(errors, :date)
+    .valid-feedback
+      Looks good!
