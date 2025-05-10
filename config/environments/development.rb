@@ -80,4 +80,6 @@ Rails.application.configure do
 
   # Make sure we know about it if params haven't been permitted
   config.action_controller.action_on_unpermitted_parameters = :raise
+
+  #config.consider_all_requests_local = false
 end
