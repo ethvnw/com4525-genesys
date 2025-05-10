@@ -4,8 +4,12 @@
                   builder: ValidatedFormBuilder,
                   errors: errors,
                   html: { method: :put, "data-turbo": "true" }) do |f|
-  = f.validated_input(:email)
-  = f.validated_input(:username)
+  = f.validated_input(:email,
+                      "aria-label": "Email",
+                      tabindex: 0)
+  = f.validated_input(:username,
+                      "aria-label": "Username",
+                      tabindex: 0)
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     %p Currently waiting confirmation for: #{resource.unconfirmed_email}
@@ -14,17 +18,30 @@
                       label: "New Password",
                       hint: "Leave it blank if you don't want to change it",
                       required: false,
-                      autocomplete: "new-password")
+                      autocomplete: "new-password",
+                      "aria-label": "New Password",
+                      "aria-description": "Leave it blank if you don't want to change it",
+                      tabindex: 0)
 
   = f.validated_input(:password_confirmation,
                       label: "New Password Confirmation",
                       required: false,
-                      autocomplete: "new-password")
-
+                      autocomplete: "new-password",
+                      "aria-label": "New Password Confirmation",
+                      "aria-description": "Leave it blank if you don't want to change it",
+                      tabindex: 0)
+  %hr
   = f.validated_input(:current_password,
                       hint: "We need your current password to confirm your changes",
                       required: true,
-                      input_html: { autocomplete: "current-password" })
+                      input_html: { autocomplete: "current-password" },
+                      "aria-label": "Current Password",
+                      "aria-description": "We need your current password to confirm your changes",
+                      tabindex: 0)
 
-  .form-actions.mt-4.d-flex.justify-content-end.gap-2
-    = f.button(:submit, "Apply Changes", class: "btn-primary px-4")
+  .form-actions.d-flex.justify-content-start.gap-2
+    = f.button(:submit,
+               "Apply Changes",
+               class: "btn-primary px-4",
+               "aria-label": "Apply Changes",
+               tabindex: 0)
