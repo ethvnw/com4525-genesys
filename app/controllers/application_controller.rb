@@ -88,6 +88,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+    # Set layout based on user membership status
+  def apply_user_layout!
+    if current_user&.member?
+      self.class.layout "user"
+    else
+      self.class.layout "application"
+    end
+  end
+
   def check_for_notifications
     return unless current_user
 
