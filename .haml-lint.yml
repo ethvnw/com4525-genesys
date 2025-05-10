@@ -1,6 +1,10 @@
 exclude:
   - lib/templates/**/*
   - vendor/**/*
+  # Emails contain inline HTML styling which haml-lint dislikes
+  - app/views/referral_mailer/**/*
+  - app/views/trip_membership_mailer/**/*
+  - app/views/devise/mailer/**/*
 
 linters:
   LineLength:
