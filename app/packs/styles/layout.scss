@@ -27,6 +27,11 @@ body {
     background-color: bs.$gray-200;
 }
 
+.error-icon {
+    @extend .display-1, .p-4, .rounded-circle, .mb-3;
+    background-color: lighten(bs.$roamio-primary, 40%);
+}
+
 .login-card {
   width: 30rem;
 }

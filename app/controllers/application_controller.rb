@@ -43,7 +43,8 @@ class ApplicationController < ActionController::Base
   private
 
   rescue_from CanCan::AccessDenied do
-    head :unauthorized
+    @status_code = 401
+    render("errors/401", status: :unauthorized, layout: "error")
   end
 
   def update_headers_to_disable_caching

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 # Error controller
+# Based upon tutorial from Ayush Newatia, 2022
+# [https://dev.to/ayushn21/custom-error-pages-in-rails-4i43]
 class ErrorsController < ApplicationController
   layout "error"
 
@@ -22,8 +24,9 @@ class ErrorsController < ApplicationController
 
   def supported_error_codes
     {
-      403 => "403",
+      401 => "401",
       404 => "404",
+      422 => "422",
       500 => "500",
     }
   end

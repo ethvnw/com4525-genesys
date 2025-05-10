@@ -1,8 +1,7 @@
-.d-flex.flex-column.align-items-center
-  %h1.display-1.bg-light.p-4.rounded-circle
-    %i.bi.bi-cone-striped
-  %h1 Page Not Found
-  %p Sorry, we can't seem to find the page you're looking for
-  = link_to(root_path, class: "btn btn-secondary") do
-    %i.bi.bi-house-fill{ "aria-hidden": "true" } &nbsp;
-    Roamio Home
+= render("partials/errors/error_page",
+         title: "Oops! We couldn't find that page",
+         message: "It’s not you, it’s us. The page you're looking for might have moved or never existed",
+         button_text: "Back to Roamio Home",
+         button_path: root_path,
+         icon_class: "bi bi-cone-striped",
+         status_code: @status_code)
