@@ -20,7 +20,7 @@
                    label: false,
                    placeholder: "Enter the trip end date...")
 
-  = render("partials/datetime_picker", errors: errors)
+  = render("partials/datetime_picker", errors: errors, trip: trip)
 
   .d-flex.flex-column.mb-3
     = f.label("Trip location", for: "#trip-location-autocomplete")
@@ -70,7 +70,7 @@
     - else
       = image_tag("", class: "trip-image-preview d-none", data: { "custom-image-target": "preview" })
 
-  .d-flex.justify-content-end.mt-2
+  .d-flex.justify-content-end.my-2
     = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0") do
       %i.bi.bi-send-fill
       &nbsp;
