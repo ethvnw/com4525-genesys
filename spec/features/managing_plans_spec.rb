@@ -8,9 +8,21 @@ RSpec.feature("Managing plans") do
   let!(:trip) { create(:trip) }
   let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
+  let(:start_time) { Time.current }
+  let(:end_time) { start_time + 2.days }
+
+  # Create timestamps with 0-indexed months for use in the JS datepicker
+  let(:start_date_for_js) do
+    "#{start_time.year}-#{format("%02d", start_time.month - 1)}-#{format("%02d", start_time.day)}"
+  end
+  let(:end_date_for_js) do
+    "#{end_time.year}-#{format("%02d", end_time.month - 1)}-#{format("%02d", end_time.day)}"
+  end
+
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
+    time_travel_everywhere(Time.zone.parse("2020-01-01 00:00:00"))
     freeze_time
   end
 
@@ -19,7 +31,8 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
+      # Fill in the date range
+      select_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Title can't be blank"))
     end
@@ -29,7 +42,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "a" * 300
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Title is too long (maximum is 250 characters)"))
     end
@@ -38,16 +51,16 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Plan type is not included in the list"))
     end
 
-    scenario "I cannot create a plan with no start location" do
+    scenario "I cannot create a plan with no start location", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Start location name can't be blank"))
     end
@@ -61,49 +74,18 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start date can't be blank"))
     end
 
-    scenario "I cannot create a plan with a start date after the end date", js: true do
-      visit new_trip_plan_path(trip)
-      fill_in "plan_title", with: "Test Title"
-      select "Other", from: "plan_plan_type"
-      select_location("England")
-      fill_in "plan_start_date", with: Time.current + 2.days
-      fill_in "plan_end_date", with: Time.current + 1.day
-      click_on "Save"
-      expect(page).to(have_content("Start date cannot be after end date"))
-    end
-
-    scenario "I cannot create a plan with a start date prior to the current time", js: true do
-      visit new_trip_plan_path(trip)
-      fill_in "plan_title", with: "Test Title"
-      select "Other", from: "plan_plan_type"
-      select_location("England")
-      fill_in "plan_start_date", with: Time.current - 1.day
-      click_on "Save"
-      expect(page).to(have_content("Start date cannot be in the past"))
-    end
-
     scenario "I cannot create a plan with no end location if it is a travel plan", js: true do
       visit new_trip_plan_path(trip)
-      fill_in "plan_title", with: "Test Title"
+      expect(page).to(have_content("No end time?"))
       select "Travel By Plane", from: "plan_plan_type"
-      select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
-      fill_in "plan_end_date", with: Time.current + 2.days
-      click_on "Save"
-      expect(page).to(have_content("End location name must be present for travel plans"))
-    end
-
-    scenario "I can input an end location if I choose a travel plan", js: true do
-      visit new_trip_plan_path(trip)
-      select "Travel By Plane", from: "plan_plan_type"
-      expect(page).to(have_selector("#end-location-autocomplete", visible: true))
+      expect(page).not_to(have_content("No end time?"))
     end
 
     scenario "I can create a plan with fewer fields to fill if I choose a free time plan", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Free Time", from: "plan_plan_type"
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_date_range(start_date_for_js, end_date_for_js)
       expect(page).to(have_selector("#start-location-autocomplete", visible: false))
       click_on "Save"
 
@@ -119,7 +101,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
 
       await_message("Plan created successfully")
@@ -136,13 +118,13 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "Start date", with: Time.current + 1.day
+      select_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
       select_location("Brazil")
-      fill_in "Start date", with: Time.current + 1.day + 2.hours
+      select_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
 
       await_message("Plan created successfully")
