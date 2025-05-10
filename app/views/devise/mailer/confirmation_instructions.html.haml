@@ -1,5 +1,19 @@
-%p Welcome #{@email}!
+%body{ style: "font-family: Arial, sans-serif; background-color: #f2f2f2; color: black;" }
+  %div{ style: "max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" }
 
-%p You can confirm your account email through the link below:
+    %p{ style: "font-size: 1em; color: #575757;" }
+      Welcome
+      %strong #{@email}!
 
-%p= link_to("Confirm my account", confirmation_url(@resource, confirmation_token: @token))
+    %p{ style: "font-size: 1em;" }
+      You can confirm your account email through the link below:
+
+    %p{ style: "text-align: center; margin: 35px 0;" }
+    = link_to("Confirm My Account",
+              confirmation_url(@resource, confirmation_token: @token),
+              style: "background-color: #d12c4f; color: white; padding: 12px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block;")
+
+    %p{ style: "font-size: 0.8em; color: #8f8f8f; margin-top: 40px;" }
+      Best,
+      %br
+      The Roamio Team
