@@ -47,12 +47,12 @@ class TripsController < ApplicationController
 
   def new
     # Prefill with featured location data if available
-    @trip = Trip.new(session[:featured_location] || {})
+    @trip = Trip.new(session[:featured_location] || {}).decorate
     @errors = flash[:errors]
   end
 
   def create
-    @trip = Trip.new(trip_params)
+    @trip = Trip.new(trip_params).decorate
 
     if @trip.save
       if params[:trip][:image].present?
@@ -85,12 +85,12 @@ class TripsController < ApplicationController
   end
 
   def edit
-    @trip = Trip.find(params[:id])
+    @trip = Trip.find(params[:id]).decorate
     @errors = flash[:errors]
   end
 
   def update
-    @trip = Trip.find(params[:id])
+    @trip = Trip.find(params[:id]).decorate
     if @trip.update(trip_params)
       if params[:trip][:image].present?
         @trip.image.attach(params[:trip][:image])
