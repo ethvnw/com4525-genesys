@@ -111,6 +111,7 @@ export default function setupPicker(allowTime) {
         today: 'bi bi-calendar-check',
         clear: 'bi bi-trash',
         close: 'bi bi-x',
+        time: 'bi bi-clock',
       },
     },
     localization: {
@@ -178,9 +179,9 @@ export default function setupPicker(allowTime) {
     const newEndDate = presetEndDate.replace(' ', 'T').split(' ')[0];
 
     if (presetStartDate === presetEndDate) {
-      datetimepickerInput.value = formatDateForButton(newStartDate);
+      datetimepickerInput.value = formatDateForButton(newStartDate, allowTime);
     } else {
-      datetimepickerInput.value = `${formatDateForButton(newStartDate)} - ${formatDateForButton(newEndDate)}`;
+      datetimepickerInput.value = `${formatDateForButton(newStartDate, allowTime)} - ${formatDateForButton(newEndDate, allowTime)}`;
     }
     datetimepickerInput.classList.remove('form-control-btn');
     datetimepickerInput.classList.add('form-control-btn-selected');
