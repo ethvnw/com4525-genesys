@@ -50,6 +50,22 @@ function formatDateForButton(date, withTime) {
 }
 
 /**
+ * Clears the date input fields and resets the daterangepicker options
+ * @param {boolean} rangeToggle - Whether the date range picker is in range mode or single day mode
+ */
+function clearDateInput(rangeToggle) {
+  const startDateElement = document.getElementById('start_date_input');
+  const endDateElement = document.getElementById('end_date_input');
+  const datetimepickerInput = document.getElementById('datetimepicker-input');
+
+  startDateElement.value = '';
+  endDateElement.value = '';
+  datetimepickerInput.value = `Input the date${rangeToggle ? '' : ' range'}...`;
+  datetimepickerInput.classList.add('form-control-btn');
+  datetimepickerInput.classList.remove('form-control-btn-selected');
+}
+
+/**
  * Sets up the date range picker functionality
  * Initialises the Tempus Dominus date picker with custom configuration
  * and handles date selection events
@@ -60,6 +76,7 @@ export default function setupPicker(allowTime) {
   const datetimepickerInput = document.getElementById('datetimepicker-input');
   const startDateElement = document.getElementById('start_date_input');
   const endDateElement = document.getElementById('end_date_input');
+  const singleDaySwitch = document.getElementById('single-day-switch');
 
   // Get preset dates from the hidden inputs (for edit form).
   const presetStartDate = startDateElement.getAttribute('value');
@@ -125,13 +142,33 @@ export default function setupPicker(allowTime) {
       datetimepickerInput.value = `${formatDateForButton(dates[0], allowTime)} - ${formatDateForButton(dates[1], allowTime)}`;
       datetimepickerInput.classList.remove('form-control-btn');
       datetimepickerInput.classList.add('form-control-btn-selected');
+    } else if (dates.length === 1 && singleDaySwitch.checked) {
+      const date = dates[0];
+      if (!allowTime) {
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+      }
+
+      startDateElement.value = formatDateForJS(date);
+      endDateElement.value = formatDateForJS(date);
+      datetimepickerInput.value = formatDateForButton(date, allowTime);
+      datetimepickerInput.classList.remove('form-control-btn');
+      datetimepickerInput.classList.add('form-control-btn-selected');
     } else {
-      startDateElement.value = '';
-      endDateElement.value = '';
-      datetimepickerInput.value = 'Input the date range...';
-      datetimepickerInput.classList.add('form-control-btn');
-      datetimepickerInput.classList.remove('form-control-btn-selected');
+      clearDateInput(singleDaySwitch.checked);
     }
+  });
+
+  // If the single day switch is checked, set the date range to false
+  singleDaySwitch.addEventListener('change', () => {
+    const singleDay = singleDaySwitch.checked;
+    datetimepicker.clear();
+    datetimepicker.updateOptions({
+      dateRange: !singleDay,
+    });
+    clearDateInput(singleDay);
   });
 
   // If there are preset dates, set the input field button to show them.
@@ -140,7 +177,11 @@ export default function setupPicker(allowTime) {
     const newStartDate = presetStartDate.replace(' ', 'T').split(' ')[0];
     const newEndDate = presetEndDate.replace(' ', 'T').split(' ')[0];
 
-    datetimepickerInput.value = `${formatDateForButton(newStartDate)} - ${formatDateForButton(newEndDate)}`;
+    if (presetStartDate === presetEndDate) {
+      datetimepickerInput.value = formatDateForButton(newStartDate);
+    } else {
+      datetimepickerInput.value = `${formatDateForButton(newStartDate)} - ${formatDateForButton(newEndDate)}`;
+    }
     datetimepickerInput.classList.remove('form-control-btn');
     datetimepickerInput.classList.add('form-control-btn-selected');
 

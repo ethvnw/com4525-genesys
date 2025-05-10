@@ -32,6 +32,7 @@ RSpec.feature("Managing trips") do
     ]))
 
     time_travel_everywhere(Time.zone.parse("2020-01-01 00:00:00"))
+    freeze_time
   end
 
   context "When creating a trip" do
@@ -222,12 +223,13 @@ RSpec.feature("Managing trips") do
   context "When viewing trips" do
     let!(:trip) { create(:trip) }
     let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
+    # :trip_later is a single day trip
     let!(:trip_later) do
       create(
         :trip,
         title: "Later Trip",
         start_date: Time.current + 3.days,
-        end_date: Time.current + 4.days,
+        end_date: Time.current + 3.days,
       )
     end
     let!(:trip_membership_later) { create(:trip_membership, user: user, trip: trip_later) }
@@ -238,6 +240,13 @@ RSpec.feature("Managing trips") do
       click_on "Desc"
       expect(page).to(have_content("Asc"))
       expect(page.first(".trip-card")).to(have_content("Later Trip"))
+    end
+
+    scenario "If I have a single-day trip, the date range is displayed as a single date", js: true do
+      visit trips_path
+      click_on "Desc"
+      expect(page).not_to(have_content("01 - 04 Jan 2020"))
+      expect(page).to(have_content("Jan 04 2020"))
     end
   end
 end
