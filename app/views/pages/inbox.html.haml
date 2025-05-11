@@ -1,11 +1,16 @@
-%h1.mb-4 Inbox
+.row
+  .app-header
+    %h1.fs-2.mb-0 Inbox
 
 - if @inbox_msgs.empty?
-  .d-flex.flex-column.gap-4.align-items-center.justify-content-center.h-75.fs-1.text-dark-emphasis
-    %i.bi.bi-postcard-heart
-    .text-center
-      %p.mb-0 Your inbox is empty!
-      %p.mb-0 Check back later for new trip invites.
+  = render("partials/layouts/no_data_placeholder",
+           icon_class: "bi bi-postcard-heart",
+           heading_text: "Your Inbox is Empty",
+           sub_text: "You haven’t been invited to any trips yet. Once you’re invited, your invites will appear here!",
+           button_text: "Go to Roamio Home",
+           button_aria_label: "Go to Roamio Home",
+           button_icon_class: "bi bi-house-fill",
+           button_path: root_path)
 
 - @inbox_msgs.each do |msg|
   .card

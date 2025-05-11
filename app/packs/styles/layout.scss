@@ -27,8 +27,14 @@ body {
     background-color: bs.$gray-200;
 }
 
+.app-header {
+    @extend .d-flex, .justify-content-between, .align-items-start;
+    border-bottom: 1px solid bs.$gray-400;
+    height: 56px;
+}
+
 .error-icon {
-    @extend .display-1, .p-4, .rounded-circle, .mb-3;
+    @extend .display-1, .lh-1, .p-4, .rounded-circle, .mb-3;
     background-color: lighten(bs.$roamio-primary, 40%);
 }
 
