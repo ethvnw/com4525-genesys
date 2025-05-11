@@ -27,6 +27,9 @@ services:
       - postgres
     env_file:
       - .env
+    init: true
+    security_opt:
+      - seccomp=chrome.json
     networks:
       - proxiable
     restart: always
