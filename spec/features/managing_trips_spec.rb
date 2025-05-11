@@ -246,7 +246,7 @@ RSpec.feature("Managing trips") do
       # The later trip is a single-day trip on Jan 4th 2020, so check to see that date is formated correctly
       visit trips_path
       expect(page).not_to(have_content("04 - 04 Jan 2020"))
-      expect(page).to(have_content("Jan 04 2020"))
+      expect(page).to(have_content("04 Jan 2020"))
     end
   end
 end
