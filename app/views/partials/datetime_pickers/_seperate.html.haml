@@ -1,10 +1,10 @@
-// The date range picker using Tempus Dominus. The HAML here is from the example implementation
-// This isn't actually a part of the form, but instead updated the hidden fields above when a range is selected
+// Two date pickers, using Tempus Dominus. The HAML here is from the example implementation
+// This isn't actually a part of the form, but instead updated the hidden fields above when dates are selected
 // To use:
 //         1) The form must include a hidden start_date and end_date text field,
 //         2) The date_range_picker_seperate.js file must be loaded
+//         3) read_only flag must be passed to the partial
 
-// TODO CHANGE ME TO BE RELEVANT TO SEPERATE
 
 .d-flex.flex-column.mb-3
   = label_tag(:start_date) do
@@ -21,6 +21,7 @@
         type: "button",
         value: "Input the start date...",
         class: get_error_class_with(errors, :start_date),
+        disabled: read_only,
       }
       = form_error_message(errors, :start_date)
       .valid-feedback
@@ -39,6 +40,7 @@
         type: "button",
         value: "Input the end date...",
         class: get_error_class_with(errors, :end_date),
+        disabled: read_only,
       }
       = form_error_message(errors, :end_date)
       .valid-feedback

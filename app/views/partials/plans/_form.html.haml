@@ -34,7 +34,7 @@
 
   #plan-form-map.form-map
 
-  = render("partials/datetime_pickers/seperate", errors: errors)
+  = render("partials/datetime_pickers/seperate", errors: errors, read_only: backup_plan)
 
   #tickets-container
     = render("partials/plans/documents_input", f: f, plan: plan)
@@ -42,7 +42,7 @@
     = render("partials/plans/booking_references_input", f: f, plan: plan)
     = render("partials/plans/ticket_links_input", f: f, plan: plan)
 
-  .d-flex.justify-content-end.mt-2
+  .d-flex.justify-content-end.my-2
     = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0 fw-bold") do
       %i.bi.bi-send-fill
       &nbsp;
