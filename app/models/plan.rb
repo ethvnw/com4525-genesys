@@ -81,7 +81,7 @@ class Plan < ApplicationRecord
   after_destroy :remove_counter_cache
 
   enum plan_type: {
-    accomodation: 0,
+    accommodation: 0,
     clubbing: 1,
     live_music: 2,
     restaurant: 3,
