@@ -21,17 +21,13 @@ FileUtils.chdir(APP_ROOT) do
   # Install JavaScript dependencies
   system!("yarn install")
 
-  # Install JavaScript dependencies
-  system! "bin/yarn"
-
   # puts "\n== Copying sample files =="
   unless File.exist?("config/database.yml")
     FileUtils.cp("config/database-sample.yml", "config/database.yml")
   end
 
   puts "\n== Preparing database =="
-  system! "cp -n config/database-sample.yml config/database.yml"
-  system! "bin/rails db:full_reset"
+  system! "bin/rails db:prepare db:seed"
 
   puts "\n== Removing old logs and tempfiles =="
   system! "bin/rails log:clear tmp:clear"
