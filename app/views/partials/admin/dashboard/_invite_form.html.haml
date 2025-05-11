@@ -8,11 +8,13 @@
   .col-12.col-sm-8
     = f.validated_input(:email,
                         placeholder: "Email address",
-                        "aria-label": "Invite email address to staff role")
+                        "aria-label": "Invite email address to staff role",
+                        required: true)
   .col-12.col-sm-4
     = f.validated_select(:user_role,
                          options_for_select(User.user_roles.values, selected: user.user_role&.titleize),
                          include_blank: "Role",
-                         "aria-label": "Selected staff role")
+                         "aria-label": "Selected staff role",
+                         required: true)
   .form-actions.mt-0
     = f.submit("Send Invitation", class: "btn btn-primary", tabindex: 0)
