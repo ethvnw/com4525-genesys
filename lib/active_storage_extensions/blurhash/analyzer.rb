@@ -6,7 +6,8 @@ module ActiveStorageExtensions
   module Blurhash
     ##
     # Most of the credit for this goes to the active_storage-blurhash gem
-    # (https://github.com/avo-hq/active_storage-blurhash/blob/main/lib/active_storage/blurhash/analyzing.rb - MIT Licenced)
+    # https://github.com/avo-hq/active_storage-blurhash/blob/main/lib/active_storage/blurhash/analyzing.rb
+    # - MIT Licenced
     # However, that is only available for rails 7.1 and above, so it has been re-implemented here
     class Analyzer < ActiveStorage::Analyzer::ImageAnalyzer::Vips
       def metadata
