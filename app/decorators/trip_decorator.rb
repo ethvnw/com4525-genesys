@@ -23,7 +23,7 @@ class TripDecorator < ApplicationDecorator
   # - end date is always formatted as "dd mmm yyyy"
   def formatted_date_range
     if single_day?
-      return start_date.strftime("%b %d %Y")
+      return start_date.strftime("%d %b %Y")
     end
 
     start_date_format = if start_date.year == end_date.year
