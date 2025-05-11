@@ -31,10 +31,11 @@ class TripMembership < ApplicationRecord
 
   belongs_to :trip, counter_cache: true
   belongs_to :user
-  belongs_to :sender_user, class_name: "User"
+  belongs_to :sender_user, class_name: "User", inverse_of: :sent_invites
   attr_accessor :username
 
   validate :max_capacity_not_reached
+  after_update :nullify_sender_user
 
   def max_capacity_not_reached
     if trip.trip_memberships_count >= MAX_CAPACITY
@@ -42,6 +43,15 @@ class TripMembership < ApplicationRecord
         :base,
         "The trip has reached the #{MAX_CAPACITY} member capacity, please remove a member before adding another.",
       )
+    end
+  end
+
+  ##
+  # Removes sender_user_id when invite is accepted - it's only needed for the inbox, when an invite is not accepted.
+  # Means that when users delete their accounts, only unaccepted invites are deleted.
+  def nullify_sender_user
+    if is_invite_accepted && sender_user.present?
+      update_column(:sender_user_id, nil)
     end
   end
 end
