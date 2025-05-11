@@ -77,19 +77,8 @@
 }
 
 .form-map {
-  @extend .flex-fill;
   height: 35rem;
   max-height: 50vh;
-  border-radius: 0;
-  @media (min-width: 606px) and (max-width: 767.98px) {
-    border-radius: bs.$border-radius;
-  }
-  @media (min-width: 786px) and (max-width: 991.98px) {
-    border-radius: bs.$border-radius;
-  }
-  @media (min-width: 1600px) {
-    border-radius: bs.$border-radius;
-  }
 }
 
 #form-map-overlay {
@@ -99,7 +88,6 @@
   opacity: 0;
   background-color:rgba(0, 0, 0, 0.6);
 }
-
 
 // Styling for QR code input
 #qr-navigation {

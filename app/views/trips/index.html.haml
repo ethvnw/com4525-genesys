@@ -1,5 +1,5 @@
 .row
-  .pb-3.d-flex.justify-content-between.align-items-start.border-bottom
+  .app-header
     = link_to(new_trip_path,
               class: "btn btn-primary py-2",
               "aria-label": "Create Trip",
@@ -8,7 +8,6 @@
       Create Trip
     #view-buttons.d-flex.gap-2
       = render("partials/trips/view_buttons")
-
 - if @trips.empty?
   = render("partials/layouts/no_data_placeholder",
            icon_class: "bi bi-luggage-fill",

@@ -1,8 +1,7 @@
 = simple_form_for(trip,
                   builder: ValidatedFormBuilder,
-                  html: { class: "d-flex row flex-column gap-2", "data-turbo": "true", "data-controller": "trip-form" },
+                  html: { class: "d-flex row gap-2 mt-3", "data-turbo": "true", "data-controller": "trip-form" },
                   errors: errors) do |f|
-  %hr.mt-3
   = f.validated_input(:title,
                       placeholder: "Enter the title of the trip...")
   = f.validated_input(:description,
