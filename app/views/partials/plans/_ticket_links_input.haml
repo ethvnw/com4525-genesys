@@ -1,7 +1,7 @@
 .accordion.mb-2{ id: "accordion-ticket-links" }
   .accordion-item
     .accordion-header{ id: "heading-ticket-links" }
-      %button.accordion-button.collapsed{
+      %button.accordion-button.collapsed.roamio-header{
         type: "button",
         "data-bs-toggle": "collapse",
         "data-bs-target": "#collapse-ticket-links",
@@ -9,7 +9,8 @@
         "aria-controls": "collapse-ticket-links",
         "aria-label": "Toggle ticket links input",
       }
-        Ticket Links
+        %i.bi.bi-link-45deg.me-3.h2.mb-0{ "aria-hidden": "true" }
+        Add Ticket Links
     .accordion-collapse.collapse{
       id: "collapse-ticket-links",
       "aria-labelledby": "heading-ticket-links",
@@ -17,29 +18,28 @@
     }
       .accordion-body
         #ticket-links-container.d-flex.flex-column.gap-2{ "data-controller": "ticket-links" }
-          .d-flex.flex-column.flex-md-row.gap-2.align-items-stretch
-            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
-              = label_tag(:ticket_link_name, "Name:", class: "plan-label")
+          .row.row-gap-3
+            .col-12.col-md-6
+              = label_tag(:ticket_link_name, "Name", class: "plan-label")
               = text_field_tag(:ticket_link_name,
                                nil,
                                placeholder: "Name",
                                class: "form-control flex-grow-1",
                                "data-ticket-links-target": "name")
-
-            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
-              = label_tag(:ticket_link_url, "URL:", class: "plan-label")
+            .col-12.col-md-6
+              = label_tag(:ticket_link_url, "URL", class: "plan-label")
               = text_field_tag(:ticket_link_url,
                                nil,
                                placeholder: "URL",
                                class: "form-control flex-grow-1",
                                "data-ticket-links-target": "url")
-
+          .d-flex.mt-2
             = button_tag(type: "button",
                          class: "btn btn-primary d-flex align-items-center gap-1",
                          "data-action": "ticket-links#addLink",
                          "aria-label": "Add ticket link") do
-              %i.bi.bi-plus-circle-fill
-              Add
+              %i.bi.bi-plus-square &nbsp;
+              Add Ticket
 
 
           .row
