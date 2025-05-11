@@ -27,7 +27,7 @@ RSpec.describe(TripDecorator, type: :decorator) do
       let(:trip) { create(:trip, start_date: Time.zone.local(2000, 1, 5), end_date: Time.zone.local(2000, 1, 10)) }
 
       it "returns 'dd - dd mmm yyyy'" do
-        expect(decorated_trip.formatted_date_range).to(eq("05 - 10 Jan 2000"))
+        expect(decorated_trip.formatted_date_range).to(eq("5th - 10th Jan 2000"))
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe(TripDecorator, type: :decorator) do
       let(:trip) { create(:trip, start_date: Time.zone.local(2000, 1, 25), end_date: Time.zone.local(2000, 3, 5)) }
 
       it "returns 'dd mmm - dd mmm yyyy'" do
-        expect(decorated_trip.formatted_date_range).to(eq("25 Jan - 05 Mar 2000"))
+        expect(decorated_trip.formatted_date_range).to(eq("25th Jan - 5th Mar 2000"))
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe(TripDecorator, type: :decorator) do
       let(:trip) { create(:trip, start_date: Time.zone.local(2000, 12, 30), end_date: Time.zone.local(2001, 1, 2)) }
 
       it "returns 'dd mmm yyyy - dd mmm yyyy'" do
-        expect(decorated_trip.formatted_date_range).to(eq("30 Dec 2000 - 02 Jan 2001"))
+        expect(decorated_trip.formatted_date_range).to(eq("30th Dec 2000 - 2nd Jan 2001"))
       end
     end
   end
