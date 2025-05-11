@@ -4,10 +4,12 @@
                   errors: errors) do |f|
   %hr.mt-3
   = f.validated_input(:title,
-                      placeholder: "Enter the title of the trip...")
+                      placeholder: "Enter the title of the trip...",
+                      required: true)
   = f.validated_input(:description,
                       rows: 3,
-                      placeholder: "Enter the trip description...")
+                      placeholder: "Enter the trip description...",
+                      required: true)
 
   // The start_date and end_date are hidden fields, updated in the background by the date range picker
   = f.hidden_field(:start_date,
@@ -23,7 +25,10 @@
   = render("partials/datetime_picker", errors: errors)
 
   .d-flex.flex-column.mb-3
-    = f.label("Trip location", for: "#trip-location-autocomplete")
+    = f.label(:location, for: "trip-location-autocomplete") do
+      Trip location
+      %abbr{ title: "required" } *
+
     #trip-location-autocomplete.form-control-plaintext{ class: get_error_class_with(errors, :location) }
     = form_error_message(errors, :location)
     .valid-feedback Looks good!
@@ -39,8 +44,8 @@
   = f.hidden_field(:location_longitude,
                    id: "trip_location_longitude_input")
 
-  .d-flex.flex-column.mb-3{ data: { controller: "custom-image" } }
-    = f.label("Upload new trip image", for: "image-input")
+  .d-flex.flex-column.mt-2.mb-3{ data: { controller: "custom-image" } }
+    = f.label("Upload new trip image (optional)", for: "image-input")
 
     .mb-1
       .mb-0{ class: get_error_class_with(errors, :image) }

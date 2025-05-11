@@ -4,7 +4,8 @@
                   html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "plan-form" },
                   multipart: true) do |f|
   = f.validated_input(:title,
-                      placeholder: "Enter the title of the plan...")
+                      placeholder: "Enter the title of the plan...",
+                      required: true)
 
   = f.validated_select(:plan_type,
                        options_for_select(Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },
@@ -35,7 +36,7 @@
   #plan-form-map.form-map
 
   = f.validated_datetime(:start_date, required: true, readonly: backup_plan)
-  = f.validated_datetime(:end_date, required: true, readonly: backup_plan)
+  = f.validated_datetime(:end_date, required: false, readonly: backup_plan)
 
   #tickets-container
     = render("partials/plans/documents_input", f: f, plan: plan)
