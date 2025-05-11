@@ -101,5 +101,5 @@ Rails.application.configure do
   config.action_controller.action_on_unpermitted_parameters = :raise
 
   # Test error pages in development
-  config.consider_all_requests_local = false
+  # config.consider_all_requests_local = false
 end
