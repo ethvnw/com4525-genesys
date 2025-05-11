@@ -143,3 +143,6 @@ gem "grover"
 
 # Pagination
 gem "pagy"
+
+# Blurhash (https://blurha.sh) implementation for ruby
+gem "blurhash"
