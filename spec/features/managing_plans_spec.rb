@@ -32,7 +32,7 @@ RSpec.feature("Managing plans") do
       select "Other", from: "plan_plan_type"
       select_location("England")
       # Fill in the date range
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Title can't be blank"))
     end
@@ -42,7 +42,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "a" * 300
       select "Other", from: "plan_plan_type"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Title is too long (maximum is 250 characters)"))
     end
@@ -51,7 +51,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Plan type is not included in the list"))
     end
@@ -60,7 +60,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Start location name can't be blank"))
     end
@@ -74,18 +74,31 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start date can't be blank"))
     end
 
+    scenario "I cannot create a plan with a start date after the end date", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      select_seperated_date_range(end_date_for_js, start_date_for_js)
+      click_on "Save"
+      expect(page).to(have_content("Start date cannot be after end date"))
+    end
+
     scenario "I cannot create a plan with no end location if it is a travel plan", js: true do
       visit new_trip_plan_path(trip)
-      expect(page).to(have_content("No end time?"))
+      fill_in "plan_title", with: "Test Title"
       select "Travel By Plane", from: "plan_plan_type"
-      expect(page).not_to(have_content("No end time?"))
+      select_location("England")
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      click_on "Save"
+      expect(page).to(have_content("End location name must be present for travel plans"))
     end
 
     scenario "I can create a plan with fewer fields to fill if I choose a free time plan", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Free Time", from: "plan_plan_type"
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       expect(page).to(have_selector("#start-location-autocomplete", visible: false))
       click_on "Save"
 
@@ -101,7 +114,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
 
       await_message("Plan created successfully")
@@ -118,13 +131,13 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
       select_location("Brazil")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
 
       await_message("Plan created successfully")
