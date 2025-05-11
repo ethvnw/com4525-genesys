@@ -106,7 +106,7 @@ RSpec.feature("Managing trips") do
       click_on "Mock Trip Title"
       # The trip details should be displayed, with the title and dates
       expect(page).to(have_content("Mock Trip Title", wait: 5))
-      expect(page).to(have_content("01 - 03 Jan 2020"))
+      expect(page).to(have_content("1st - 3rd Jan 2020"))
     end
 
     scenario "With valid information and a custom image", js: true do
@@ -124,7 +124,7 @@ RSpec.feature("Managing trips") do
       click_on "Mock Trip Title"
       # The trip details should be displayed, with the title and dates
       expect(page).to(have_content("Mock Trip Title", wait: 5))
-      expect(page).to(have_content("01 - 03 Jan 2020"))
+      expect(page).to(have_content("1st - 3rd Jan 2020"))
       # Expect the right file to be attached
       expect(Trip.first.image.filename.to_s).to(eq("edit_trip_image.jpg"))
     end
@@ -245,8 +245,8 @@ RSpec.feature("Managing trips") do
     scenario "If I have a single-day trip, the date range is displayed as a single date", js: true do
       # The later trip is a single-day trip on Jan 4th 2020, so check to see that date is formated correctly
       visit trips_path
-      expect(page).not_to(have_content("04 - 04 Jan 2020"))
-      expect(page).to(have_content("04 Jan 2020"))
+      expect(page).not_to(have_content("4th - 4th Jan 2020"))
+      expect(page).to(have_content("4th Jan 2020"))
     end
   end
 end
