@@ -79,6 +79,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
+      # Select the end date before the start date
       select_seperated_date_range(end_date_for_js, start_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Start date cannot be after end date"))
