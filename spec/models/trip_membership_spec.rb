@@ -29,4 +29,16 @@ require_relative "../concerns/countable_shared_examples"
 
 RSpec.describe(TripMembership, type: :model) do
   it_behaves_like "countable"
+
+  describe "#nullify_sender_user" do
+    context "when accepting an invite" do
+      let(:invite) { create(:trip_membership, is_invite_accepted: false) }
+
+      it "sets sender_user to nil" do
+        expect(invite.sender_user).not_to(be_nil)
+        invite.update!(is_invite_accepted: true)
+        expect(invite.reload.sender_user).to(be_nil)
+      end
+    end
+  end
 end
