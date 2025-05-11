@@ -46,7 +46,7 @@ module ApplicationHelper
         tabindex: 0,
         aria: {
           label: name,
-          describedby: badge_count&.nonzero? ? "#{name}-badge-desc" : nil,
+          description: badge_count&.nonzero? ? "#{badge_count} notifications" : nil,
         },
         data: { bs_toggle: "tooltip", bs_placement: "right", bs_title: name },
       ) do
@@ -67,7 +67,6 @@ module ApplicationHelper
 
         if badge_count&.nonzero?
           concat(content_tag(:div, badge_count, class: "nav-badge-lg"))
-          concat(content_tag(:span, "#{badge_count} notifications", class: "visually-hidden", id: "#{name}-badge-desc"))
         end
       end
     end

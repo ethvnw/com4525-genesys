@@ -2,6 +2,7 @@
   .app-header
     %h1.fs-2.mb-0 Inbox
 
+.my-2
 - if @inbox_msgs.empty?
   = render("partials/layouts/no_data_placeholder",
            icon_class: "bi bi-postcard-heart",
@@ -9,7 +10,7 @@
            sub_text: "You haven’t been invited to any trips yet. Once you’re invited, your invites will appear here!",
            button_text: "Go to Roamio Home",
            button_aria_label: "Go to Roamio Home",
-           button_icon_class: "bi bi-house-fill",
+           button_icon_class: "bi bi-house",
            button_path: root_path)
 
 - @inbox_msgs.each do |msg|
@@ -17,26 +18,37 @@
     .card-body
       .row
         .col-1
-          = image_tag(msg.sender_user.decorate.avatar_or_default, class: "avatar-img")
+          = image_tag(msg.sender_user.decorate.avatar_or_default, 
+            class: "avatar-img",
+            alt: msg.sender_user.username)
 
         .col-11
-          %h5.card-title
+          %h2.fs-6.roamio-base.fw-semibold.text-secondary
             @#{msg.sender_user.username} invited you to the trip
-            %span.fw-bold= msg.trip.title
+          %h2.fs-3= msg.trip.title
           %p.card-text= msg.trip.description
           .d-flex.justify-content-between.align-items-center
-            %p.mb-0.fst-italic
+            %p.small.text-secondary.fw-semibold.mb-0
+              %i.bi.bi-clock{ "aria-hidden": "true" } &nbsp;
               Sent on
               = msg.created_at.strftime("%d %b %Y")
 
             .d-flex.gap-2
               = link_to(accept_invite_trip_trip_membership_path(msg.trip, msg),
-                        class: "btn btn-success fs-5",
-                        method: :post) do
-                %i.bi.bi-check
+                        class: "btn btn-success",
+                        method: :post,
+                        "aria-label": "Accept Invite",
+                        "aria-description": msg.trip.title,
+                        tabindex: 0) do
+                %i.bi.bi-check &nbsp;
+                Accept
 
               = link_to(decline_invite_trip_trip_membership_path(msg.trip, msg),
-                        class: "btn btn-danger fs-5",
+                        class: "btn btn-secondary",
                         method: :post,
-                        data: { confirm: "Are you sure you want to decline this invitation?" }) do
-                %i.bi.bi-x
+                        data: { confirm: "Are you sure you want to decline this invitation?" },
+                        "aria-label": "Deny Invite",
+                        "aria-description": msg.trip.title,
+                        tabindex: 0) do
+                %i.bi.bi-x &nbsp;
+                Deny
