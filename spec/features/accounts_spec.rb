@@ -12,7 +12,7 @@ RSpec.feature("User accounts") do
       click_on "Join the travel revolution"
       click_on "Get Free"
 
-      expect(page).to(have_content("Sign Up"))
+      expect(page).to(have_button("Sign Up"))
       expect(current_path).to(eq(new_user_registration_path))
     end
 

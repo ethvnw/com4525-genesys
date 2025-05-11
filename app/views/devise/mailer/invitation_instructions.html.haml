@@ -1,15 +1,31 @@
-%p Hi #{@resource.email}!
+%body{ style: "font-family: Arial, sans-serif; background-color: #f2f2f2; color: black;" }
+  %div{ style: "max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);" }
 
-%p
-  Someone has invited you to be a #{User.user_roles[@resource.user_role]} at #{root_url},
-  you can accept it through the link below.
+    %p{ style: "font-size: 1em; color: #575757;" }
+      Hello
+      %strong #{@resource.email}!
 
-= link_to(t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, invitation_token: @token))
+    %p{ style: "font-size: 1em;" }
+      Someone has invited you to be a #{User.user_roles[@resource.user_role]} at #{root_url},
+      you can accept it through the link below.
 
-- if @resource.invitation_due_at
-  %p
-    This invitation will expire on
-    #{l(@resource.invitation_due_at, format: :"devise.mailer.invitation_instructions.accept_until_format")}
+    %p{ style: "text-align: center; margin: 35px 0;" }
+      = link_to("Accept Invitation",
+                accept_invitation_url(@resource, invitation_token: @token),
+                style: "background-color: #d12c4f; color: white; padding: 12px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block;")
 
-%p If you don't want to accept the invitation, please ignore this email.
-%p Your account won't be created until you access the link above and set your password.
+    - if @resource.invitation_due_at
+      %p{ style: "font-size: 1em;" }
+        This invitation will expire on
+        #{l(@resource.invitation_due_at, format: :"devise.mailer.invitation_instructions.accept_until_format")}
+
+    %p{ style: "font-size: 1em;" }
+      If you don't want to accept the invitation, please ignore this email.
+
+    %p{ style: "font-size: 1em;" }
+      Your account won't be created until you access the link above and set your password.
+
+    %p{ style: "font-size: 0.8em; color: #8f8f8f; margin-top: 40px;" }
+      Best,
+      %br
+      The Roamio Team

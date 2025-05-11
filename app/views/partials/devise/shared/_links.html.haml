@@ -1,6 +1,7 @@
 .text-center
   - if controller_name != "sessions"
-    %p.small.mb-0
+    .small.mb-0.d-flex.justify-content-center.align-items-center.gap-1
+      %p.mb-0 Already have an account?
       = link_to("Log in", new_session_path(resource_name), class: "text-decoration-none")
 
   - if devise_mapping.recoverable? && controller_name != "passwords" && controller_name != "registrations"
