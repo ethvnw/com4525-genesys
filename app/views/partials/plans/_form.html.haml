@@ -1,20 +1,26 @@
 = simple_form_for([trip, plan],
                   builder: ValidatedFormBuilder,
                   errors: errors,
-                  html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "plan-form" },
+                  html: { class: "d-flex row gap-2 mt-3", "data-turbo": "true", "data-controller": "plan-form" },
                   multipart: true) do |f|
   = f.validated_input(:title,
-                      placeholder: "Enter the title of the plan...")
+                      placeholder: "Enter the title of the plan...",
+                      "aria-label": "Plan Title",
+                      tabindex: 0)
 
   = f.validated_select(:plan_type,
                        options_for_select(Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },
                                           selected: plan.plan_type),
                        prompt: "Select plan type",
-                       required: true)
+                       required: true,
+                       "aria-label": "Plan Type",
+                       tabindex: 0)
 
   #provider-name-container
     = f.validated_input(:provider_name,
-                        placeholder: "Enter business or provider name...")
+                        placeholder: "Enter business or provider name...",
+                        "aria-label": "Business or provider name",
+                        tabindex: 0)
 
   #start-location-container.d-flex.flex-column.mb-3
     // The asterisk (*) is mocked here as the autocomplete fills out hidden fields and is not TECHNICALLY required.
@@ -32,7 +38,7 @@
     = form_error_message(errors, :end_location_name)
     .valid-feedback Looks good!
 
-  #plan-form-map.form-map
+  #plan-form-map.form-map.p-0
     = render("partials/trips/form_map_overlay")
 
   = f.validated_datetime(:start_date, required: true, readonly: backup_plan)
@@ -44,10 +50,12 @@
     = render("partials/plans/booking_references_input", f: f, plan: plan)
     = render("partials/plans/ticket_links_input", f: f, plan: plan)
 
-  .d-flex.justify-content-end.mt-2
-    = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0 fw-bold") do
-      %i.bi.bi-send-fill
-      &nbsp;
+  .d-flex.justify-content-start.mt-2.mb-4
+    = button_tag(type: "submit",
+                 class: "btn btn-primary flex-grow-1 flex-md-grow-0",
+                 "aria-label": "Save Plan",
+                 tabindex: 0) do
+      %i.bi.bi-send &nbsp;
       Save Plan
 
   = f.hidden_field(:start_location_name,

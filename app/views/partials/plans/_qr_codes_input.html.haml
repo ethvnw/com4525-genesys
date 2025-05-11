@@ -1,7 +1,7 @@
 .accordion.mb-2{ id: "accordion-qr" }
   .accordion-item
     .accordion-header{ id: "heading-qr" }
-      %button.accordion-button.collapsed{
+      %button.accordion-button.collapsed.roamio-header{
         type: "button",
         "data-bs-toggle": "collapse",
         "data-bs-target": "#collapse-qr",
@@ -9,7 +9,8 @@
         "aria-controls": "collapse-qr",
         "aria-label": "Toggle QR Codes input",
       }
-        QR Codes
+        %i.bi.bi-qr-code-scan.me-3.h2.mb-0{ "aria-hidden": "true" }
+        Upload QR Codes
     .accordion-collapse.collapse{
       id: "collapse-qr",
       "aria-labelledby": "heading-qr",
