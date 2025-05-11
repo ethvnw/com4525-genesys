@@ -1,23 +1,13 @@
 - if pagy.next
-  .my-5
-    = link_to(trips_path(page: pagy.next),
+  .my-5.d-lg-none
+    = link_to(url_for(page: pagy.next, scroll: "infinite"),
               data: { turbo: "true", turbo_stream: "true", controller: "infinite-scroll" }) do
       = image_pack_tag("images/roamio_brand_icon_d_grey.webp",
                        height: 18,
                        width: 24,
                        "aria-hidden": "true",
                        alt: "Roamio Logo")
-    -# - pagy.series.each do |item|
-    -#   - if item.is_a?(Integer)
-    -#     = link_to(item.to_s,
-    -#               trips_path(page: item),
-    -#               data: { turbo: "true", turbo_stream: "true" })
-    -#   - if item.is_a?(String)
-    -#     = link_to(pagy.label_for(item),
-    -#               trips_path(page: item),
-    -#               role: "link",
-    -#               aria: { disabled: "true", current: "page" },
-    -#               class: "current",
-    -#               data: { turbo: "true", turbo_stream: "true" })
-    -#   - if item == :gap
-    -#     = "..."
+
+.w-100.my-5.d-none.d-lg-flex.flex-column.align-items-center.gap-3
+  = pagy_info(pagy).html_safe
+  = turbo_pager(pagy)

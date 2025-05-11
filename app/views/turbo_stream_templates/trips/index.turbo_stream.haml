@@ -8,8 +8,8 @@
   = turbo_stream.update("trip-cards", "")
   = turbo_stream.update("pager", "")
   = turbo_stream.prepend("trips-view",
-                        partial: "partials/trips/map_view",
-                        locals: { trips: @trips })
+                         partial: "partials/trips/map_view",
+                         locals: { trips: @trips })
 - else
   = turbo_stream.remove("trips-map")
   = turbo_stream.remove("map-variables")
@@ -18,9 +18,14 @@
                         partial: "partials/trips/trips_list_header",
                         locals: { user: @current_user })
 
-  = turbo_stream.append("trip-cards",
-                        partial: "partials/trips/trip_cards_list",
-                        locals: { trips: @trips })
+  - if params[:scroll] == "infinite"
+    = turbo_stream.append("trip-cards",
+                          partial: "partials/trips/trip_cards_list",
+                          locals: { trips: @trips })
+  - else
+    = turbo_stream.update("trip-cards",
+                          partial: "partials/trips/trip_cards_list",
+                          locals: { trips: @trips })
 
   = turbo_stream.update("pager",
                         partial: "partials/layouts/pager",

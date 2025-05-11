@@ -1,0 +1,31 @@
+@use "base_styles" as bs;
+
+.pagination {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+
+  .page-item {
+    &.active > .page-link {
+      background-color: bs.$roamio-primary;
+      border-color: darken(bs.$roamio-primary, 10%);
+      color: bs.$body-bg;
+    }
+
+    &.disabled > .page-link {
+      color: bs.$roamio-tertiary;
+    }
+  }
+
+  .page-link {
+    color: bs.$body-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
