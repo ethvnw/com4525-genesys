@@ -10,11 +10,13 @@
 
   = f.validated_input(:username,
                       required: true,
-                      autofocus: true)
+                      autofocus: true,
+                      hint: "Must be between 6 and 20 characters")
 
   = f.validated_input(:password,
                       required: false,
-                      autocomplete: "new-password")
+                      autocomplete: "new-password",
+                      hint: "Must contain upper and lower-case letters, numbers and be minimum 12 characters")
 
   = f.validated_input(:password_confirmation,
                       required: false,
