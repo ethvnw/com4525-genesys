@@ -39,9 +39,16 @@ def select_location(location)
   VCR.turn_on!
 end
 
-def select_date_range(start_date, end_date)
+def select_combined_date_range(start_date, end_date)
   find("#datetimepicker-input").click
   find("div[data-value='#{start_date}']").click
+  find("div[data-value='#{end_date}']").click
+end
+
+def select_seperated_date_range(start_date, end_date)
+  find("#start-datetimepicker-input").click
+  find("div[data-value='#{start_date}']").click
+  find("#end-datetimepicker-input").click
   find("div[data-value='#{end_date}']").click
 end
 

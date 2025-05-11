@@ -34,7 +34,7 @@ RSpec.feature("Managing scannable tickets") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       # Attach a QR code file
       click_on "QR Codes"
       attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))

@@ -42,7 +42,7 @@ RSpec.feature("Managing trips") do
       # Fill in the location search field
       select_location("England")
       # Fill in the date range
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Title can't be blank"))
     end
@@ -52,7 +52,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "a" * 101
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
     end
@@ -61,7 +61,7 @@ RSpec.feature("Managing trips") do
       visit new_trip_path
       fill_in "trip_title", with: "Mock Trip Title"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Description can't be blank"))
     end
@@ -71,7 +71,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "a" * 501
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Description is too long (maximum is 500 characters)"))
     end
@@ -89,7 +89,7 @@ RSpec.feature("Managing trips") do
       visit new_trip_path
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "Mock Trip Description"
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Location can't be blank"))
     end
@@ -99,7 +99,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       await_message("Trip created successfully")
       # Expect the trip to be displayed on the page, identified by the title
@@ -114,7 +114,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       # Remove the d-none class so the file input becomes visible, as it is hidden by js by default
       page.execute_script("document.getElementById('image-input').classList.remove('d-none')")
       attach_file("trip[image]", Rails.root.join("spec", "support", "files", "edit_trip_image.jpg"))
@@ -135,7 +135,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "a" * 101 # Title too long error
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
 
       # Expect the form to be displayed with the title and description fields filled in
