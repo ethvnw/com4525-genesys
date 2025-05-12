@@ -1,9 +1,9 @@
 .card{
-  class: plan.free_time_plan? ? "border-dashed border-2 border-danger-subtle" : "bg-danger-subtle",
+  class: plan.free_time_plan? ? "border-dashed border-2 border-danger-subtle" : "bg-body-darken",
 }
   .card-body
     = render("partials/plans/card_header", trip: trip, plan: plan)
-    %h2.max-height-2-lines
+    %h2.fs-4.max-height-2-lines
       = plan.title
 
     -# Provider name
@@ -18,9 +18,4 @@
         %i.bi.bi-geo-alt-fill
         %p.mb-0= plan.start_location_name
   - if plan.any_tickets? || plan.documents.attached?
-    .card-footer
-      - if plan.any_tickets?
-        = render("partials/plans/view_tickets_button", trip: trip, plan: plan)
-
-      - if plan.documents.attached?
-        = render("partials/plans/documents_dropdown", plan: plan)
+    = render("partials/plans/view_tickets_button", trip: trip, plan: plan)

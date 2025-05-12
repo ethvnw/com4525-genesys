@@ -1,10 +1,10 @@
 = link_to(url_for(document.object),
           class: "btn btn-document d-flex flex-row align-items-center w-100",
           target: "_blank") do
-  .btn-document-icon.rounded-circle.bg-light.p-3.fs-2.me-3
+  .btn-document-icon.rounded-circle.bg-light.p-3.fs-2.me-3.lh-1
     %i.bi.bi-file-earmark-text
   .d-flex.flex-column.align-items-start
-    %span.text-start.fw-semibold
+    %span.text-start.fw-semibold.text-wrap
       = document.object.filename
     %small.text-start.text-secondary
       = document.formatted_timestamp

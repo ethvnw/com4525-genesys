@@ -1,4 +1,8 @@
 -# View tickets button
-= link_to(trip_plan_path(trip, plan), class: "btn #{"text-light" if plan.travel_plan?}") do
+= link_to(trip_plan_path(trip, plan),
+          class: "btn btn-body-footer d-flex",
+          "aria-label": plan.view_label,
+          "aria-description": "#{plan.plan_type.titleize} Plan, #{plan.title}",
+          tabindex: 0) do
   %i{ class: plan.view_icon } &nbsp;
-  %p.mb-0= plan.view_label
+  %p.mb-0.ms-3= plan.view_label
