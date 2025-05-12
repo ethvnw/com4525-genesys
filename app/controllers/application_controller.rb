@@ -114,6 +114,5 @@ class ApplicationController < ActionController::Base
 
     pending_trip_memberships = current_user.trip_memberships.where(is_invite_accepted: false)
     @inbox_count = pending_trip_memberships.count
-    @inbox_msgs = pending_trip_memberships
   end
 end

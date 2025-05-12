@@ -1,8 +1,6 @@
 = turbo_stream.update("view-buttons",
                       partial: "partials/trips/view_buttons")
 
-= turbo_stream.action("changeUrl", trips_url(@query_params))
-
 - if params[:view] == "map"
   = turbo_stream.update("trips-list-header", "")
   = turbo_stream.update("trip-cards", "")
@@ -19,6 +17,8 @@
                         locals: { user: @current_user })
 
   - if params[:scroll] == "infinite"
+    -# Remove page param when using infinite scroll
+    - @query_params[:page] = nil
     = turbo_stream.append("trip-cards",
                           partial: "partials/trips/trip_cards_list",
                           locals: { trips: @trips })
@@ -30,3 +30,5 @@
   = turbo_stream.update("pager",
                         partial: "partials/layouts/responsive_pager",
                         locals: { pagy: @pagy })
+
+= turbo_stream.action("changeUrl", trips_url(@query_params))
