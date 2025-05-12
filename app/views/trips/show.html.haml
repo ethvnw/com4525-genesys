@@ -2,7 +2,7 @@
   .d-flex.flex-column.gap-3.align-items-end
     = render("partials/trips/members", members: @trip.trip_memberships)
   .align-self-center
-    %h1.mb-0= @trip.title
+    %h1.mb-0.text-break= @trip.title
     %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
 
     .d-flex.gap-2.my-2
