@@ -3,48 +3,44 @@
   %p.mb-0.fs-5.fw-semibold.text-secondary
     Tickets for #{@plan.title}
   .my-2
-    = link_to(trip_path(@trip),
-              class: "btn btn-secondary py-2",
-                           "aria-label": "Back to trips page",
-                           tabindex: 0) do
-      %i.bi.bi-arrow-left{ "aria-hidden": "true" } &nbsp;
-      Back to Trip
+    = render("partials/trips/trips_back_button", trip: @trip)
   %hr
 
+.row.mb-3
   .d-flex.gap-3.align-items-center
     %i.bi.bi-clock-fill
     %p.mb-0= @plan.formatted_date_range
 
--# Company name
-- if @plan.provider_name.present?
-  .d-flex.gap-3.align-items-center
-    %i.bi.bi-building-fill
-    %p.mb-0= @plan.provider_name
+  -# Company name
+  - if @plan.provider_name.present?
+    .d-flex.gap-3.align-items-center
+      %i.bi.bi-building-fill
+      %p.mb-0= @plan.provider_name
 
-- if @plan.travel_plan?
-  -# Start location and date
-  .row.align-items-start.mt-3.roamio-header
-    .col
-      %h2.fs-5.mb-0.max-height-2-lines= @plan.start_location_name
+  - if @plan.travel_plan?
+    -# Start location and date
+    .row.align-items-start.mt-3.roamio-header
+      .col
+        %h2.fs-5.mb-0.max-height-2-lines= @plan.start_location_name
 
-    -# Travel icon
-    .col-auto.px-4
-      %h2.text-secondary
-        %i{ class: @plan.travel_icon }
+      -# Travel icon
+      .col-auto.px-4
+        %h2.text-secondary
+          %i{ class: @plan.travel_icon }
 
-    -# End location and date
-    .col
-      %h2.fs-5.mb-0.text-end.max-height-2-lines= @plan.end_location_name
-- else
-  -# Start location
-  .d-flex.gap-3.align-items-center
-    %i.bi.bi-geo-alt-fill
-    %p.mb-0= @plan.start_location_name
+      -# End location and date
+      .col
+        %h2.fs-5.mb-0.text-end.max-height-2-lines= @plan.end_location_name
+  - else
+    -# Start location
+    .d-flex.gap-3.align-items-center
+      %i.bi.bi-geo-alt-fill
+      %p.mb-0= @plan.start_location_name
 
 
 - if @plan.scannable_tickets.any?
   -# QR codes
-  #qr-code-container.d-flex.justify-content-center.align-items-center.mt-3
+  #qr-code-container.d-flex.justify-content-center.align-items-center
     %img#qr-image{ alt: "" }
   .w-100.d-flex.justify-content-center
     %h2#qr-code-text.text-truncate.text-center.overflow-hidden.fs-6.text-secondary.roamio-base.fw-semibold.mt-3
