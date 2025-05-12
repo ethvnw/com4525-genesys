@@ -86,7 +86,7 @@ AppFeaturesSubscriptionTier.find_or_create_by!(
 
 hotel_accommodation = AppFeature.find_or_create_by!(
   name: "Hotel Bookings",
-  description: "Manage hotels and accomodation bookings, all accessible during your trip.",
+  description: "Manage hotels and accommodation bookings, all accessible during your trip.",
 )
 AppFeaturesSubscriptionTier.find_or_create_by!(
   app_feature: hotel_accommodation,

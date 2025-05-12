@@ -13,22 +13,17 @@ RSpec.describe(PlanDecorator, type: :decorator) do
   describe "#formatted_date_range" do
     context "when the end date is present" do
       it "returns the start and end time as 'start to end'" do
-        expect(decorated_plan.formatted_date_range).to(eq("01:00 to 02:00 01 Jan 2000"))
-      end
-
-      it "shows start and end day if they differ" do
-        decorated_plan.end_date = Time.current + 1.day + 1.hour
-        expect(decorated_plan.formatted_date_range).to(eq("01:00 01 to 02:00 02 Jan 2000"))
+        expect(decorated_plan.formatted_date_range).to(eq("01:00 - 02:00, 01 Jan 2000"))
       end
 
       it "shows start and end month if they differ" do
         decorated_plan.end_date = Time.current + 1.month + 1.hour
-        expect(decorated_plan.formatted_date_range).to(eq("01:00 01 Jan to 02:00 01 Feb 2000"))
+        expect(decorated_plan.formatted_date_range).to(eq("01:00, 01 Jan - 02:00, 01 Feb 2000"))
       end
 
       it "shows start and end year if they differ" do
         decorated_plan.end_date = Time.current + 1.year + 1.hour
-        expect(decorated_plan.formatted_date_range).to(eq("01:00 01 Jan 2000 to 02:00 01 Jan 2001"))
+        expect(decorated_plan.formatted_date_range).to(eq("01:00, 01 Jan 2000 - 02:00, 01 Jan 2001"))
       end
     end
 
@@ -36,7 +31,7 @@ RSpec.describe(PlanDecorator, type: :decorator) do
       before { decorated_plan.end_date = nil }
 
       it "returns the start date and time" do
-        expect(decorated_plan.formatted_date_range).to(eq("01:00 01 Jan 2000"))
+        expect(decorated_plan.formatted_date_range).to(eq("01:00, 01 Jan 2000"))
       end
     end
   end

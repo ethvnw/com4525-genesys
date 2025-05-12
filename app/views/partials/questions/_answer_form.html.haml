@@ -13,7 +13,8 @@
                       input_class: "form-control-plaintext fw-bold text-secondary resize-none pe-auto",
                       data: { default_value: item.subcontent },
                       "aria-label": "Answer Question",
-                      "aria-describedby": "item-content-#{item.id}")
+                      "aria-describedby": "item-content-#{item.id}",
+                      required: true)
   = button_tag(type: "submit",
                class: "btn btn-secondary d-none mt-3",
                "aria-label": "Submit Answer") do
