@@ -50,14 +50,29 @@ async function applyBackgroundGradient(currentSlide) {
   const applyGradientFromColour = () => {
     if (!currentImage.complete) return;
 
-    let [r, g, b] = colourThief.getColor(currentImage);
+    // Initialise the colour values
+    let r, g, b;
+
+    try {
+      [r, g, b] = colourThief.getColor(currentImage);
+    } catch (error) {
+      [r, g, b] = [255, 255, 255]
+    }
     const luminance = calculateLuminance(r, g, b);
 
     // For lighter colours, darken it so text remains legible
-    if (luminance > 0.7) {
+    if (luminance > 0.8) {
+      r = Math.round(r * 0.5);
+      g = Math.round(g * 0.5);
+      b = Math.round(b * 0.5);
+    } else if (luminance > 0.65) {
       r = Math.round(r * 0.6);
       g = Math.round(g * 0.6);
       b = Math.round(b * 0.6);
+    } else if (luminance > 0.55) {
+      r = Math.round(r * 0.7);
+      g = Math.round(g * 0.7);
+      b = Math.round(b * 0.7);
     }
 
     const lightShade = shadeColourRGB(r, g, b, 50);
