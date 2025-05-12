@@ -62,6 +62,7 @@
 }
 
 .trip-image-preview {
+  @extend .card, .bg-light, .mt-3;
   @extend .object-fit-cover;
   @extend .rounded-top;
 
@@ -69,7 +70,7 @@
   width: 33%;
 }
 
-@include bs.media-breakpoint-down(lg) {
+@include bs.media-breakpoint-down(md) {
   .trip-image-preview{
     width: 100%;
   }
