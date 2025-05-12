@@ -61,6 +61,14 @@
   height: 2.375rem;
 }
 
+input[readonly] {
+  background-color: darken(bs.$body-bg, 5%);
+
+  &:focus {
+    background-color: darken(bs.$body-bg, 5%);
+  }
+}
+
 // form-control-btn is used for buttons that look like text inputs (e.g. date range picker)
 .form-control-btn{
   @extend .form-control, .text-start;

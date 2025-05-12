@@ -4,8 +4,8 @@
                   builder: ValidatedFormBuilder,
                   errors: errors,
                   html: { method: :put, "data-turbo": "true" }) do |f|
-  = f.validated_input(:email)
-  = f.validated_input(:username)
+  = f.validated_input(:email, required: true)
+  = f.validated_input(:username, required: true)
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     %p Currently waiting confirmation for: #{resource.unconfirmed_email}
@@ -14,12 +14,14 @@
                       label: "New Password",
                       hint: "Leave it blank if you don't want to change it",
                       required: false,
-                      autocomplete: "new-password")
+                      autocomplete: "new-password",
+                      leave_optional_blank: true)
 
   = f.validated_input(:password_confirmation,
                       label: "New Password Confirmation",
                       required: false,
-                      autocomplete: "new-password")
+                      autocomplete: "new-password",
+                      leave_optional_blank: true)
 
   = f.validated_input(:current_password,
                       hint: "We need your current password to confirm your changes",

@@ -3,9 +3,10 @@
                   errors: errors,
                   html: { class: "d-flex flex-column", "data-turbo": "true" }) do |f|
   = f.validated_input(:question,
-                      label: "Your Question *",
+                      label: "Your Question",
                       "aria-label": "Your Question",
-                      placeholder: "Enter your question here")
+                      placeholder: "Enter your question here",
+                      required: true)
 
   .d-flex.justify-content-end
     = button_tag(type: "submit", class: "btn btn-primary", tabindex: 0) do
