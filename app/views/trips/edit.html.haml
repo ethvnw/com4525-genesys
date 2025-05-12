@@ -1,4 +1,6 @@
-%h2.text-break
-  Editing
-  = @trip.title
+.row
+  .app-header
+    %h1.fs-2.mb-0
+      Editing
+      = @trip.title
 = render("partials/trips/form", trip: @trip, errors: flash[:errors])
