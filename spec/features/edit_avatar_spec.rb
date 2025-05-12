@@ -49,7 +49,7 @@ RSpec.feature("User Avatar") do
       # Make sure mock avatar image is attached
       expect(user.avatar.filename).to(eq("mock_avatar.png"))
 
-      click_button "Remove Avatar Photo"
+      click_button "Reset Avatar Photo"
       expect(user.reload.avatar.filename).to(be_nil)
       expect(page).to(have_content("Avatar successfully removed."))
     end
