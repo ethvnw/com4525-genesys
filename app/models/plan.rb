@@ -66,7 +66,6 @@ end
 #
 class Plan < ApplicationRecord
   include Countable
-  attr_accessor :primary_plan_id
 
   belongs_to :trip
   belongs_to :backup_plan, class_name: "Plan", optional: true, foreign_key: "backup_plan_id"
@@ -124,6 +123,12 @@ class Plan < ApplicationRecord
 
   def backup_plan?
     primary_plan.present?
+  end
+
+  ##
+  # Set attribute for the primary plan
+  def primary_plan_id=(value)
+    self.primary_plan = Plan.find_by(id: value)
   end
 
   ##
