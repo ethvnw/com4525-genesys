@@ -20,9 +20,10 @@ end
 #
 # @param user [User] the user to create the trip for
 # @param trip_number [Integer] the trip number
+# @param trip_title [String] the title of the trip
 # @return [Trip] the newly-created trip
-def create_trip(user, trip_number)
-  preexisting_trip = Trip.where(title: "Trip #{trip_number}").first
+def create_trip(user, trip_number, trip_title = "Trip #{trip_number}")
+  preexisting_trip = Trip.where(title: trip_title).first
   unless preexisting_trip.present?
     trip_coords = get_random_location([0, 0])
     trip = Trip.create!(
@@ -38,14 +39,13 @@ def create_trip(user, trip_number)
     trip.image.attach(
       # attach fallback_location_img.png in packs/images
       io: File.open(Rails.root.join("db", "seeds", "images", "trips", "brienz.jpg")),
-      filename: "brienz#{i}.jpg",
+      filename: "brienz#{trip_number}.jpg",
       content_type: "image/jpeg",
     )
 
     TripMembership.create!(
       sender_user: user,
-      # Accept invite if flooding with trips, don't accept if flooding with invitations
-      is_invite_accepted: model == :trip,
+      is_invite_accepted: true,
       invite_accepted_date: trip.created_at,
       user: user,
       trip: trip,
@@ -104,9 +104,21 @@ model = ARGV.first.to_sym
 puts ">>>> Flooding database with #{model}s..."
 
 case model
-when :trip, :invite
+when :trip
   1000.times do |i|
     create_trip(user, i)
+    print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
+  end
+when :invite
+  second_user = create_user(0)
+  1000.times do |i|
+    trip = create_trip(second_user, i, "Second User Trip #{i}")
+    TripMembership.create!(
+      sender_user: second_user,
+      is_invite_accepted: false,
+      user: user,
+      trip: trip,
+    )
     print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
   end
 when :plan
