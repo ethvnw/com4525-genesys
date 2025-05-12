@@ -17,9 +17,9 @@
 
   %hr
   .d-flex.justify-content-end
-    - confirm_msg = "Are you sure you want to remove access for #{@user.email}?"
+    - confirm_message = "Are you sure you want to remove access for #{@user.email}?"
     = button_to("Remove Access",
                 api_staff_path(@user),
                 method: :delete,
-                form: { data: { turbo: "true", turbo_confirm: confirm_msg } },
+                form: { data: { turbo: "true", turbo_confirm: confirm_message } },
                 class: "btn btn-outline-danger d-flex justify-content-end")
