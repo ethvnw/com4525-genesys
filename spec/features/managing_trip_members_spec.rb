@@ -11,7 +11,8 @@ RSpec.feature("Managing trip members") do
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
-    travel_to(Time.zone.parse("2025-01-10 1:30:00"))
+    time_travel_everywhere(Time.current)
+    freeze_time
   end
 
   feature "Inviting trip members" do

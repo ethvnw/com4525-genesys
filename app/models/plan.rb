@@ -102,8 +102,22 @@ class Plan < ApplicationRecord
   validates :title, presence: true, length: { maximum: 250 }
   validates :start_location_name, presence: true, unless: :free_time_plan?
   validates :start_date, presence: true
+  validate :start_within_trip_dates
+  validate :end_within_trip_dates
   validates_with PlanValidator
   validates_with DateValidator
+
+  def start_within_trip_dates
+    if start_date.present? && trip.start_date.present? && (start_date < trip.start_date || start_date > trip.end_date)
+      errors.add(:start_date, "must be within the trip dates")
+    end
+  end
+
+  def end_within_trip_dates
+    if end_date.present? && trip.end_date.present? && (end_date > trip.end_date || end_date < trip.start_date)
+      errors.add(:end_date, "must be within the trip dates")
+    end
+  end
 
   def travel_plan?
     plan_type.starts_with?("travel_by")

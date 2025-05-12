@@ -50,3 +50,5 @@
         class: get_error_class_with(errors, :date),
         disabled: read_only,
       }
+      = form_error_message(errors, :end_date)
+      .valid-feedback Looks good!
