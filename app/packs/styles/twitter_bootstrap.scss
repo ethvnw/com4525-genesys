@@ -15,7 +15,7 @@ input, textarea, select {
     @extend .text-light;
 }
 
-.btn-primary, .btn-secondary, .btn-tertiary, .btn-danger {
+.btn-primary, .btn-secondary, .btn-tertiary, .btn-danger, .btn-success {
     @extend .roamio-base;
     @extend .fw-semibold;
 }
