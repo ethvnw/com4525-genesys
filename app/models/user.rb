@@ -64,6 +64,7 @@ class User < ApplicationRecord
   # User roles for RBAC
   enum user_role: { reporter: "Reporter", admin: "Admin", member: "Member" }
   scope :members, -> { where(user_role: :member) }
+  scope :staff, -> { where.not(user_role: :member) }
 
   # Ensuring username follows specific rules
   validates :username, presence: true, uniqueness: { case_sensitive: false }
