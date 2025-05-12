@@ -34,4 +34,4 @@
 
       #pager.w-100.d-flex.justify-content-center
         - if params[:view] == "list"
-          = render("partials/layouts/pager", pagy: @pagy)
+          = render("partials/layouts/responsive_pager", pagy: @pagy)
