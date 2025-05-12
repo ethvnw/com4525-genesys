@@ -48,6 +48,8 @@
 
   .d-flex.flex-column.mt-2.mb-3{ data: { controller: "custom-image" } }
     = f.label("Upload new trip image (optional)", for: "image-input")
+    .form-text.text-muted
+      Only WebP, JPG and PNG image files are supported
 
     .mb-1
       .mb-0{ class: get_error_class_with(errors, :image) }
@@ -57,7 +59,7 @@
     = f.file_field(:image,
                    id: "image-input",
                    class: "d-none",
-                   accept: "image/png, image/jpeg, image/jpg",
+                   accept: "image/png, image/jpeg, image/jpg, image/webp",
                    data: { "custom-image-target": "browseButton" })
 
     %button.btn.btn-secondary.d-inline-flex.align-items-center.align-self-start{
