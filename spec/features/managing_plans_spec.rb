@@ -188,13 +188,13 @@ RSpec.feature("Managing plans") do
       fill_in "Start date", with: Time.current + 1.day
       # Attach a booking reference
       click_on "Booking References"
-      within("#accordion-booking-references") do
+      within("#booking-references-container") do
         fill_in "booking_reference_name", with: "Test Name"
         fill_in "booking_reference_number", with: "123456"
         click_button "Add Reference"
       end
       # Expect new entry to appear in the table dynamically
-      within("#accordion-booking-references") do
+      within("#booking-references-container") do
         within("table") do
           expect(page).to have_content("Test Name")
           expect(page).to have_content("123456")
@@ -264,8 +264,11 @@ RSpec.feature("Managing plans") do
       await_message("Plan created successfully")
       visit trip_plan_path(trip, trip.plans.first)
       # Expect the ticket link to be a link to the URL with the correct text
-      expect(page).to(have_content("Ticket Links"))
-      expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
+      within("#accordion-ticket-links") do
+        find("button.accordion-button").click
+        expect(page).to(have_content("Ticket Links"))
+        expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
+      end
     end
 
     scenario "If I enter a ticket link with the same name twice, I see an approriate error message", js: true do
