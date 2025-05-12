@@ -3,6 +3,8 @@
 module Analytics
   # Trip analytics controller
   class TripsController < Analytics::BaseController
+    include Streamable
+
     def index
       @trip_counts = {
         today: Trip.count_today,
@@ -25,8 +27,10 @@ module Analytics
         all_time: TripMembership.count,
       }
 
-      @pagy, @trips = pagy(Trip, limit: 25)
+      @pagy, @trips = pagy(Trip.order(:id), limit: 25)
       @trips.decorate
+
+      stream_response("analytics/trips")
     end
   end
 end

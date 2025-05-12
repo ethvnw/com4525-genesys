@@ -32,11 +32,7 @@
       %thead
         %tr
           %th.very-thin-column #
-          %th.wide-column User Email
+          %th.wide-column Username
           %th Referrals
       %tbody
-        - @users.each_with_index do |user, index|
-          %tr
-            %td= index + 1
-            %td.text-truncate= user.email
-            %td= user.referrals.count
+        = render("partials/analytics/referrals_table_rows", users: @users)
