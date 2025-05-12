@@ -6,9 +6,9 @@
           = render("partials/plans/documents_list_item", document: document)
         %td.pe-3.align-middle
           = link_to(trip_plan_document_path(plan.trip, plan, document_id: document.id),
-                      method: :delete,
-                      "data-turbo-method": :delete,
-                      data: turbo_confirm("Are you sure you want to delete this document?"),
-                      class: "btn btn-secondary btn-sm text-nowrap m-0") do
+                    method: :delete,
+                    "data-turbo-method": :delete,
+                    data: turbo_confirm("Are you sure you want to delete this document?"),
+                    class: "btn btn-secondary btn-sm text-nowrap m-0") do
             %i.bi.bi-trash
             Remove
