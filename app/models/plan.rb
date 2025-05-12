@@ -66,7 +66,6 @@ end
 #
 class Plan < ApplicationRecord
   include Countable
-  attr_accessor :primary_plan_id
 
   belongs_to :trip
   belongs_to :backup_plan, class_name: "Plan", optional: true, foreign_key: "backup_plan_id"
@@ -81,21 +80,22 @@ class Plan < ApplicationRecord
   after_destroy :remove_counter_cache
 
   enum plan_type: {
-    clubbing: 0,
-    live_music: 1,
-    restaurant: 2,
-    entertainment: 3,
-    wellness: 4,
-    active: 5,
-    sightseeing: 6,
-    travel_by_boat: 7,
-    travel_by_bus: 8,
-    travel_by_car: 9,
-    travel_by_foot: 10,
-    travel_by_plane: 11,
-    travel_by_train: 12,
-    other: 13,
-    free_time: 14,
+    accommodation: 0,
+    clubbing: 1,
+    live_music: 2,
+    restaurant: 3,
+    entertainment: 4,
+    wellness: 5,
+    active: 6,
+    sightseeing: 7,
+    travel_by_boat: 8,
+    travel_by_bus: 9,
+    travel_by_car: 10,
+    travel_by_foot: 11,
+    travel_by_plane: 12,
+    travel_by_train: 13,
+    other: 14,
+    free_time: 15,
   }
 
   validates :plan_type, inclusion: { in: plan_types.keys }
@@ -137,6 +137,12 @@ class Plan < ApplicationRecord
 
   def backup_plan?
     primary_plan.present?
+  end
+
+  ##
+  # Set attribute for the primary plan
+  def primary_plan_id=(value)
+    self.primary_plan = Plan.find_by(id: value)
   end
 
   ##

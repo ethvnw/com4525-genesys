@@ -3,8 +3,13 @@
                   errors: errors,
                   html: { class: "d-flex flex-column gap-2", "data-turbo": "true", "data-controller": "plan-form" },
                   multipart: true) do |f|
+  - if backup_plan
+    %p.fw-semibold.fst-italic * Start and end dates cannot be changed for backup plans.
+
   = f.validated_input(:title,
-                      placeholder: "Enter the title of the plan...")
+                      placeholder: "Enter the title of the plan...",
+                      required: true,
+                      maxlength: 250)
 
   = f.validated_select(:plan_type,
                        options_for_select(Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },

@@ -20,12 +20,14 @@ class PlansController < ApplicationController
 
   def new_backup_plan
     @primary_plan = Plan.find(params[:id])
+    @trip = Trip.find(params[:trip_id])
+
     if @primary_plan.backup_plan.present?
-      redirect_back_or_to(trip_plan_path(@trip), alert: "Plan already has a backup plan.")
-      return
+      redirect_back_or_to(trip_plan_path(@trip), alert: "Plan already has a backup plan.") and return
+    elsif @primary_plan.backup_plan?
+      redirect_back_or_to(trip_plan_path(@trip), alert: "Backup plans cannot have their own backup plans.") and return
     end
 
-    @trip = Trip.find(params[:trip_id])
     @plan = Plan.new(
       start_date: @primary_plan.start_date,
       end_date: @primary_plan.end_date,
@@ -38,15 +40,8 @@ class PlansController < ApplicationController
     @plan = Plan.new(plan_params).decorate
     @plan.trip = Trip.find(params[:trip_id])
 
-    if @plan.primary_plan_id.present?
-      @primary_plan = Plan.find(@plan.primary_plan_id)
-      if @primary_plan.backup_plan?
-        @plan.errors.add(:base, "A backup plan cannot be a backup of another backup plan")
-      end
-    end
-
     if @plan.save
-      @primary_plan&.update(backup_plan_id: @plan.id)
+      @plan.primary_plan&.update(backup_plan_id: @plan.id)
 
       # Create scannable tickets if provided
       qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
@@ -77,10 +72,10 @@ class PlansController < ApplicationController
       # Reset the documents to avoid loading the documents card in the create form with non-existent documents
       @plan.documents = []
 
-      if @plan.primary_plan_id.present?
+      if @plan.primary_plan.present?
         stream_response(
           "plans/create_backup",
-          new_backup_plan_trip_plan_path(@plan.trip, @primary_plan),
+          new_backup_plan_trip_plan_path(@plan.trip, @plan.primary_plan),
           lost_uploads_alert,
         )
       else
@@ -139,7 +134,7 @@ class PlansController < ApplicationController
       flash[:errors][:date].concat(flash[:errors][:start_date]) if flash[:errors][:start_date]
       flash[:errors][:date].concat(flash[:errors][:end_date]) if flash[:errors][:end_date]
       if @plan.backup_plan?
-        stream_response("plans/update_backup", edit_backup_plan_trip_plan_path(@plan.trip, plan.primary_plan))
+        stream_response("plans/update_backup", edit_trip_plan_path(@plan.trip, @plan.primary_plan))
       else
         stream_response("plans/update", edit_trip_plan_path(@plan.trip))
       end
