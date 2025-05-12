@@ -13,8 +13,10 @@
         // Original file input is hidden, so a custom button can be styled
         = f.file_field(:avatar,
                        class: "d-none",
-                       accept: "image/png, image/jpeg, image/jpg",
+                       accept: "image/png, image/jpeg, image/jpg, image/webp",
                        data: { "custom-image-target": "browseButton" })
+        .form-text.text-muted
+          Only WebP, JPG and PNG image files are supported
         %button#image-custom.btn.btn-secondary{ type: "button", data: { "custom-image-target": "customButton" } }
           Attach Avatar
         %span{ data: { "custom-image-target": "fileNameSpan" } } No file selected

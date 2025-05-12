@@ -27,7 +27,7 @@ RSpec.feature("User Avatar") do
     scenario "Uploading an invalid file type" do
       attach_file("user[avatar]", Rails.root.join("spec", "support", "files", "test.txt"))
       click_button "Save"
-      expect(page).to(have_content("Avatar has an invalid content type (authorized content types are PNG, JPG)"))
+      expect(page).to(have_content("Avatar has an invalid content type (authorized content types are PNG, JPG, WEBP)"))
     end
 
     scenario "Uploading a file that exceeds the 5 MB size limit" do
