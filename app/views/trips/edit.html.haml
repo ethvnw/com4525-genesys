@@ -1,6 +1,9 @@
 .row
-  .app-header
-    %h1.fs-2.mb-0
-      Editing
+  %h1.fs-2.mb-0
+    Editing
+    %span
       = @trip.title
+  .my-2
+    = render("partials/trips/trips_back_button", trip: @trip)
+  %hr.mb-0
 = render("partials/trips/form", trip: @trip, errors: flash[:errors])
