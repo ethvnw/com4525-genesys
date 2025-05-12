@@ -115,6 +115,7 @@
 .tempus-dominus-widget {
   --td-active-bg: #{bs.$roamio-primary};
   --td-range-bg: #{darken(bs.$roamio-primary, 10%)};
+  --td-disabled-color: #d9d9d9 !important;
 
   @extend .border;
   padding-top: 10px;

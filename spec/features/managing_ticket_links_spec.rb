@@ -8,7 +8,7 @@ RSpec.feature("Managing ticket links") do
   let(:trip) { create(:trip) }
   let(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
-  let(:start_time) { Time.current }
+  let(:start_time) { Time.current + 1.days }
   let(:end_time) { start_time + 2.days }
 
   # Create timestamps with 0-indexed months for use in the JS datepicker
@@ -23,7 +23,7 @@ RSpec.feature("Managing ticket links") do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
     # Time travel and stubbing the API is dont for creating plans
-    time_travel_everywhere(Time.zone.parse("2020-01-01 00:00:00"))
+    time_travel_everywhere(Time.current)
     freeze_time
     stub_photon_api
   end

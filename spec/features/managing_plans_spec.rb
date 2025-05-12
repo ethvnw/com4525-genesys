@@ -8,7 +8,7 @@ RSpec.feature("Managing plans") do
   let!(:trip) { create(:trip) }
   let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
-  let(:start_time) { Time.current }
+  let(:start_time) { Time.current + 1.days }
   let(:end_time) { start_time + 2.days }
 
   # Create timestamps with 0-indexed months for use in the JS datepicker
@@ -22,7 +22,7 @@ RSpec.feature("Managing plans") do
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
-    time_travel_everywhere(Time.zone.parse("2020-01-01 00:00:00"))
+    time_travel_everywhere(Time.current)
     freeze_time
   end
 
@@ -70,6 +70,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
+      clear_start_date
       click_on "Save"
       expect(page).to(have_content("Start date can't be blank"))
     end
@@ -79,8 +80,9 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      # Select the end date before the start date
-      select_seperated_date_range(end_date_for_js, start_date_for_js)
+      # Simulate a user inspect elementing the hidden input fields
+      page.execute_script("document.getElementById('start_date_input').value = '#{end_date_for_js}'")
+      page.execute_script("document.getElementById('end_date_input').value = '#{start_date_for_js}'")
       click_on "Save"
       expect(page).to(have_content("Start date cannot be after end date"))
     end
