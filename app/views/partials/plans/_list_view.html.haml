@@ -1,7 +1,7 @@
-%div{ "data-controller": "trip-show" }
+.mb-3{ "data-controller": "trip-show" }
   - plan_groups.each_with_index do |(start_date, plans), index|
     .plan-group
-      %button.roamio-header.btn.collapse-btn.px-0.py-2.w-100.text-uppercase.text-start.fs-5{
+      %button.roamio-text.text-secondary.btn.btn-body.collapse-btn.px-0.py-2.w-100.text-start.fs-5{
         type: "button",
         data: {
           bs_toggle: "collapse",
@@ -18,14 +18,14 @@
       .collapse.show.mb-3{ id: "plans#{index}" }
         - plans.each do |plan|
           .row.mb-2{ id: "plan-#{plan.id}" }
-            .col-sm-2
-              %p.mb-0.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
+            .col-sm-2.col-xl-1
+              %p.mb-2.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
 
             - swiper_class = plan.backup_plan.present? ? "swiper trip-carousel-#{plan.id}" : nil
 
             .col{ class: swiper_class }
               - if swiper_class
-                .swiper-wrapper.p-0.overflow-hidden
+                .swiper-wrapper.p-0
                   .swiper-slide
                     = render_plan_partial(plan, trip)
 

@@ -1,0 +1,13 @@
+= render("partials/plans/ticket_accordion",
+         title: "View PDFs",
+         accordion_id: "accordion-documents",
+         collapse_id: "collapse-documents",
+         heading_id: "heading-documents",
+         aria_label: "Toggle documents view",
+         icon_class: "bi bi-file-earmark-pdf") do
+  %table.table
+    %tbody
+      - plan.documents.each do |document|
+        %tr
+          %td.p-0.align-middle.w-100
+            = render("partials/plans/documents_list_item", document: document)

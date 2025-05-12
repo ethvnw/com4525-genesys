@@ -1,6 +1,6 @@
 .d-flex.justify-content-between.align-items-center
   - if plan.travel_plan?
-    %p.mb-0.text-white
+    %p.mb-0.text-secondary
       = plan.title.titleize
       - if plan.backup_plan?
         (Backup Plan)
@@ -13,34 +13,49 @@
   .d-flex
     -# Toggle button for backup plan
     - if plan.backup_plan.present? || plan.backup_plan?
-      %button.btn.swiper-toggle-button{
-        class: (plan.travel_plan? ? "text-light" : nil),
+      %button.btn.swiper-toggle-button.px-0{
         title: "Toggle viewing backup plan",
+        "aria-label": plan.backup_plan? ? "Toggle Normal Plan" : "Toggle Backup Plan",
+        "aria-description": "#{plan.plan_type.titleize} Plan, #{plan.title}",
+        tabindex: 0,
       }
-        %i.bi.bi-reply-fill
+        %i.bi.bi-sign-turn-left.h5
 
     -# Dropdown menu
     #plan-settings.dropdown
-      %button.btn.px-0.py-2{ "data-bs-toggle": "dropdown", "aria-expanded": "false", title: "Plan settings" }
-        %i{ class: "bi bi-three-dots-vertical #{"text-light" if plan.travel_plan?}" }
+      %button.btn.px-0.py-2.ms-3{
+        "data-bs-toggle": "dropdown",
+        "aria-expanded": "false",
+        title: "Plan settings",
+        "aria-label": "Toggle Plan Settings",
+        "aria-description": "#{plan.plan_type.titleize} Plan, #{plan.title}",
+        tabindex: 0,
+      }
+        %i{ class: "bi bi-three-dots-vertical h5" }
 
-      .dropdown-menu
+      .dropdown-menu.dropdown-menu-end
         - unless plan.backup_plan? || plan.backup_plan.present?
           = link_to(new_backup_plan_trip_plan_path(trip, plan),
                     class: "dropdown-item",
-                    method: :get) do
+                    method: :get,
+                    "aria-label": "Add Backup Plan",
+                    tabindex: 0) do
             %i.bi.bi-plus-circle &nbsp;
             Add Backup Plan
 
         = link_to(edit_trip_plan_path(trip, plan),
                   class: "dropdown-item",
-                  method: :get) do
+                  method: :get,
+                  "aria-label": "Edit Plan",
+                  tabindex: 0) do
           %i.bi.bi-pencil &nbsp;
           Edit Plan
 
         = link_to(trip_plan_path(trip, plan),
                   class: "dropdown-item text-danger",
                   method: :delete,
-                  data: { confirm: "Are you sure you want to delete this plan?" }) do
+                  data: { confirm: "Are you sure you want to delete this plan?" },
+                  "aria-label": "Delete Plan",
+                  tabindex: 0) do
           %i.bi.bi-trash &nbsp;
           Delete Plan

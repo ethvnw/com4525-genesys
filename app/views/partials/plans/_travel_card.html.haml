@@ -1,28 +1,26 @@
-%section.p-3.rounded.mb-2.bg-primary.flex-grow-1
-  = render("partials/plans/card_header", trip: trip, plan: plan)
+.card.bg-body-darken
+  .card-body
+    = render("partials/plans/card_header", trip: trip, plan: plan)
 
-  -# Start location and date
-  .row.align-items-center.mb-3
-    .col
-      %h4.mb-0.max-height-2-lines= plan.start_location_name
+    -# Start location and date
+    .row.align-items-start.mb-3
+      .col
+        %h2.fs-4.mb-0.max-height-2-lines= plan.start_location_name
 
-    -# Travel icon
-    .col-auto.px-4
-      %h2.text-white-50
-        %i{ class: plan.travel_icon }
+      -# Travel icon
+      .col-auto.px-4
+        %h2.text-secondary
+          %i{ class: plan.travel_icon }
 
-    -# End location and date
-    .col
-      %h4.mb-0.text-end.max-height-2-lines= plan.end_location_name
+      -# End location and date
+      .col
+        %h2.fs-4.mb-0.text-end.max-height-2-lines= plan.end_location_name
 
-  -# Provider name
-  - if plan.provider_name.present?
-    .d-flex.gap-3.align-items-center
-      %i.bi.bi-building
-      %p.mb-0= plan.provider_name
+    -# Provider name
+    - if plan.provider_name.present?
+      .d-flex.gap-3.align-items-center
+        %i.bi.bi-building-fill
+        %p.mb-0= plan.provider_name
 
-  - if plan.scannable_tickets.any?
+  - if plan.any_tickets? || plan.documents.attached?
     = render("partials/plans/view_tickets_button", trip: trip, plan: plan)
-
-  - if plan.documents.attached?
-    = render("partials/plans/documents_dropdown", plan: plan)

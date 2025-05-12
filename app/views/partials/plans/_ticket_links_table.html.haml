@@ -1,12 +1,16 @@
-.row.mt-2
-  .col
-    %h2.fw-bold.mb-0
-      Ticket Links
-%table.table
-  %thead
-    %tr
-      %th
-  %tbody
-    - plan.ticket_links.each do |link|
+= render("partials/plans/ticket_accordion",
+         title: "View Ticket Links",
+         accordion_id: "accordion-ticket-links",
+         collapse_id: "collapse-ticket-links",
+         heading_id: "heading-ticket-links",
+         aria_label: "Toggle ticket links view",
+         icon_class: "bi bi-link-45deg") do
+  %table.table
+    %thead
       %tr
-        %td= link_to(link.name, link.link, target: "_blank", rel: "noopener")
+        %th.ps-3
+          Links
+    %tbody
+      - plan.ticket_links.each do |link|
+        %tr
+          %td.ps-3= link_to(link.name, link.link, target: "_blank", rel: "noopener")
