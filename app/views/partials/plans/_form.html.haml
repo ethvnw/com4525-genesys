@@ -8,7 +8,8 @@
 
   = f.validated_input(:title,
                       placeholder: "Enter the title of the plan...",
-                      required: true)
+                      required: true,
+                      maxlength: 250)
 
   = f.validated_select(:plan_type,
                        options_for_select(Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },

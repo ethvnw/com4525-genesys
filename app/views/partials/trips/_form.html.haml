@@ -5,11 +5,13 @@
   %hr.mt-3
   = f.validated_input(:title,
                       placeholder: "Enter the title of the trip...",
-                      required: true)
+                      required: true,
+                      maxlength: 100)
   = f.validated_input(:description,
                       rows: 3,
                       placeholder: "Enter the trip description...",
-                      required: true)
+                      required: true,
+                      maxlength: 500)
 
   // The start_date and end_date are hidden fields, updated in the background by the date range picker
   = f.hidden_field(:start_date,
