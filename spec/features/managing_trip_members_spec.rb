@@ -127,7 +127,7 @@ RSpec.feature("Managing trip members") do
     scenario "I can change my display name and see it in the members list", js: true do
       visit trip_path(trip)
       click_on "Settings"
-      click_on "Change Display Name"
+      click_on "Change Your Nickname"
       fill_in "trip_membership_user_display_name", with: "new name test"
       click_on "Update"
       click_on "Settings"

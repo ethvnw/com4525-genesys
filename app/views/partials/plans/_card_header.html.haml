@@ -15,9 +15,10 @@
     - if plan.backup_plan.present? || plan.backup_plan?
       %button.btn.swiper-toggle-button{
         class: (plan.travel_plan? ? "text-light" : nil),
-        title: "Toggle viewing backup plan",
+        title: (plan.backup_plan? ? "View Primary Plan" : "View Backup Plan"),
       }
         %i.bi.bi-reply-fill
+        = plan.backup_plan? ? "View Primary" : "View Backup"
 
     -# Dropdown menu
     #plan-settings.dropdown

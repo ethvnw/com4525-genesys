@@ -11,7 +11,7 @@
 
     .d-flex.flex-column.mx-3.mb-2
       .text-light
-        %h2.trip-title.mb-0{ id: "trip-title-#{trip.id}", role: "presentation", "aria-hidden": "false" }
+        %h2.trip-title.mb-0.text-break{ id: "trip-title-#{trip.id}", role: "presentation", "aria-hidden": "false" }
           %span.visually-hidden View
           = trip.title
         .trip-card-details.d-flex.flex-row.justify-content-between.align-items-start

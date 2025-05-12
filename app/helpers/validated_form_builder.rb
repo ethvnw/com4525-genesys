@@ -143,7 +143,8 @@ class ValidatedFormBuilder < SimpleForm::FormBuilder
   def build_input(attribute_name, error, input_element, hint_element, element_options)
     # Parse input ID with Nokogiri to add as "for" attribute on label
     input_id = Nokogiri::HTML5.fragment(input_element).children[0]["id"]
-    label_text = element_options.fetch(:label, attribute_name)
+    label_text = element_options.fetch(:label, attribute_name).to_s
+    label_text += " (optional)" unless element_options[:required] || element_options[:leave_optional_blank]
 
     # Unless label option is explicitly set to nil, set label text
     label_element = if label_text.nil?

@@ -66,6 +66,7 @@ export default function setupPickers(allowTime) {
       minDate,
       maxDate,
     },
+    promptTimeOnDateChange: allowTime,
     display: {
       buttons: {
         today: true,

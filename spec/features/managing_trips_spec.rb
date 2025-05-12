@@ -47,14 +47,27 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Title can't be blank"))
     end
 
-    scenario "With a title longer than the limit (100 characters)", js: true do
+    scenario "I cannot type in a trip title that is too long (>30 characters)", js: true do
       visit new_trip_path
-      fill_in "trip_title", with: "a" * 101
+      fill_in "trip_title", with: "a" * 31
+      expect(find("#trip_title").value).to(have_content("a" * 30))
+    end
+
+    scenario "With a title longer than the limit (30 characters)", js: true do
+      visit new_trip_path
+      # Bypass the maxlength attribute of the input in order to test further error checking
+      page.execute_script("document.getElementById('trip_title').value = #{("a" * 31).to_json}")
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
-      expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
+      expect(page).to(have_content("Title is too long (maximum is 30 characters)"))
+    end
+
+    scenario "I cannot type in a trip description that is too long (>500 characters)", js: true do
+      visit new_trip_path
+      fill_in "trip_description", with: "a" * 501
+      expect(find("#trip_description").value).to(have_content("a" * 500))
     end
 
     scenario "With no description", js: true do
@@ -69,7 +82,8 @@ RSpec.feature("Managing trips") do
     scenario "With a description longer than the limit (500 characters)", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "Mock Trip Title"
-      fill_in "trip_description", with: "a" * 501
+      # Bypass the maxlength attribute of the input in order to test further error checking
+      page.execute_script("document.getElementById('trip_description').value = #{("a" * 501).to_json}")
       select_location("England")
       select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
@@ -147,14 +161,15 @@ RSpec.feature("Managing trips") do
     scenario "Preserving data on error", js: true do
       # Fill in the form with the required fields
       visit new_trip_path
-      fill_in "trip_title", with: "a" * 101 # Title too long error
+      # Bypass the maxlength attribute of the input in order to test further error checking
+      page.execute_script("document.getElementById('trip_title').value = #{("a" * 31).to_json}") # Title too long
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
 
       # Expect the form to be displayed with the title and description fields filled in
-      expect(page).to(have_field("trip_title", with: "a" * 101))
+      expect(page).to(have_field("trip_title", with: "a" * 31))
       expect(page).to(have_field("trip_description", with: "Mock Trip Description"))
       within ".aa-DetachedSearchButtonQuery" do
         expect(page).to(have_content("England"))
@@ -164,7 +179,7 @@ RSpec.feature("Managing trips") do
       datetime_button = find("#datetimepicker-input")[:value]
       expect(datetime_button).to(have_content("#{display_start_date} - #{display_end_date}"))
       # The error message should be displayed
-      expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
+      expect(page).to(have_content("Title is too long (maximum is 30 characters)"))
     end
   end
 
