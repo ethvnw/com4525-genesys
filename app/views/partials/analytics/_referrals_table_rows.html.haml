@@ -1,0 +1,5 @@
+- users.each_with_index do |user, index|
+  %tr
+    %td= index + 1
+    %td.text-truncate= user.username
+    %td= user.referrals.count
