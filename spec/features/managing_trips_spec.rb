@@ -54,6 +54,7 @@ RSpec.feature("Managing trips") do
 
     scenario "With a title longer than the limit (30 characters)", js: true do
       visit new_trip_path
+      # Bypass the maxlength attribute of the input in order to test further error checking
       page.execute_script("document.getElementById('trip_title').value = #{("a" * 31).to_json}")
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
@@ -80,6 +81,7 @@ RSpec.feature("Managing trips") do
     scenario "With a description longer than the limit (500 characters)", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "Mock Trip Title"
+      # Bypass the maxlength attribute of the input in order to test further error checking
       page.execute_script("document.getElementById('trip_description').value = #{("a" * 501).to_json}")
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
@@ -143,6 +145,7 @@ RSpec.feature("Managing trips") do
     scenario "Preserving data on error", js: true do
       # Fill in the form with the required fields
       visit new_trip_path
+      # Bypass the maxlength attribute of the input in order to test further error checking
       page.execute_script("document.getElementById('trip_title').value = #{("a" * 31).to_json}") # Title too long
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")

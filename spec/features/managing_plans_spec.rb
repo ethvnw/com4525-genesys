@@ -32,6 +32,7 @@ RSpec.feature("Managing plans") do
 
     scenario "I cannot create a plan with a title that is too long (>250 characters)", js: true do
       visit new_trip_plan_path(trip)
+      # Bypass the maxlength attribute of the input in order to test further error checking
       page.execute_script("document.getElementById('plan_title').value = #{("a" * 251).to_json}")
       select "Other", from: "plan_plan_type"
       select_location("England")
