@@ -22,7 +22,7 @@ module Analytics
       # Display all users with at least one referral, ordered by the number of referrals
       users = User
         .where("referrals_count > 0")
-        .order(referrals_count: :desc)
+        .order(referrals_count: :desc, id: :asc)
 
       @pagy, @users = pagy(users, limit: 25)
       @users.decorate

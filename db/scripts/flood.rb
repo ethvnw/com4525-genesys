@@ -55,6 +55,27 @@ def create_trip(user, trip_number)
   preexisting_trip || trip
 end
 
+##
+# Creates or retrieves a user from the database
+#
+# @param user_number [Integer] the number of the user
+# @return [User] the created/found user model
+def create_user(user_number)
+  preexisting_user = User.where(username: "user#{user_number}").first
+  unless preexisting_user.present?
+    user = User.new(
+      username: "user#{user_number}",
+      email: "test#{user_number}@example.com",
+      password: "tester",
+      password_confirmation: "tester",
+    )
+
+    user.save(validate: false)
+  end
+
+  preexisting_user || user
+end
+
 VALID_MODELS = [:trip, :plan, :invite, :user, :referral]
 unless VALID_MODELS.include?(ARGV.first.to_sym)
   puts "Usage: db-flooder [#{VALID_MODELS.map(&:to_s).join(" | ")}]"
@@ -109,14 +130,20 @@ when :plan
   puts(">>>> Added 1000 plans to trip '#{trip.title}'")
 when :user
   1000.times do |i|
-    User.new(
-      username: "user#{i}",
-      email: "test#{i}@example.com",
-      password: "tester",
-      password_confirmation: "tester",
-    ).save(validate: false) unless User.where(username: "user#{i}").first.present?
+    create_user(i)
     print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
   end
 
   puts(">>>> Added 1000 users to DB")
+when :referral
+  1000.times do |i|
+    user = create_user(i)
+    Referral.create!(
+      sender_user: user,
+      receiver_email: "referral#{i}@example.com",
+    )
+    print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
+  end
+
+  puts(">>>> Added 1000 referrals to DB")
 end

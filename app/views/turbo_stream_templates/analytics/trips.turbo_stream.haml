@@ -1,3 +1,5 @@
+= turbo_stream.action("changeUrl", analytics_trips_url(page: params[:page]))
+
 = turbo_stream.update("trips-table",
                       partial: "partials/analytics/trip_table_rows",
                       locals: { trips: @trips })
