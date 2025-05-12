@@ -24,9 +24,16 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Title can't be blank"))
     end
 
+    scenario "I cannot type in a plan title that is too long (>250 characters)", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "a" * 251
+      expect(find("#plan_title").value).to(have_content("a" * 250))
+    end
+
     scenario "I cannot create a plan with a title that is too long (>250 characters)", js: true do
       visit new_trip_plan_path(trip)
-      fill_in "plan_title", with: "a" * 300
+      # Bypass the maxlength attribute of the input in order to test further error checking
+      page.execute_script("document.getElementById('plan_title').value = #{("a" * 251).to_json}")
       select "Other", from: "plan_plan_type"
       select_location("England")
       fill_in "plan_start_date", with: Time.current + 1.day

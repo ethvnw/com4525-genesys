@@ -23,7 +23,7 @@ class Trip < ApplicationRecord
 
   has_one_attached :image
   validates :image,
-    content_type: ["image/png", "image/jpeg"],
+    content_type: ["image/png", "image/jpeg", "image/webp"],
     size: { less_than: 10.megabytes },
     # 3840px accounts for 4k resolution
     dimension: { width: { min: 32, max: 3840 }, height: { min: 32, max: 3840 } },
@@ -35,7 +35,7 @@ class Trip < ApplicationRecord
   has_many :users, through: :trip_memberships
 
   # Validations for the trip attributes
-  validates :title, presence: true, length: { maximum: 100 }
+  validates :title, presence: true, length: { maximum: 30 }
   validates :description, presence: true, length: { maximum: 500 }
   validate :date_range_cant_be_blank
   validate :location_cant_be_blank

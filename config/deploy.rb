@@ -11,7 +11,8 @@ set :linked_files,
     "config/database.yml",
     "config/master.key",
   )
-set :linked_dirs, fetch(:linked_dirs, []).push("log", "tmp/pids", "public/packs", "node_modules", "storage")
+set :linked_dirs,
+  fetch(:linked_dirs, []).push("log", "tmp/pids", "public/packs", "node_modules", "storage", "vendor/puppeteer")
 
 ## Ruby configuration
 set :rvm_type,                    :system

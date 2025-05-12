@@ -13,7 +13,10 @@ module Api
       if @review.save
         session.delete(:review_data)
         @review = Review.new
-        message = { content: "Review submitted. Thanks for helping to improve Roamio!", type: "success" }
+        message = {
+          content: "Review submitted and waiting for approval. Thanks for helping to improve Roamio!",
+          type: "success",
+        }
         redirect_path = root_path
       else
         flash[:errors] = @review.errors.to_hash(true)
