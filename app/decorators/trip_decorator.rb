@@ -4,6 +4,12 @@
 class TripDecorator < ApplicationDecorator
   delegate_all
 
+  def single_day?
+    if start_date.present? && end_date.present?
+      start_date.to_date == end_date.to_date
+    end
+  end
+
   def formatted_start_date
     format_date_slashes(start_date)
   end
@@ -18,17 +24,21 @@ class TripDecorator < ApplicationDecorator
   # - "dd mmm yyyy  for different years
   # - end date is always formatted as "dd mmm yyyy"
   def formatted_date_range
-    start_date_format = if start_date.year == end_date.year
-      if start_date.month == end_date.month
-        "%d"
-      else
-        "%d %b"
-      end
-    else
-      "%d %b %Y"
+    if single_day?
+      return start_date.strftime("#{start_date.day.ordinalize} %b %Y")
     end
 
-    start_date.strftime(start_date_format) + " - " + end_date.strftime("%d %b %Y")
+    start_date_format = if start_date.year == end_date.year
+      if start_date.month == end_date.month
+        start_date.day.ordinalize
+      else
+        "#{start_date.day.ordinalize} %b"
+      end
+    else
+      "#{start_date.day.ordinalize} %b %Y"
+    end
+
+    start_date.strftime(start_date_format) + " - " + end_date.day.ordinalize + end_date.strftime(" %b %Y")
   end
 
   ##

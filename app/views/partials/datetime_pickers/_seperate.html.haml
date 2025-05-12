@@ -1,0 +1,54 @@
+// Two date pickers, using Tempus Dominus. The HAML here is from the example implementation
+// This isn't actually a part of the form, but instead updated the hidden fields above when dates are selected
+// To use:
+//         1) The form must include a hidden start_date and end_date text field,
+//         2) The date_range_picker_seperate.js file must be loaded
+//         3) read_only flag must be passed to the partial
+
+
+- min_date_str = min_date&.strftime("%Y-%m-%dT%H:%M") # ISO-like format
+- max_date_str = max_date&.strftime("%Y-%m-%dT%H:%M")
+
+.d-flex.flex-column.mb-3{
+  data: {
+    min_date: min_date_str,
+    max_date: max_date_str,
+  },
+}
+  = label_tag(:start_date) do
+    Start Time
+    %abbr{ title: "required" } *
+
+  #start-datetimepicker-target.col-sm-12
+    #start-datetimepicker-element.input-group.log-event{
+      "data-td-target-input" => "nearest",
+      "data-td-target-toggle" => "nearest",
+    }
+      %input#start-datetimepicker-input.form-control-btn.rounded.fw-normal.my-1{
+        "data-td-target" => "#start-datetimepicker-element",
+        "data-td-toggle" => "datetimepicker",
+        type: "button",
+        value: "Input the start date...",
+        class: get_error_class_with(errors, :start_date),
+        disabled: read_only,
+      }
+      = form_error_message(errors, :start_date)
+      .valid-feedback Looks good!
+
+.d-flex.flex-column.mb-3
+  = label_tag(:end_date, "End Time")
+  #end-datetimepicker-target.col-sm-12
+    #end-datetimepicker-element.input-group.log-event{
+      "data-td-target-input" => "nearest",
+      "data-td-target-toggle" => "nearest",
+    }
+      %input#end-datetimepicker-input.form-control-btn.rounded.fw-normal.my-1{
+        "data-td-target" => "#end-datetimepicker-element",
+        "data-td-toggle" => "datetimepicker",
+        type: "button",
+        value: "Input the end date...",
+        class: get_error_class_with(errors, :date),
+        disabled: read_only,
+      }
+      = form_error_message(errors, :end_date)
+      .valid-feedback Looks good!

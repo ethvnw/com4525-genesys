@@ -11,10 +11,10 @@ RSpec.feature("Managing trips") do
 
   # Create timestamps with 0-indexed months for use in the JS datepicker
   let(:start_date_for_js) do
-    "#{start_time.year}-#{format("%02d", start_time.month - 1)}-#{format("%02d", start_time.day)}"
+    format_date_for_js(start_time)
   end
   let(:end_date_for_js) do
-    "#{end_time.year}-#{format("%02d", end_time.month - 1)}-#{format("%02d", end_time.day)}"
+    format_date_for_js(end_time)
   end
 
   # Timestamps that will be displayed
@@ -32,6 +32,7 @@ RSpec.feature("Managing trips") do
     ]))
 
     time_travel_everywhere(Time.zone.parse("2020-01-01 00:00:00"))
+    freeze_time
   end
 
   context "When creating a trip" do
@@ -41,7 +42,7 @@ RSpec.feature("Managing trips") do
       # Fill in the location search field
       select_location("England")
       # Fill in the date range
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Title can't be blank"))
     end
@@ -58,7 +59,7 @@ RSpec.feature("Managing trips") do
       page.execute_script("document.getElementById('trip_title').value = #{("a" * 31).to_json}")
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Title is too long (maximum is 30 characters)"))
     end
@@ -73,7 +74,7 @@ RSpec.feature("Managing trips") do
       visit new_trip_path
       fill_in "trip_title", with: "Mock Trip Title"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Description can't be blank"))
     end
@@ -84,7 +85,7 @@ RSpec.feature("Managing trips") do
       # Bypass the maxlength attribute of the input in order to test further error checking
       page.execute_script("document.getElementById('trip_description').value = #{("a" * 501).to_json}")
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Description is too long (maximum is 500 characters)"))
     end
@@ -102,9 +103,24 @@ RSpec.feature("Managing trips") do
       visit new_trip_path
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "Mock Trip Description"
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Location can't be blank"))
+    end
+
+    scenario "As a single day, with the times changed with inspect element", js: true do
+      visit new_trip_path
+      fill_in "trip_title", with: "Mock Trip Title"
+      fill_in "trip_description", with: "Mock Trip Description"
+      select_location("England")
+      single_day_start_time = format_datetime_for_js((Time.current + 1.day).beginning_of_day + 3.hours)
+      single_day_end_time = format_datetime_for_js((Time.current + 1.day).beginning_of_day + 5.hours)
+      page.execute_script("document.getElementById('start_date_input').value = '#{single_day_start_time}'")
+      page.execute_script("document.getElementById('end_date_input').value = '#{single_day_end_time}'")
+      click_button "Save Trip"
+      await_message("Trip created successfully")
+      expect(Trip.first.start_date.strftime("%H:%M")).to(eq("00:00"))
+      expect(Trip.first.end_date.strftime("%H:%M")).to(eq("23:59"))
     end
 
     scenario "With valid information", js: true do
@@ -112,14 +128,14 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       await_message("Trip created successfully")
       # Expect the trip to be displayed on the page, identified by the title
       click_on "Mock Trip Title"
       # The trip details should be displayed, with the title and dates
       expect(page).to(have_content("Mock Trip Title", wait: 5))
-      expect(page).to(have_content("01 - 03 Jan 2020"))
+      expect(page).to(have_content("1st - 3rd Jan 2020"))
     end
 
     scenario "With valid information and a custom image", js: true do
@@ -127,7 +143,7 @@ RSpec.feature("Managing trips") do
       fill_in "trip_title", with: "Mock Trip Title"
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       # Remove the d-none class so the file input becomes visible, as it is hidden by js by default
       page.execute_script("document.getElementById('image-input').classList.remove('d-none')")
       attach_file("trip[image]", Rails.root.join("spec", "support", "files", "edit_trip_image.jpg"))
@@ -137,7 +153,7 @@ RSpec.feature("Managing trips") do
       click_on "Mock Trip Title"
       # The trip details should be displayed, with the title and dates
       expect(page).to(have_content("Mock Trip Title", wait: 5))
-      expect(page).to(have_content("01 - 03 Jan 2020"))
+      expect(page).to(have_content("1st - 3rd Jan 2020"))
       # Expect the right file to be attached
       expect(Trip.first.image.filename.to_s).to(eq("edit_trip_image.jpg"))
     end
@@ -149,7 +165,7 @@ RSpec.feature("Managing trips") do
       page.execute_script("document.getElementById('trip_title').value = #{("a" * 31).to_json}") # Title too long
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
-      select_date_range(start_date_for_js, end_date_for_js)
+      select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
 
       # Expect the form to be displayed with the title and description fields filled in
@@ -237,12 +253,13 @@ RSpec.feature("Managing trips") do
   context "When viewing trips" do
     let!(:trip) { create(:trip) }
     let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
+    # :trip_later is a single day trip
     let!(:trip_later) do
       create(
         :trip,
         title: "Later Trip",
         start_date: Time.current + 3.days,
-        end_date: Time.current + 4.days,
+        end_date: Time.current + 3.days,
       )
     end
     let!(:trip_membership_later) { create(:trip_membership, user: user, trip: trip_later) }
@@ -253,6 +270,13 @@ RSpec.feature("Managing trips") do
       click_on "Desc"
       expect(page).to(have_content("Asc"))
       expect(page.first(".trip-card")).to(have_content("Later Trip"))
+    end
+
+    scenario "If I have a single-day trip, the date range is displayed as a single date", js: true do
+      # The later trip is a single-day trip on Jan 4th 2020, so check to see that date is formated correctly
+      visit trips_path
+      expect(page).not_to(have_content("4th - 4th Jan 2020"))
+      expect(page).to(have_content("4th Jan 2020"))
     end
   end
 end

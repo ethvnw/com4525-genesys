@@ -13,7 +13,7 @@ class PlansController < ApplicationController
 
   def new
     @trip = Trip.find(params[:trip_id])
-    @plan = Plan.new
+    @plan = Plan.new.decorate
     @errors = flash[:errors]
     @plan.attributes = session[:plan_data] if session[:plan_data]
   end
@@ -31,13 +31,13 @@ class PlansController < ApplicationController
     @plan = Plan.new(
       start_date: @primary_plan.start_date,
       end_date: @primary_plan.end_date,
-    )
+    ).decorate
 
     @errors = flash[:errors]
   end
 
   def create
-    @plan = Plan.new(plan_params)
+    @plan = Plan.new(plan_params).decorate
     @plan.trip = Trip.find(params[:trip_id])
 
     if @plan.save
@@ -58,6 +58,10 @@ class PlansController < ApplicationController
       turbo_redirect_to(trip_path(@plan.trip), notice: "Plan created successfully.")
     else
       flash[:errors] = @plan.errors.to_hash(true)
+      # Merge the errors from start_date and end_date into the date error, as this is the one used by the date field
+      flash[:errors][:date] ||= []
+      flash[:errors][:date].concat(flash[:errors][:start_date]) if flash[:errors][:start_date]
+      flash[:errors][:date].concat(flash[:errors][:end_date]) if flash[:errors][:end_date]
       lost_uploads_alert = if @plan.documents.attached? || params[:scannable_tickets].present?
         {
           type: "danger",
@@ -91,7 +95,7 @@ class PlansController < ApplicationController
   end
 
   def update
-    @plan = Plan.find(params[:id])
+    @plan = Plan.find(params[:id]).decorate
     # Saving the uploaded documents (if any) so current attachments do not get removed on save
     documents = params[:plan][:documents] if params[:plan] && params[:plan][:documents].present?
     if @plan.update(plan_params.except(:documents))
@@ -113,25 +117,22 @@ class PlansController < ApplicationController
         end
       end
 
-      # Delete all existing booking references
+      # Delete all existing booking references and ticket links
       @plan.booking_references.destroy_all
-      # Create booking references if provided
-      JSON.parse(params[:booking_references_data] || []).each do |ref|
-        @plan.booking_references.create(name: ref["name"], reference_number: ref["number"])
-      end
-
-      # Delete all existing ticket links
       @plan.ticket_links.destroy_all
-      # Create ticket links if provided
-      JSON.parse(params[:ticket_links_data] || []).each do |link|
-        @plan.ticket_links.create(name: link["name"], link: link["url"])
-      end
+      # Create booking references and ticket links if provided
+      Plans::BookingReferencesSaver.call(plan: @plan, data: params[:booking_references_data])
+      Plans::TicketLinksSaver.call(plan: @plan, data: params[:ticket_links_data])
 
       # The notice message indicates whether any QR codes already existed to the plan
       turbo_redirect_to(trip_path(@plan.trip), notice: "Plan updated successfully.
       #{any_duplicate_codes ? "Some QR codes already existed..." : ""}")
     else
       flash[:errors] = @plan.errors.to_hash(true)
+      # Merge the errors from start_date and end_date into the date error, as this is the one used by the date field
+      flash[:errors][:date] ||= []
+      flash[:errors][:date].concat(flash[:errors][:start_date]) if flash[:errors][:start_date]
+      flash[:errors][:date].concat(flash[:errors][:end_date]) if flash[:errors][:end_date]
       if @plan.backup_plan?
         stream_response("plans/update_backup", edit_trip_plan_path(@plan.trip, @plan.primary_plan))
       else

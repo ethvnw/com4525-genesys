@@ -39,8 +39,11 @@
 
   #plan-form-map.form-map
 
-  = f.validated_datetime(:start_date, required: true, readonly: backup_plan)
-  = f.validated_datetime(:end_date, required: backup_plan, readonly: backup_plan)
+  = render("partials/datetime_pickers/seperate",
+           errors: errors,
+           read_only: backup_plan,
+           min_date: trip.start_date,
+           max_date: trip.end_date)
 
   #tickets-container
     = render("partials/plans/documents_input", f: f, plan: plan)
@@ -48,7 +51,7 @@
     = render("partials/plans/booking_references_input", f: f, plan: plan)
     = render("partials/plans/ticket_links_input", f: f, plan: plan)
 
-  .d-flex.justify-content-end.mt-2
+  .d-flex.justify-content-end.my-2
     = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0 fw-bold") do
       %i.bi.bi-send-fill
       &nbsp;
@@ -66,6 +69,14 @@
                    id: "end_location_latitude_input")
   = f.hidden_field(:end_location_longitude,
                    id: "end_location_longitude_input")
+  = f.hidden_field(:start_date,
+                   id: "start_date_input",
+                   label: false,
+                   placeholder: "Enter the trip start date...")
+  = f.hidden_field(:end_date,
+                   id: "end_date_input",
+                   label: false,
+                   placeholder: "Enter the trip end date...")
 
   - if defined?(primary_plan)
     = f.hidden_field(:primary_plan_id, value: primary_plan.id)

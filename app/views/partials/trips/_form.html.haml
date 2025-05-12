@@ -24,8 +24,6 @@
                    label: false,
                    placeholder: "Enter the trip end date...")
 
-  = render("partials/datetime_picker", errors: errors)
-
   .d-flex.flex-column.mb-3
     = f.label(:location, for: "trip-location-autocomplete") do
       Trip location
@@ -36,6 +34,13 @@
     .valid-feedback Looks good!
 
   #trip-form-map.form-map
+
+  .d-flex.flex-column.mb-3
+    = label_tag("Dates")
+    .form-check.form-switch
+      %input#single-day-switch.form-check-input{ type: "checkbox", checked: trip.single_day? }
+      = label_tag("Single Day Trip?")
+    = render("partials/datetime_pickers/combined", errors: errors)
 
   = f.hidden_field(:location_name,
                    id: "trip_location_name_input")
@@ -79,7 +84,7 @@
     - else
       = image_tag("", class: "trip-image-preview d-none", data: { "custom-image-target": "preview" })
 
-  .d-flex.justify-content-end.mt-2
+  .d-flex.justify-content-end.my-2
     = button_tag(type: "submit", class: "btn btn-primary flex-grow-1 flex-md-grow-0") do
       %i.bi.bi-send-fill
       &nbsp;

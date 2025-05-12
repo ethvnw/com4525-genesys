@@ -3,6 +3,7 @@ import L from 'leaflet';
 import { newRoamioMap } from '../lib/map/RoamioMap';
 import createAutocomplete from '../lib/AlgoliaAutocomplete';
 import { MAP_ICONS } from '../lib/map/map_config';
+import setupPickers from '../date_range_picker_seperate';
 
 let mapObject;
 
@@ -23,6 +24,8 @@ export default class extends Controller {
     this.updateLocationInputsAndMap();
     // Restore existing locations if present
     this.restoreExistingLocation();
+
+    setupPickers(true);
   }
 
   /**
