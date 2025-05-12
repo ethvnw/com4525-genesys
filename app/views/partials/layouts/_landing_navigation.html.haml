@@ -36,6 +36,11 @@
           = render("partials/layouts/navbar_user_dropdown", current_user: current_user)
 
         - else
+          = link_to(new_user_registration_path,
+                    class: "btn btn-secondary d-flex justify-content-center",
+                    tabindex: 0,
+                    method: :get) do
+            Sign Up
           = link_to(new_user_session_path,
                     class: "btn btn-secondary d-flex justify-content-center",
                     tabindex: 0,
