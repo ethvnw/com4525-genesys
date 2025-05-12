@@ -196,8 +196,8 @@ RSpec.feature("Managing plans") do
       # Expect new entry to appear in the table dynamically
       within("#booking-references-container") do
         within("table") do
-          expect(page).to have_content("Test Name")
-          expect(page).to have_content("123456")
+          expect(page).to(have_content("Test Name"))
+          expect(page).to(have_content("123456"))
         end
       end
       click_on "Save"

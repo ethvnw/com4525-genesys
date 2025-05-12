@@ -13,13 +13,13 @@ RSpec.feature("Managing Documents") do
 
     # Upload a single document at the start
     visit edit_trip_plan_path(trip, plan)
-    
+
     within("#accordion-documents") do
       find("button.accordion-button").click
-      expect(page).to have_selector("input#plan_documents", visible: true)
+      expect(page).to(have_selector("input#plan_documents", visible: true))
       attach_file("plan_documents", Rails.root.join("spec", "support", "files", "test.pdf"))
     end
-    
+
     click_on "Save"
     expect(page).to(have_content("Plan updated successfully."))
   end
@@ -30,7 +30,7 @@ RSpec.feature("Managing Documents") do
 
       within("#accordion-documents") do
         find("button.accordion-button").click
-        expect(page).to have_selector("input#plan_documents", visible: true)
+        expect(page).to(have_selector("input#plan_documents", visible: true))
         attach_file("plan_documents", Rails.root.join("spec", "support", "files", "test2.pdf"))
       end
 
@@ -51,14 +51,13 @@ RSpec.feature("Managing Documents") do
     end
 
     scenario "I can remove PDF documents", js: true do
-      
       # Delete the document
       visit edit_trip_plan_path(trip, plan)
       # Because the document name is inside a span, it cannot be selected directly
       # However since there is only one document, the first one can be selected
       within("#accordion-documents") do
         find("button.accordion-button").click
-        expect(page).to have_selector("input#plan_documents", visible: true)
+        expect(page).to(have_selector("input#plan_documents", visible: true))
         accept_alert do
           click_on "Remove"
         end
