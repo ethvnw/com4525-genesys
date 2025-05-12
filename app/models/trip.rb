@@ -41,6 +41,7 @@ class Trip < ApplicationRecord
   validate :location_cant_be_blank
   validate :start_date_cant_be_in_the_past
   validates_with DateValidator
+  validate :single_date_validation
 
   private
 
@@ -56,11 +57,20 @@ class Trip < ApplicationRecord
     end
   end
 
-  ##
   # Validates start date by checking that it is not in the past
   def start_date_cant_be_in_the_past
     if start_date.present? && start_date < Date.current
       errors.add(:start_date, "cannot be in the past")
+    end
+  end
+
+  # Validates that a single day trip has the start and end times set correctly (00:00 and 23:59)
+  def single_date_validation
+    return unless start_date && end_date
+
+    if start_date.to_date == end_date.to_date
+      self.start_date = start_date.beginning_of_day
+      self.end_date = end_date.end_of_day
     end
   end
 end

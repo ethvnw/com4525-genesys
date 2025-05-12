@@ -72,9 +72,9 @@ RSpec.feature("Viewing trips") do
       visit trips_path
       click_on "List"
 
-      expect_to_have_trip_as_list_item(trip1, "02 - 16 Jan 2020")
-      expect_to_have_trip_as_list_item(trip2, "18 - 20 Jan 2020")
-      expect_to_have_trip_as_list_item(collaborative_trip, "25 Jan - 12 Feb 2020")
+      expect_to_have_trip_as_list_item(trip1, "2nd - 16th Jan 2020")
+      expect_to_have_trip_as_list_item(trip2, "18th - 20th Jan 2020")
+      expect_to_have_trip_as_list_item(collaborative_trip, "25th Jan - 12th Feb 2020")
 
       within("#trips-planned-header") do
         expect(page).to(have_content("3 Trips Planned"))
