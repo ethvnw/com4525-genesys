@@ -1,13 +1,3 @@
-- if pagy.next
-  .my-5.d-lg-none
-    = link_to(url_for(page: pagy.next, scroll: "infinite"),
-              data: { turbo: "true", turbo_stream: "true", controller: "infinite-scroll" }) do
-      = image_pack_tag("images/roamio_brand_icon_d_grey.webp",
-                       height: 18,
-                       width: 24,
-                       "aria-hidden": "true",
-                       alt: "Roamio Logo")
-
-.w-100.my-5.d-none.d-lg-flex.flex-column.align-items-center.gap-3
-  = pagy_info(pagy).html_safe
-  = turbo_pager(pagy)
+#pager-responsive
+  = render("partials/layouts/mobile_pager", pagy: pagy)
+  = render("partials/layouts/desktop_pager", pagy: pagy)

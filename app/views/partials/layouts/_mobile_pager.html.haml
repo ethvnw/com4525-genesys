@@ -1,0 +1,9 @@
+- if pagy.next
+  #pager-mobile.my-5
+    = link_to(url_for(page: pagy.next, scroll: "infinite"),
+              data: { turbo: "true", turbo_stream: "true", controller: "infinite-scroll" }) do
+      = image_pack_tag("images/roamio_brand_icon_d_grey.webp",
+                       height: 18,
+                       width: 24,
+                       "aria-hidden": "true",
+                       alt: "Roamio Logo")
