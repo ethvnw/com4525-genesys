@@ -188,25 +188,28 @@ RSpec.feature("Managing plans") do
       fill_in "Start date", with: Time.current + 1.day
       # Attach a booking reference
       click_on "Booking References"
-      within("#booking-references-container") do
+      within("#accordion-booking-references") do
         fill_in "booking_reference_name", with: "Test Name"
         fill_in "booking_reference_number", with: "123456"
-        click_button "Add"
+        click_button "Add Reference"
       end
       # Expect new entry to appear in the table dynamically
-      within("#booking-references-container") do
+      within("#accordion-booking-references") do
         within("table") do
-          expect(page).to(have_content("Test Name"))
-          expect(page).to(have_content("123456"))
+          expect(page).to have_content("Test Name")
+          expect(page).to have_content("123456")
         end
       end
       click_on "Save"
       await_message("Plan created successfully")
       visit trip_plan_path(trip, trip.plans.first)
       # Expect the booking reference text to be present on the plan page
-      expect(page).to(have_content("Booking References"))
-      expect(page).to(have_content("Test Name"))
-      expect(page).to(have_content("123456"))
+      within("#accordion-booking-references") do
+        find("button.accordion-button").click
+        expect(page).to(have_content("Booking References"))
+        expect(page).to(have_content("Test Name"))
+        expect(page).to(have_content("123456"))
+      end
     end
 
     scenario "If I enter a booking reference with the same name twice, I see an error message", js: true do
