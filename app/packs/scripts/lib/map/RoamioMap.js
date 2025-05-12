@@ -235,6 +235,10 @@ class _RoamioMap {
    * Enable map interaction
    */
   enableMapInteraction() {
+    // eslint-disable-next-line no-underscore-dangle
+    this.map._handlers.forEach((handler) => {
+      handler.enable();
+    });
     this.map.zoomControl.addTo(this.map);
   }
 }
