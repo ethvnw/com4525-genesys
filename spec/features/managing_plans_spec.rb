@@ -87,6 +87,54 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("Start date cannot be after end date"))
     end
 
+    scenario "I cannot create a plan that starts before the trip start date", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      # Simulate a user inspect elementing the hidden input fields
+      before_trip = format_datetime_for_js(trip.start_date - 1.day)
+      page.execute_script("document.getElementById('start_date_input').value = '#{before_trip}'")
+      click_on "Save"
+      expect(page).to(have_content("Start date must be within the trip dates"))
+    end
+
+    scenario "I cannot create a plan that starts after the trip end date", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      # Simulate a user inspect elementing the hidden input fields
+      after_trip = format_datetime_for_js(trip.end_date + 1.day)
+      page.execute_script("document.getElementById('start_date_input').value = '#{after_trip}'")
+      click_on "Save"
+      expect(page).to(have_content("Start date must be within the trip dates"))
+    end
+
+    scenario "I cannot create a plan that ends before the trip start date", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      # Simulate a user inspect elementing the hidden input fields
+      before_trip = format_datetime_for_js(trip.start_date - 1.day)
+      page.execute_script("document.getElementById('end_date_input').value = '#{before_trip}'")
+      click_on "Save"
+      expect(page).to(have_content("End date must be within the trip dates"))
+    end
+
+    scenario "I cannot create a plan that ends after the trip end date", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      # Simulate a user inspect elementing the hidden input fields
+      after_trip = format_datetime_for_js(trip.end_date + 1.day)
+      page.execute_script("document.getElementById('end_date_input').value = '#{after_trip}'")
+      click_on "Save"
+      expect(page).to(have_content("End date must be within the trip dates"))
+    end
+
     scenario "I cannot create a plan with no end location if it is a travel plan", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
