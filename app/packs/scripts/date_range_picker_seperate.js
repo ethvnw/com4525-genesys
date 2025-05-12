@@ -94,8 +94,11 @@ export default function setupPickers(allowTime) {
     },
   });
 
-  // Listen for changes in the start date picker
-  startDatetimepickerElement.addEventListener('change.td', () => {
+  // Need to access eventEmitters to subscribe to click event.
+  // Private member but the docs are very little help and source code suggests this is
+  // the only way of accessing the click event for some reason.
+  // eslint-disable-next-line no-underscore-dangle
+  startDatetimepicker._eventEmitters.action.subscribe(() => {
     // ._dates is the variable Tempus Dominus uses to store the selected dates.
     // eslint-disable-next-line no-underscore-dangle
     const date = startDatetimepicker.dates._dates[0];
@@ -119,8 +122,9 @@ export default function setupPickers(allowTime) {
     }
   });
 
-  // Listen for changes in the end date picker
-  endDatetimepickerElement.addEventListener('change.td', () => {
+  // As above
+  // eslint-disable-next-line no-underscore-dangle
+  endDatetimepicker._eventEmitters.action.subscribe(() => {
     // ._dates is the variable Tempus Dominus uses to store the selected dates.
     // eslint-disable-next-line no-underscore-dangle
     const date = endDatetimepicker.dates._dates[0];
