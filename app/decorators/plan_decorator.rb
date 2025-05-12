@@ -17,7 +17,7 @@ class PlanDecorator < ApplicationDecorator
 
     start_date_format = if start_date.year == end_date.year
       if start_date.month == end_date.month && start_date.day == end_date.day
-        "%H:%M to "
+        "%H:%M - "
       else
         "%H:%M, %d %b - "
       end

@@ -13,7 +13,7 @@ RSpec.describe(PlanDecorator, type: :decorator) do
   describe "#formatted_date_range" do
     context "when the end date is present" do
       it "returns the start and end time as 'start to end'" do
-        expect(decorated_plan.formatted_date_range).to(eq("01:00 to 02:00, 01 Jan 2000"))
+        expect(decorated_plan.formatted_date_range).to(eq("01:00 - 02:00, 01 Jan 2000"))
       end
 
       it "shows start and end month if they differ" do
