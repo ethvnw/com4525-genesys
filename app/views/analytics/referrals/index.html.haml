@@ -34,5 +34,7 @@
           %th.very-thin-column #
           %th.wide-column Username
           %th Referrals
-      %tbody
+      %tbody#referrals-table
         = render("partials/analytics/referrals_table_rows", users: @users)
+
+  = render("partials/layouts/desktop_pager", pagy: @pagy)
