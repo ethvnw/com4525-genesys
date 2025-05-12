@@ -65,8 +65,8 @@
   @extend .object-fit-cover;
   @extend .rounded-top;
 
-  height: 10rem;
-  width: 33%; // Simulate how the trip preview cards look
+  aspect-ratio: 386 / 230;
+  width: 33%;
 }
 
 @include bs.media-breakpoint-down(lg) {
