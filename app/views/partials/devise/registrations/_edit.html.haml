@@ -6,11 +6,11 @@
                   html: { method: :put, "data-turbo": "true" }) do |f|
   = f.validated_input(:email,
                       "aria-label": "Email",
-                      required: true
+                      required: true,
                       tabindex: 0)
   = f.validated_input(:username,
                       "aria-label": "Username",
-                      required: true
+                      required: true,
                       tabindex: 0)
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?

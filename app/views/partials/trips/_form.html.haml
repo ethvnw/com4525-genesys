@@ -7,14 +7,14 @@
                       "aria-label": "Trip Title",
                       tabindex: 0,
                       required: true,
-                      maxlength: 30))
+                      maxlength: 30)
   = f.validated_input(:description,
                       rows: 3,
                       placeholder: "Enter the trip description...",
                       "aria-label": "Trip Description",
                       tabindex: 0,
                       required: true,
-                      maxlength: 500))
+                      maxlength: 500)
 
   // The start_date and end_date are hidden fields, updated in the background by the date range picker
   = f.hidden_field(:start_date,
@@ -52,8 +52,8 @@
 
   .d-flex.flex-column.my-3{ data: { controller: "custom-image" } }
     = f.label("Upload new trip image (optional)", for: "image-input")
-      .form-text.text-muted
-        Only WebP, JPG and PNG image files are supported
+    .form-text.text-muted
+      Only WebP, JPG and PNG image files are supported
 
     .mb-1
       .mb-0{ class: get_error_class_with(errors, :image) }
