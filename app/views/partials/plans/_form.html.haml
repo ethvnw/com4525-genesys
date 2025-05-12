@@ -34,7 +34,11 @@
 
   #plan-form-map.form-map
 
-  = render("partials/datetime_pickers/seperate", errors: errors, read_only: backup_plan)
+  = render("partials/datetime_pickers/seperate",
+           errors: errors,
+           read_only: backup_plan,
+           min_date: trip.start_date,
+           max_date: trip.end_date)
 
   #tickets-container
     = render("partials/plans/documents_input", f: f, plan: plan)

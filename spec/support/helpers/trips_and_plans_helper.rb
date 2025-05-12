@@ -52,6 +52,11 @@ def select_seperated_date_range(start_date, end_date)
   find("div[data-value='#{end_date}']").click
 end
 
+def clear_start_date
+  find("#start-datetimepicker-input").click
+  find("div[data-action='clear']").click
+end
+
 def expect_to_have_trip_as_list_item(trip, readable_date_range)
   within("a[href='/trips/#{trip.id}']") do |trip_card|
     expect(trip_card).to(have_content(trip.title))

@@ -6,10 +6,19 @@
 //         3) read_only flag must be passed to the partial
 
 
-.d-flex.flex-column.mb-3
+- min_date_str = min_date&.strftime("%Y-%m-%dT%H:%M") # ISO-like format
+- max_date_str = max_date&.strftime("%Y-%m-%dT%H:%M")
+
+.d-flex.flex-column.mb-3{
+  data: {
+    min_date: min_date_str,
+    max_date: max_date_str,
+  },
+}
   = label_tag(:start_date) do
     Start Time
     %abbr{ title: "required" } *
+
   #start-datetimepicker-target.col-sm-12
     #start-datetimepicker-element.input-group.log-event{
       "data-td-target-input" => "nearest",
@@ -24,8 +33,7 @@
         disabled: read_only,
       }
       = form_error_message(errors, :start_date)
-      .valid-feedback
-        Looks good!
+      .valid-feedback Looks good!
 
 .d-flex.flex-column.mb-3
   = label_tag(:end_date, "End Time")
@@ -39,9 +47,6 @@
         "data-td-toggle" => "datetimepicker",
         type: "button",
         value: "Input the end date...",
-        class: get_error_class_with(errors, :end_date),
+        class: get_error_class_with(errors, :date),
         disabled: read_only,
       }
-      = form_error_message(errors, :end_date)
-      .valid-feedback
-        Looks good!

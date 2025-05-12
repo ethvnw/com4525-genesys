@@ -11,21 +11,24 @@ export default function setupPickers(allowTime) {
   const endDatetimepickerElement = document.getElementById('end-datetimepicker-element');
   const startDateElement = document.getElementById('start_date_input');
   const endDateElement = document.getElementById('end_date_input');
+  const tripData = document.querySelector('.d-flex[data-min-date]');
+
+  // Minimum and maximum dates are the bounds of the trip
+  const minDate = new Date(tripData.dataset.minDate);
+  const maxDate = new Date(tripData.dataset.maxDate);
 
   // Get preset dates from the hidden inputs (for edit form).
   const presetStartDate = startDateElement.getAttribute('value');
   const presetEndDate = endDateElement.getAttribute('value');
 
-  // Minimum date is either today or the start date in the hidden input
-  const minDateValue = presetStartDate
-    ? DateTimeUtils.getEarlierDate(new Date(), new Date(presetStartDate)) : new Date();
-
   // Initialize Tempus Dominus for start date picker
   const startDatetimepicker = new TempusDominus(startDatetimepickerElement, {
     dateRange: false, // Single date picker for start date
     useCurrent: false,
+    defaultDate: presetStartDate ? new Date(presetStartDate) : minDate,
     restrictions: {
-      minDate: minDateValue,
+      minDate,
+      maxDate,
     },
     display: {
       buttons: {
@@ -58,8 +61,10 @@ export default function setupPickers(allowTime) {
   const endDatetimepicker = new TempusDominus(endDatetimepickerElement, {
     dateRange: false, // Single date picker for end date
     useCurrent: false,
+    defaultDate: presetEndDate ? new Date(presetEndDate) : undefined,
     restrictions: {
-      minDate: minDateValue,
+      minDate,
+      maxDate,
     },
     display: {
       buttons: {
@@ -96,9 +101,20 @@ export default function setupPickers(allowTime) {
     if (date) {
       startDateElement.value = DateTimeUtils.formatDateForJS(date);
       document.getElementById('start-datetimepicker-input').value = DateTimeUtils.formatDateForButton(date, allowTime);
+      // Set the end date picker to be at least the start date
+      endDatetimepicker.updateOptions({
+        restrictions: {
+          minDate: date,
+        },
+      });
     } else {
       startDateElement.value = '';
       document.getElementById('start-datetimepicker-input').value = 'Input the start date...';
+      endDatetimepicker.updateOptions({
+        restrictions: {
+          minDate,
+        },
+      });
     }
   });
 
@@ -110,16 +126,32 @@ export default function setupPickers(allowTime) {
     if (date) {
       endDateElement.value = DateTimeUtils.formatDateForJS(date);
       document.getElementById('end-datetimepicker-input').value = DateTimeUtils.formatDateForButton(date, allowTime);
+      // Set the start date picker to be at most the end date
+      startDatetimepicker.updateOptions({
+        restrictions: {
+          maxDate: date,
+        },
+      });
     } else {
       endDateElement.value = '';
       document.getElementById('end-datetimepicker-input').value = 'Input the end date...';
+      startDatetimepicker.updateOptions({
+        restrictions: {
+          maxDate,
+        },
+      });
     }
   });
 
+  // Set the default values for the date pickers
   if (presetStartDate) {
     const newStartDate = presetStartDate.replace(' ', 'T').split(' ')[0];
     document.getElementById('start-datetimepicker-input').value = DateTimeUtils.formatDateForButton(newStartDate, allowTime);
     startDateElement.value = DateTimeUtils.formatDateForJS(newStartDate);
+  } else {
+    // If no preset start date, then it is not the edit form, so set to the trip start date
+    document.getElementById('start-datetimepicker-input').value = DateTimeUtils.formatDateForButton(minDate, allowTime);
+    startDateElement.value = DateTimeUtils.formatDateForJS(minDate);
   }
   if (presetEndDate) {
     const newEndDate = presetEndDate.replace(' ', 'T').split(' ')[0];
