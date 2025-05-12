@@ -1,7 +1,9 @@
 .row
-  .app-header
-    %h1.fs-2.mb-0
-      New plan for
-      %span
-        = @trip.title
+  %h1.fs-2.mb-0
+    New plan for
+    %span
+      = @trip.title
+  .my-2
+    = render("partials/trips/trips_back_button", trip: @trip)
+  %hr.mb-0
 = render("partials/plans/form", trip: @trip, plan: @plan, errors: @errors, backup_plan: false)
