@@ -18,8 +18,6 @@
                        class: "d-none",
                        accept: "image/png, image/jpeg, image/jpg, image/webp",
                        data: { "custom-image-target": "browseButton" })
-        .form-text.text-muted
-          Only WebP, JPG and PNG image files are supported
         %button#image-custom.btn.btn-secondary{
           type: "button",
           data: { "custom-image-target": "customButton" },
@@ -32,6 +30,8 @@
         %span#avatar-status-label.ms-2{ data: { "custom-image-target": "fileNameSpan" } }
           %i.bi.bi-exclamation-circle{ "aria-hidden": "true" }  &nbsp;
           No file selected
+        .form-text.text-muted
+          Only WebP, JPG and PNG image files are supported
       = f.submit("Save Avatar",
                  class: "btn btn-primary mt-1",
                  tabindex: 0)
