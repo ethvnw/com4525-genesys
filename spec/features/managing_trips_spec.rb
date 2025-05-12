@@ -11,10 +11,10 @@ RSpec.feature("Managing trips") do
 
   # Create timestamps with 0-indexed months for use in the JS datepicker
   let(:start_date_for_js) do
-    "#{start_time.year}-#{format("%02d", start_time.month - 1)}-#{format("%02d", start_time.day)}"
+    format_date_for_js(start_time)
   end
   let(:end_date_for_js) do
-    "#{end_time.year}-#{format("%02d", end_time.month - 1)}-#{format("%02d", end_time.day)}"
+    format_date_for_js(end_time)
   end
 
   # Timestamps that will be displayed
@@ -92,6 +92,21 @@ RSpec.feature("Managing trips") do
       select_combined_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Location can't be blank"))
+    end
+
+    scenario "As a single day, with the times changed with inspect element", js: true do
+      visit new_trip_path
+      fill_in "trip_title", with: "Mock Trip Title"
+      fill_in "trip_description", with: "Mock Trip Description"
+      select_location("England")
+      single_day_start_time = format_datetime_for_js((Time.current + 1.day).beginning_of_day + 3.hours)
+      single_day_end_time = format_datetime_for_js((Time.current + 1.day).beginning_of_day + 5.hours)
+      page.execute_script("document.getElementById('start_date_input').value = '#{single_day_start_time}'")
+      page.execute_script("document.getElementById('end_date_input').value = '#{single_day_end_time}'")
+      click_button "Save Trip"
+      await_message("Trip created successfully")
+      expect(Trip.first.start_date.strftime("%H:%M")).to(eq("00:00"))
+      expect(Trip.first.end_date.strftime("%H:%M")).to(eq("23:59"))
     end
 
     scenario "With valid information", js: true do

@@ -5,7 +5,7 @@ class TripDecorator < ApplicationDecorator
   delegate_all
 
   def single_day?
-    start_date == end_date && start_date.present? && end_date.present?
+    start_date.to_date == end_date.to_date && start_date.present? && end_date.present?
   end
 
   def formatted_start_date

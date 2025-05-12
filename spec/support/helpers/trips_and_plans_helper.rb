@@ -79,3 +79,14 @@ def expect_to_have_trip_on_map(trip)
     "href" => "/trips/#{trip.id}",
   }))
 end
+
+def format_date_for_js(date)
+  "#{date.year}-#{format("%02d", date.month - 1)}-#{format("%02d", date.day)}"
+end
+
+def format_datetime_for_js(date)
+  "#{date.year}-#{format(
+    "%02d",
+    date.month,
+  )}-#{format("%02d", date.day)}T#{format("%02d", date.hour)}:#{format("%02d", date.min)}"
+end

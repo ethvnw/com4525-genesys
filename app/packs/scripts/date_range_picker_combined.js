@@ -97,17 +97,24 @@ export default function setupPicker(allowTime) {
       datetimepickerInput.classList.remove('form-control-btn');
       datetimepickerInput.classList.add('form-control-btn-selected');
     } else if (dates.length === 1 && singleDaySwitch.checked) {
-      const date = dates[0];
+      const startTime = new Date(dates[0]);
+      const endTime = new Date(dates[0]);
+
       if (!allowTime) {
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        date.setMilliseconds(0);
+        startTime.setHours(0);
+        startTime.setMinutes(0);
+        startTime.setSeconds(0);
+        startTime.setMilliseconds(0);
+
+        endTime.setHours(23);
+        endTime.setMinutes(59);
+        endTime.setSeconds(59);
+        endTime.setMilliseconds(999);
       }
 
-      startDateElement.value = DateTimeUtils.formatDateForJS(date);
-      endDateElement.value = DateTimeUtils.formatDateForJS(date);
-      datetimepickerInput.value = DateTimeUtils.formatDateForButton(date, allowTime);
+      startDateElement.value = DateTimeUtils.formatDateForJS(startTime);
+      endDateElement.value = DateTimeUtils.formatDateForJS(endTime);
+      datetimepickerInput.value = DateTimeUtils.formatDateForButton(startTime, allowTime);
       datetimepickerInput.classList.remove('form-control-btn');
       datetimepickerInput.classList.add('form-control-btn-selected');
     } else {
