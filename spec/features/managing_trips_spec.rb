@@ -46,14 +46,26 @@ RSpec.feature("Managing trips") do
       expect(page).to(have_content("Title can't be blank"))
     end
 
-    scenario "With a title longer than the limit (100 characters)", js: true do
+    scenario "I cannot type in a trip title that is too long (>100 characters)", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "a" * 101
+      expect(find("#trip_title").value).to(have_content("a" * 100))
+    end
+
+    scenario "With a title longer than the limit (100 characters)", js: true do
+      visit new_trip_path
+      page.execute_script("document.getElementById('trip_title').value = #{("a" * 101).to_json}")
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
       expect(page).to(have_content("Title is too long (maximum is 100 characters)"))
+    end
+
+    scenario "I cannot type in a trip description that is too long (>500 characters)", js: true do
+      visit new_trip_path
+      fill_in "trip_description", with: "a" * 501
+      expect(find("#trip_description").value).to(have_content("a" * 500))
     end
 
     scenario "With no description", js: true do
@@ -68,7 +80,7 @@ RSpec.feature("Managing trips") do
     scenario "With a description longer than the limit (500 characters)", js: true do
       visit new_trip_path
       fill_in "trip_title", with: "Mock Trip Title"
-      fill_in "trip_description", with: "a" * 501
+      page.execute_script("document.getElementById('trip_description').value = #{("a" * 501).to_json}")
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
       click_button "Save Trip"
@@ -131,7 +143,7 @@ RSpec.feature("Managing trips") do
     scenario "Preserving data on error", js: true do
       # Fill in the form with the required fields
       visit new_trip_path
-      fill_in "trip_title", with: "a" * 101 # Title too long error
+      page.execute_script("document.getElementById('trip_title').value = #{("a" * 101).to_json}") # Title too long
       fill_in "trip_description", with: "Mock Trip Description"
       select_location("England")
       select_date_range(start_date_for_js, end_date_for_js)
