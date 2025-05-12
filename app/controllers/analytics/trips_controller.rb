@@ -25,7 +25,8 @@ module Analytics
         all_time: TripMembership.count,
       }
 
-      @trips = Trip.all.decorate
+      @pagy, @trips = pagy(Trip, limit: 25)
+      @trips.decorate
     end
   end
 end

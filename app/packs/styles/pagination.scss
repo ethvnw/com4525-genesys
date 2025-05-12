@@ -29,3 +29,14 @@
     min-height: 44px;
   }
 }
+
+#pager-responsive {
+  #pager-mobile {
+    @extend .d-lg-none;
+  }
+
+  #pager-desktop {
+    @extend .d-none;
+    @extend .d-lg-flex;
+  }
+}
