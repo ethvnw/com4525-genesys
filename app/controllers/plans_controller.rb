@@ -68,10 +68,10 @@ class PlansController < ApplicationController
       # Reset the documents to avoid loading the documents card in the create form with non-existent documents
       @plan.documents = []
 
-      if @plan.primary_plan_id.present?
+      if @plan.primary_plan.present?
         stream_response(
           "plans/create_backup",
-          new_backup_plan_trip_plan_path(@plan.trip, @primary_plan),
+          new_backup_plan_trip_plan_path(@plan.trip, @plan.primary_plan),
           lost_uploads_alert,
         )
       else
@@ -133,7 +133,7 @@ class PlansController < ApplicationController
     else
       flash[:errors] = @plan.errors.to_hash(true)
       if @plan.backup_plan?
-        stream_response("plans/update_backup", edit_backup_plan_trip_plan_path(@plan.trip, plan.primary_plan))
+        stream_response("plans/update_backup", edit_trip_plan_path(@plan.trip, @plan.primary_plan))
       else
         stream_response("plans/update", edit_trip_plan_path(@plan.trip))
       end
