@@ -23,7 +23,7 @@ class Trip < ApplicationRecord
 
   has_one_attached :image
   validates :image,
-    content_type: ["image/png", "image/jpeg"],
+    content_type: ["image/png", "image/jpeg", "image/webp"],
     size: { less_than: 10.megabytes },
     # 3840px accounts for 4k resolution
     dimension: { width: { min: 32, max: 3840 }, height: { min: 32, max: 3840 } },

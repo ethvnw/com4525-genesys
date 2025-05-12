@@ -77,7 +77,7 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   validates :avatar,
-    content_type: ["image/png", "image/jpeg"],
+    content_type: ["image/png", "image/jpeg", "image/webp"],
     size: { less_than: 5.megabytes },
     dimension: { width: { min: 32, max: 1024 }, height: { min: 32, max: 1024 } }
 

@@ -13,10 +13,10 @@ RSpec.feature("Managing ticket links") do
 
   # Create timestamps with 0-indexed months for use in the JS datepicker
   let(:start_date_for_js) do
-    "#{start_time.year}-#{format("%02d", start_time.month - 1)}-#{format("%02d", start_time.day)}"
+    format_date_for_js(start_time)
   end
   let(:end_date_for_js) do
-    "#{end_time.year}-#{format("%02d", end_time.month - 1)}-#{format("%02d", end_time.day)}"
+    format_date_for_js(end_time)
   end
 
   before do
