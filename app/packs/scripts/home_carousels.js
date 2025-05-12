@@ -51,12 +51,13 @@ async function applyBackgroundGradient(currentSlide) {
     if (!currentImage.complete) return;
 
     // Initialise the colour values
-    let r, g, b;
+    let r; let g; let
+      b;
 
     try {
       [r, g, b] = colourThief.getColor(currentImage);
     } catch (error) {
-      [r, g, b] = [255, 255, 255]
+      [r, g, b] = [255, 255, 255];
     }
     const luminance = calculateLuminance(r, g, b);
 
