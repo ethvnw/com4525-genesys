@@ -1,1 +1,3 @@
 = turbo_stream.remove("document-#{@document_id}")
+- if @plan.documents.count == 0
+  = turbo_stream.remove("documents-table-container")
