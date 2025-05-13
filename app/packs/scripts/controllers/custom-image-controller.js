@@ -35,7 +35,7 @@ export default class extends Controller {
       if (browseButton.files.length > 0) {
         const file = browseButton.files[0];
         const fileName = file.name.toLowerCase();
-        const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 
         if (validTypes.includes(file.type)) {
           fileNameSpan.textContent = fileName;
