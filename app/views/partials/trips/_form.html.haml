@@ -59,12 +59,10 @@
     = f.label("Upload new trip image (optional)", for: "image-input")
     .form-text.text-muted
       Only WebP, JPG and PNG image files are supported
-
     .mb-1
       .mb-0{ class: get_error_class_with(errors, :image) }
       = form_error_message(errors, :image)
       .valid-feedback.mb-1 Please resubmit image
-
     = f.file_field(:image,
                    id: "image-input",
                    class: "d-none",
@@ -85,7 +83,6 @@
       %span#file-upload-status.ms-3{ data: { "custom-image-target": "fileNameSpan" } }
         %i.bi.bi-exclamation-circle{ "aria-hidden": "true" } &nbsp;
         No file selected
-
     // Only show preview inage if the preview actually exists, which is false for incomplete trip
     - if trip.image.attached? && File.file?(ActiveStorage::Blob.service.path_for(trip.image.key))
       = image_tag(trip.image, class: "trip-image-preview", data: { "custom-image-target": "preview" })
@@ -93,7 +90,6 @@
       = image_tag("",
                   class: "trip-image-preview d-none",
                   data: { "custom-image-target": "preview" })
-
   .d-flex.justify-content-start.mt-2.mb-4
     = button_tag(type: "submit",
                  class: "btn btn-primary flex-grow-1 flex-md-grow-0",
