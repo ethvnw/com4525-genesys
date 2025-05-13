@@ -53,7 +53,7 @@ RSpec.feature("Managing ticket links") do
       await_message("Plan created successfully")
       visit trip_plan_path(trip, trip.plans.first)
       # Expect the ticket link to be a link to the URL with the correct text
-      within("#accordion-qr") do
+      within("#accordion-ticket-links") do
         find("button.accordion-button").click
         expect(page).to(have_content("Ticket Links"))
         expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
@@ -136,7 +136,7 @@ RSpec.feature("Managing ticket links") do
       await_message("Plan updated successfully")
       visit trip_plan_path(trip, plan)
       # Expect the booking reference text to be present on the plan page
-      within("#accordion-qr") do
+      within("#accordion-ticket-links") do
         find("button.accordion-button").click
         expect(page).to(have_content("Ticket Links"))
         expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
