@@ -7,7 +7,7 @@
           %th.text-break Code
           %th.pe-3 Actions
       - plan.scannable_tickets.decorate.each do |ticket|
-        %tr.p-1
+        %tr.p-1{ id: "scannable_ticket-#{ticket.id}" }
           %td.align-middle.w-50.text-break.ps-3
             = ticket.title_value
           %td.align-middle.w-50.text-break
