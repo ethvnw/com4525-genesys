@@ -57,7 +57,17 @@ export default class extends Controller {
     // If there are no files, do nothing
     if (!files.length) return;
 
-    this.currentIndex = 0;
+    // if there are more than 25 files, show an error message
+    if (files.length > 25) {
+      this.resultsContainer.innerHTML = '<p class="qr-error">Error: Too many files. Please upload a maximum of 25 images.</p>';
+      this.resultsContainer.classList.replace('d-none', 'd-block');
+      return;
+    }
+    this.resultsContainer.innerHTML = '';
+    this.resultsContainer.classList.replace('d-block', 'd-none');
+
+    // Start the viewer at the first NEW image
+    this.currentIndex = this.results.length;
 
     // Wait for all files to load before processing
     await Promise.all(Array.from(files).map(async (file) => {
@@ -164,8 +174,8 @@ export default class extends Controller {
       this.imagesContainer.classList.replace('d-none', 'd-block');
       document.getElementById('qr-navigation').classList.replace('d-none', 'd-block');
       document.getElementById('qr-codes-container').classList.replace('d-none', 'd-block');
-      // By default, show the first result
-      this.showResult(0);
+      // By default, show the first NEW result
+      this.showResult(this.currentIndex);
 
       // Add all of the codes and titles to the hidden inputs
       document.getElementById('scannable_tickets').value = JSON.stringify(
