@@ -108,7 +108,9 @@ RSpec.feature("Managing scannable tickets") do
         find("button.accordion-button").click
         expect(page).to(have_content("Mock ticket code"))
       end
-      click_on("Remove")
+      accept_alert do
+        click_on("Remove")
+      end
       await_message("Scannable Ticket deleted successfully.")
       # Check that the ticket is removed from the plan
       expect(page).not_to(have_selector("#scannable-tickets-table"))
