@@ -101,7 +101,7 @@ RSpec.feature("Managing scannable tickets") do
   feature "Delete a scannable ticket" do
     let(:plan_with_ticket) { create(:scannable_ticket, plan: create(:plan, trip: trip)).plan }
 
-    scenario "I can delete a scannable and see it removed from the plan", js:true do
+    scenario "I can delete a scannable and see it removed from the plan", js: true do
       # Check that the ticket is present in the plan
       visit edit_trip_plan_path(trip, plan_with_ticket)
       within("#accordion-qr") do
