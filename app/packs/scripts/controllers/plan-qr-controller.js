@@ -57,6 +57,16 @@ export default class extends Controller {
     // If there are no files, do nothing
     if (!files.length) return;
 
+    // if there are more than 25 files, show an error message
+    if (files.length > 25) {
+      this.resultsContainer.innerHTML = '<p class="qr-error">Error: Too many files. Please upload a maximum of 25 images.</p>';
+      this.resultsContainer.classList.replace('d-none', 'd-block');
+      return;
+    } else {
+      this.resultsContainer.innerHTML = '';
+      this.resultsContainer.classList.replace('d-block', 'd-none');
+    }
+
     // Start the viewer at the first NEW image
     this.currentIndex = this.results.length;
 
