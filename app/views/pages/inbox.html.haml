@@ -3,7 +3,7 @@
     %h1.fs-2.mb-0 Inbox
 
 .my-2
-- if @inbox_msgs.empty?
+- if @inbox_messages.empty?
   = render("partials/layouts/no_data_placeholder",
            icon_class: "bi bi-postcard-heart",
            heading_text: "Your Inbox is Empty",

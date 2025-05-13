@@ -53,7 +53,7 @@ class PagesController < ApplicationController
       .trip_memberships
       .includes(:sender_user, :trip)
       .where(is_invite_accepted: false)
-    @pagy, @inbox_messages = pagy(user_invites)
+    @pagy, @inbox_messages = pagy(user_invites, limit: 25)
 
     stream_response("pages/inbox")
   end
