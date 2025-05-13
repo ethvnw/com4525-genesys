@@ -53,9 +53,12 @@ RSpec.feature("Managing booking references") do
       await_message("Plan created successfully")
       visit trip_plan_path(trip, trip.plans.first)
       # Expect the booking reference text to be present on the plan page
-      expect(page).to(have_content("Booking References"))
-      expect(page).to(have_content("Test Name"))
-      expect(page).to(have_content("123456"))
+      within("#accordion-booking-references") do
+        find("button.accordion-button").click
+        expect(page).to(have_content("Booking References"))
+        expect(page).to(have_content("Test Name"))
+        expect(page).to(have_content("123456"))
+      end
     end
 
     scenario "If I enter a booking reference with the same name twice, I see an error message", js: true do
@@ -124,9 +127,12 @@ RSpec.feature("Managing booking references") do
       await_message("Plan updated successfully")
       visit trip_plan_path(trip, plan)
       # Expect the booking reference text to be present on the plan page
-      expect(page).to(have_content("Booking References"))
-      expect(page).to(have_content("Test Name"))
-      expect(page).to(have_content("123456"))
+      within("#accordion-booking-references") do
+        find("button.accordion-button").click
+        expect(page).to(have_content("Booking References"))
+        expect(page).to(have_content("Test Name"))
+        expect(page).to(have_content("123456"))
+      end
     end
 
     scenario "I can remove a booking reference and see it removed on the new page and show page", js: true do
