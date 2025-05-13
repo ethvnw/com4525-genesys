@@ -48,7 +48,7 @@ export default class extends Controller {
           preview.classList.remove('d-none');
           reader.readAsDataURL(file);
         } else {
-          fileNameSpan.textContent = 'Invalid file type. Only JPG, JPEG, and PNG are allowed.';
+          fileNameSpan.textContent = 'Invalid file type. Only .jpg, .jpeg, .webp, or .png files are allowed.';
         }
       } else {
         fileNameSpan.textContent = 'No files selected';
