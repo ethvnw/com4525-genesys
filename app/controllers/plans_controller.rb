@@ -44,12 +44,11 @@ class PlansController < ApplicationController
       @plan.primary_plan&.update(backup_plan_id: @plan.id)
 
       # Create scannable tickets if provided
-      qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
-      qr_titles = params[:scannable_ticket_titles].present? ? JSON.parse(params[:scannable_ticket_titles]) : []
-
-      qr_codes.each_with_index do |code, index|
-        @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
-      end
+      Plans::ScannableTicketsSaver.call(
+        plan: @plan,
+        scannable_tickets: params[:scannable_tickets],
+        titles: params[:scannable_ticket_titles],
+      )
 
       # Create booking references and ticket links if provided
       Plans::BookingReferencesSaver.call(plan: @plan, data: params[:booking_references_data])
@@ -104,18 +103,11 @@ class PlansController < ApplicationController
       end
 
       # Create scannable tickets if provided
-      any_duplicate_codes = false
-      qr_codes = params[:scannable_tickets].present? ? JSON.parse(params[:scannable_tickets]) : []
-      qr_titles = params[:scannable_ticket_titles].present? ? JSON.parse(params[:scannable_ticket_titles]) : []
-
-      qr_codes.each_with_index do |code, index|
-        # Check if the code already exists before creating a new one
-        if @plan.scannable_tickets.exists?(code: code)
-          any_duplicate_codes = true
-        else
-          @plan.scannable_tickets.create(code: code, title: qr_titles[index], ticket_format: :qr)
-        end
-      end
+      any_duplicate_codes = Plans::ScannableTicketsSaver.call(
+        plan: @plan,
+        scannable_tickets: params[:scannable_tickets],
+        titles: params[:scannable_ticket_titles],
+      )
 
       # Delete all existing booking references and ticket links
       @plan.booking_references.destroy_all
