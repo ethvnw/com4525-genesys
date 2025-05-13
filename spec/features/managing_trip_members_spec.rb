@@ -134,5 +134,14 @@ RSpec.feature("Managing trip members") do
       click_on "Manage Members"
       expect(page).to(have_content("new name test"))
     end
+
+    scenario "I cannot make my display name over 30 characters", js: true do
+      visit trip_path(trip)
+      click_on "Settings"
+      click_on "Change Your Nickname"
+      fill_in "trip_membership_user_display_name", with: "a" * 31
+      click_on "Update"
+      expect(page).to(have_content("User display name is too long (maximum is 30 characters)"))
+    end
   end
 end
