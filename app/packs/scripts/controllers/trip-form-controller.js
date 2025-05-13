@@ -5,6 +5,7 @@ import createAutocomplete from '../lib/AlgoliaAutocomplete';
 import { MAP_ICONS } from '../lib/map/map_config';
 import setupPicker from '../date_range_picker';
 import { showOverlay, hideOverlay, addSearchLocationButtonHandler } from '../lib/map/map_overlay';
+import setupPicker from '../date_range_picker_combined';
 
 let mapObject;
 
