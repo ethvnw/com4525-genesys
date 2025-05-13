@@ -82,9 +82,7 @@
     = f.hidden_field(:primary_plan_id, value: primary_plan.id)
 
 - if plan.documents.attached?
-  %h4.fw-semibold Documents
   = render("partials/plans/documents_list", plan: plan)
 
 - if plan.scannable_tickets.any?
-  %h4.fw-semibold Scannable tickets
   = render("partials/plans/scannable_tickets_list", plan: plan)

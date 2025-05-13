@@ -1,0 +1,3 @@
+= turbo_stream.remove("scannable_ticket-#{@scannable_ticket_id}")
+- if @plan.scannable_tickets.count == 0
+  = turbo_stream.remove("scannable-tickets-table-container")
