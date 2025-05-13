@@ -57,7 +57,8 @@ export default class extends Controller {
     // If there are no files, do nothing
     if (!files.length) return;
 
-    this.currentIndex = 0;
+    // Start the viewer at the first NEW image
+    this.currentIndex = this.results.length;
 
     // Wait for all files to load before processing
     await Promise.all(Array.from(files).map(async (file) => {
@@ -164,8 +165,8 @@ export default class extends Controller {
       this.imagesContainer.classList.replace('d-none', 'd-block');
       document.getElementById('qr-navigation').classList.replace('d-none', 'd-block');
       document.getElementById('qr-codes-container').classList.replace('d-none', 'd-block');
-      // By default, show the first result
-      this.showResult(0);
+      // By default, show the first NEW result
+      this.showResult(this.currentIndex);
 
       // Add all of the codes and titles to the hidden inputs
       document.getElementById('scannable_tickets').value = JSON.stringify(
