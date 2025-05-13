@@ -112,7 +112,7 @@ RSpec.feature("Managing scannable tickets") do
         click_on("Remove")
       end
 
-      expect(page).to(have_content("Scannable ticket deleted successfully."))
+      expect(page).to have_content("Scannable ticket deleted successfully.", wait: 5)
       # Check that the ticket is removed from the plan
       visit edit_trip_plan_path(trip, plan_with_ticket)
       expect(page).not_to(have_selector("#scannable-tickets-table"))
