@@ -95,6 +95,7 @@ class TripMembershipsController < ApplicationController
     if @trip_membership.update(trip_membership_params)
       redirect_to(trip_path(@trip_membership.trip), notice: "Display name updated successfully.")
     else
+      Rails.logger.debug(@trip_membership.errors.full_messages.inspect)
       flash[:errors] = @trip_membership.errors.to_hash(true)
       stream_response("trip_memberships/update", trip_path(@trip_membership.trip))
     end
