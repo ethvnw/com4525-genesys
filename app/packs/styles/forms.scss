@@ -129,6 +129,7 @@ input[readonly] {
 .tempus-dominus-widget {
   --td-active-bg: #{bs.$roamio-primary};
   --td-range-bg: #{darken(bs.$roamio-primary, 10%)};
+  --td-disabled-color: #d9d9d9 !important;
 
   @extend .border;
   padding-top: 10px;
@@ -139,5 +140,15 @@ input[readonly] {
   
   .dow, .month, .year, .decade {
       @extend .fw-semibold;
+  }
+
+  .day:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+
+  .active:focus, .range-start:focus, .range-end:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0;
   }
 }

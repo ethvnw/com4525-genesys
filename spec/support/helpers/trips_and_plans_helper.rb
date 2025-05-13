@@ -39,10 +39,22 @@ def select_location(location)
   VCR.turn_on!
 end
 
-def select_date_range(start_date, end_date)
+def select_combined_date_range(start_date, end_date)
   find("#datetimepicker-input").click
   find("div[data-value='#{start_date}']").click
   find("div[data-value='#{end_date}']").click
+end
+
+def select_seperated_date_range(start_date, end_date)
+  find("#start-datetimepicker-input").click
+  find("div[data-value='#{start_date}']").click
+  find("#end-datetimepicker-input").click
+  find("div[data-value='#{end_date}']").click
+end
+
+def clear_start_date
+  find("#start-datetimepicker-input").click
+  find("div[data-action='clear']").click
 end
 
 def expect_to_have_trip_as_list_item(trip, readable_date_range)
@@ -66,4 +78,15 @@ def expect_to_have_trip_on_map(trip)
     "coords" => [trip.location_latitude, trip.location_longitude],
     "href" => "/trips/#{trip.id}",
   }))
+end
+
+def format_date_for_js(date)
+  "#{date.year}-#{format("%02d", date.month - 1)}-#{format("%02d", date.day)}"
+end
+
+def format_datetime_for_js(date)
+  "#{date.year}-#{format(
+    "%02d",
+    date.month,
+  )}-#{format("%02d", date.day)}T#{format("%02d", date.hour)}:#{format("%02d", date.min)}"
 end

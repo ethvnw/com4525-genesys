@@ -4,6 +4,7 @@ import { newRoamioMap } from '../lib/map/RoamioMap';
 import createAutocomplete from '../lib/AlgoliaAutocomplete';
 import { MAP_ICONS } from '../lib/map/map_config';
 import { showOverlay, hideOverlay, addSearchLocationButtonHandler } from '../lib/map/map_overlay';
+import setupPickers from '../date_range_picker_seperate';
 
 let mapObject;
 
@@ -27,6 +28,7 @@ export default class extends Controller {
 
     // Add a 'search for a location' button to the placeholder on the map
     addSearchLocationButtonHandler();
+    setupPickers(true);
   }
 
   /**

@@ -8,9 +8,21 @@ RSpec.feature("Managing plans") do
   let!(:trip) { create(:trip) }
   let!(:trip_membership) { create(:trip_membership, user: user, trip: trip) }
 
+  let(:start_time) { Time.current + 1.days }
+  let(:end_time) { start_time + 2.days }
+
+  # Create timestamps with 0-indexed months for use in the JS datepicker
+  let(:start_date_for_js) do
+    format_date_for_js(start_time)
+  end
+  let(:end_date_for_js) do
+    format_date_for_js(end_time)
+  end
+
   before do
     trip_membership # Prevent lazy evaluation
     login_as(user, scope: :user)
+    time_travel_everywhere(Time.current)
     freeze_time
   end
 
@@ -19,7 +31,8 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
+      # Fill in the date range
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Title can't be blank"))
     end
@@ -36,7 +49,7 @@ RSpec.feature("Managing plans") do
       page.execute_script("document.getElementById('plan_title').value = #{("a" * 251).to_json}")
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Title is too long (maximum is 250 characters)"))
     end
@@ -45,16 +58,16 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Plan type is not included in the list"))
     end
 
-    scenario "I cannot create a plan with no start location" do
+    scenario "I cannot create a plan with no start location", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Start location name can't be blank"))
     end
@@ -64,6 +77,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
+      clear_start_date
       click_on "Save"
       expect(page).to(have_content("Start date can't be blank"))
     end
@@ -73,20 +87,59 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 2.days
-      fill_in "plan_end_date", with: Time.current + 1.day
+      # Simulate a user inspect elementing the hidden input fields
+      page.execute_script("document.getElementById('start_date_input').value = '#{end_date_for_js}'")
+      page.execute_script("document.getElementById('end_date_input').value = '#{start_date_for_js}'")
       click_on "Save"
       expect(page).to(have_content("Start date cannot be after end date"))
     end
 
-    scenario "I cannot create a plan with a start date prior to the current time", js: true do
+    scenario "I cannot create a plan that starts before the trip start date", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current - 1.day
+      # Simulate a user inspect elementing the hidden input fields
+      before_trip = format_datetime_for_js(trip.start_date - 1.day)
+      page.execute_script("document.getElementById('start_date_input').value = '#{before_trip}'")
       click_on "Save"
-      expect(page).to(have_content("Start date cannot be in the past"))
+      expect(page).to(have_content("Start date must be within the trip dates"))
+    end
+
+    scenario "I cannot create a plan that starts after the trip end date", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      # Simulate a user inspect elementing the hidden input fields
+      after_trip = format_datetime_for_js(trip.end_date + 1.day)
+      page.execute_script("document.getElementById('start_date_input').value = '#{after_trip}'")
+      click_on "Save"
+      expect(page).to(have_content("Start date must be within the trip dates"))
+    end
+
+    scenario "I cannot create a plan that ends before the trip start date", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      # Simulate a user inspect elementing the hidden input fields
+      before_trip = format_datetime_for_js(trip.start_date - 1.day)
+      page.execute_script("document.getElementById('end_date_input').value = '#{before_trip}'")
+      click_on "Save"
+      expect(page).to(have_content("End date must be within the trip dates"))
+    end
+
+    scenario "I cannot create a plan that ends after the trip end date", js: true do
+      visit new_trip_plan_path(trip)
+      fill_in "plan_title", with: "Test Title"
+      select "Other", from: "plan_plan_type"
+      select_location("England")
+      # Simulate a user inspect elementing the hidden input fields
+      after_trip = format_datetime_for_js(trip.end_date + 1.day)
+      page.execute_script("document.getElementById('end_date_input').value = '#{after_trip}'")
+      click_on "Save"
+      expect(page).to(have_content("End date must be within the trip dates"))
     end
 
     scenario "I cannot create a plan with no end location if it is a travel plan", js: true do
@@ -94,23 +147,16 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Travel By Plane", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
-      fill_in "plan_end_date", with: Time.current + 2.days
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("End location name must be present for travel plans"))
-    end
-
-    scenario "I can input an end location if I choose a travel plan", js: true do
-      visit new_trip_plan_path(trip)
-      select "Travel By Plane", from: "plan_plan_type"
-      expect(page).to(have_selector("#end-location-autocomplete", visible: true))
     end
 
     scenario "I can create a plan with fewer fields to fill if I choose a free time plan", js: true do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Free Time", from: "plan_plan_type"
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       expect(page).to(have_selector("#start-location-autocomplete", visible: false))
       click_on "Save"
 
@@ -126,7 +172,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "plan_start_date", with: Time.current + 1.day
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
 
       await_message("Plan created successfully")
@@ -143,13 +189,13 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      fill_in "Start date", with: Time.current + 1.day
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
       select_location("Brazil")
-      fill_in "Start date", with: Time.current + 1.day + 2.hours
+      select_seperated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
 
       await_message("Plan created successfully")
@@ -157,172 +203,10 @@ RSpec.feature("Managing plans") do
       expect(page).to(have_content("England"))
       expect(page).to(have_content("Brazil"))
     end
-
-    scenario "I can add a QR code to a plan and see it on the show page", js: true do
-      visit new_trip_plan_path(trip)
-      fill_in "plan_title", with: "Test Title"
-      select "Other", from: "plan_plan_type"
-      select_location("England")
-      fill_in "Start date", with: Time.current + 1.day
-      # Attach a QR code file
-      click_on "QR Codes"
-      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
-      expect(page).to(have_content("1 of 1")) # Expect the QR code to be loaded
-      click_on "Save"
-      expect(page).to(have_content("Plan created successfully"))
-      visit trip_plan_path(trip, trip.plans.first)
-      # Expect the QR code text to be present on the plan page
-      expect(page).to(have_content("Hello World!"))
-    end
-
-    scenario "If I add a QR code to an incomplete plan and submit the form, I see an error message", js: true do
-      visit new_trip_plan_path(trip)
-      # Specifically do not fill in any fields
-      click_on "Save"
-      expect(page).not_to(have_content("Please re-add your documents and/or tickets."))
-      # Attach a QR code file
-      click_on "QR Codes"
-      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
-      click_on "Save"
-      expect(page).to(have_content("Please re-add your documents and/or tickets."))
-    end
-
-    scenario "I can add a booking reference and see it on the show page", js: true do
-      visit new_trip_plan_path(trip)
-      fill_in "plan_title", with: "Test Title"
-      select "Other", from: "plan_plan_type"
-      select_location("England")
-      fill_in "Start date", with: Time.current + 1.day
-      # Attach a booking reference
-      click_on "Booking References"
-      within("#booking-references-container") do
-        fill_in "booking_reference_name", with: "Test Name"
-        fill_in "booking_reference_number", with: "123456"
-        click_button "Add Reference"
-      end
-      # Expect new entry to appear in the table dynamically
-      within("#booking-references-container") do
-        within("table") do
-          expect(page).to(have_content("Test Name"))
-          expect(page).to(have_content("123456"))
-        end
-      end
-      click_on "Save"
-      await_message("Plan created successfully")
-      visit trip_plan_path(trip, trip.plans.first)
-      # Expect the booking reference text to be present on the plan page
-      within("#accordion-booking-references") do
-        find("button.accordion-button").click
-        expect(page).to(have_content("Booking References"))
-        expect(page).to(have_content("Test Name"))
-        expect(page).to(have_content("123456"))
-      end
-    end
-
-    scenario "If I enter a booking reference with the same name twice, I see an error message", js: true do
-      visit new_trip_plan_path(trip)
-      click_on "Booking References"
-      within("#booking-references-container") do
-        fill_in "booking_reference_name", with: "Test Name"
-        fill_in "booking_reference_number", with: "123456"
-        click_button "Add"
-        fill_in "booking_reference_name", with: "Test Name"
-        fill_in "booking_reference_number", with: "654321"
-        click_button "Add"
-      end
-      expect(page).to(have_content("A booking reference with this name already exists."))
-    end
-
-    scenario "If I enter a booking reference with the same reference number twice, I see an error message", js: true do
-      visit new_trip_plan_path(trip)
-      click_on "Booking References"
-      within("#booking-references-container") do
-        fill_in "booking_reference_name", with: "Test Name"
-        fill_in "booking_reference_number", with: "123456"
-        click_button "Add"
-        fill_in "booking_reference_name", with: "Test Name 2"
-        fill_in "booking_reference_number", with: "123456"
-        click_button "Add"
-      end
-      expect(page).to(have_content("A booking reference with this reference number already exists."))
-    end
-
-    scenario "I can add a ticket link and see it on the show page", js: true do
-      visit new_trip_plan_path(trip)
-      fill_in "plan_title", with: "Test Title"
-      select "Other", from: "plan_plan_type"
-      select_location("England")
-      fill_in "Start date", with: Time.current + 1.day
-      # Attach a ticket link
-      click_on "Ticket Links"
-      within("#ticket-links-container") do
-        fill_in "ticket_link_name", with: "Awesome Ticket"
-        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
-        click_button "Add"
-      end
-      # Expect new entry to appear in the table dynamically
-      within("#ticket-links-container") do
-        within("table") do
-          expect(page).to(have_content("Awesome Ticket"))
-          expect(page).to(have_content("https://roamiotravel.co.uk"))
-        end
-      end
-      click_on "Save"
-      await_message("Plan created successfully")
-      visit trip_plan_path(trip, trip.plans.first)
-      # Expect the ticket link to be a link to the URL with the correct text
-      within("#accordion-ticket-links") do
-        find("button.accordion-button").click
-        expect(page).to(have_content("Ticket Links"))
-        expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
-      end
-    end
-
-    scenario "If I enter a ticket link with the same name twice, I see an approriate error message", js: true do
-      visit new_trip_plan_path(trip)
-      click_on "Ticket Links"
-      within("#ticket-links-container") do
-        fill_in "ticket_link_name", with: "Test Name"
-        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
-        click_button "Add"
-        fill_in "ticket_link_name", with: "Test Name"
-        fill_in "ticket_link_url", with: "https://example.com"
-        click_button "Add"
-      end
-      expect(page).to(have_content("A ticket link with this name already exists."))
-    end
-
-    scenario "If I enter a ticket link with the same URL twice, I see an approriate error message", js: true do
-      visit new_trip_plan_path(trip)
-      click_on "Ticket Links"
-      within("#ticket-links-container") do
-        fill_in "ticket_link_name", with: "Test Name"
-        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
-        click_button "Add"
-        fill_in "ticket_link_name", with: "Test Name 2"
-        fill_in "ticket_link_url", with: "https://roamiotravel.co.uk"
-        click_button "Add"
-      end
-      expect(page).to(have_content("A ticket link with this URL already exists."))
-    end
-
-    scenario "If I submit an invalid URL for a ticket link, I see an approriate error message", js: true do
-      visit new_trip_plan_path(trip)
-      click_on "Ticket Links"
-      within("#ticket-links-container") do
-        fill_in "ticket_link_name", with: "Test Name"
-        fill_in "ticket_link_url", with: "not a url"
-        click_button "Add"
-      end
-      expect(page).to(have_content("Please enter a valid URL (beginning with http:// or https://)."))
-    end
   end
 
   feature "Edit a plan" do
     let!(:plan) { create(:plan, trip: trip) }
-    let(:plan_with_ticket) { create(:plan, :with_ticket, trip: trip) }
-    let(:plan_with_booking_reference) { create(:plan, :with_booking_reference, trip: trip) }
-    let(:plan_with_ticket_link) { create(:plan, :with_ticket_link, trip: trip) }
 
     scenario "I can edit the start location of a plan and see it on the plan page", js: true do
       visit trip_path(plan.trip_id)
@@ -373,40 +257,6 @@ RSpec.feature("Managing plans") do
       expect(find("#end-location-autocomplete", visible: :all, wait: 5)).not_to(be_visible)
     end
 
-    scenario "I can add additional QR codes to a plan and see them on the plan page", js: true do
-      visit trip_plan_path(trip, plan_with_ticket)
-      # Expect the QR code text to be present on the plan page
-      expect(page).to(have_content("Mock ticket code"))
-      expect(page).to(have_content("1 of 1"))
-      visit edit_trip_plan_path(trip, plan_with_ticket)
-      # Add an new ticket with a different QR code value
-      click_on "QR Codes"
-      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_hello_world.png"))
-      click_on "Save"
-      # Expect the "already existed" notice to not be present
-      expect(page).not_to(have_content("Some QR codes already existed..."))
-      # Expect there to now be two QR codes
-      visit trip_plan_path(trip, plan_with_ticket)
-      expect(page).to(have_content("1 of 2"))
-    end
-
-    scenario "If I try to add an already existing QR code, a notice is shown and it is not added", js: true do
-      visit trip_plan_path(trip, plan_with_ticket)
-      # Expect the QR code text to be present on the plan page
-      expect(page).to(have_content("Mock ticket code"))
-      expect(page).to(have_content("1 of 1"))
-      visit edit_trip_plan_path(trip, plan_with_ticket)
-      # qr_mock.png is a QR code that contains the data "Mock ticket code"
-      click_on "QR Codes"
-      attach_file("qr_codes_upload", Rails.root.join("spec", "support", "files", "qr_mock.png"))
-      click_on "Save"
-      # Expect a notice indicating the QR code already exists
-      expect(page).to(have_content("Some QR codes already existed..."))
-      # Expect there to still only be one QR code
-      visit trip_plan_path(trip, plan_with_ticket)
-      expect(page).to(have_content("1 of 1"))
-    end
-
     scenario "I can edit a plan and change the provider name" do
       visit trip_path(plan.trip_id)
       within(:css, "section #plan-settings.dropdown") do
@@ -440,6 +290,7 @@ RSpec.feature("Managing plans") do
       # Check company name is now removed
       expect(page).not_to(have_content(plan.provider_name))
     end
+<<<<<<< HEAD
 
     scenario "I can add a new booking reference and see it on the plan show page", js: true do
       visit edit_trip_plan_path(trip, plan)
@@ -519,6 +370,8 @@ RSpec.feature("Managing plans") do
       visit trip_plan_path(trip, plan_with_ticket_link)
       expect(page).to(have_content("No tickets available for this plan."))
     end
+=======
+>>>>>>> origin/main
   end
 
   feature "Delete a plan" do
@@ -591,7 +444,6 @@ RSpec.feature("Managing plans") do
         end_date: Time.current + 4.days,
       )
     end
-    let!(:plan_with_ticket) { create(:plan, :with_ticket, trip: trip) }
 
     scenario "If a plan doesn't have a scannable ticket, I see a message indicating that", js: true do
       visit trip_plan_path(trip, plan)
