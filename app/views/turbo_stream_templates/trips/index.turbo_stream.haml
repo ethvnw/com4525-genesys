@@ -17,8 +17,6 @@
                         locals: { user: @current_user })
 
   - if params[:scroll] == "infinite"
-    -# Remove page param when using infinite scroll
-    - @query_params[:page] = nil
     = turbo_stream.append("trip-cards",
                           partial: "partials/trips/trip_cards_list",
                           locals: { trips: @trips })
@@ -31,4 +29,6 @@
                         partial: "partials/layouts/responsive_pager",
                         locals: { pagy: @pagy })
 
-= turbo_stream.action("changeUrl", trips_url(@query_params))
+-# Remove page param when using infinite scroll
+- page_param = request.query_parameters[:scroll] == "infinite" ? nil : request.query_parameters[:page]
+= turbo_stream.action("changeUrl", trips_url(request.query_parameters.merge(page: page_param)))

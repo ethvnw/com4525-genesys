@@ -21,8 +21,6 @@ class TripsController < ApplicationController
     enforce_required_parameter(:order, ["asc", "desc"], :trip_index_order)
 
     if any_params_enforced?
-      # puts params[:view]
-      # puts enforced_query_params
       flash.keep(:notifications) # Persist notifications across redirect
       redirect_to(trips_path(enforced_query_params)) and return
     end
@@ -43,7 +41,6 @@ class TripsController < ApplicationController
 
     @pagy, @trips = pagy(user_trips)
     @trips = @trips.decorate
-    @query_params = request.query_parameters
 
     stream_response("trips/index")
   end
@@ -163,9 +160,10 @@ class TripsController < ApplicationController
     @plans = get_plans_excluding_backups(@trip)
       .includes(plans_includes_list)
       .order(start_date: params[:order] || :asc)
-      .decorate
 
-    @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
+    @pagy, @plans = pagy(@plans)
+
+    @plan_groups = @plans.decorate.group_by { |plan| plan.start_date.to_date }
     stream_response("trips/show")
   end
 

@@ -11,7 +11,7 @@ export function removeAllChildren(node) {
 /**
  * Appends a list of children to a node
  * @param node {HTMLElement} the node to append children to
- * @param children {HTMLElement[]} an array of children to append to node
+ * @param children {Element[]} an array of children to append to node
  */
 export function appendChildren(node, children) {
   children.forEach((c) => {
