@@ -1,13 +1,54 @@
 = turbo_stream.update("view-buttons",
                       partial: "partials/trips/view_buttons")
 
-= turbo_stream.action("changeUrl", trip_url(@trip.id, view: params[:view], order: params[:order]))
+-# - if params[:view] == "map"
+-#   = turbo_stream.update("trips-list-header", "")
+-#   = turbo_stream.update("trip-cards", "")
+-#   = turbo_stream.update("pager", "")
+-#   = turbo_stream.prepend("trips-view",
+-#                          partial: "partials/trips/map_view",
+-#                          locals: { trips: @trips })
+-# - else
+-#   = turbo_stream.remove("trips-map")
+-#   = turbo_stream.remove("map-variables")
+-#
+-#   = turbo_stream.update("trips-list-header",
+-#                         partial: "partials/trips/trips_list_header",
+-#                         locals: { user: @current_user })
+-#
+-#   - if params[:scroll] == "infinite"
+-#     -# Remove page param when using infinite scroll
+-#     - @query_params[:page] = nil
+-#     = turbo_stream.append("trip-cards",
+-#                           partial: "partials/trips/trip_cards_list",
+-#                           locals: { trips: @trips })
+-#   - else
+-#     = turbo_stream.update("trip-cards",
+-#                           partial: "partials/trips/trip_cards_list",
+-#                           locals: { trips: @trips })
+-#
+-#   = turbo_stream.update("pager",
+-#                         partial: "partials/layouts/responsive_pager",
+-#                         locals: { pagy: @pagy })
+
+= turbo_stream.action("changeUrl", trip_url(@trip.id, request.query_parameters))
 
 - if params[:view] == "map"
+  = turbo_stream.remove("plans-list")
   = turbo_stream.update("plans-view",
                         partial: "partials/plans/map_view",
                         locals: { plans: @plans })
 - else
-  = turbo_stream.update("plans-view",
-                        partial: "partials/plans/list_view",
-                        locals: { trip: @trip, plan_groups: @plan_groups })
+  - if params[:scroll] == "infinite"
+    - @plan_groups.each do |(start_date, plans)|
+      = turbo_stream.action("merge", "plans-list",
+                            partial: "partials/plans/plan_card_list",
+                            locals: { start_date: start_date, plans: plans, trip: @trip })
+  - else
+    = turbo_stream.append("plans-view",
+                           partial: "partials/plans/list_view",
+                           locals: { trip: @trip, plan_groups: @plan_groups })
+
+  = turbo_stream.append("plans-view",
+                         partial: "partials/layouts/responsive_pager",
+                         locals: { pagy: @pagy })
