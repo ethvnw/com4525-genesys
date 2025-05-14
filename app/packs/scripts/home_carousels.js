@@ -51,8 +51,8 @@ async function applyBackgroundGradient(currentSlide) {
     if (!currentImage.complete) return;
 
     // Initialise the colour values
-    let r; 
-    let g; 
+    let r;
+    let g;
     let b;
 
     try {

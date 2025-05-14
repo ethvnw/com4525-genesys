@@ -3,7 +3,7 @@
          accordion_id: "accordion-qr",
          collapse_id: "collapse-qr",
          heading_id: "heading-qr",
-         aria_label: "Toggle QR Codes input",
+         aria_label: "Toggle Upload QR Codes input",
          icon_class: "bi bi-qr-code-scan") do
   .accordion-body
     #qr-logic-container{ "data-controller": "plan-qr" }
@@ -27,5 +27,3 @@
       = file_field_tag("qr_codes_upload", multiple: true, accept: "image/*", class: "form-control")
       = hidden_field_tag(:scannable_tickets)
       = hidden_field_tag(:scannable_ticket_titles)
-  - if plan.scannable_tickets.any?
-    = render("partials/plans/scannable_tickets_list", plan: plan)

@@ -3,12 +3,10 @@
          accordion_id: "accordion-documents",
          collapse_id: "collapse-documents",
          heading_id: "heading-documents",
-         aria_label: "Toggle documents input",
+         aria_label: "Toggle upload documents input",
          icon_class: "bi bi-file-earmark-pdf") do
   .accordion-body
     .p.small.mb-2
       %i.bi.bi-info-circle &nbsp;
       All files must be selected in one go
     = f.file_field(:documents, multiple: true, accept: "application/pdf", class: "form-control")
-  - if plan.documents.attached?
-    = render("partials/plans/documents_list", plan: plan)
