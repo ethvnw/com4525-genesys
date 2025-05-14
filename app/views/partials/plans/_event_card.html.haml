@@ -17,5 +17,5 @@
       .d-flex.gap-3.align-items-center
         %i.bi.bi-geo-alt-fill
         %p.mb-0= plan.start_location_name
-  - if plan.any_tickets? || plan.documents.attached?
+  - if plan.any_tickets?
     = render("partials/plans/view_tickets_button", trip: trip, plan: plan)

@@ -22,5 +22,5 @@
         %i.bi.bi-building-fill
         %p.mb-0= plan.provider_name
 
-  - if plan.any_tickets? || plan.documents.attached?
+  - if plan.any_tickets?
     = render("partials/plans/view_tickets_button", trip: trip, plan: plan)

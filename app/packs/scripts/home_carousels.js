@@ -51,8 +51,9 @@ async function applyBackgroundGradient(currentSlide) {
     if (!currentImage.complete) return;
 
     // Initialise the colour values
-    let r; let g; let
-      b;
+    let r; 
+    let g; 
+    let b;
 
     try {
       [r, g, b] = colourThief.getColor(currentImage);

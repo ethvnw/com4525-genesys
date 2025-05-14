@@ -128,7 +128,7 @@ class Plan < ApplicationRecord
   end
 
   def any_tickets?
-    ticket_links_count > 0 || booking_references_count > 0 || scannable_tickets_count > 0
+    ticket_links_count > 0 || booking_references_count > 0 || scannable_tickets_count > 0 || documents.attached?
   end
 
   def free_time_plan?
