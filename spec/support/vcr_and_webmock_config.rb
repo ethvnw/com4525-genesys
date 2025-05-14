@@ -19,6 +19,11 @@ VCR.configure do |c|
   c.hook_into(:webmock)
   c.configure_rspec_metadata!
 
+  # Ignore query params when matching requests
+  c.default_cassette_options = {
+    match_requests_on: [:method, :host, :path],
+  }
+
   c.ignore_request do |request|
     # Ignore requests for gitlab CI containers
     URI(request.uri).host&.match?(/172\.17\.0\.\d+/) \
@@ -33,6 +38,8 @@ VCR.configure do |c|
       VCR.use_cassette("ip_info") { request.proceed }
     elsif request.uri.include?("unsplash.com")
       VCR.use_cassette("unsplash") { request.proceed }
+    elsif request.uri.include?("api.dicebear.com")
+      VCR.use_cassette("dicebear") { request.proceed }
     else
       request.proceed
     end
