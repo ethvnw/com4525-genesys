@@ -138,8 +138,10 @@ main {
 
 #topbar {
     @extend .bg-primary;
+    border-bottom: 1px solid bs.$roamio-tertiary;
+    @extend .shadow;
     // IOS Safe Area
-    padding-top: calc(#{bs.$navbar-padding-y} + env(safe-area-inset-top));
+    padding-top: calc(#{bs.$navbar-padding-y} + 3px + env(safe-area-inset-top));
 
     #user-account-dropdown .dropdown-username {
         @extend .d-none;
@@ -242,6 +244,7 @@ main {
 }
 
 #landing-topbar {
+    border-bottom: 1px solid bs.$roamio-tertiary;
     padding-top: calc(#{bs.$navbar-padding-y} + env(safe-area-inset-top));
 }
 
