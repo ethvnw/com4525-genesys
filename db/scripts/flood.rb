@@ -36,12 +36,19 @@ def create_trip(user, trip_number, trip_title = "Trip #{trip_number}")
       location_name: "Sheffield",
     )
 
-    trip.image.attach(
-      # attach fallback_location_img.png in packs/images
-      io: File.open(Rails.root.join("db", "seeds", "images", "trips", "brienz.jpg")),
-      filename: "brienz#{trip_number}.jpg",
-      content_type: "image/jpeg",
-    )
+    # Use one blob for all trips for performance
+    image_blob = Trip.find(1)&.image&.blob
+
+    if image_blob.present?
+      trip.image.attach(image_blob)
+    else
+      trip.image.attach(
+        # attach fallback_location_img.png in packs/images
+        io: File.open(Rails.root.join("db", "seeds", "images", "trips", "brienz.jpg")),
+        filename: "brienz.jpg",
+        content_type: "image/jpeg",
+      )
+    end
 
     TripMembership.create!(
       sender_user: user,
@@ -100,18 +107,21 @@ user = User.find_by(username: "tester")
 puts ">>>> Created test user with username: '#{user.username}' and password: 'tester'\n\n"
 
 model = ARGV.first.to_sym
+amount = (ARGV[1] || 1000).to_i
 
 puts ">>>> Flooding database with #{model}s..."
 
 case model
 when :trip
-  1000.times do |i|
+  amount.times do |i|
     create_trip(user, i)
-    print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
+    print("#{(i + 1).to_s.rjust(4, "0")}/#{amount}\r")
   end
+
+  puts(">>>> Added #{amount} trips to user '#{user.username}'")
 when :invite
   second_user = create_user(0)
-  1000.times do |i|
+  amount.times do |i|
     trip = create_trip(second_user, i, "Second User Trip #{i}")
     TripMembership.create!(
       sender_user: second_user,
@@ -119,12 +129,14 @@ when :invite
       user: user,
       trip: trip,
     )
-    print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
+    print("#{(i + 1).to_s.rjust(4, "0")}/#{amount}\r")
   end
+
+  puts(">>>> Added #{amount} trip invites from user '#{sender_user.username}' to user '#{user.username}'")
 when :plan
   trip = create_trip(user, 1)
 
-  1000.times do |i|
+  amount.times do |i|
     plan_location = get_random_location([trip.location_latitude, trip.location_longitude])
     Plan.new(
       trip_id: trip.id,
@@ -136,26 +148,26 @@ when :plan
       start_date: trip.start_date + (2 * i).minutes,
       end_date: trip.start_date + (2 * i + 1).minutes,
     ).save(validate: false) unless Plan.where(title: "Plan #{i}").present?
-    print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
+    print("#{(i + 1).to_s.rjust(4, "0")}/#{amount}\r")
   end
 
-  puts(">>>> Added 1000 plans to trip '#{trip.title}'")
+  puts(">>>> Added #{amount} plans to trip '#{trip.title}'")
 when :user
-  1000.times do |i|
+  amount.times do |i|
     create_user(i)
-    print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
+    print("#{(i + 1).to_s.rjust(4, "0")}/#{amount}\r")
   end
 
-  puts(">>>> Added 1000 users to DB")
+  puts(">>>> Added #{amount} users to DB")
 when :referral
-  1000.times do |i|
+  amount.times do |i|
     user = create_user(i)
     Referral.create!(
       sender_user: user,
       receiver_email: "referral#{i}@example.com",
     )
-    print("#{(i + 1).to_s.rjust(4, "0")}/1000\r")
+    print("#{(i + 1).to_s.rjust(4, "0")}/#{amount}\r")
   end
 
-  puts(">>>> Added 1000 referrals to DB")
+  puts(">>>> Added #{amount} referrals to DB")
 end
