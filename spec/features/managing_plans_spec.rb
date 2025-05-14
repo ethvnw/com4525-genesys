@@ -32,7 +32,7 @@ RSpec.feature("Managing plans") do
       select "Other", from: "plan_plan_type"
       select_location("England")
       # Fill in the date range
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Title can't be blank"))
     end
@@ -49,7 +49,7 @@ RSpec.feature("Managing plans") do
       page.execute_script("document.getElementById('plan_title').value = #{("a" * 251).to_json}")
       select "Other", from: "plan_plan_type"
       select_location("England")
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Title is too long (maximum is 250 characters)"))
     end
@@ -58,7 +58,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "a"
       select_location("England")
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Plan type is not included in the list"))
     end
@@ -67,7 +67,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("Start location name can't be blank"))
     end
@@ -147,7 +147,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Travel By Plane", from: "plan_plan_type"
       select_location("England")
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       expect(page).to(have_content("End location name must be present for travel plans"))
     end
@@ -156,7 +156,7 @@ RSpec.feature("Managing plans") do
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title"
       select "Free Time", from: "plan_plan_type"
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       expect(page).to(have_selector("#start-location-autocomplete", visible: false))
       click_on "Save"
 
@@ -172,7 +172,7 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
 
       await_message("Plan created successfully")
@@ -189,13 +189,13 @@ RSpec.feature("Managing plans") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
       visit new_trip_plan_path(trip)
       fill_in "plan_title", with: "Test Title 2"
       select "Other", from: "plan_plan_type"
       select_location("Brazil")
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       click_on "Save"
 
       await_message("Plan created successfully")

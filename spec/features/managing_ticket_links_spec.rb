@@ -34,7 +34,7 @@ RSpec.feature("Managing ticket links") do
       fill_in "plan_title", with: "Test Title"
       select "Other", from: "plan_plan_type"
       select_location("England")
-      select_seperated_date_range(start_date_for_js, end_date_for_js)
+      select_separated_date_range(start_date_for_js, end_date_for_js)
       # Attach a ticket link
       click_on "Ticket Links"
       within("#ticket-links-container") do
