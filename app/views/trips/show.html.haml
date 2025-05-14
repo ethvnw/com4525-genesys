@@ -85,6 +85,7 @@
       = render("partials/plans/map_view", plans: @plans)
     - else
       = render("partials/plans/list_view", trip: @trip, plan_groups: @plan_groups)
+      = render("partials/layouts/responsive_pager", pagy: @pagy)
 
 #display-name-modal.modal.fade{ tabindex: "-1", aria: { labelledby: "display-name-label", hidden: "true" } }
   .modal-dialog.modal-dialog-centered
