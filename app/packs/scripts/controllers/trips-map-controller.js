@@ -13,7 +13,7 @@ export default class extends Controller {
     }
 
     this.map = mapObject;
-    this.map.initialise();
+    this.map.initialise(true);
     const jsVariables = new VariablesDiv('map-variables');
     const markerPoints = JSON.parse(jsVariables.get('marker-coords'));
 
