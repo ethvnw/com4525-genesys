@@ -209,6 +209,7 @@ RSpec.feature("Managing trips") do
       click_on "Edit Trip"
       fill_in "trip_title", with: "edited title"
       fill_in "trip_description", with: "edited description"
+      select_location("Zimbabwe")
       click_button "Save Trip"
       await_message("Trip updated successfully")
       # Trip title and description should be updated to the edited values
