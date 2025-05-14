@@ -32,4 +32,11 @@ RSpec.describe(ApplicationDecorator, type: :decorator) do
       end
     end
   end
+
+  describe "#format_date_slashes" do
+    it "formats a date object to a string with slashes (dd/mm/yyyy)" do
+      date = Date.new(2024, 1, 1)
+      expect(decorated_registration.format_date_slashes(date)).to(eq("01/01/2024"))
+    end
+  end
 end

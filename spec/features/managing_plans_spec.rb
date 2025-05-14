@@ -326,11 +326,35 @@ RSpec.feature("Managing plans") do
         find("button.swiper-toggle-button").click
         expect(page).to(have_content("Backup Title"))
       end
+
+      scenario "I can submit a backup plan with no title and see the rest of the form data persist" do
+        visit trip_path(plan.trip_id)
+        within(:css, "section #plan-settings.dropdown") do
+          find("button").click
+          click_on "Add Backup Plan"
+        end
+
+        select "Free Time", from: "plan_plan_type"
+        click_on "Save"
+
+        expect(page).to(have_content("Title can't be blank"))
+        expect(page).to(have_content("Free Time"))
+      end
     end
 
     context "When the plan created already has a backup plan" do
       let!(:plan_backup) { create(:plan, trip: trip, title: "Premade Backup") }
       let!(:plan) { create(:plan, trip: trip, backup_plan_id: plan_backup.id, title: "Premade Plan") }
+
+      scenario "I cannot manually visit the create backup plan page" do
+        visit new_backup_plan_trip_plan_path(plan.trip_id, plan.id)
+        expect(page).not_to(have_content("New backup plan for #{plan.title}"))
+      end
+
+      scenario "I cannot manually visit the create backup plan page for a backup plan" do
+        visit new_backup_plan_trip_plan_path(plan.trip_id, plan_backup.id)
+        expect(page).not_to(have_content("New backup plan for #{plan_backup.title}"))
+      end
 
       scenario "I cannot create a backup plan for a plan that already has a backup plan" do
         visit trip_path(plan.trip_id)
@@ -348,6 +372,38 @@ RSpec.feature("Managing plans") do
           expect(page).not_to(have_content("Add Backup Plan"))
         end
       end
+    end
+  end
+
+  feature "Editing backup plans" do
+    let!(:plan_backup) { create(:plan, trip: trip, title: "Premade Backup") }
+    let!(:plan) { create(:plan, trip: trip, backup_plan_id: plan_backup.id, title: "Premade Plan") }
+
+    scenario "I can edit a backup plan and see the changes on the plans index page" do
+      visit trip_path(plan.trip_id)
+      find("button.swiper-toggle-button").click
+      within(:css, "section #plan-settings.dropdown") do
+        find("button").click
+        click_on "Edit Plan"
+      end
+      fill_in "plan_title", with: "Edited Backup Plan"
+      click_on "Save"
+      await_message("Plan updated successfully")
+      find("button.swiper-toggle-button").click
+      expect(page).to(have_content("Edited Backup Plan"))
+    end
+
+    scenario "I can edit a backup plan with no title and see the rest of the form data persist" do
+      visit trip_path(plan.trip_id)
+      find("button.swiper-toggle-button").click
+      within(:css, "section #plan-settings.dropdown") do
+        find("button").click
+        click_on "Edit Plan"
+      end
+      fill_in "plan_title", with: ""
+      click_on "Save"
+      expect(page).to(have_content("Title can't be blank"))
+      expect(page).to(have_content("Free Time"))
     end
   end
 

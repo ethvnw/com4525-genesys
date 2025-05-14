@@ -10,6 +10,21 @@ RSpec.describe(PlanDecorator, type: :decorator) do
   let(:plan) { create(:plan, start_date: Time.current, end_date: Time.current + 1.hour) }
   let(:decorated_plan) { plan.decorate }
 
+  describe "#single_day?" do
+    context "when the plan starts and ends on the same day" do
+      it "returns true" do
+        expect(decorated_plan.single_day?).to(be(true))
+      end
+    end
+    context "when the plan starts and ends on different days" do
+      before { decorated_plan.end_date = Time.current + 1.day }
+
+      it "returns false" do
+        expect(decorated_plan.single_day?).to(be(false))
+      end
+    end
+  end
+
   describe "#formatted_date_range" do
     context "when the end date is present" do
       it "returns the start and end time as 'start to end'" do

@@ -6,7 +6,7 @@ class PlanDecorator < ApplicationDecorator
   decorates_association :documents, with: DocumentDecorator
 
   def single_day?
-    start_date == end_date && start_date.present? && end_date.present?
+    start_date.present? && end_date.present? && start_date.to_date == end_date.to_date
   end
 
   # Formats the start date to the formats:

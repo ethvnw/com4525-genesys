@@ -146,4 +146,174 @@ RSpec.describe(Plan, type: :model) do
       end
     end
   end
+
+  describe "#regular_plan?" do
+    context "when the plan is a regular plan" do
+      let(:plan) { create(:plan, trip: trip, plan_type: "active") }
+      it "returns true" do
+        expect(plan.regular_plan?).to(be_truthy)
+      end
+    end
+
+    context "when the plan is a travel plan" do
+      let(:plan) { create(:plan, trip: trip, plan_type: "travel_by_foot") }
+      it "returns false" do
+        expect(plan.regular_plan?).to(be_falsey)
+      end
+    end
+  end
+
+  describe "#travel_plan?" do
+    context "when the plan is a travel plan" do
+      let(:plan) { create(:plan, trip: trip, plan_type: "travel_by_foot") }
+      it "returns true" do
+        expect(plan.travel_plan?).to(be_truthy)
+      end
+    end
+
+    context "when the plan is a regular plan" do
+      let(:plan) { create(:plan, trip: trip, plan_type: "active") }
+      it "returns false" do
+        expect(plan.travel_plan?).to(be_falsey)
+      end
+    end
+  end
+
+  describe "#any_tickets?" do
+    context "when the plan has ticket links" do
+      let(:plan) { create(:plan, trip: trip, ticket_links_count: 1) }
+      it "returns true" do
+        expect(plan.any_tickets?).to(be_truthy)
+      end
+    end
+
+    context "when the plan has booking references" do
+      let(:plan) { create(:plan, trip: trip, booking_references_count: 1) }
+      it "returns true" do
+        expect(plan.any_tickets?).to(be_truthy)
+      end
+    end
+
+    context "when the plan has scannable tickets" do
+      let(:plan) { create(:plan, trip: trip, scannable_tickets_count: 1) }
+      it "returns true" do
+        expect(plan.any_tickets?).to(be_truthy)
+      end
+    end
+
+    context "when the plan has no tickets" do
+      let(:plan) { create(:plan, trip: trip) }
+      it "returns false" do
+        expect(plan.any_tickets?).to(be_falsey)
+      end
+    end
+  end
+
+  describe "#free_time_plan?" do
+    context "when the plan is a free time plan" do
+      let(:plan) { create(:plan, trip: trip, plan_type: "free_time") }
+      it "returns true" do
+        expect(plan.free_time_plan?).to(be_truthy)
+      end
+    end
+
+    context "when the plan is not a free time plan" do
+      let(:plan) { create(:plan, trip: trip, plan_type: "active") }
+      it "returns false" do
+        expect(plan.free_time_plan?).to(be_falsey)
+      end
+    end
+  end
+
+  describe "#backup_plan?" do
+    context "when the plan is a backup plan" do
+      let(:plan) { create(:plan, trip: trip, primary_plan: create(:plan)) }
+      it "returns true" do
+        expect(plan.backup_plan?).to(be_truthy)
+      end
+    end
+
+    context "when the plan is not a backup plan" do
+      let(:plan) { create(:plan, trip: trip) }
+      it "returns false" do
+        expect(plan.backup_plan?).to(be_falsey)
+      end
+    end
+
+    context "when the plan is a primary plan" do
+      let(:plan) { create(:plan, trip: trip) }
+      it "returns false" do
+        expect(plan.backup_plan?).to(be_falsey)
+      end
+    end
+  end
+
+  describe "#primary_plan_id=" do
+    let(:plan) { create(:plan, trip: trip) }
+    let(:backup_plan) { create(:plan, trip: trip) }
+
+    it "sets the primary_plan association" do
+      plan.primary_plan_id = backup_plan.id
+      expect(plan.primary_plan).to(eq(backup_plan))
+    end
+
+    it "does not set the primary_plan association if the ID is nil" do
+      plan.primary_plan_id = nil
+      expect(plan.primary_plan).to(be_nil)
+    end
+  end
+
+  describe "#start_within_trip_dates" do
+    let(:plan) { build(:plan, trip: trip) }
+
+    context "when the start date is within the trip dates" do
+      it "is valid" do
+        plan.start_date = trip.start_date + 1.day
+        expect(plan.valid?).to(be_truthy)
+      end
+    end
+
+    context "when the start date is before the trip start date" do
+      it "is invalid" do
+        plan.start_date = trip.start_date - 1.day
+        expect(plan.valid?).to(be_falsey)
+        expect(plan.errors[:start_date]).to(include("must be within the trip dates"))
+      end
+    end
+
+    context "when the start date is after the trip end date" do
+      it "is invalid" do
+        plan.start_date = trip.end_date + 1.day
+        expect(plan.valid?).to(be_falsey)
+        expect(plan.errors[:start_date]).to(include("must be within the trip dates"))
+      end
+    end
+  end
+
+  describe "#end_within_trip_dates" do
+    let(:plan) { build(:plan, trip: trip, start_date: trip.start_date) }
+
+    context "when the end date is within the trip dates" do
+      it "is valid" do
+        plan.end_date = trip.start_date + 1.day
+        expect(plan.valid?).to(be_truthy)
+      end
+    end
+
+    context "when the end date is before the trip start date" do
+      it "is invalid" do
+        plan.end_date = trip.start_date - 1.day
+        expect(plan.valid?).to(be_falsey)
+        expect(plan.errors[:end_date]).to(include("must be within the trip dates"))
+      end
+    end
+
+    context "when the end date is after the trip end date" do
+      it "is invalid" do
+        plan.end_date = trip.end_date + 1.day
+        expect(plan.valid?).to(be_falsey)
+        expect(plan.errors[:end_date]).to(include("must be within the trip dates"))
+      end
+    end
+  end
 end
