@@ -9,6 +9,10 @@
   height: bs.$trip-avatar-icon-size;
 }
 
+.text-shadow {
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
 .trip-card {
   height: 15rem;
 
@@ -23,8 +27,11 @@
     transition: transform 0.6s ease-in-out;
   }
 
-  h2, p {
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  .trip-title {
+    @extend .text-shadow;
+  }
+  .trip-card-details {
+    @extend .text-shadow;
   }
 
   &:hover {
