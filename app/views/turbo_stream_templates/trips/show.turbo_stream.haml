@@ -39,7 +39,10 @@
                         partial: "partials/plans/map_view",
                         locals: { plans: @plans })
 - else
-  - if params[:scroll] == "infinite"
+  = turbo_stream.remove("plans-map")
+  = turbo_stream.remove("map-variables")
+
+  - if @infinite_scroll
     - @plan_groups.each do |(start_date, plans)|
       = turbo_stream.action("merge", "plans-list",
                             partial: "partials/plans/plan_card_list",

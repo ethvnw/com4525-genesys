@@ -31,8 +31,9 @@ class _RoamioMap {
   /**
    * Creates a new Leaflet map instance and adds a tile layer
    * with configurations predefined in map_config.js.
+   * @param {boolean} clearFeatures - whether to clear the features of the map when re-initialising
    */
-  initialise() {
+  initialise(clearFeatures = false) {
     // Create a new canvas renderer for each map
     const config = { ...MAP_CONFIG, renderer: L.canvas() };
     this.map = L.map(this.mapId, config);
@@ -41,8 +42,15 @@ class _RoamioMap {
     // Re-add all layers, otherwise they won't display on the map when tabbing back to it
     this.markersFG.eachLayer((layer) => {
       this.markersFG.removeLayer(layer);
-      this.markersFG.addLayer(layer);
+      if (!clearFeatures) {
+        this.markersFG.addLayer(layer);
+      }
     });
+
+    if (clearFeatures) {
+      this.markers.clear();
+      this.lines.clear();
+    }
 
     const tileLayer = L.tileLayer(TILE_LAYER_CONFIG.url, TILE_LAYER_CONFIG.options);
     this.map.addLayer(tileLayer);
