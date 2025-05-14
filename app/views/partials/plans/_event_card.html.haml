@@ -1,26 +1,21 @@
-%section.p-3.rounded.mb-2.flex-grow-1{
-  class: plan.free_time_plan? ? "border-dashed border-2 border-danger-subtle" : "bg-danger-subtle",
+.card{
+  class: plan.free_time_plan? ? "border-dashed border-2 border-danger-subtle" : "bg-body-darken",
 }
-  = render("partials/plans/card_header", trip: trip, plan: plan)
-
-  .mb-4
-    %h4.fw-bold.mb-0.max-height-2-lines
+  .card-body
+    = render("partials/plans/card_header", trip: trip, plan: plan)
+    %h2.fs-4.max-height-2-lines
       = plan.title
 
-  -# Provider name
-  - if plan.provider_name.present?
-    .d-flex.gap-3.align-items-center
-      %i.bi.bi-building
-      %p.mb-0= plan.provider_name
+    -# Provider name
+    - if plan.provider_name.present?
+      .d-flex.gap-3.align-items-center
+        %i.bi.bi-building-fill
+        %p.mb-0= plan.provider_name
 
-  - unless plan.free_time_plan?
-    -# Start location
-    .d-flex.gap-3.align-items-center
-      %i.bi.bi-geo-alt
-      %p.mb-0= plan.start_location_name
-
-    - if plan.any_tickets?
-      = render("partials/plans/view_tickets_button", trip: trip, plan: plan)
-
-    - if plan.documents.attached?
-      = render("partials/plans/documents_dropdown", plan: plan)
+    - unless plan.free_time_plan?
+      -# Start location
+      .d-flex.gap-3.align-items-center
+        %i.bi.bi-geo-alt-fill
+        %p.mb-0= plan.start_location_name
+  - if plan.any_tickets?
+    = render("partials/plans/view_tickets_button", trip: trip, plan: plan)

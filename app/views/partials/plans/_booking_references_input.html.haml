@@ -1,63 +1,52 @@
-.accordion.mb-2{ id: "accordion-booking-references" }
-  .accordion-item
-    .accordion-header{ id: "heading-booking-references" }
-      %button.accordion-button.collapsed{
-        type: "button",
-        "data-bs-toggle": "collapse",
-        "data-bs-target": "#collapse-booking-references",
-        "aria-expanded": "false",
-        "aria-controls": "collapse-booking-references",
-        "aria-label": "Toggle booking references input",
-      }
-        Booking References
-    .accordion-collapse.collapse{
-      id: "collapse-booking-references",
-      "aria-labelledby": "heading-booking-references",
-      "data-bs-parent": "#accordion-booking-references",
-    }
-      .accordion-body
-        #booking-references-container.d-flex.flex-column.gap-2.mt-2{ "data-controller": "booking-references" }
-          .d-flex.flex-column.flex-md-row.gap-2.align-items-stretch
-            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
-              = label_tag(:booking_reference_name, "Name:", class: "plan-label")
-              = text_field_tag(:booking_reference_name,
-                               nil,
-                               placeholder: "Name",
-                               class: "form-control flex-grow-1",
-                               "data-booking-references-target": "name")
-
-            .d-flex.flex-column.flex-md-row.align-items-md-center.gap-2.flex-grow-1
-              = label_tag(:booking_reference_number, "Reference:", class: "plan-label")
-              = text_field_tag(:booking_reference_number,
-                               nil,
-                               placeholder: "Reference Number",
-                               class: "form-control flex-grow-1",
-                               "data-booking-references-target": "number")
-
-            = button_tag(type: "button",
-                         class: "btn btn-primary d-flex align-items-center gap-1",
-                         "data-action": "booking-references#addReference",
-                         "aria-label": "Add booking reference") do
-              %i.bi.bi-plus-circle-fill
-              Add
+= render("partials/plans/ticket_accordion",
+         title: "Add Booking References",
+         accordion_id: "accordion-booking-references",
+         collapse_id: "collapse-booking-references",
+         heading_id: "heading-booking-references",
+         aria_label: "Toggle booking references input",
+         icon_class: "bi bi-hash") do
+  .accordion-body
+    #booking-references-container.d-flex.flex-column.gap-2.mt-2{ "data-controller": "booking-references" }
+      .row.row-gap-3
+        .col-12.col-md-6
+          = label_tag(:booking_reference_name, "Name", class: "plan-label")
+          = text_field_tag(:booking_reference_name,
+                           nil,
+                           placeholder: "Name",
+                           class: "form-control flex-grow-1",
+                           "data-booking-references-target": "name")
+        .col-12.col-md-6
+          = label_tag(:booking_reference_number, "Reference", class: "plan-label")
+          = text_field_tag(:booking_reference_number,
+                           nil,
+                           placeholder: "Reference Number",
+                           class: "form-control flex-grow-1",
+                           "data-booking-references-target": "number")
+      .d-flex.mt-2
+        = button_tag(type: "button",
+                     class: "btn btn-primary d-flex align-items-center gap-1",
+                     "data-action": "booking-references#addReference",
+                     "aria-label": "Add booking reference") do
+          %i.bi.bi-plus-square &nbsp;
+          Add Reference
 
 
 
-          .row
-            .col
-              %small.text-danger.mt-1{ "data-booking-references-target" => "warning" }
+      .row
+        .col
+          %small.text-danger.mt-1{ "data-booking-references-target" => "warning" }
 
-            -# haml-lint:disable LineLength
-            = hidden_field_tag(:booking_references_data,
-                               booking_reference_value(params[:booking_references_data], plan),
-                               data: { booking_references_target: "dataField" })
-            -# haml-lint:enable LineLength
+        -# haml-lint:disable LineLength
+        = hidden_field_tag(:booking_references_data,
+                           booking_reference_value(params[:booking_references_data], plan),
+                           data: { booking_references_target: "dataField" })
+        -# haml-lint:enable LineLength
 
-          %table.table.d-none{ "data-booking-references-target": "table" }
-            %thead
-              %tr
-                %th Name
-                %th Reference
-                %th Actions
-            %tbody{ "data-booking-references-target": "tbody" }
-              // Table rows are inserted by Stimulus controller
+      %table.table.d-none{ "data-booking-references-target": "table" }
+        %thead
+          %tr
+            %th Name
+            %th Reference
+            %th Actions
+        %tbody{ "data-booking-references-target": "tbody" }
+          // Table rows are inserted by Stimulus controller

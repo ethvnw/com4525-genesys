@@ -50,6 +50,7 @@ def select_seperated_date_range(start_date, end_date)
   find("div[data-value='#{start_date}']").click
   find("#end-datetimepicker-input").click
   find("div[data-value='#{end_date}']").click
+  find('div[data-action="close"]').click
 end
 
 def clear_start_date

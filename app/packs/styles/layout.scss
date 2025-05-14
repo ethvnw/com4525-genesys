@@ -27,6 +27,17 @@ body {
     background-color: bs.$gray-200;
 }
 
+.app-header {
+    @extend .d-flex, .justify-content-between, .align-items-start;
+    border-bottom: 1px solid #BEBFC0;
+    height: 56px;
+}
+
+.error-icon {
+    @extend .display-1, .lh-1, .p-4, .rounded-circle, .mb-3;
+    background-color: lighten(bs.$roamio-primary, 40%);
+}
+
 .login-card {
   width: 30rem;
 }
@@ -127,8 +138,10 @@ main {
 
 #topbar {
     @extend .bg-primary;
+    border-bottom: 1px solid bs.$roamio-tertiary;
+    @extend .shadow;
     // IOS Safe Area
-    padding-top: calc(#{bs.$navbar-padding-y} + env(safe-area-inset-top));
+    padding-top: calc(#{bs.$navbar-padding-y} + 3px + env(safe-area-inset-top));
 
     #user-account-dropdown .dropdown-username {
         @extend .d-none;
@@ -231,6 +244,7 @@ main {
 }
 
 #landing-topbar {
+    border-bottom: 1px solid bs.$roamio-tertiary;
     padding-top: calc(#{bs.$navbar-padding-y} + env(safe-area-inset-top));
 }
 

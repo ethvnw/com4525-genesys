@@ -1,20 +1,12 @@
-.accordion.mb-2{ id: "accordion-documents" }
-  .accordion-item
-    .accordion-header{ id: "heading-documents" }
-      %button.accordion-button.collapsed{
-        type: "button",
-        "data-bs-toggle": "collapse",
-        "data-bs-target": "#collapse-documents",
-        "aria-expanded": "false",
-        "aria-controls": "collapse-documents",
-        "aria-label": "Toggle documents input",
-      }
-        Upload PDFs
-    .accordion-collapse.collapse{
-      id: "collapse-documents",
-      "aria-labelledby": "heading-documents",
-      "data-bs-parent": "#accordion-documents",
-    }
-      .accordion-body
-        .p.small All files must be selected in one go
-        = f.file_field(:documents, multiple: true, accept: "application/pdf", class: "form-control")
+= render("partials/plans/ticket_accordion",
+         title: "Upload PDFs",
+         accordion_id: "accordion-documents",
+         collapse_id: "collapse-documents",
+         heading_id: "heading-documents",
+         aria_label: "Toggle upload documents input",
+         icon_class: "bi bi-file-earmark-pdf") do
+  .accordion-body
+    .p.small.mb-2
+      %i.bi.bi-info-circle &nbsp;
+      All files must be selected in one go
+    = f.file_field(:documents, multiple: true, accept: "application/pdf", class: "form-control")

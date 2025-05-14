@@ -5,6 +5,9 @@
 class RegistrationsController < Devise::RegistrationsController
   include Streamable
 
+  # Layout is applied based on membership
+  before_action :apply_user_layout!
+
   def new
     super do |resource|
       if flash[:sign_up_params].present?

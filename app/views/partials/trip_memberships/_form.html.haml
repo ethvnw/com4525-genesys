@@ -1,7 +1,7 @@
 = simple_form_for([trip, trip_membership],
                   builder: ValidatedFormBuilder,
                   errors: errors,
-                  html: { class: "d-flex flex-column gap-2 mb-5", "data-turbo": "true" }) do |f|
+                  html: { class: "d-flex flex-column gap-2 mb-4", "data-turbo": "true" }) do |f|
   = f.label(:user, class: "mb-1", for: "#user-autocomplete") do
     Username
     %abbr{ title: "required" } *
@@ -11,8 +11,11 @@
       #user-autocomplete{ class: get_error_class_with(errors, :user), data: { users: users.to_json } }
       = form_error_message(errors, :user)
 
-    = button_tag(type: "submit", class: "membership-button btn btn-success fw-bold flex-shrink-0") do
-      %i.bi.bi-send-fill
+    = button_tag(type: "submit",
+                 class: "membership-button btn btn-success flex-shrink-0",
+                 "aria-label": "Invite User",
+                 tabindex: 0) do
+      %i.bi.bi-send
       &nbsp;
       Invite
 

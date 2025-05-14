@@ -67,6 +67,9 @@ module Project
       openssl_verify_depth: 3,
       ca_file: "/etc/ssl/certs/ca-certificates.crt",
     }
+    config.exceptions_app = ->(env) {
+      ErrorsController.action(:show).call(env)
+    }
 
     config.middleware.use(LandingPageJourneyMiddleware)
     config.autoload_paths += ["#{config.root}/app/models/validators", "#{config.root}/config/constants"]

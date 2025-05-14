@@ -75,6 +75,10 @@
   @extend .text-secondary, .fw-semibold, .rounded-3;
   @extend .text-decoration-none;
   border: 1px dashed bs.$secondary;
+  
+  h2, p {
+    text-shadow: none !important;
+  }
 }
 
 // Quick link button

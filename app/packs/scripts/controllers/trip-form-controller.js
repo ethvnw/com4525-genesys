@@ -3,6 +3,7 @@ import L from 'leaflet';
 import { newRoamioMap } from '../lib/map/RoamioMap';
 import createAutocomplete from '../lib/AlgoliaAutocomplete';
 import { MAP_ICONS } from '../lib/map/map_config';
+import { showOverlay, hideOverlay, addSearchLocationButtonHandler } from '../lib/map/map_overlay';
 import setupPicker from '../date_range_picker_combined';
 
 let mapObject;
@@ -36,6 +37,9 @@ export default class extends Controller {
 
     // Restore existing location if present
     this.restoreExistingLocation();
+
+    // Add a 'search for a location' button to the placeholder on the map
+    addSearchLocationButtonHandler();
   }
 
   /**
@@ -49,6 +53,11 @@ export default class extends Controller {
     if (latitude && longitude) {
       this.tripAutocomplete.setQuery(locationName);
       this.updateMarker({ lat: latitude, lng: longitude, name: locationName });
+      hideOverlay();
+      this.map.enableMapInteraction();
+    } else {
+      showOverlay();
+      this.map.disableMapInteraction();
     }
   }
 
@@ -57,6 +66,8 @@ export default class extends Controller {
    * @param {{ name: String, lat: number, lng: number }} item - the item from the autocomplete
    */
   updateMarker(item) {
+    hideOverlay();
+    this.map.enableMapInteraction();
     this.map.removeMarker('trip-location');
     this.map.addMarker(L.latLng(item.lat, item.lng), {
       key: 'trip-location',

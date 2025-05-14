@@ -15,9 +15,38 @@ input, textarea, select {
     @extend .text-light;
 }
 
-.btn {
+.btn-primary, .btn-secondary, .btn-tertiary, .btn-danger, .btn-success {
     @extend .roamio-base;
     @extend .fw-semibold;
+}
+
+.btn-body {
+  @include bs.button-variant(
+    bs.$body-bg,
+    bs.$body-bg,
+    bs.$body-color,
+    darken(bs.$body-bg, 5%),
+    darken(bs.$body-bg, 5%),
+    bs.$body-color,
+    darken(bs.$body-bg, 10%),
+    darken(bs.$body-bg, 10%),
+    bs.$body-color
+  );
+}
+
+.btn-body-footer {
+    @extend .px-3, .py-3, .roamio-text;
+    border: 0;
+    border-radius: 0 0 5px 5px;
+    @include bs.button-variant(
+        darken(bs.$body-bg, 10%),
+        transparent
+    );
+    overflow: hidden;
+}
+
+.bg-body-darken {
+    background-color: darken(bs.$body-bg, 5%);
 }
 
 h1, h2, h3, h4, h5 {
