@@ -1,0 +1,76 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.dicebear.com/9.x/thumbs/svg
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 14 May 2025 21:36:39 GMT
+      Content-Type:
+      - image/svg+xml
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept-Encoding
+      Server:
+      - BunnyCDN-UK1-1205
+      Cdn-Pullzone:
+      - '147563'
+      Cdn-Uid:
+      - cd8b9392-b9a4-4962-9235-a51defc82e95
+      Cdn-Requestcountrycode:
+      - GB
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - public, max-age=31919000
+      Cdn-Cachedat:
+      - 05/14/2025 21:36:39
+      X-Robots-Tag:
+      - noindex
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Cdn-Proxyver:
+      - '1.27'
+      Cdn-Requestpullcode:
+      - '200'
+      Cdn-Requestpullsuccess:
+      - 'True'
+      Cdn-Edgestorageid:
+      - '1205'
+      Cdn-Status:
+      - '200'
+      Cdn-Requesttime:
+      - '1'
+      Content-Disposition:
+      - inline; filename="avatar.svg"
+      Cdn-Requestid:
+      - ec1786782a7d1454cc144a6e3f027c06
+      Cdn-Cache:
+      - MISS
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBmaWxsPSJub25lIiBzaGFwZS1yZW5kZXJpbmc9ImF1dG8iPjxtZXRhZGF0YSB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6ZGN0ZXJtcz0iaHR0cDovL3B1cmwub3JnL2RjL3Rlcm1zLyI+PHJkZjpSREY+PHJkZjpEZXNjcmlwdGlvbj48ZGM6dGl0bGU+VGh1bWJzPC9kYzp0aXRsZT48ZGM6Y3JlYXRvcj5EaWNlQmVhcjwvZGM6Y3JlYXRvcj48ZGM6c291cmNlIHhzaTp0eXBlPSJkY3Rlcm1zOlVSSSI+aHR0cHM6Ly93d3cuZGljZWJlYXIuY29tPC9kYzpzb3VyY2U+PGRjdGVybXM6bGljZW5zZSB4c2k6dHlwZT0iZGN0ZXJtczpVUkkiPmh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9kY3Rlcm1zOmxpY2Vuc2U+PGRjOnJpZ2h0cz7igJ5UaHVtYnPigJ0gKGh0dHBzOi8vd3d3LmRpY2ViZWFyLmNvbSkgYnkg4oCeRGljZUJlYXLigJ0sIGxpY2Vuc2VkIHVuZGVyIOKAnkNDMCAxLjDigJ0gKGh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvKTwvZGM6cmlnaHRzPjwvcmRmOkRlc2NyaXB0aW9uPjwvcmRmOlJERj48L21ldGFkYXRhPjxtYXNrIGlkPSJ2aWV3Ym94TWFzayI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHJ4PSIwIiByeT0iMCIgeD0iMCIgeT0iMCIgZmlsbD0iI2ZmZiIgLz48L21hc2s+PGcgbWFzaz0idXJsKCN2aWV3Ym94TWFzaykiPjxyZWN0IGZpbGw9IiM2OWQyZTciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB4PSIwIiB5PSIwIiAvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yLCAtMSkgcm90YXRlKDAgNTAgNzApIj48cGF0aCBkPSJNOTUgNTMuMzNDOTUgMjkuNCA3NC44NSAxMCA1MCAxMFM1IDI5LjQgNSA1My4zM1YxNDBoOTBWNTMuMzNaIiBmaWxsPSIjZjg4YzQ5Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjkgMzMpIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMiwgMTIpIHJvdGF0ZSgtNCAyMSAyMSkiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMikiPjxwYXRoIGQ9Ik02LjUgMTBDMi42MiAxMC0uNjEgNS43Ny4xIDUuMTVjLjcxLS42MiAyLjYzIDEuMyA2LjQgMS4zIDMuNzcgMCA1LjY5LTIgNi40LTEuM1MxMC4zOCAxMCA2LjUgMTBaTTM1LjUgMTBjLTMuODggMC03LjExLTQuMjMtNi40LTQuODUuNzEtLjYyIDIuNjMgMS4zIDYuNCAxLjMgMy43NyAwIDUuNjktMiA2LjQtMS4zUzM5LjM4IDEwIDM1LjUgMTBaIiBmaWxsPSIjZmZmZmZmIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYgMjYpIj48cGF0aCBkPSJNMTUgMTRDMS45IDE0LS43MiAxLjI5LjE1LjIzIDEuMDMtLjgzIDYuMjcgMi4xMSAxNSAyLjExUzI4Ljk3LS44MyAyOS44NS4yM0MzMC43MiAxLjMgMjguMSAxNCAxNSAxNFoiIGZpbGw9IiNmZmZmZmYiLz48L2c+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==
+  recorded_at: Wed, 14 May 2025 21:36:39 GMT
+recorded_with: VCR 6.3.1
