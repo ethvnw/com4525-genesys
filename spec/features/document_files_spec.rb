@@ -55,13 +55,14 @@ RSpec.feature("Managing Documents") do
       visit edit_trip_plan_path(trip, plan)
       # Because the document name is inside a span, it cannot be selected directly
       # However since there is only one document, the first one can be selected
-      within("#accordion-documents") do
+      within("#accordion-edit-documents") do
         find("button.accordion-button").click
-        expect(page).to(have_selector("input#plan_documents", visible: true))
         accept_alert do
           click_on "Remove"
         end
       end
+
+      await_message("Document deleted successfully.")
 
       Bullet.enable = false
       visit trip_plan_path(trip, plan)
