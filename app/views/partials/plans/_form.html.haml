@@ -89,3 +89,12 @@
 
   - if defined?(primary_plan)
     = f.hidden_field(:primary_plan_id, value: primary_plan.id)
+
+- if plan.documents.attached? || plan.scannable_tickets.any?
+  .mb-4
+    %hr.mt-0
+    - if plan.documents.attached?
+      = render("partials/plans/documents_list", plan: plan)
+
+    - if plan.scannable_tickets.any?
+      = render("partials/plans/scannable_tickets_list", plan: plan)
