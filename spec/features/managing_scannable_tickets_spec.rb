@@ -104,14 +104,14 @@ RSpec.feature("Managing scannable tickets") do
     scenario "I can delete a scannable and see it removed from the plan", js: true do
       # Check that the ticket is present in the plan
       visit edit_trip_plan_path(trip, plan_with_ticket)
-      within("#accordion-qr") do
+      within("#accordion-edit-qr") do
         find("button.accordion-button").click
         expect(page).to(have_content("Mock ticket code"))
+        accept_alert do
+          click_on("Remove")
+        end
       end
-      accept_alert do
-        click_on("Remove")
-      end
-      # await_message("Scannable Ticket deleted successfully.")
+      await_message("Scannable Ticket deleted successfully.")
       # Check that the ticket is removed from the plan
       expect(page).not_to(have_selector("#scannable-tickets-table"))
       expect(page).not_to(have_content("Mock ticket code"))
