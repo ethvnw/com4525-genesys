@@ -7,24 +7,43 @@
       = image_tag(user.avatar_or_default,
                   height: 100,
                   width: 100,
-                  class: "rounded",
-                  data: { "custom-image-target": "preview" })
+                  class: "rounded-circle border bg-light",
+                  data: { "custom-image-target": "preview" },
+                  alt: user.username)
+      %hr
       .my-2
+        %h3.fs-5.mb-3 Update Avatar
         // Original file input is hidden, so a custom button can be styled
         = f.file_field(:avatar,
                        class: "d-none",
                        accept: "image/png, image/jpeg, image/jpg, image/webp",
                        data: { "custom-image-target": "browseButton" })
+        %button#image-custom.btn.btn-secondary{
+          type: "button",
+          data: { "custom-image-target": "customButton" },
+          "aria-label": "Attach Avatar File",
+          "aria-describedby": "avatar-status-label",
+          tabindex: 0,
+        }
+          %i.bi.bi-upload{ "aria-hidden": "true" } &nbsp;
+          Attach Avatar
+        %span#avatar-status-label.ms-2{ data: { "custom-image-target": "fileNameSpan" } }
+          %i.bi.bi-exclamation-circle{ "aria-hidden": "true" }  &nbsp;
+          No file selected
         .form-text.text-muted
           Only WebP, JPG and PNG image files are supported
-        %button#image-custom.btn.btn-secondary{ type: "button", data: { "custom-image-target": "customButton" } }
-          Attach Avatar
-        %span{ data: { "custom-image-target": "fileNameSpan" } } No file selected
-      = f.submit("Save", class: "btn btn-primary mt-1")
+      = f.submit("Save Avatar",
+                 class: "btn btn-primary mt-1",
+                 tabindex: 0)
 
   - if user.avatar.attached? && user.avatar.persisted?
-    = button_to("Remove Avatar Photo",
-                registration_avatar_path(user),
+    %hr
+    %h3.fs-5.mb-3 Reset Avatar Photo to Default
+    = button_to(registration_avatar_path(user),
                 method: :delete,
                 form: { data: { turbo: "true", turbo_confirm: "Are you sure you want to remove your avatar photo?" } },
-                class: "btn btn-danger")
+                class: "btn btn-secondary",
+                "aria-label": "Reset Avatar Photo to Default",
+                tabindex: 0) do
+      %i.bi.bi-trash3{ "aria-hidden": "true" }  &nbsp;
+      Reset Avatar Photo

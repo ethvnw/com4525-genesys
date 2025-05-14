@@ -35,7 +35,7 @@
   max-width: 200px;
 
   span {
-    display: inline-block;
+    display: block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -75,6 +75,20 @@
   }
 }
 
+.leaflet-container {
+  @extend .flex-fill;
+  border-radius: 0;
+  @media (min-width: 606px) and (max-width: 767.98px) {
+    border-radius: bs.$border-radius;
+  }
+  @media (min-width: 786px) and (max-width: 991.98px) {
+    border-radius: bs.$border-radius;
+  }
+  @media (min-width: 1600px) {
+    border-radius: bs.$border-radius;
+  }
+}
+
 .leaflet-control-zoom {
   @extend .border-0;
   a {
@@ -100,7 +114,7 @@
   left: 10px;
   bottom: 10px;
   text-indent: -9999px;
-  z-index: 99999;
+  z-index: 999;
   overflow: hidden;
 
   /* `background-image` contains the Mapbox logo */

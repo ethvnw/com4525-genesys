@@ -57,8 +57,7 @@ table {
 }
 
 .plan-label {
-  @extend .form-label, .mb-0, .fw-semibold, .text-md-end;
-  min-width: 80px;
+  @extend .form-label, .mb-0, .text-md-end;
 }
 
 // Used when displaying a truncated code on mobile so it doesnt overflow

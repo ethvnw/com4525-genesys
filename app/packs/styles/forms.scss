@@ -85,11 +85,17 @@ input[readonly] {
 }
 
 .form-map {
-  @extend .flex-fill;
   height: 35rem;
   max-height: 50vh;
 }
 
+#form-map-overlay {
+  @extend .w-100, .h-100, .d-flex, .justify-content-center, .align-items-center, .flex-column;
+  @extend .position-absolute;
+  @extend .text-light;
+  opacity: 0;
+  background-color:rgba(0, 0, 0, 0.6);
+}
 
 // Styling for QR code input
 #qr-navigation {

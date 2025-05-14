@@ -43,7 +43,13 @@ class ApplicationController < ActionController::Base
   private
 
   rescue_from CanCan::AccessDenied do
-    head :unauthorized
+    @status_code = 401
+    render("errors/401", status: :unauthorized, layout: "error")
+  end
+
+  rescue_from ActionController::InvalidAuthenticityToken do
+    @status_code = 401
+    render("errors/401", status: :unauthorized, layout: "error")
   end
 
   def update_headers_to_disable_caching
@@ -89,6 +95,15 @@ class ApplicationController < ActionController::Base
   def restrict_admin_and_reporter_access!
     unless current_user.member?
       redirect_to(root_path, alert: "Unable to access members-only page as a staff user.")
+    end
+  end
+
+  # Set layout based on user membership status
+  def apply_user_layout!
+    if current_user&.member?
+      self.class.layout("user")
+    else
+      self.class.layout("application")
     end
   end
 

@@ -219,6 +219,28 @@ class _RoamioMap {
       mapContainer.appendChild(link);
     }
   }
+
+  /**
+   * Disable map interaction
+   */
+  disableMapInteraction() {
+    // eslint-disable-next-line no-underscore-dangle
+    this.map._handlers.forEach((handler) => {
+      handler.disable();
+    });
+    this.map.zoomControl.remove();
+  }
+
+  /**
+   * Enable map interaction
+   */
+  enableMapInteraction() {
+    // eslint-disable-next-line no-underscore-dangle
+    this.map._handlers.forEach((handler) => {
+      handler.enable();
+    });
+    this.map.zoomControl.addTo(this.map);
+  }
 }
 
 /**

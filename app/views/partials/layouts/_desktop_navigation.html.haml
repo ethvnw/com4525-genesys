@@ -21,3 +21,6 @@
     %p.ps-3.d-none.d-lg-flex.roamio-text Explore
     %ul#navigation-links.nav.nav-pills.nav-flush.flex-column
       = render("partials/layouts/navigation_links")
+    %hr
+    %ul#extra-navigation-links.nav.nav-pills.nav-flush.flex-column
+      = navbar_link_to("Refer a Friend", "bi-person-add", root_path(anchor: "new-referral"))

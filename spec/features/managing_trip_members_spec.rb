@@ -109,7 +109,7 @@ RSpec.feature("Managing trip members") do
     scenario "I can reject the invitation to the trip", js: true do
       visit inbox_path
       accept_alert do
-        find(".btn.btn-danger").click
+        find(".btn.btn-secondary").click
       end
       visit trip_path(trip)
       expect(page).not_to(have_content("Mock Trip"))

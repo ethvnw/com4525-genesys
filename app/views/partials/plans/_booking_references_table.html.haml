@@ -1,14 +1,17 @@
-.row.mt-2
-  .col
-    %h2.fw-bold.mb-0
-      Booking References
-%table.table
-  %thead
-    %tr
-      %th Name
-      %th Reference
-  %tbody
-    - plan.booking_references.each do |reference|
+= render("partials/plans/ticket_accordion",
+         title: "View Booking References",
+         accordion_id: "accordion-booking-references",
+         collapse_id: "collapse-booking-references",
+         heading_id: "heading-booking-references",
+         aria_label: "Toggle booking references view",
+         icon_class: "bi bi-hash") do
+  %table.table
+    %thead
       %tr
-        %td= reference.name
-        %td= reference.reference_number
+        %th.ps-3 Name
+        %th Reference
+    %tbody
+      - plan.booking_references.each do |reference|
+        %tr
+          %td.ps-3= reference.name
+          %td= reference.reference_number

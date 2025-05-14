@@ -1,13 +1,22 @@
-%h1.mb-4 Manage Members
+.row
+  %h1.fs-2.mb-0
+    Manage Members
+  .my-2
+    = render("partials/trips/trips_back_button", trip: @trip)
+  %hr
 
+%section.mt-3
+  %h2.fs-3
+    %i.bi.bi-person-fill-add &nbsp;
+    Invite Members
 = render("partials/trip_memberships/form",
          trip: @trip,
          trip_membership: @trip_membership,
          users: @users,
          errors: @errors)
 
-%section.mb-5
-  %h2
+%section.mb-4
+  %h2.fs-3
     %i.bi.bi-person-fill &nbsp;
     Current Members
 
@@ -16,7 +25,7 @@
 
 - if @pending_members.any?
   %section
-    %h2
+    %h2.fs-3
       %i.bi.bi-person-fill-exclamation &nbsp;
       Pending Members
 

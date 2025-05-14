@@ -1,0 +1,23 @@
+%html{ lang: "en-GB" }
+  %head
+    = render("partials/layouts/head", style_packs: @style_packs, script_packs: @script_packs)
+
+  %body
+    -# Render any necessary toasts
+    = render("partials/layouts/toasts")
+
+    %nav.navbar.fixed-top.bg-primary.mb-3.border-bottom.shadow
+      .container
+        = link_to(root_path, class: "navbar-brand", "aria-label": "Home", tabindex: 0) do
+          = image_pack_tag("images/roamio_brand_logo_white.png",
+                           height: 36,
+                           alt: "Roamio Logo",
+                           "aria-hidden": "true")
+    %main#application-main.container.d-flex.align-items-center.justify-content-center.flex-fill
+      = yield
+
+    -# Render footer
+    = render("partials/layouts/footer")
+
+    #js-variables{ data: @js_data || flash[:js_data] || {} }
+    - flash.discard(:js_data) # Discard flash messages after use to prevent them from being shown twice

@@ -1,0 +1,8 @@
+= render("partials/errors/error_page",
+         title: "Oops! Something went wrong with your request",
+         message: "It’s not you, it’s us. We couldn’t process what you just sent us,
+          double-check everything and try again",
+         button_text: "Back to Roamio Home",
+         button_path: root_path,
+         icon_class: "bi bi-exclamation-triangle-fill",
+         status_code: @status_code)

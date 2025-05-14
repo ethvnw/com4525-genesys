@@ -4,8 +4,29 @@ import Swiper from 'swiper/bundle';
 
 export default class extends Controller {
   connect() {
+    /**
+     * Make the previous slide inert for accesibility
+     */
+    function updateInertSlides(swiper) {
+      swiper.slides.forEach((slide, index) => {
+        if (index === swiper.activeIndex) {
+          slide.removeAttribute('inert');
+        } else {
+          slide.setAttribute('inert', '');
+        }
+      });
+    }
+
     this.carouselConfig = {
       effect: 'flip',
+      on: {
+        init() {
+          updateInertSlides(this);
+        },
+        slideChangeTransitionEnd() {
+          updateInertSlides(this);
+        },
+      },
       autoHeight: true,
       speed: 600,
     };

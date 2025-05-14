@@ -53,8 +53,11 @@ RSpec.feature("Managing ticket links") do
       await_message("Plan created successfully")
       visit trip_plan_path(trip, trip.plans.first)
       # Expect the ticket link to be a link to the URL with the correct text
-      expect(page).to(have_content("Ticket Links"))
-      expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
+      within("#accordion-ticket-links") do
+        find("button.accordion-button").click
+        expect(page).to(have_content("Ticket Links"))
+        expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
+      end
     end
 
     scenario "If I enter a ticket link with the same name twice, I see an approriate error message", js: true do
@@ -119,7 +122,7 @@ RSpec.feature("Managing ticket links") do
     let!(:plan) { create(:plan, trip: trip) }
     let(:plan_with_ticket_link) { create(:plan, :with_ticket_link, trip: trip) }
 
-    scenario "I can add a new ticket link and see it on the plan show page", js: true do
+    scenario "I can add a new ticket link and see it on the plan show pagde", js: true do
       visit edit_trip_plan_path(trip, plan)
       click_on "Ticket Links"
       within "#ticket-links-container" do
@@ -133,8 +136,11 @@ RSpec.feature("Managing ticket links") do
       await_message("Plan updated successfully")
       visit trip_plan_path(trip, plan)
       # Expect the booking reference text to be present on the plan page
-      expect(page).to(have_content("Ticket Links"))
-      expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
+      within("#accordion-ticket-links") do
+        find("button.accordion-button").click
+        expect(page).to(have_content("Ticket Links"))
+        expect(page).to(have_link("Awesome Ticket", href: "https://roamiotravel.co.uk"))
+      end
     end
 
     scenario "I can remove a ticket link and see it removed on the new page and show page", js: true do

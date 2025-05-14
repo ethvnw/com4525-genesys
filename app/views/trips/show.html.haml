@@ -1,10 +1,10 @@
 .row.d-flex.justify-content-between
-  .d-flex.flex-column.gap-3.align-items-end
-    = render("partials/trips/members", members: @trip.trip_memberships)
-  .align-self-center
-    %h1.mb-0.text-break= @trip.title
-    %p.mb-0.fs-4.fw-semibold.text-secondary= @trip.formatted_date_range
-
+  .align-self-center.row.pe-0
+    .col-6
+      %h1.fs-2.mb-0= @trip.title
+    .col-6.d-flex.justify-content-end.pe-0
+      = render("partials/trips/members", members: @trip.trip_memberships)
+    %p.mb-0.fs-5.fw-semibold.text-secondary= @trip.formatted_date_range
     .d-flex.gap-2.my-2
       = link_to(new_trip_plan_path(@trip),
                 class: "btn btn-primary py-2",
@@ -33,7 +33,7 @@
         }
           %i.bi.bi-gear-fill{ "aria-hidden": "true" }
           .visually-hidden Settings
-        .dropdown-menu
+        .dropdown-menu.dropdown-menu-end
           = link_to(edit_trip_path(@trip),
                     class: "dropdown-item",
                     tabindex: 0) do
@@ -65,7 +65,7 @@
             Delete Trip
   %hr
 
-.d-flex.justify-content-between.mb-2
+.d-flex.justify-content-between.align-items-center.mb-2
   %h2.mb-0 Plans
   #view-buttons.d-flex.gap-2
     = render("partials/trips/view_buttons")
@@ -80,7 +80,7 @@
            button_icon_class: "bi bi-plus-square",
            button_path: new_trip_plan_path(@trip))
 - else
-  #plans-view.h-100.mb-3
+  #plans-view.h-100.row
     - if params[:view] == "map"
       = render("partials/plans/map_view", plans: @plans)
     - else

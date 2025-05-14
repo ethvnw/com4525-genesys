@@ -8,7 +8,7 @@
     Change text colour depending on if the user has any tips
     No trips -> show text-primary against bg-light background
     Trips -> text-light against an image background
-  - text_class = @trips.present? ? "text-light" : "text-dark"
+  - text_class = @trips.present? ? "text-light text-shadow" : "text-dark"
   %h1.fs-4{ class: "#{text_class} z-3" }
     Upcoming Trips
 

@@ -6,6 +6,7 @@ $roamio-tertiary: #4E525A;
 /* Overwrite primary and secondary colours */
 $primary: $roamio-secondary;
 $secondary: $roamio-tertiary;
+$danger: #C93040;
 
 /* Overwrite background colour */
 $body-bg: #f2f2f2;
@@ -38,7 +39,7 @@ $landing-navbar-height: 63px;
 $sidebar-lg-width: 280px;
 $sidebar-width: 78px;
 $footer-height: 145px;
-$topbar-height: 57px;
+$topbar-height: 60px;
 
 $roamio-text-spacing: 0.5px;
 
@@ -92,3 +93,12 @@ $user-avatar-size-lg: 24px;
   );
   color: $dark;
 }
+
+.btn-danger {
+  @include button-variant(
+      darken($danger, 15%), 
+      darken($danger, 20%)
+  );
+  color: $light;
+}
+
