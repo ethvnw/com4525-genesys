@@ -18,11 +18,8 @@ class TripMembershipsController < ApplicationController
     @errors = flash[:errors]
 
     @trip = Trip.includes(trip_memberships: { user: { avatar_attachment: :blob } }).find(params[:trip_id])
-    members = @trip.trip_memberships.map do |member|
-      TripMembershipDecorator.new(member, current_user)
-    end
-    @members = members.select(&:is_invite_accepted)
-    @pending_members = members.reject(&:is_invite_accepted)
+    @members = @trip.trip_memberships.where(is_invite_accepted: true).order(invite_accepted_date: :desc).decorate
+    @pending_members = @trip.trip_memberships.where(is_invite_accepted: false).order(created_at: :desc).decorate
   end
 
   def destroy
