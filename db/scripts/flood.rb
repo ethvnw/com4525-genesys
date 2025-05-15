@@ -24,10 +24,11 @@ end
 # @return [Trip] the newly-created trip
 def create_trip(user, trip_number, trip_title = "Trip #{trip_number}")
   preexisting_trip = Trip.where(title: trip_title).first
+  first_trip = Trip.where(title: "Trip 1").first
   unless preexisting_trip.present?
     trip_coords = get_random_location([0, 0])
     trip = Trip.create!(
-      title: "Trip #{trip_number}",
+      title: trip_title,
       description: "Trip Description #{trip_number}",
       start_date: Time.current + (2 * trip_number).days,
       end_date: Time.current + (2 * trip_number + 1).days,
@@ -37,7 +38,7 @@ def create_trip(user, trip_number, trip_title = "Trip #{trip_number}")
     )
 
     # Use one blob for all trips for performance
-    image_blob = Trip.find(1)&.image&.blob
+    image_blob = first_trip&.image&.blob
 
     if image_blob.present?
       trip.image.attach(image_blob)
