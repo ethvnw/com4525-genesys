@@ -76,7 +76,7 @@ RSpec.feature("Viewing trips") do
       expect_to_have_trip_as_list_item(trip2, "18th - 20th Jan 2020")
       expect_to_have_trip_as_list_item(collaborative_trip, "25th Jan - 12th Feb 2020")
 
-      within("#trips-planned-header") do
+      within("#trips-list-header") do
         expect(page).to(have_content("3 Trips Planned"))
       end
 
