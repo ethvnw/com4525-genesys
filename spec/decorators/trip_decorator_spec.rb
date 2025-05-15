@@ -68,4 +68,22 @@ RSpec.describe(TripDecorator, type: :decorator) do
       end
     end
   end
+
+  describe "#single_day?" do
+    context "when start and end dates are on the same day" do
+      let(:trip) { create(:trip, start_date: Time.zone.now, end_date: Time.zone.now) }
+
+      it "returns true" do
+        expect(decorated_trip.single_day?).to(eq(true))
+      end
+    end
+
+    context "when start and end dates are on different days" do
+      let(:trip) { create(:trip, start_date: Time.zone.now, end_date: Time.zone.now + 1.day) }
+
+      it "returns false" do
+        expect(decorated_trip.single_day?).to(eq(false))
+      end
+    end
+  end
 end

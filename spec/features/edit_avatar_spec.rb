@@ -54,11 +54,11 @@ RSpec.feature("User Avatar") do
       expect(page).to(have_content("Avatar successfully removed."))
     end
 
-    scenario "When the user does not have an avatar" do
+    scenario "When the user does not have an avatar, a default is displayed" do
       no_avatar_user = create(:user, :no_avatar, email: "no_avatar@example.com", username: "no_avatar")
       login_as(no_avatar_user)
       visit edit_user_registration_path
-
+      expect(page).to(have_selector("img[src*='#{api_avatar_path(no_avatar_user)}']"))
       expect(page).not_to(have_button("Remove Avatar Photo"))
     end
   end

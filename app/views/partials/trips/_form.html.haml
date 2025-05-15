@@ -16,7 +16,6 @@
                       required: true,
                       maxlength: 500)
 
-  // The start_date and end_date are hidden fields, updated in the background by the date range picker
   = f.hidden_field(:start_date,
                    id: "start_date_input",
                    label: false,
@@ -40,7 +39,9 @@
     = render("partials/trips/form_map_overlay")
 
   .d-flex.flex-column.mb-3
-    = label_tag("Dates")
+    %label{ for: "datetimepicker-input" }
+      Dates
+      %abbr{ title: "required" } *
     .form-check.form-switch
       %input#single-day-switch.form-check-input{ type: "checkbox", checked: trip.single_day? }
       = label_tag("Single Day Trip?")

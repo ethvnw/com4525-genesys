@@ -4,7 +4,7 @@ import { newRoamioMap } from '../lib/map/RoamioMap';
 import createAutocomplete from '../lib/AlgoliaAutocomplete';
 import { MAP_ICONS } from '../lib/map/map_config';
 import { showOverlay, hideOverlay, addSearchLocationButtonHandler } from '../lib/map/map_overlay';
-import setupPickers from '../date_range_picker_seperate';
+import setupPickers from '../date_range_picker_separate';
 
 let mapObject;
 
