@@ -18,6 +18,10 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
+# Indexes
+#
+#  index_trips_on_start_date  (start_date)
+#
 class Trip < ApplicationRecord
   include Countable
 
