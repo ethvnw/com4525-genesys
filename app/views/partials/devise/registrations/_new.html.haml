@@ -14,12 +14,12 @@
                       hint: "Must be between 6 and 20 characters")
 
   = f.validated_input(:password,
-                      required: false,
+                      required: true,
                       autocomplete: "new-password",
                       hint: "Must contain upper and lower-case letters, numbers and be minimum 12 characters")
 
   = f.validated_input(:password_confirmation,
-                      required: false,
+                      required: true,
                       autocomplete: "new-password")
 
   .form-actions.mt-4.d-flex.justify-content-end.gap-2
