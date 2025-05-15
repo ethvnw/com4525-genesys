@@ -82,6 +82,7 @@ COPY . .
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
+RUN SECRET_KEY_BASE=DUMMY ./bin/rails --tasks
 RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
 
 # Final stage for app image
@@ -94,7 +95,7 @@ COPY --from=build /rails /rails
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
+    chown -R rails:rails db log storage tmp public
 
 USER rails:rails
 
