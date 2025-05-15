@@ -7,31 +7,11 @@ module Countable
 
   class_methods do
     ##
-    # Groups & counts items by day.
-    #
-    # @return [Hash{Time => Integer}] a hash mapping days to item counts
-    def count_by_day
-      all.group_by do |item|
-        item.created_at.beginning_of_day
-      end.transform_values(&:count)
-    end
-
-    ##
     # Counts items created today.
     #
     # @return [Integer] the number of items created today.
     def count_today
-      count_by_day[Time.current.beginning_of_day] || 0
-    end
-
-    ##
-    # Groups & counts items by week.
-    #
-    # @return [Hash{Time => Integer}] a hash mapping week start dates to item counts
-    def count_by_week
-      all.group_by do |item|
-        item.created_at.beginning_of_week
-      end.transform_values(&:count)
+      where("DATE_TRUNC('day', created_at) = ?", Time.current.beginning_of_day).count
     end
 
     ##
@@ -39,17 +19,7 @@ module Countable
     #
     # @return [Integer] the number of items created this week.
     def count_this_week
-      count_by_week[Time.current.beginning_of_week] || 0
-    end
-
-    ##
-    # Groups & counts items by month.
-    #
-    # @return [Hash{Time => Integer}] a hash mapping month start dates to item counts
-    def count_by_month
-      all.group_by do |item|
-        item.created_at.beginning_of_month
-      end.transform_values(&:count)
+      where("DATE_TRUNC('week', created_at) = ?", Time.current.beginning_of_week).count
     end
 
     ##
@@ -57,7 +27,7 @@ module Countable
     #
     # @return [Integer] the number of items created this month.
     def count_this_month
-      count_by_month[Time.current.beginning_of_month] || 0
+      where("DATE_TRUNC('month', created_at) = ?", Time.current.beginning_of_month).count
     end
   end
 end
