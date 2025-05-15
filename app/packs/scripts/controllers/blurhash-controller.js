@@ -12,14 +12,13 @@ export default class extends Controller {
 
     // the image might already be completely loaded. In this case we need to do nothing
     if (this.image.complete) return;
-
     // if the image comes in with empty dimensions, we can't assign canvas data
     if (this.image.width === 0 || this.image.height === 0) return;
 
-    this.renderBlurhash();
+    this.renderBlurhash().then(/* do nothing */);
   }
 
-  renderBlurhash() {
+  async renderBlurhash() {
     const { width, height } = this.image;
 
     this.canvas.width = width;
