@@ -24,7 +24,7 @@
 
         - swiper_class = plan.backup_plan.present? ? "swiper" : nil
 
-        .col{ class: swiper_class, data: { controller: swiper_class ? "backup-plan": nil } }
+        .col{ class: swiper_class, data: { controller: swiper_class ? "backup-plan" : nil } }
           - if swiper_class
             .swiper-wrapper.p-0
               .swiper-slide
