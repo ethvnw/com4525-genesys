@@ -70,29 +70,29 @@ RSpec.feature("Viewing trip details") do
       visit trip_path(trip)
       click_on "List"
 
-      within(".collapse-btn[data-bs-target='#plans0']") do |collapse_button|
+      within(".collapse-btn[data-bs-target='#plans-accordion-2020-01-02']") do |collapse_button|
         expect(collapse_button).to(have_content("Thursday 02 Jan 2020"))
       end
 
-      within("#plans0 #plan-#{plan.id}") do |plan_card|
+      within("#plans-accordion-2020-01-02 #plan-#{plan.id}") do |plan_card|
         expect(plan_card).to(have_content("07:00"))
         expect(plan_card).to(have_content(plan.title))
         expect(plan_card).to(have_content(plan.plan_type.titleize))
         expect(plan_card).to(have_content(plan.start_location_name))
       end
 
-      within(".collapse-btn[data-bs-target='#plans1']") do |collapse_button|
+      within(".collapse-btn[data-bs-target='#plans-accordion-2020-01-05']") do |collapse_button|
         expect(collapse_button).to(have_content("Sunday 05 Jan 2020"))
       end
 
-      within("#plans1 #plan-#{plan2.id}") do |plan_card|
+      within("#plans-accordion-2020-01-05 #plan-#{plan2.id}") do |plan_card|
         expect(plan_card).to(have_content("09:00"))
         expect(plan_card).to(have_content(plan2.title))
         expect(plan_card).to(have_content(plan2.plan_type.titleize))
         expect(plan_card).to(have_content(plan2.start_location_name))
       end
 
-      within("#plans1 #plan-#{travel_plan.id}") do |plan_card|
+      within("#plans-accordion-2020-01-05 #plan-#{travel_plan.id}") do |plan_card|
         expect(plan_card).to(have_content("15:00"))
         expect(plan_card).to(have_content(travel_plan.title))
         expect(plan_card).to(have_content(travel_plan.start_location_name))
