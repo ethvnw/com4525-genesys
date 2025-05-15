@@ -3,14 +3,14 @@
                   html: { class: "d-flex row gap-2 mt-3", "data-turbo": "true", "data-controller": "trip-form" },
                   errors: errors) do |f|
   = f.validated_input(:title,
-                      placeholder: "Enter the title of the trip...",
+                      placeholder: "Give your trip a catchy name",
                       "aria-label": "Trip Title",
                       tabindex: 0,
                       required: true,
                       maxlength: 30)
   = f.validated_input(:description,
                       rows: 3,
-                      placeholder: "Enter the trip description...",
+                      placeholder: "Add more information about your trip",
                       "aria-label": "Trip Description",
                       tabindex: 0,
                       required: true,

@@ -113,7 +113,7 @@ export default function setupPickers(allowTime) {
       });
     } else {
       startDateElement.value = '';
-      document.getElementById('start-datetimepicker-input').value = 'Input the start date...';
+      document.getElementById('start-datetimepicker-input').value = 'When does the plan start?';
       endDatetimepicker.updateOptions({
         restrictions: {
           minDate,
@@ -139,7 +139,7 @@ export default function setupPickers(allowTime) {
       });
     } else {
       endDateElement.value = '';
-      document.getElementById('end-datetimepicker-input').value = 'Input the end date...';
+      document.getElementById('end-datetimepicker-input').value = 'When does the plan end?';
       startDatetimepicker.updateOptions({
         restrictions: {
           maxDate,
@@ -155,8 +155,7 @@ export default function setupPickers(allowTime) {
     startDateElement.value = DateTimeUtils.formatDateForJS(newStartDate);
   } else {
     // If no preset start date, then it is not the edit form, so set to the trip start date
-    document.getElementById('start-datetimepicker-input').value = DateTimeUtils.formatDateForButton(minDate, allowTime);
-    startDateElement.value = DateTimeUtils.formatDateForJS(minDate);
+    document.getElementById('start-datetimepicker-input').value = 'When does the plan start?';
   }
   if (presetEndDate) {
     const newEndDate = presetEndDate.replace(' ', 'T').split(' ')[0];
