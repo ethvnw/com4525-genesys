@@ -1,3 +1,3 @@
-#plans-list.mb-3.overflow-hidden{ "data-controller": "trip-show" }
+#plans-list.mb-3.overflow-hidden
   - plan_groups.each do |(start_date, plans)|
     = render("partials/plans/plan_card_list", start_date: start_date, plans: plans, trip: trip)

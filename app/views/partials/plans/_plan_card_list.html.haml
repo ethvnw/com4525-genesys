@@ -22,9 +22,9 @@
         .col-sm-2.col-xl-1
           %p.mb-2.fw-semibold.fs-5.text-body-secondary= plan.start_date.strftime("%H:%M")
 
-        - swiper_class = plan.backup_plan.present? ? "swiper trip-carousel-#{plan.id}" : nil
+        - swiper_class = plan.backup_plan.present? ? "swiper" : nil
 
-        .col{ class: swiper_class }
+        .col{ class: swiper_class, data: { controller: swiper_class ? "backup-plan": nil } }
           - if swiper_class
             .swiper-wrapper.p-0
               .swiper-slide
