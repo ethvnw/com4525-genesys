@@ -13,11 +13,12 @@
         %p.mb-0.text-secondary
           = member.invitation_date_text
 
+      - link_aria = member.button_text(current_user) == "Leave" ? "Leave Trip" : "Remove User #{member.user.username}"
       = link_to(trip_trip_membership_path(member.trip, member),
                 class: "btn btn-outline-danger fw-semibold",
                 method: :delete,
                 data: { confirm: "Are you sure you want to remove this member?" },
-                "aria-label": member.button_text(current_user) == "Leave" ? "Leave Trip" : "Remove User #{member.user.username}",
+                "aria-label": link_aria,
                 tabindex: 0) do
         %i.bi.bi-person-fill-x
         &nbsp;

@@ -2,6 +2,7 @@
 
 require "rails_helper"
 require_relative "../support/helpers/trips_and_plans_helper"
+require_relative "../concerns/pageable_shared_examples"
 
 RSpec.feature("Viewing trip details") do
   let(:user) { create(:user) }
@@ -145,5 +146,16 @@ RSpec.feature("Viewing trip details") do
         "href" => "/trips/#{trip.id}/plans/#{travel_plan.id}/edit",
       }))
     end
+  end
+
+  context "when the trip has more than 12 plans" do
+    before do
+      25.times do
+        create(:plan, trip: trip)
+      end
+      visit trip_path(trip, view: "list")
+    end
+
+    it_behaves_like("responsive pager with infinite scroll", 12, 25)
   end
 end

@@ -51,7 +51,7 @@ class PagesController < ApplicationController
   def inbox
     user_invites = current_user
       .trip_memberships
-      .includes(:sender_user, :trip)
+      .includes(:trip, sender_user: { avatar_attachment: :blob })
       .where(is_invite_accepted: false)
       .order(created_at: :desc)
 

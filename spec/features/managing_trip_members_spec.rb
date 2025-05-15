@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../concerns/pageable_shared_examples"
 
 RSpec.feature("Managing trip members") do
   let(:user) { create(:user) }
@@ -142,6 +143,20 @@ RSpec.feature("Managing trip members") do
       fill_in "trip_membership_user_display_name", with: "a" * 31
       click_on "Update"
       expect(page).to(have_content("User display name is too long (maximum is 30 characters)"))
+    end
+  end
+
+  feature "Viewing invitations" do
+    context "when I have more than 25 trip invites" do
+      before do
+        50.times do
+          create(:trip_membership, trip: create(:trip), user: user2, is_invite_accepted: false)
+        end
+
+        visit inbox_path
+      end
+
+      it_behaves_like("responsive pager with infinite scroll", 25, 50)
     end
   end
 end

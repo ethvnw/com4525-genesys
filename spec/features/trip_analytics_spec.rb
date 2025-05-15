@@ -3,6 +3,7 @@
 require "rails_helper"
 require "active_support/testing/time_helpers"
 require_relative "../support/helpers/collaborative_trips_helper"
+require_relative "../concerns/pageable_shared_examples"
 
 RSpec.feature("Trip Analytics") do
   let(:reporter) { create(:reporter) }
@@ -102,6 +103,20 @@ RSpec.feature("Trip Analytics") do
         expect(page).to(have_content("Plans Created\n4\nAll Time"))
         expect(page).to(have_content("Invitations Sent\n9\nAll Time"))
       end
+    end
+  end
+
+  feature "Tracking the amount of content created per trip" do
+    context "when more than 25 trips have been created" do
+      before do
+        50.times do
+          create(:trip)
+        end
+
+        visit analytics_trips_path
+      end
+
+      it_behaves_like("regular pager", 25, 50)
     end
   end
 end
