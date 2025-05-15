@@ -2,6 +2,7 @@
 
 require "rails_helper"
 require "active_support/testing/time_helpers"
+require_relative "../concerns/pageable_shared_examples"
 
 RSpec.feature("Referral Analytics") do
   let(:reporter) { create(:reporter) }
@@ -80,6 +81,20 @@ RSpec.feature("Referral Analytics") do
         expect(page).to(have_content("Users Referred\n4\nAll Time"))
         expect(page).to(have_content("Users Created\n5\nAll Time"))
       end
+    end
+  end
+
+  feature "Tracking the number of referrals sent per user" do
+    context "when more than 25 referrals have been sent" do
+      before do
+        50.times do
+          create(:referral)
+        end
+
+        visit analytics_referrals_path
+      end
+
+      it_behaves_like("regular pager", 25, 50)
     end
   end
 end
