@@ -23,12 +23,6 @@ class TripMembershipsController < ApplicationController
     end
     @members = members.select(&:is_invite_accepted)
     @pending_members = members.reject(&:is_invite_accepted)
-
-    # Options for the user search functionality; excludes staff/reporters and users already present
-    @users = User.where(user_role: "member").where.not(id: @trip.trip_memberships.pluck(:user_id)).select(
-      :id,
-      :username,
-    )
   end
 
   def destroy
