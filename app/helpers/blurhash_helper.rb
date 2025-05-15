@@ -12,11 +12,6 @@ module BlurhashHelper
 
     ## !! converts to boolean
     if !!blurhash
-      size ||= "#{blob.metadata["width"]}x#{blob.metadata["height"]}"
-
-      options[:loading] = "lazy"
-      options[:size] = size
-
       wrapper_class = options.fetch(:class, "w-100 h-100")
       canvas_class = options.fetch(:class, nil)
       wrapper_style = options.delete(:wrapper_style)
