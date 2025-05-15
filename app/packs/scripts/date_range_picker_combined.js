@@ -13,7 +13,7 @@ function clearDateInput(rangeToggle) {
 
   startDateElement.value = '';
   endDateElement.value = '';
-  datetimepickerInput.value = `Input the date${rangeToggle ? '' : ' range'}...`;
+  datetimepickerInput.value = `${rangeToggle ? 'What day are' : 'When are'} you going?`;
   datetimepickerInput.classList.add('form-control-btn');
   datetimepickerInput.classList.remove('form-control-btn-selected');
 }
