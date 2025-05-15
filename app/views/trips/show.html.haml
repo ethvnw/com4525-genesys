@@ -93,7 +93,6 @@
       .modal-header
         %h1#display-name-label.modal-title.fs-5 Change Your Nickname
         %button.btn-close{ type: "button", data: { bs_dismiss: "modal" }, aria: { label: "Close" } }
-
       .modal-body
         = render("partials/trip_memberships/display_name_form",
                  trip: @trip,

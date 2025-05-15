@@ -132,7 +132,7 @@ when :invite
     print("#{(i + 1).to_s.rjust(4, "0")}/#{amount}\r")
   end
 
-  puts(">>>> Added #{amount} trip invites from user '#{sender_user.username}' to user '#{user.username}'")
+  puts(">>>> Added #{amount} trip invites from user '#{second_user.username}' to user '#{user.username}'")
 when :plan
   trip = create_trip(user, 1)
 
