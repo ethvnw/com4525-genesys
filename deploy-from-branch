@@ -7,4 +7,4 @@ git fetch
 # Rebase onto new branch, taking only commits for dev deploy
 git rebase --onto origin/$1 "$target_hash^"
 git push --no-verify origin dev/docker-deployment -f
-docker compose up -d
+docker compose up --build -d
