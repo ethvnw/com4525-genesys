@@ -4,33 +4,6 @@ import { getLocationSearchApiRoute } from '../constants/api_routes';
 
 const DEBOUNCE_MS = 300;
 
-// const startMarker = L.marker([0, 0]);
-// const endMarker = L.marker([0, 0]);
-// const line = L.polyline([], { color: 'red' });
-
-// /**
-//  * Update the location pin on the map with the new latitude and longitude.
-//  * Also updates the line between the start and end locations if both are set.
-//  * @param {L.Marker} marker The marker to update
-//  * @param {number} lat The new latitude
-//  * @param {number} lng The new longitude
-//  * @param {string} locationLabel The label to display on the marker
-//  */
-// const updateLocationPin = (marker, lat, lng, locationLabel) => {
-//   marker.remove();
-//   marker.setLatLng([lat, lng]);
-//   marker.addTo(RoamioMap.map);
-//   marker.bindPopup(locationLabel).openPopup();
-//   RoamioMap.map.setView([lat, lng], 10);
-//
-//   if (startMarker.getLatLng().lat !== 0 && endMarker.getLatLng().lat !== 0) {
-//     line.remove();
-//     line.setLatLngs([startMarker.getLatLng(), endMarker.getLatLng()]);
-//     line.addTo(RoamioMap.map);
-//     RoamioMap.map.fitBounds(line.getBounds());
-//   }
-// };
-
 /**
  * Debounce a promise-returning function.
  * @param {Function} fn - Function to debounce
