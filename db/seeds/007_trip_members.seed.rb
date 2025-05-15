@@ -7,11 +7,11 @@ jm = User.find_by(email: "jmarch2@sheffield.ac.uk") || User.find_by(username: "j
 js = User.find_by(email: "jsanders4@sheffield.ac.uk") || User.find_by(username: "jacksanders")
 kb = User.find_by(email: "kbharakhada1@sheffield.ac.uk") || User.find_by(username: "barracuda")
 
-brienz = Trip.find_by(location_name: "Brienz, Switzerland")
-brighton = Trip.find_by(location_name: "Brighton, United Kingdom")
-sheffield = Trip.find_by(location_name: "Sheffield, United Kingdom")
-australia = Trip.find_by(location_name: "Australia")
-europe = Trip.find_by(location_name: "Europe")
+brienz = Trip.find_by(title: "Switzerland Summer '25")
+brighton = Trip.find_by(title: "Beach Weekend Getaway")
+sheffield = Trip.find_by(title: "Graduation!")
+australia = Trip.find_by(title: "Australian Adventure")
+europe = Trip.find_by(title: "Summer Interrailing")
 
 ### BRIENZ
 TripMembership.find_or_create_by!(
