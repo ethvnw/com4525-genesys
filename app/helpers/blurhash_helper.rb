@@ -3,7 +3,7 @@
 ##
 # Helper module to allow use of blurhash for nicer image loading.
 # Taken from the below, as that gem does not support versions of rails prior to 7.1
-# https://github.com/avo-hq/active_storage-blurhash/blob/main/app/helpers/blurhash_image_helper.rb (MIT Licenced)
+# https://github.com/avo-hq/active_storage-blurhash/blob/main/app/helpers/blurhash_image_helper.rb (MIT Licensed)
 module BlurhashHelper
   ##
   # Creates an image tag with automatic blurhash load preview

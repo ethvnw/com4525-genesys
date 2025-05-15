@@ -158,9 +158,7 @@ class TripsController < ApplicationController
       .order(start_date: order || :asc)
 
     @pagy, @plans = pagy(@plans)
-
     @plan_groups = @plans.decorate.group_by { |plan| plan.start_date.to_date }
-
     clear_paging_parameters
 
     stream_response("trips/show")
