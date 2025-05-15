@@ -18,6 +18,12 @@ export default class extends Controller {
     this.renderBlurhash().then(/* do nothing */);
   }
 
+  /**
+   * Renders the image's blurhash on the canvas, and adds an event listener to hide the canvas once
+   * the image is loaded.
+   * Asynchronous to avoid blocking the main thread for too long
+   * @returns {Promise<void>}
+   */
   async renderBlurhash() {
     const { width, height } = this.image;
 
