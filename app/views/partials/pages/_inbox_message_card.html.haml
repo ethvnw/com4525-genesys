@@ -3,8 +3,8 @@
     .row
       .col-1
         = image_tag(message.sender_user.decorate.avatar_or_default,
-                      class: "avatar-img",
-                      alt: message.sender_user.username)
+                    class: "avatar-img",
+                    alt: message.sender_user.username)
 
       .col-11
         %h2.fs-6.roamio-base.fw-semibold.text-secondary
@@ -19,20 +19,20 @@
 
           .d-flex.gap-2
             = link_to(accept_invite_trip_trip_membership_path(message.trip, message),
-                        class: "btn btn-success",
-                        method: :post,
-                        "aria-label": "Accept Invite",
-                        "aria-description": message.trip.title,
-                        tabindex: 0) do
+                      class: "btn btn-success",
+                      method: :post,
+                      "aria-label": "Accept Invite",
+                      "aria-description": message.trip.title,
+                      tabindex: 0) do
               %i.bi.bi-check &nbsp;
               Accept
 
             = link_to(decline_invite_trip_trip_membership_path(message.trip, message),
-                        class: "btn btn-secondary",
-                        method: :post,
-                        data: { confirm: "Are you sure you want to decline this invitation?" },
-                        "aria-label": "Deny Invite",
-                        "aria-description": message.trip.title,
-                        tabindex: 0) do
+                      class: "btn btn-secondary",
+                      method: :post,
+                      data: { confirm: "Are you sure you want to decline this invitation?" },
+                      "aria-label": "Deny Invite",
+                      "aria-description": message.trip.title,
+                      tabindex: 0) do
               %i.bi.bi-x &nbsp;
               Deny

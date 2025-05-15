@@ -1,20 +1,22 @@
-.plan-group{ id: "plans-#{start_date.strftime("%Y-%m-%d")}", "data-merge-id": "plans-accordion-#{start_date.strftime("%Y-%m-%d")}" }
+- accordion_id = "plans-accordion-#{start_date.strftime("%Y-%m-%d")}"
+
+.plan-group{ id: "plans-#{start_date.strftime("%Y-%m-%d")}", "data-merge-id": accordion_id }
   %button.roamio-text.text-secondary.btn.btn-body.collapse-btn.px-0.py-2.w-100.text-start.fs-5{
     type: "button",
     data: {
       bs_toggle: "collapse",
-      bs_target: "#plans-accordion-#{start_date.strftime("%Y-%m-%d")}",
+      bs_target: "##{accordion_id}",
     },
     aria: {
       expanded: "false",
-      controls: "plans-accordion-#{start_date.strftime("%Y-%m-%d")}",
+      controls: accordion_id,
       label: "Toggle view plans for #{start_date.strftime("%A %d %b %Y")}",
     },
   }
     = start_date.strftime("%A %d %b %Y")
     %i.bi.bi-chevron-up.float-end
 
-  .collapse.show.mb-3{ id: "plans-accordion-#{start_date.strftime("%Y-%m-%d")}" }
+  .collapse.show.mb-3{ id: accordion_id }
     - plans.each do |plan|
       .row.mb-2{ id: "plan-#{plan.id}" }
         .col-sm-2.col-xl-1
