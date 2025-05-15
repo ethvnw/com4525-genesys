@@ -5,7 +5,10 @@
 # Taken from the below, as that gem does not support versions of rails prior to 7.1
 # https://github.com/avo-hq/active_storage-blurhash/blob/main/app/helpers/blurhash_image_helper.rb (MIT Licenced)
 module BlurhashHelper
-  # frozen_string_literal: true
+  ##
+  # Creates an image tag with automatic blurhash load preview
+  # @param image [String, ActiveStorage::Blob, ActiveStorage::Attached::One, ActiveStorage::VariantWithRecord]
+  # @param options [Hash] any attributes to add to the image tag
   def blurhash_image_tag(image, options = {})
     blob = blob_from_image(image)
     blurhash = blob&.metadata&.fetch("blurhash", nil)
@@ -14,11 +17,9 @@ module BlurhashHelper
     if !!blurhash
       wrapper_class = options.fetch(:class, "w-100 h-100")
       canvas_class = options.fetch(:class, nil)
-      wrapper_style = options.delete(:wrapper_style)
       tag.div(
         class: wrapper_class,
         data: { blurhash: blurhash, controller: "blurhash" },
-        style: "position: relative;#{wrapper_style}",
       ) do
         image_tag(
           image,
@@ -40,6 +41,8 @@ module BlurhashHelper
 
   private
 
+  ##
+  # Gets a blob object from an image, so that we can check the metadata for blurhash presence
   def blob_from_image(image)
     case image
     when String
