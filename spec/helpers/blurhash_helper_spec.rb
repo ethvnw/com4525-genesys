@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe(BlurhashHelper, type: :helper) do
   before do
-    allow_any_instance_of(ActiveStorageExtensions::Blurhash::Analyzer)
+    allow_any_instance_of(ActiveStorageExtensions::Blurhash::Analyser)
       .to(receive(:metadata).and_return({ blurhash: "mock_blurhash" }))
   end
 
