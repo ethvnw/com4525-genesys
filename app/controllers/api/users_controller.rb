@@ -24,8 +24,6 @@ module Api
         .select("id", "username")
 
       render(json: api_response)
-
-      render(json: api_response)
     end
   end
 end
