@@ -41,4 +41,30 @@ RSpec.describe(TripMembership, type: :model) do
       end
     end
   end
+
+  describe "#max_capacity_not_reached" do
+    let(:trip) { create(:trip) }
+    let(:trip_membership) { build(:trip_membership, trip:) }
+    let(:capacity_error) do
+      "The trip has reached the #{TripMembership::MAX_CAPACITY} member capacity, " \
+        "please remove a member before adding another."
+    end
+
+    context "when the trip has reached max capacity" do
+      before do
+        create_list(:trip_membership, TripMembership::MAX_CAPACITY, trip:)
+      end
+
+      it "adds an error" do
+        expect(trip_membership).not_to(be_valid)
+        expect(trip_membership.errors[:base]).to(include(capacity_error))
+      end
+    end
+
+    context "when the trip has not reached max capacity" do
+      it "is valid" do
+        expect(trip_membership).to(be_valid)
+      end
+    end
+  end
 end

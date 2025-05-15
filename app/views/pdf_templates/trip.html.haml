@@ -6,7 +6,12 @@
     %link{ rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" }
 
   %body
-    = image_tag(asset_url("/pdf_logo.png"), height: 30, class: "float-end")
+    %img.float-end{
+      src: "data:image/png;charset=utf-8;base64,#{
+        Base64.encode64(File.read(Rails.root.join("app", "packs", "images", "pdf_logo.png")))}",
+      alt: "Logo",
+      height: 30,
+    }
     %h1= trip.title
     %h2.fs-5.mb-5= trip.formatted_date_range
 

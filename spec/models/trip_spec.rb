@@ -121,5 +121,41 @@ RSpec.describe(Trip, type: :model) do
         end
       end
     end
+
+    describe "#single_date_validation" do
+      context "when start_date and end_date are the same" do
+        let(:trip) do
+          build(
+            :trip,
+            start_date: Time.zone.parse("2020-01-01 12:00:00"),
+            end_date: Time.zone.parse("2020-01-01 12:00:00"),
+          )
+        end
+
+        it "sets start_date to beginning of day and end_date to end of day" do
+          trip.valid?
+          # The usec is set to 0 to avoid precision issues
+          expect(trip.start_date.change(usec: 0)).to(eq(Time.zone.parse("2020-01-01 00:00:00")))
+          expect(trip.end_date.change(usec: 0)).to(eq(Time.zone.parse("2020-01-01 23:59:59")))
+        end
+      end
+
+      context "when start_date and end_date are different" do
+        let(:trip) do
+          build(
+            :trip,
+            start_date: Time.zone.parse("2020-01-01 12:00:00"),
+            end_date: Time.zone.parse("2020-01-02 12:00:00"),
+          )
+        end
+
+        it "does not modify the dates" do
+          trip.valid?
+          # The usec is set to 0 to avoid precision issues
+          expect(trip.start_date.change(usec: 0)).to(eq(Time.zone.parse("2020-01-01 12:00:00")))
+          expect(trip.end_date.change(usec: 0)).to(eq(Time.zone.parse("2020-01-02 12:00:00")))
+        end
+      end
+    end
   end
 end

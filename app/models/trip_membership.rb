@@ -31,10 +31,11 @@ class TripMembership < ApplicationRecord
 
   belongs_to :trip, counter_cache: true
   belongs_to :user
-  belongs_to :sender_user, class_name: "User", inverse_of: :sent_invites
+  belongs_to :sender_user, class_name: "User", inverse_of: :sent_invites, optional: true
   attr_accessor :username
 
   validate :max_capacity_not_reached
+  validates_length_of :user_display_name, maximum: 30, allow_blank: true
   after_update :nullify_sender_user
 
   def max_capacity_not_reached
