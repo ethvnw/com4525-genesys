@@ -9,6 +9,4 @@ fi
 ./bin/rails db:prepare db:seed
 npx puppeteer browsers install chrome
 
-bundle exec rails assets:precompile
-
 exec "${@}"

@@ -96,7 +96,7 @@ RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 
-USER 1000:1000
+USER rails:rails
 
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 # Start the application server
