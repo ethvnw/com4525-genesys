@@ -7,7 +7,7 @@
     %p.fw-semibold.fst-italic * Start and end dates cannot be changed for backup plans.
 
   = f.validated_input(:title,
-                      placeholder: "Enter the title of the plan...",
+                      placeholder: "What is this part of the trip called?",
                       "aria-label": "Plan Title",
                       required: true,
                       maxlength: 250,
@@ -16,7 +16,7 @@
   = f.validated_select(:plan_type,
                        options_for_select(Plan.plan_types.keys.map { |name| [name.humanize.titleize, name] },
                                           selected: plan.plan_type),
-                       prompt: "Select plan type",
+                       prompt: "Select the type of plan you are adding",
                        required: true,
                        "aria-label": "Plan Type",
                        tabindex: 0)
