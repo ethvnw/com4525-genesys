@@ -51,10 +51,7 @@ FactoryBot.define do
     password_confirmation { "GenesysModule#1" }
     user_role { "member" }
     avatar do
-      Rack::Test::UploadedFile.new(
-        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
-        "image/png",
-      )
+      safely_create_file("mock_avatar.png", "image/png")
     end
 
     trait :no_avatar do
@@ -69,10 +66,7 @@ FactoryBot.define do
     password_confirmation { "GenesysModule#1" }
     user_role { "admin" }
     avatar do
-      Rack::Test::UploadedFile.new(
-        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
-        "image/png",
-      )
+      safely_create_file("mock_avatar.png", "image/png")
     end
   end
 
@@ -83,10 +77,7 @@ FactoryBot.define do
     password_confirmation { "GenesysModule#1" }
     user_role { "reporter" }
     avatar do
-      Rack::Test::UploadedFile.new(
-        File.join(Rails.root, "spec", "support", "files", "mock_avatar.png"),
-        "image/png",
-      )
+      safely_create_file("mock_avatar.png", "image/png")
     end
   end
 end

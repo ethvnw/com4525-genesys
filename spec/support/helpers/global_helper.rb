@@ -38,3 +38,9 @@ def time_travel_back
 
   ENV.delete("TEST_TIMESTAMP")
 end
+
+def safely_create_file(filename, mime_type)
+  File.open(Rails.root.join("spec", "support", "files", filename)) do |file|
+    Rack::Test::UploadedFile.new(file, mime_type)
+  end
+end

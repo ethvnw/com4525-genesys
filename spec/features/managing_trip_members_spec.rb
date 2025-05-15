@@ -33,9 +33,6 @@ RSpec.feature("Managing trip members") do
       visit trip_path(trip)
       click_on "Settings"
       click_on "Manage Members"
-      find(".aa-DetachedSearchButton").click
-      find(".aa-Input").set("")
-      click_on "Cancel"
       click_button "Invite"
       expect(page).to(have_content("User must exist"))
     end
@@ -150,7 +147,7 @@ RSpec.feature("Managing trip members") do
     context "when I have more than 25 trip invites" do
       before do
         50.times do
-          create(:trip_membership, trip: create(:trip), user: user2, is_invite_accepted: false)
+          create(:trip_membership, trip: create(:trip), user: user, is_invite_accepted: false)
         end
 
         visit inbox_path
