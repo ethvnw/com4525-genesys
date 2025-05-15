@@ -9,7 +9,7 @@ module ActiveStorageExtensions
     # https://github.com/avo-hq/active_storage-blurhash/blob/main/lib/active_storage/blurhash/analyzing.rb
     # - MIT Licenced
     # However, that is only available for rails 7.1 and above, so it has been re-implemented here
-    class Analyzer < ActiveStorage::Analyzer::ImageAnalyzer::Vips
+    class Analyser < ActiveStorage::Analyzer::ImageAnalyzer::Vips
       def metadata
         read_image do |image|
           build_thumbnail_for(image)
@@ -22,7 +22,7 @@ module ActiveStorageExtensions
           blurhash: ::Blurhash.encode(
             @thumbnail.width,
             @thumbnail.height,
-            pixels,
+            @thumbnail.to_a.flatten,
           ),
         }
       end
@@ -45,13 +45,6 @@ module ActiveStorageExtensions
         else
           @thumbnail&.extract_band(0, n: 3)
         end
-      end
-
-      ##
-      # https://github.com/avo-hq/active_storage-blurhash/blob/main/lib/active_storage/blurhash/thumbnail/vips.rb
-      # MIT Licenced
-      def pixels
-        @thumbnail&.to_a&.flatten || []
       end
     end
   end
