@@ -25,6 +25,7 @@
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
+#  trips_count            :integer          default(0), not null
 #  unlock_token           :string
 #  user_role              :string
 #  username               :string
@@ -63,6 +64,7 @@ class User < ApplicationRecord
   # User roles for RBAC
   enum user_role: { reporter: "Reporter", admin: "Admin", member: "Member" }
   scope :members, -> { where(user_role: :member) }
+  scope :staff, -> { where.not(user_role: :member) }
 
   # Ensuring username follows specific rules
   validates :username, presence: true, uniqueness: { case_sensitive: false }

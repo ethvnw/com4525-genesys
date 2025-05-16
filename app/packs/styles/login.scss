@@ -46,13 +46,11 @@
   right: 0;
 
   @include bs.media-breakpoint-up(xl) {
-    /* Slightly larger margin on right hand side to account for volume buttons */
-    margin: 8px 10px 8px 8px;
+    margin: 7px 8px 7px 8px;
   }
 
   @include bs.media-breakpoint-up(xxl) {
-    /* Slightly larger margin on right hand side to account for volume buttons */
-    margin: 10px 12px 10px 10px;
+    margin: 8px 10px 8px 10px;
   }
 }
 

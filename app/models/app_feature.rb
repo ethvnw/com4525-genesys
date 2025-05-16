@@ -18,6 +18,8 @@ class AppFeature < ApplicationRecord
   has_many :feature_shares
   has_many :registrations, through: :feature_shares
 
+  has_one_attached :image
+
   class << self
     def get_features_by_tier(tier)
       SubscriptionTier.find_by(name: tier)&.app_features

@@ -1,5 +1,5 @@
 const images = document.getElementById('login-slideshow').children;
-const SLIDESHOW_INTERVAL = 3000;
+const SLIDESHOW_INTERVAL = 5000;
 
 // Initialising the index to track the currently displayed image
 let currentImage = 0;
