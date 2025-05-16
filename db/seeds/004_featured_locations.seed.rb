@@ -8,7 +8,7 @@ locations = [
   { name: "London",        country_code_iso: "GB", latitude: 51.604225, longitude: -0.066248 },
   { name: "Birmingham",    country_code_iso: "GB", latitude: 52.4862, longitude: -1.8904 },
   { name: "Crawley Down",  country_code_iso: "GB", latitude: 51.120869, longitude: -0.077256 },
-  { name: "Leicester",     country_code_iso: "GB", latitude: 52.6369, longitude: -1.1398 },
+  { name: "Leicester",     country_code_iso: "GB", latitude: 52.641911, longitude: -1.143380 },
   { name: "East Grinstead", country_code_iso: "GB", latitude: 51.124004, longitude: -0.006735 },
   { name: "Singapore",     country_code_iso: "SG", latitude: 1.340698, longitude: 103.837444 },
   { name: "New York",      country_code_iso: "US", latitude: 40.7128, longitude: -74.0060 },

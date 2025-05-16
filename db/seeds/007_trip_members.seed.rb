@@ -6,6 +6,7 @@ jb = User.find_by(email: "jburke5@sheffield.ac.uk") || User.find_by(username: "j
 jm = User.find_by(email: "jmarch2@sheffield.ac.uk") || User.find_by(username: "jamesmarch")
 js = User.find_by(email: "jsanders4@sheffield.ac.uk") || User.find_by(username: "jacksanders")
 kb = User.find_by(email: "kbharakhada1@sheffield.ac.uk") || User.find_by(username: "barracuda")
+genesys = User.find_by(email: "epigenesys@demo.com") || User.find_by(username: "genesys_demo_user")
 
 brienz = Trip.find_by(title: "Switzerland Summer '25")
 brighton = Trip.find_by(title: "Beach Weekend Getaway")
@@ -37,6 +38,14 @@ TripMembership.find_or_create_by!(
 TripMembership.find_or_create_by!(
   trip_id: brighton.id,
   user_id: kb.id,
+  sender_user_id: jb.id,
+  is_invite_accepted: false,
+  created_at: brighton.created_at + 2.days,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: brighton.id,
+  user_id: genesys.id,
   sender_user_id: jb.id,
   is_invite_accepted: false,
   created_at: brighton.created_at + 2.days,
@@ -117,11 +126,21 @@ TripMembership.find_or_create_by!(
 TripMembership.find_or_create_by!(
   trip_id: australia.id,
   user_id: nb.id,
-  sender_user_id: nb.id,
+  sender_user_id: ew.id,
   is_invite_accepted: true,
   created_at: australia.created_at + 5.days,
   invite_accepted_date: australia.created_at + 7.days,
   user_display_name: nb.username,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: australia.id,
+  user_id: genesys.id,
+  sender_user_id: nb.id,
+  is_invite_accepted: true,
+  created_at: australia.created_at + 9.days,
+  invite_accepted_date: australia.created_at + 10.days,
+  user_display_name: genesys.username,
 )
 
 TripMembership.find_or_create_by!(
@@ -202,6 +221,14 @@ TripMembership.find_or_create_by!(
 TripMembership.find_or_create_by!(
   trip_id: europe.id,
   user_id: ew.id,
+  sender_user_id: jm.id,
+  is_invite_accepted: false,
+  created_at: europe.created_at + 1.day,
+)
+
+TripMembership.find_or_create_by!(
+  trip_id: europe.id,
+  user_id: genesys.id,
   sender_user_id: jm.id,
   is_invite_accepted: false,
   created_at: europe.created_at + 1.day,
