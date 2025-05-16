@@ -49,3 +49,16 @@ def seed_trip_image(trip, filename)
     content_type: "image/jpeg",
   )
 end
+
+##
+# Seeds an image for a given app feature
+#
+# @param app_feature [AppFeature] the app feature for which to seed an image
+# @param filename [String] the filename of the image, within db/seeds/images/trips
+def seed_app_feature_image(app_feature, filename)
+  app_feature.image.attach(
+    io: seed_image_file("app_features", filename),
+    filename: filename,
+    content_type: "image/webp",
+  )
+end

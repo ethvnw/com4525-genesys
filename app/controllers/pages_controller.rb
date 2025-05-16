@@ -22,7 +22,8 @@ class PagesController < ApplicationController
     end
     @errors = flash[:errors]
     @reviews = Review.where.not(is_hidden: true).order(order: :asc)
-    @app_features = SubscriptionTier.find_by(name: "Free")&.app_features
+    free_tier = SubscriptionTier.find_by(name: "Free")
+    @app_features = free_tier&.app_features&.includes(image_attachment: :blob)
   end
 
   def faq
