@@ -16,6 +16,10 @@
 #
 #  index_scannable_tickets_on_plan_id  (plan_id)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (plan_id => plans.id)
+#
 FactoryBot.define do
   factory :scannable_ticket do
     code { "Mock ticket code" }

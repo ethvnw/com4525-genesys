@@ -1,0 +1,52 @@
+@use "base_styles" as bs;
+
+.pagination {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+
+  .page-item {
+    &.active > .page-link {
+      background-color: bs.$roamio-primary;
+      border-color: darken(bs.$roamio-primary, 10%);
+      color: bs.$body-bg;
+    }
+
+    &.disabled > .page-link {
+      color: bs.$roamio-tertiary;
+    }
+  }
+
+  // Terrible awful CSS selector to make the pagination controller fit on smaller screens
+  // Hides the first element after the first "...", and the last one before the last "..."
+  // Both of these will never be the active one so this is safe
+  .page-item.prev+.page-item+.page-item.gap+.page-item,
+  .page-item:has(+.page-item.gap+.page-item+.page-item.next) {
+    @include bs.media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  .page-link {
+    color: bs.$body-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+#pager-responsive {
+  #pager-mobile {
+    @extend .d-lg-none;
+  }
+
+  #pager-desktop {
+    @extend .d-none;
+    @extend .d-lg-flex;
+  }
+}

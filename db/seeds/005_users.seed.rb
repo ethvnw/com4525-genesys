@@ -89,3 +89,15 @@ User.create(
   invitation_accepted_at: Time.zone.parse("2024-07-19 05:58:22"),
 ) unless User.find_by(email: "eawatts1@sheffield.ac.uk").present? \
   || User.find_by(username: "ethanwatts").present?
+
+genesys = User.create(
+  email: "epigenesys@demo.com",
+  username: "genesys_demo_user",
+  password: "EpiGenesys12!",
+  password_confirmation: "EpiGenesys12!",
+  user_role: User.user_roles[:member],
+  invitation_accepted_at: Time.zone.parse("2024-05-26 15:42:08"),
+) unless User.find_by(email: "epigenesys@demo.com").present? \
+  || User.find_by(username: "genesys_demo_user").present?
+
+seed_avatar(genesys, "genesys.jpg") unless genesys.nil?

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-brienz = Trip.find_by(location_name: "Brienz, Switzerland")
-brighton = Trip.find_by(location_name: "Brighton, United Kingdom")
-sheffield = Trip.find_by(location_name: "Sheffield, United Kingdom")
-australia = Trip.find_by(location_name: "Australia")
-europe = Trip.find_by(location_name: "Europe")
+brienz = Trip.find_by(title: "Switzerland Summer '25")
+brighton = Trip.find_by(title: "Beach Weekend Getaway")
+sheffield = Trip.find_by(title: "Graduation!")
+australia = Trip.find_by(title: "Australian Adventure")
+europe = Trip.find_by(title: "Summer Interrailing")
 
 ### BRIENZ
 Plan.find_or_create_by!(

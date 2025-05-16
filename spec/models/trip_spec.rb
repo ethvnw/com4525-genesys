@@ -18,6 +18,10 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
+# Indexes
+#
+#  index_trips_on_start_date  (start_date)
+#
 require "rails_helper"
 require_relative "../concerns/countable_shared_examples"
 

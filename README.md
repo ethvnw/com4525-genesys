@@ -1,7 +1,7 @@
 # 2024-25 Genesys COM4525 Team 02
 
 <table align="center"><tr><td align="center" width="9999">
-<img src="https://i.ibb.co/FYvZ3vF/readme-hero.png" align="center" width="400" alt="Project Hero">
+<img src="wiki/readme_hero.webp" align="center" width="400" alt="Project Hero">
 </td></tr></table>
 
 ## Introduction

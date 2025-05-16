@@ -1,13 +1,27 @@
-= turbo_stream.update("view-buttons",
-                      partial: "partials/trips/view_buttons")
+= turbo_stream.update("view-buttons", partial: "partials/trips/view_buttons")
 
-= turbo_stream.action("changeUrl", trip_url(@trip.id, view: params[:view], order: params[:order]))
+= turbo_stream.action("changeUrl", trip_url(@trip.id, request.query_parameters))
 
 - if params[:view] == "map"
+  = turbo_stream.remove("plans-list")
   = turbo_stream.update("plans-view",
                         partial: "partials/plans/map_view",
                         locals: { plans: @plans })
 - else
-  = turbo_stream.update("plans-view",
-                        partial: "partials/plans/list_view",
-                        locals: { trip: @trip, plan_groups: @plan_groups })
+  = turbo_stream.remove("plans-map")
+  = turbo_stream.remove("map-variables")
+
+  - if @infinite_scroll
+    - @plan_groups.each do |(start_date, plans)|
+      = turbo_stream.action("merge",
+                            "plans-list",
+                            partial: "partials/plans/plan_card_list",
+                            locals: { start_date: start_date, plans: plans, trip: @trip })
+  - else
+    = turbo_stream.append("plans-view",
+                          partial: "partials/plans/list_view",
+                          locals: { trip: @trip, plan_groups: @plan_groups })
+
+  = turbo_stream.append("plans-view",
+                        partial: "partials/layouts/responsive_pager",
+                        locals: { pagy: @pagy })

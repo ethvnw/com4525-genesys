@@ -8,7 +8,7 @@
 
   .d-flex.gap-2.align-items-start
     .d-flex.flex-column.flex-grow-1
-      #user-autocomplete{ class: get_error_class_with(errors, :user), data: { users: users.to_json } }
+      #user-autocomplete{ class: get_error_class_with(errors, :user), data: { trip: trip.id } }
       = form_error_message(errors, :user)
 
     = button_tag(type: "submit",

@@ -1,8 +1,10 @@
 .feature-slide
   .card.mb-2
-    = image_pack_tag("images/placeholder_ios_screen.webp", class: "card-img", alt: "", width: 225, height: 489)
+    - if app_feature_obj.image.attached?
+      = image_tag(app_feature_obj.image, class: "card-img", alt: "", width: 226, height: 490)
     .card-img-overlay
-  %h3.share-feature-name.display-8{ id: "feature-title-#{app_feature_obj.id}" }
+  %hr
+  %h3.fs-4.share-feature-name{ id: "feature-title-#{app_feature_obj.id}" }
     = app_feature_obj.name
   %p.fs-6.share-feature-description.text-secondary{ id: "feature-desc-#{app_feature_obj.id}" }
     = app_feature_obj.description

@@ -20,17 +20,14 @@ namespace :db do
     end
 
     Plan.all.each do |p|
-      Plan.reset_counters(p.id, :scannable_tickets)
-      Plan.reset_counters(p.id, :ticket_links)
-      Plan.reset_counters(p.id, :booking_references)
+      Plan.reset_counters(p.id, :scannable_tickets, :ticket_links, :booking_references)
     end
 
     User.all.each do |u|
+      u.trips_count = u.trip_memberships.where(is_invite_accepted: true).count
+      u.save
+
       User.reset_counters(u.id, :referrals)
     end
-  end
-
-  Rake::Task["db:migrate"].enhance do
-    Rake::Task["db:set_counter_caches"].invoke
   end
 end

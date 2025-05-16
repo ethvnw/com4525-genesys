@@ -15,6 +15,10 @@
 #
 #  index_ticket_links_on_plan_id  (plan_id)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (plan_id => plans.id)
+#
 FactoryBot.define do
   factory :ticket_link do
     link { "https://example.com/ticket" }
