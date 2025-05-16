@@ -3,7 +3,7 @@
     %h1.fs-2.mb-0 Inbox
 
 .my-2
-- if @inbox_msgs.empty?
+- if @inbox_messages.empty?
   = render("partials/layouts/no_data_placeholder",
            icon_class: "bi bi-postcard-heart",
            heading_text: "Your Inbox is Empty",
@@ -13,42 +13,7 @@
            button_icon_class: "bi bi-house",
            button_path: root_path)
 
-- @inbox_msgs.each do |msg|
-  .card.mb-3
-    .card-body
-      .row
-        .col-1
-          = image_tag(msg.sender_user.decorate.avatar_or_default,
-                      class: "avatar-img",
-                      alt: msg.sender_user.username)
+#messages
+  = render("partials/pages/inbox_message_list", inbox_messages: @inbox_messages)
 
-        .col-11
-          %h2.fs-6.roamio-base.fw-semibold.text-secondary
-            @#{msg.sender_user.username} invited you to the trip
-          %h2.fs-3= msg.trip.title
-          %p.card-text= msg.trip.description
-          .d-flex.justify-content-between.align-items-center
-            %p.small.text-secondary.fw-semibold.mb-0
-              %i.bi.bi-clock{ "aria-hidden": "true" } &nbsp;
-              Sent on
-              = msg.created_at.strftime("%d %b %Y")
-
-            .d-flex.gap-2
-              = link_to(accept_invite_trip_trip_membership_path(msg.trip, msg),
-                        class: "btn btn-success",
-                        method: :post,
-                        "aria-label": "Accept Invite",
-                        "aria-description": msg.trip.title,
-                        tabindex: 0) do
-                %i.bi.bi-check &nbsp;
-                Accept
-
-              = link_to(decline_invite_trip_trip_membership_path(msg.trip, msg),
-                        class: "btn btn-secondary",
-                        method: :post,
-                        data: { confirm: "Are you sure you want to decline this invitation?" },
-                        "aria-label": "Deny Invite",
-                        "aria-description": msg.trip.title,
-                        tabindex: 0) do
-                %i.bi.bi-x &nbsp;
-                Deny
+= render("partials/layouts/responsive_pager", pagy: @pagy)

@@ -1,0 +1,9 @@
+= turbo_stream.action("changeUrl", analytics_referrals_url(page: params[:page]))
+
+= turbo_stream.update("referrals-table",
+                      partial: "partials/analytics/referrals_table_rows",
+                      locals: { users: @users })
+
+= turbo_stream.replace("pager-desktop",
+                       partial: "partials/layouts/desktop_pager",
+                       locals: { pagy: @pagy })

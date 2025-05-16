@@ -216,6 +216,7 @@ RSpec.feature("Managing plans") do
       end
 
       select_location("Brazil")
+      expect(page).to(have_content("Brazil"))
       click_on "Save"
       await_message("Plan updated successfully")
       expect(page).not_to(have_content("England"))

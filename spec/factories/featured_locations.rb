@@ -20,10 +20,7 @@ FactoryBot.define do
     country_code_iso { "GB" }
 
     image do
-      Rack::Test::UploadedFile.new(
-        File.join(Rails.root, "spec", "support", "files", "mock_trip_image.jpg"),
-        "image/jpeg",
-      )
+      safely_create_file("mock_trip_image.jpg", "image/jpeg")
     end
   end
 end

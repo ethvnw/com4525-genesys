@@ -138,4 +138,11 @@ gem "stimulus-rails"
 # Allows us to normalise URI to ASCII characters only when making requests with HTTParty
 gem "addressable"
 
+# PDF generation
 gem "grover"
+
+# Pagination
+gem "pagy"
+
+# Blurhash (https://blurha.sh) implementation for ruby
+gem "blurhash"

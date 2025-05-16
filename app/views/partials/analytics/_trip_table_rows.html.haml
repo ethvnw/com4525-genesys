@@ -1,0 +1,7 @@
+- trips.each do |trip|
+  %tr
+    %td= trip.id
+    %td.text-truncate= trip.title
+    %td= trip.regular_plans_count
+    %td= trip.travel_plans_count
+    %td= trip.trip_memberships_count

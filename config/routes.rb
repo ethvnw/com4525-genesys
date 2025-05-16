@@ -82,6 +82,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :users, only: [] do
+      collection do
+        get :search
+      end
+    end
+
     resources :featured_locations, only: [:show]
 
     get "/map/tile/:x/:y/:z", to: "map#tile", as: :map_tile
