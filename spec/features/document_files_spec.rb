@@ -37,10 +37,7 @@ RSpec.feature("Managing Documents") do
       click_on "Save"
 
       expect(page).to(have_content("Plan updated successfully."))
-
-      Bullet.enable = false
       visit trip_plan_path(trip, plan)
-      Bullet.enable = true
 
       within("#accordion-documents") do
         find("button.accordion-button").click
@@ -64,9 +61,7 @@ RSpec.feature("Managing Documents") do
 
       await_message("Document deleted successfully.")
 
-      Bullet.enable = false
       visit trip_plan_path(trip, plan)
-      Bullet.enable = true
       # Document dropdown should no longer exist as no documents exists for that plan
       expect(page).to(have_no_css("#accordion-documents"))
     end

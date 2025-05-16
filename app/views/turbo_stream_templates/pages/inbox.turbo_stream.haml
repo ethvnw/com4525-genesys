@@ -1,0 +1,15 @@
+= turbo_stream.action("changeUrl", url_for(scroll: params[:scroll]))
+
+- if params[:scroll] == "infinite"
+  = turbo_stream.append("messages",
+                        partial: "partials/pages/inbox_message_list",
+                        locals: { inbox_messages: @inbox_messages })
+- else
+  = turbo_stream.action("changeUrl", url_for(page: params[:page]))
+  = turbo_stream.update("messages",
+                        partial: "partials/pages/inbox_message_list",
+                        locals: { inbox_messages: @inbox_messages })
+
+= turbo_stream.replace("pager-responsive",
+                       partial: "partials/layouts/responsive_pager",
+                       locals: { pagy: @pagy })

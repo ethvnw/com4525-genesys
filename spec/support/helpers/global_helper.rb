@@ -38,3 +38,12 @@ def time_travel_back
 
   ENV.delete("TEST_TIMESTAMP")
 end
+
+##
+# Opens a file & creates a new Rack::Test::UploadedFile within a block, to avoid creating dangling file handlers.
+# Avoids "Errno::EMFILE: Too many open files @ rb_sysopen"
+def safely_create_file(filename, mime_type)
+  File.open(Rails.root.join("spec", "support", "files", filename)) do |file|
+    Rack::Test::UploadedFile.new(file, mime_type)
+  end
+end
