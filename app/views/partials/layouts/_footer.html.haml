@@ -10,6 +10,13 @@
                            "aria-hidden": "true")
       %small.text-secondary.my-2
         &copy; #{Date.today.year} Roamio & Genesys Team 02. All rights reserved &nbsp;
+        = link_to(accessibility_path,
+                  class: "link-secondary",
+                  tabindex: 0,
+                  "aria-label": "Accesibility Statement") do
+          %i.bi.bi-universal-access-circle
+          Accesibility Statement
+
 
       %small.text-secondary.mb-2
         -# Print development environment info
