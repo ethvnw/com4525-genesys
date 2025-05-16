@@ -28,7 +28,27 @@ Key Features include:
 | Role | Email | Password |
 | ---- | ----- | -------- |
 | Product Owner | admin@genesys.com | AdminGenesys#1 |
- | Reporter | reporter@genesys.com | ReporterGenesys#1 |
+| Reporter | reporter@genesys.com | ReporterGenesys#1 |
+| Member | epigenesys@demo.com | EpiGenesys12! |
+
+## API Keys
+API Keys are defined in [development.yml.enc](./config/credentials/development.yml.enc).
+| Root Key | Nested Keys | Key |
+| ---- | ----- | -------- |
+| unsplash | access_key | REMOVED |
+| unsplash | secret_key | REMOVED |
+| mapbox | username | REMOVED |
+| mapbox | access_token | REMOVED |
+
+## Wiki
+The Wiki provides helpful documentation and guidance for tools created to ease the development process:
+
+- [Custom Rake Tasks](./wiki/custom-rake-tasks.md)
+- [Routes and Controllers](./wiki/routes-and-controllers.md)
+- [Test Middleware](./wiki/test-middleware.md)
+- [Toasts](./wiki/toasts.md)
+- [Turbo Streams](./wiki/forms/turbo-streams.md)
+- [Validated Form Builder](./wiki/forms/validated-form-builder.md)
 
 
 ## Contributing & Code Standards
