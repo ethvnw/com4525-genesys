@@ -32,14 +32,16 @@ export default class extends Controller {
     };
 
     const swiper = new Swiper(this.element, this.carouselConfig);
-    const toggleButtons = this.element.querySelector('.swiper-toggle-button');
+    const toggleButtons = this.element.querySelectorAll('.swiper-toggle-button');
 
-    toggleButtons.addEventListener('click', () => {
-      if (swiper.activeIndex === 0) {
-        swiper.slideTo(1);
-      } else {
-        swiper.slideTo(0);
-      }
+    toggleButtons.forEach((elem) => {
+      elem.addEventListener('click', () => {
+        if (swiper.activeIndex === 0) {
+          swiper.slideTo(1);
+        } else {
+          swiper.slideTo(0);
+        }
+      });
     });
   }
 }
