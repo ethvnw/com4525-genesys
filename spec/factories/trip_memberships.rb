@@ -16,13 +16,17 @@
 #
 # Indexes
 #
-#  index_trip_memberships_on_sender_user_id  (sender_user_id)
-#  index_trip_memberships_on_trip_id         (trip_id)
-#  index_trip_memberships_on_user_id         (user_id)
+#  index_trip_memberships_on_created_at            (created_at)
+#  index_trip_memberships_on_invite_accepted_date  (invite_accepted_date)
+#  index_trip_memberships_on_sender_user_id        (sender_user_id)
+#  index_trip_memberships_on_trip_id               (trip_id)
+#  index_trip_memberships_on_user_id               (user_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (sender_user_id => users.id)
+#  fk_rails_...  (trip_id => trips.id)
+#  fk_rails_...  (user_id => users.id)
 #
 
 FactoryBot.define do

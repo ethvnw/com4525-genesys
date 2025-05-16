@@ -1,8 +1,3 @@
-.col
-  .d-flex.flex-row.align-items-center.justify-content-between
-    %h1#trips-planned-header.fs-2.my-3
-      #{trips.size} #{"Trip".pluralize(trips.size)} Planned
-  .row.gy-3.flex-fill
-    - trips.each_with_index do |trip|
-      .col-12.col-xl-6.col-xxl-4
-        = render("partials/trips/trip_card", trip: trip)
+#trip-cards.row.gy-3.flex-fill.px-0.mx-0
+  = render("partials/trips/trip_cards_list", trips: trips)
+= render("partials/layouts/responsive_pager", pagy: pagy)

@@ -9,6 +9,7 @@ require "uri"
 class TripsController < ApplicationController
   include Streamable
   include ParamPresenceEnforceable
+  include Pageable
 
   before_action :authenticate_user!
   before_action :restrict_admin_and_reporter_access!
@@ -21,8 +22,6 @@ class TripsController < ApplicationController
     enforce_required_parameter(:order, ["asc", "desc"], :trip_index_order)
 
     if any_params_enforced?
-      # puts params[:view]
-      # puts enforced_query_params
       flash.keep(:notifications) # Persist notifications across redirect
       redirect_to(trips_path(enforced_query_params)) and return
     end
@@ -36,11 +35,15 @@ class TripsController < ApplicationController
       trip_include_list += [trip_memberships: { user: { avatar_attachment: :blob } }, image_attachment: :blob]
     end
 
-    @trips = current_user
+    user_trips = current_user
       .joined_trips
       .includes(trip_include_list)
       .order(start_date: params[:order].to_sym)
-      .decorate
+
+    @pagy, @trips = pagy(user_trips)
+    @trips = @trips.decorate
+
+    clear_paging_parameters
 
     stream_response("trips/index")
   end
@@ -115,13 +118,7 @@ class TripsController < ApplicationController
   def show
     # Enforce presence of required query parameters
     enforce_required_parameter(:view, ["list", "map"], :trip_show_view)
-
-    # If viewing trip in map view, enforce nil order param and avoid lines between plans going to wrong way
-    if param_enforced_as?(:view, "map")
-      enforce_required_parameter(:order, [nil], :null_key)
-    else
-      enforce_required_parameter(:order, ["asc", "desc"], :trip_show_order)
-    end
+    enforce_required_parameter(:order, ["asc", "desc"], :trip_show_order)
 
     if any_params_enforced?
       flash.keep(:notifications) # Persist notifications across redirect
@@ -130,11 +127,7 @@ class TripsController < ApplicationController
 
     # Store view so that we can redirect user back to their preferred one when creating/deleting a plan
     session[:trip_show_view] = params[:view]
-
-    # Don't update saved order if in map view
-    if params[:view] != "map"
-      session[:trip_show_order] = params[:order]
-    end
+    session[:trip_show_order] = params[:order]
 
     @trips = current_user.joined_trips.decorate
 
@@ -157,12 +150,17 @@ class TripsController < ApplicationController
       []
     end
 
+    # Force ascending order for map view to avoid lines between plans going the wrong way
+    order = params[:view] == "list" ? params[:order] : :asc
+
     @plans = get_plans_excluding_backups(@trip)
       .includes(plans_includes_list)
-      .order(start_date: params[:order] || :asc)
-      .decorate
+      .order(start_date: order || :asc)
 
-    @plan_groups = @plans.group_by { |plan| plan.start_date.to_date }
+    @pagy, @plans = pagy(@plans)
+    @plan_groups = @plans.decorate.group_by { |plan| plan.start_date.to_date }
+    clear_paging_parameters
+
     stream_response("trips/show")
   end
 

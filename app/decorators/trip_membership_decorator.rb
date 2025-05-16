@@ -4,14 +4,9 @@
 class TripMembershipDecorator < ApplicationDecorator
   delegate_all
 
-  def initialize(object, current_user)
-    super(object)
-    @current_user = current_user
-  end
-
-  def button_text
+  def button_text(current_user)
     if object.is_invite_accepted
-      if object.user == @current_user
+      if object.user == current_user
         "Leave"
       else
         "Remove"

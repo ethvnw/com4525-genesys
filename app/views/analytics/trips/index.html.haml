@@ -40,11 +40,7 @@
           %th Regular Plans
           %th Travel Plans
           %th Invitations
-      %tbody
-        - @trips.each_with_index do |trip, index|
-          %tr
-            %td= index + 1
-            %td.text-truncate= trip.title
-            %td= trip.regular_plans_count
-            %td= trip.travel_plans_count
-            %td= trip.trip_memberships_count
+      %tbody#trips-table
+        = render("partials/analytics/trip_table_rows", trips: @trips)
+
+  = render("partials/layouts/desktop_pager", pagy: @pagy)

@@ -27,11 +27,13 @@
 # Indexes
 #
 #  index_plans_on_backup_plan_id  (backup_plan_id)
+#  index_plans_on_start_date      (start_date)
 #  index_plans_on_trip_id         (trip_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (backup_plan_id => plans.id)
+#  fk_rails_...  (trip_id => trips.id)
 #
 require "rails_helper"
 require_relative "../concerns/countable_shared_examples"
@@ -75,7 +77,7 @@ RSpec.describe(Plan, type: :model) do
       end
 
       it "doesn't change regular_plans_count" do
-        expect { plan }.to(change(trip, :regular_plans_count).by(0))
+        expect { subject }.to(change(trip, :regular_plans_count).by(0))
       end
     end
 

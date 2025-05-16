@@ -141,7 +141,7 @@ class PlansController < ApplicationController
 
   def show
     @script_packs = ["plans_show"]
-    @plan = Plan.find(params[:id]).decorate
+    @plan = Plan.includes(documents_attachments: :blob).find(params[:id]).decorate
     @trip = @plan.trip.decorate
     # Redirect back to the trip page if there are no tickets
     unless @plan.any_tickets?

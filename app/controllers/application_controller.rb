@@ -2,6 +2,8 @@
 
 # Contains global controller actions - all other controllers inherit from here
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -112,6 +114,5 @@ class ApplicationController < ActionController::Base
 
     pending_trip_memberships = current_user.trip_memberships.where(is_invite_accepted: false)
     @inbox_count = pending_trip_memberships.count
-    @inbox_msgs = pending_trip_memberships
   end
 end

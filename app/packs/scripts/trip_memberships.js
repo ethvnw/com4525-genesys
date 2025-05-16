@@ -1,5 +1,6 @@
 import { autocomplete } from '@algolia/autocomplete-js';
 import { debouncedPromise } from './lib/AlgoliaAutocomplete';
+import { getUserSearchApiRoute } from './constants/api_routes';
 
 /**
  * Creates an autocomplete instance for user searching with
@@ -8,7 +9,7 @@ import { debouncedPromise } from './lib/AlgoliaAutocomplete';
  */
 const createAutocomplete = (containerId) => {
   const container = document.querySelector(containerId);
-  const users = JSON.parse(container.dataset.users);
+  const tripId = container.dataset.trip;
 
   return autocomplete({
     container: containerId,
@@ -20,7 +21,8 @@ const createAutocomplete = (containerId) => {
       return debouncedPromise([{
         sourceId: 'users',
         async getItems() {
-          return users.filter((user) => user.username.toLowerCase().includes(query.toLowerCase()));
+          const response = await fetch(getUserSearchApiRoute(query.toLowerCase(), tripId));
+          return response.json();
         },
         getItemInputValue: ({ item }) => item.username,
         onSelect({ item }) {

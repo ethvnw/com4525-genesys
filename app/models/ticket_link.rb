@@ -15,6 +15,10 @@
 #
 #  index_ticket_links_on_plan_id  (plan_id)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (plan_id => plans.id)
+#
 class TicketLink < ApplicationRecord
   belongs_to :plan, counter_cache: true
 end
