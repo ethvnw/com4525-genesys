@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_09_093201) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_15_231925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -127,6 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_09_093201) do
     t.integer "booking_references_count", default: 0, null: false
     t.integer "ticket_links_count", default: 0, null: false
     t.index ["backup_plan_id"], name: "index_plans_on_backup_plan_id"
+    t.index ["start_date"], name: "index_plans_on_start_date"
     t.index ["trip_id"], name: "index_plans_on_trip_id"
   end
 
@@ -230,6 +231,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_09_093201) do
     t.datetime "updated_at", null: false
     t.bigint "sender_user_id"
     t.datetime "invite_accepted_date"
+    t.index ["created_at"], name: "index_trip_memberships_on_created_at"
+    t.index ["invite_accepted_date"], name: "index_trip_memberships_on_invite_accepted_date"
     t.index ["sender_user_id"], name: "index_trip_memberships_on_sender_user_id"
     t.index ["trip_id"], name: "index_trip_memberships_on_trip_id"
     t.index ["user_id"], name: "index_trip_memberships_on_user_id"
@@ -248,6 +251,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_09_093201) do
     t.integer "regular_plans_count", default: 0, null: false
     t.integer "travel_plans_count", default: 0, null: false
     t.integer "trip_memberships_count", default: 0, null: false
+    t.index ["start_date"], name: "index_trips_on_start_date"
   end
 
   create_table "users", force: :cascade do |t|
@@ -277,6 +281,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_09_093201) do
     t.integer "invitations_count", default: 0
     t.string "username"
     t.integer "referrals_count", default: 0, null: false
+    t.integer "trips_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
@@ -290,8 +295,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_09_093201) do
   add_foreign_key "app_features_subscription_tiers", "app_features"
   add_foreign_key "app_features_subscription_tiers", "subscription_tiers"
   add_foreign_key "booking_references", "plans"
+  add_foreign_key "feature_shares", "app_features"
+  add_foreign_key "feature_shares", "registrations"
   add_foreign_key "plans", "plans", column: "backup_plan_id"
+  add_foreign_key "plans", "trips"
+  add_foreign_key "question_clicks", "questions"
+  add_foreign_key "question_clicks", "registrations"
   add_foreign_key "referrals", "users", column: "sender_user_id"
   add_foreign_key "registrations", "subscription_tiers"
+  add_foreign_key "review_likes", "registrations"
+  add_foreign_key "review_likes", "reviews"
+  add_foreign_key "scannable_tickets", "plans"
+  add_foreign_key "ticket_links", "plans"
+  add_foreign_key "trip_memberships", "trips"
+  add_foreign_key "trip_memberships", "users"
   add_foreign_key "trip_memberships", "users", column: "sender_user_id"
 end

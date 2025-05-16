@@ -3,7 +3,9 @@
 require "rails_helper"
 
 RSpec.describe(TripMembershipDecorator, type: :decorator) do
-  let(:trip_membership) { create(:trip_membership) }
+  let(:sender_user) { create(:user) }
+  let(:current_user) { create(:user) }
+  let(:trip_membership) { create(:trip_membership, sender_user: sender_user, user: current_user) }
   let(:decorated_trip_membership) { trip_membership.decorate }
 
   describe "#button_text" do
@@ -11,25 +13,23 @@ RSpec.describe(TripMembershipDecorator, type: :decorator) do
       before { trip_membership.update(is_invite_accepted: false) }
 
       it "returns 'Cancel'" do
-        expect(decorated_trip_membership.button_text).to(eq("Cancel"))
+        expect(decorated_trip_membership.button_text(sender_user)).to(eq("Cancel"))
       end
     end
 
     context "when the trip membership is accepted" do
       before { trip_membership.update(is_invite_accepted: true) }
 
-      it "returns 'Remove'" do
-        expect(decorated_trip_membership.button_text).to(eq("Remove"))
+      context "When the invited user is the current user" do
+        it "returns 'Leave'" do
+          expect(decorated_trip_membership.button_text(current_user)).to(eq("Leave"))
+        end
       end
-    end
 
-    context "when the trip membership is accepted and the user is the current user" do
-      let(:user) { create(:user) }
-      let(:trip_membership) { create(:trip_membership, user: user) }
-      let(:decorator) { TripMembershipDecorator.new(trip_membership, user) }
-
-      it "returns 'Leave'" do
-        expect(decorator.button_text).to(eq("Leave"))
+      context "When the invited user is not the current user" do
+        it "returns 'Remove'" do
+          expect(decorated_trip_membership.button_text(sender_user)).to(eq("Remove"))
+        end
       end
     end
   end

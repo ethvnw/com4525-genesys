@@ -2,6 +2,8 @@
 
 # A basic controller from the template app
 class PagesController < ApplicationController
+  include Streamable
+
   layout "user", only: [:home, :inbox]
   before_action :authorize_members_access!, only: [:landing, :faq]
   before_action :authenticate_user!, only: [:home, :inbox]
@@ -48,6 +50,15 @@ class PagesController < ApplicationController
   end
 
   def inbox
+    user_invites = current_user
+      .trip_memberships
+      .includes(:trip, sender_user: { avatar_attachment: :blob })
+      .where(is_invite_accepted: false)
+      .order(created_at: :desc)
+
+    @pagy, @inbox_messages = pagy(user_invites, limit: 25)
+
+    stream_response("pages/inbox")
   end
 
   def accessibility

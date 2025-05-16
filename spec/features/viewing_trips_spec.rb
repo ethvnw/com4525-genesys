@@ -2,6 +2,7 @@
 
 require "rails_helper"
 require_relative "../support/helpers/trips_and_plans_helper"
+require_relative "../concerns/pageable_shared_examples"
 
 RSpec.feature("Viewing trips") do
   let(:user) { create(:user) }
@@ -76,7 +77,7 @@ RSpec.feature("Viewing trips") do
       expect_to_have_trip_as_list_item(trip2, "18th - 20th Jan 2020")
       expect_to_have_trip_as_list_item(collaborative_trip, "25th Jan - 12th Feb 2020")
 
-      within("#trips-planned-header") do
+      within("#trips-list-header") do
         expect(page).to(have_content("3 Trips Planned"))
       end
 
@@ -93,5 +94,17 @@ RSpec.feature("Viewing trips") do
       expect_to_have_trip_on_map(trip2)
       expect_to_have_trip_on_map(collaborative_trip)
     end
+  end
+
+  context "when I have more than 12 trips" do
+    before do
+      25.times do
+        create(:trip_membership, trip: create(:trip), user: user, sender_user: user)
+      end
+
+      visit trips_path(view: "list")
+    end
+
+    it_behaves_like("responsive pager with infinite scroll", 12, 25)
   end
 end

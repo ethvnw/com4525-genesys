@@ -15,6 +15,11 @@
 #  index_feature_shares_on_app_feature_id   (app_feature_id)
 #  index_feature_shares_on_registration_id  (registration_id)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (app_feature_id => app_features.id)
+#  fk_rails_...  (registration_id => registrations.id)
+#
 class FeatureShare < ApplicationRecord
   belongs_to :app_feature
   belongs_to :registration
