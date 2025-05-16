@@ -1,0 +1,42 @@
+.row
+  %h1.fs-2.mb-0.mt-3
+    Accessibility
+  .my-2
+    = link_to(:back,
+              class: "btn btn-secondary",
+              "aria-label": "Back to previous page",
+              tabindex: 0) do
+      %i.bi.bi-arrow-left{ "aria-hidden": "true" } &nbsp;
+      Back
+  %hr
+
+%h2.fs-3 Accessibility Statement for Roamio
+%p.mb-4 This is an accessibility statement from Roamio Inc.
+
+%h2.fs-3 Conformance status
+%p.mb-4
+  The
+  %a{ href: "https://www.w3.org/WAI/standards-guidelines/wcag/", target: "_blank", rel: "noopener" }
+  Web Content Accessibility Guidelines (WCAG)
+  defines requirements for designers and developers to improve accessibility for people with disabilities.
+  It defines three levels of conformance: Level A, Level AA, and Level AAA.
+  %strong Roamio is fully conformant with WCAG 2.0 level AA.
+  Fully conformant means that the content fully conforms to the accessibility standard without any exceptions.
+
+%h2.fs-3 Feedback
+%p
+  We welcome your feedback on the accessibility of Roamio.
+  Please let us know if you encounter accessibility barriers on Roamio:
+%ul.mb-4
+  %li
+    %strong E-mail:
+    %a{ href: "mailto:accessibility@roamiotravel.co.uk" } accessibility@roamiotravel.co.uk
+  %li
+    %strong Visitor Address:
+    School of Computer Science, The University of Sheffield, Regent Court 211, Portobello, Sheffield, S1 4DP, UK
+
+%h2.fs-3 Date
+%p
+  This statement was created on 16 May 2025 using the
+  %a{ href: "https://www.w3.org/WAI/planning/statements/generator/", target: "_blank", rel: "noopener" }
+  W3C Accessibility Statement Generator Tool.

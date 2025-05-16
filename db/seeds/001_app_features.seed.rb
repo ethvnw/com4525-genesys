@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "seed_helpers"
+
 free_tier = SubscriptionTier.find_or_create_by!(
   name: "Free",
   price_gbp: 0.0,
@@ -23,8 +25,9 @@ group_tier = SubscriptionTier.find_or_create_by!(
 
 trip_timeline = AppFeature.find_or_create_by!(
   name: "Trip Timeline",
-  description: "Create and share a timeline of your trip, showing events, activities, and bookings with friends.",
+  description: "Create and share a timeline of your trip, showing events, activities, and bookings with friends",
 )
+seed_app_feature_image(trip_timeline, "trip_timeline.webp")
 AppFeaturesSubscriptionTier.find_or_create_by!(
   app_feature: trip_timeline,
   subscription_tier: free_tier,
@@ -32,8 +35,9 @@ AppFeaturesSubscriptionTier.find_or_create_by!(
 
 ticket_booking_uploads = AppFeature.find_or_create_by!(
   name: "Ticket & Booking Uploads",
-  description: "Upload and store your tickets, bookings, and receipts in one place, easy to access.",
+  description: "Upload and store your tickets, bookings, and receipts in one place, easy to access",
 )
+seed_app_feature_image(ticket_booking_uploads, "trip_tickets.webp")
 AppFeaturesSubscriptionTier.find_or_create_by!(
   app_feature: ticket_booking_uploads,
   subscription_tier: free_tier,
@@ -41,64 +45,51 @@ AppFeaturesSubscriptionTier.find_or_create_by!(
 
 collaborative_planning = AppFeature.find_or_create_by!(
   name: "Collaborative Planning",
-  description: "Plan together by tagging friends on bookings and activities for a smoother trip.",
+  description: "Plan together with friends and family on bookings and activities for a smoother trip",
 )
+seed_app_feature_image(collaborative_planning, "collaborative_planning.webp")
 AppFeaturesSubscriptionTier.find_or_create_by!(
   app_feature: collaborative_planning,
   subscription_tier: free_tier,
 )
 
-travel_budget_expenses = AppFeature.find_or_create_by!(
-  name: "Travel Budget & Expenses",
-  description: "Log expenses and track your budget for stress-free travel.",
+view_trips = AppFeature.find_or_create_by!(
+  name: "View All Your Trips",
+  description: "Access and view all your personal and shared trips in one place",
 )
+seed_app_feature_image(view_trips, "view_trips.webp")
 AppFeaturesSubscriptionTier.find_or_create_by!(
-  app_feature: travel_budget_expenses,
+  app_feature: view_trips,
   subscription_tier: free_tier,
 )
 
-trip_sharing_privacy = AppFeature.find_or_create_by!(
-  name: "Trip Sharing & Privacy Control",
-  description: "Share trip plans with others and control who can see the details.",
+view_trips_map = AppFeature.find_or_create_by!(
+  name: "See Your Trips on a Map",
+  description: "Check out all your trips laid out on a map to get the full picture",
 )
+seed_app_feature_image(view_trips_map, "view_trips_map.webp")
 AppFeaturesSubscriptionTier.find_or_create_by!(
-  app_feature: trip_sharing_privacy,
+  app_feature: view_trips_map,
   subscription_tier: free_tier,
 )
 
-travel_reminders_notifications = AppFeature.find_or_create_by!(
-  name: "Travel Reminders & Notifications",
-  description: "Get reminders and alerts for flights, bookings, and activities.",
+export_itinerary_pdf = AppFeature.find_or_create_by!(
+  name: "Export Your Itinerary to PDF",
+  description: "Easily save and share your trip plans by exporting your itinerary as a handy PDF",
 )
+seed_app_feature_image(export_itinerary_pdf, "export_plans.webp")
 AppFeaturesSubscriptionTier.find_or_create_by!(
-  app_feature: travel_reminders_notifications,
+  app_feature: export_itinerary_pdf,
   subscription_tier: free_tier,
 )
 
-flight_tickets = AppFeature.find_or_create_by!(
-  name: "Flight Tickets",
-  description: "Store and manage your flight tickets with details like departure, destination, and times.",
+view_plans_map = AppFeature.find_or_create_by!(
+  name: "View Plans on Map",
+  description: "See all your trip plans laid out clearly on a map",
 )
+seed_app_feature_image(view_plans_map, "view_plans_map.webp")
 AppFeaturesSubscriptionTier.find_or_create_by!(
-  app_feature: flight_tickets,
-  subscription_tier: free_tier,
-)
-
-hotel_accommodation = AppFeature.find_or_create_by!(
-  name: "Hotel Bookings",
-  description: "Manage hotels and accommodation bookings, all accessible during your trip.",
-)
-AppFeaturesSubscriptionTier.find_or_create_by!(
-  app_feature: hotel_accommodation,
-  subscription_tier: free_tier,
-)
-
-car_hire_transportation = AppFeature.find_or_create_by!(
-  name: "Car Hire Bookings",
-  description: "Keep all your transport details, like car hire bookings, in one place.",
-)
-AppFeaturesSubscriptionTier.find_or_create_by!(
-  app_feature: car_hire_transportation,
+  app_feature: view_plans_map,
   subscription_tier: free_tier,
 )
 
