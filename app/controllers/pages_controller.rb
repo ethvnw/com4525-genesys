@@ -49,4 +49,7 @@ class PagesController < ApplicationController
 
   def inbox
   end
+
+  def accessibility
+  end
 end

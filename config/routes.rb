@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get :home, to: "pages#home"
 
+  get :accessibility, to: "pages#accessibility"
+
   get :inbox, to: "pages#inbox"
 
   resource :referrals, only: [:create]
