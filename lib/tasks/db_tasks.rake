@@ -24,7 +24,7 @@ namespace :db do
     end
 
     User.all.each do |u|
-      u.trips_count = u.trip_memberships.count(:is_invite_accepted)
+      u.trips_count = u.trip_memberships.where(is_invite_accepted: true).count
       u.save
 
       User.reset_counters(u.id, :referrals)
