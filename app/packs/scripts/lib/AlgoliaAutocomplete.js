@@ -68,7 +68,7 @@ function formatPlaceName(place) {
  */
 const createAutocomplete = (containerId, searchType, onSelect) => autocomplete({
   container: containerId,
-  placeholder: `Search for a ${searchType} location`,
+  placeholder: 'Where are you going?',
   detachedMediaQuery: '',
   stallThreshold: 700,
   classNames: { input: 'fw-bold' },
